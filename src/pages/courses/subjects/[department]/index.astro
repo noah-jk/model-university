@@ -1,0 +1,77 @@
+---
+// All courses in one subject, as a table.
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { getCollection } from "astro:content";
+import siteConfig from "../../../../../site.config.ts";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../../../components/AskAiMenu.astro";
+import Breadcrumb from "../../../../components/Breadcrumb.astro";
+import { collegeOf, coursesInDepartment, programsInDepartment } from "../../../../lib/catalog.ts";
+import { pagePath, subjectPath } from "../../../../lib/urls.ts";
+
+export const getStaticPaths = (async () => {
+  const departments = await getCollection("departments");
+  return departments.map((entry) => ({ params: { department: entry.id }, props: { department: entry.data } }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { department: d } = Astro.props;
+const path = subjectPath(d.id);
+const courses = coursesInDepartment(d.id).sort((a, b) => a.code.localeCompare(b.code, undefined, { numeric: true }));
+const programs = programsInDepartment(d.id);
+---
+
+<BaseLayout title={`${d.field} courses`} description={`All ${courses.length} ${d.field} (${d.course_prefix}) courses at ${siteConfig.name}.`}>
+  <Breadcrumb items={[{ label: "Courses", href: "/courses/" }, { label: d.field, href: path }]} />
+  <div class="page-intro">
+    <h1>{d.field} courses</h1>
+    <p>{courses.length} courses from the {d.name}, {collegeOf(d).name}.</p>
+    <AskAiMenu
+      prompt={`Help me choose ${d.field} courses at ${siteConfig.name} using {origin}${path}. Recommend specific courses with links, and don't keep asking questions once I've said what I need.`}
+    />
+  </div>
+
+  <div class="table-scroll">
+    <table>
+      <caption class="visually-hidden">{d.field} courses</caption>
+      <thead>
+        <tr>
+          <th scope="col">Course</th>
+          <th scope="col">Level</th>
+          <th scope="col">Credits</th>
+          <th scope="col">Offered</th>
+          <th scope="col">Format</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          courses.map((c) => (
+            <tr>
+              <th scope="row"><a href={pagePath("courses", c.id)}>{c.code}: {c.title}</a></th>
+              <td>{c.level}</td>
+              <td>{c.credits}</td>
+              <td>{c.terms_offered.join(", ")}</td>
+              <td>{c.modality}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  {
+    programs.length > 0 && (
+      <section aria-labelledby="programs-title">
+        <h2 id="programs-title">{d.field} programs</h2>
+        <ul>{programs.map((p) => <li><a href={pagePath("programs", p.id)}>{p.name}</a></li>)}</ul>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  tbody th { font-weight: 400; }
+  section { margin-top: 3rem; }
+  h2 { font-size: var(--step-2); }
+</style>

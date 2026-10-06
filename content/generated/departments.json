@@ -1,0 +1,362 @@
+[
+  {
+    "id": "computer-science",
+    "name": "Department of Computer Science",
+    "field": "Computer Science",
+    "college": "engineering-and-computing",
+    "cip": "11.0701",
+    "course_prefix": "CS"
+  },
+  {
+    "id": "data-science",
+    "name": "Department of Data Science",
+    "field": "Data Science",
+    "college": "engineering-and-computing",
+    "cip": "30.7001",
+    "course_prefix": "DS"
+  },
+  {
+    "id": "cybersecurity",
+    "name": "Department of Cybersecurity",
+    "field": "Cybersecurity",
+    "college": "engineering-and-computing",
+    "cip": "11.1003",
+    "course_prefix": "CYBE"
+  },
+  {
+    "id": "mechanical-engineering",
+    "name": "Department of Mechanical Engineering",
+    "field": "Mechanical Engineering",
+    "college": "engineering-and-computing",
+    "cip": "14.1901",
+    "course_prefix": "ME"
+  },
+  {
+    "id": "civil-engineering",
+    "name": "Department of Civil Engineering",
+    "field": "Civil Engineering",
+    "college": "engineering-and-computing",
+    "cip": "14.0801",
+    "course_prefix": "CE"
+  },
+  {
+    "id": "electrical-engineering",
+    "name": "Department of Electrical Engineering",
+    "field": "Electrical Engineering",
+    "college": "engineering-and-computing",
+    "cip": "14.1001",
+    "course_prefix": "EE"
+  },
+  {
+    "id": "information-technology",
+    "name": "Department of Information Technology",
+    "field": "Information Technology",
+    "college": "engineering-and-computing",
+    "cip": "11.0103",
+    "course_prefix": "IT"
+  },
+  {
+    "id": "nursing",
+    "name": "Department of Nursing",
+    "field": "Nursing",
+    "college": "health-and-human-services",
+    "cip": "51.3801",
+    "course_prefix": "NURS"
+  },
+  {
+    "id": "public-health",
+    "name": "Department of Public Health",
+    "field": "Public Health",
+    "college": "health-and-human-services",
+    "cip": "51.2201",
+    "course_prefix": "PH"
+  },
+  {
+    "id": "social-work",
+    "name": "Department of Social Work",
+    "field": "Social Work",
+    "college": "health-and-human-services",
+    "cip": "44.0701",
+    "course_prefix": "SW"
+  },
+  {
+    "id": "kinesiology",
+    "name": "Department of Kinesiology",
+    "field": "Kinesiology",
+    "college": "health-and-human-services",
+    "cip": "31.0505",
+    "course_prefix": "KINE"
+  },
+  {
+    "id": "nutrition-and-dietetics",
+    "name": "Department of Nutrition & Dietetics",
+    "field": "Nutrition & Dietetics",
+    "college": "health-and-human-services",
+    "cip": "51.3101",
+    "course_prefix": "ND"
+  },
+  {
+    "id": "health-administration",
+    "name": "Department of Health Administration",
+    "field": "Health Administration",
+    "college": "health-and-human-services",
+    "cip": "51.0701",
+    "course_prefix": "HA"
+  },
+  {
+    "id": "speech-language-pathology",
+    "name": "Department of Speech-Language Pathology",
+    "field": "Speech-Language Pathology",
+    "college": "health-and-human-services",
+    "cip": "51.0203",
+    "course_prefix": "SLP"
+  },
+  {
+    "id": "business-administration",
+    "name": "Department of Business Administration",
+    "field": "Business Administration",
+    "college": "carver-college-of-business",
+    "cip": "52.0201",
+    "course_prefix": "BA"
+  },
+  {
+    "id": "accounting",
+    "name": "Department of Accounting",
+    "field": "Accounting",
+    "college": "carver-college-of-business",
+    "cip": "52.0301",
+    "course_prefix": "ACCO"
+  },
+  {
+    "id": "finance",
+    "name": "Department of Finance",
+    "field": "Finance",
+    "college": "carver-college-of-business",
+    "cip": "52.0801",
+    "course_prefix": "FINA"
+  },
+  {
+    "id": "marketing",
+    "name": "Department of Marketing",
+    "field": "Marketing",
+    "college": "carver-college-of-business",
+    "cip": "52.1401",
+    "course_prefix": "MARK"
+  },
+  {
+    "id": "supply-chain-management",
+    "name": "Department of Supply Chain Management",
+    "field": "Supply Chain Management",
+    "college": "carver-college-of-business",
+    "cip": "52.0203",
+    "course_prefix": "SCM"
+  },
+  {
+    "id": "human-resource-management",
+    "name": "Department of Human Resource Management",
+    "field": "Human Resource Management",
+    "college": "carver-college-of-business",
+    "cip": "52.1001",
+    "course_prefix": "HRM"
+  },
+  {
+    "id": "english",
+    "name": "Department of English",
+    "field": "English",
+    "college": "arts-and-letters",
+    "cip": "23.0101",
+    "course_prefix": "ENGL"
+  },
+  {
+    "id": "history",
+    "name": "Department of History",
+    "field": "History",
+    "college": "arts-and-letters",
+    "cip": "54.0101",
+    "course_prefix": "HIST"
+  },
+  {
+    "id": "communication",
+    "name": "Department of Communication",
+    "field": "Communication",
+    "college": "arts-and-letters",
+    "cip": "09.0100",
+    "course_prefix": "COMM"
+  },
+  {
+    "id": "studio-art",
+    "name": "Department of Studio Art",
+    "field": "Studio Art",
+    "college": "arts-and-letters",
+    "cip": "50.0702",
+    "course_prefix": "SA"
+  },
+  {
+    "id": "graphic-design",
+    "name": "Department of Graphic Design",
+    "field": "Graphic Design",
+    "college": "arts-and-letters",
+    "cip": "50.0409",
+    "course_prefix": "GD"
+  },
+  {
+    "id": "music",
+    "name": "Department of Music",
+    "field": "Music",
+    "college": "arts-and-letters",
+    "cip": "50.0901",
+    "course_prefix": "MUSI"
+  },
+  {
+    "id": "philosophy",
+    "name": "Department of Philosophy",
+    "field": "Philosophy",
+    "college": "arts-and-letters",
+    "cip": "38.0101",
+    "course_prefix": "PHIL"
+  },
+  {
+    "id": "world-languages",
+    "name": "Department of World Languages",
+    "field": "World Languages",
+    "college": "arts-and-letters",
+    "cip": "16.0101",
+    "course_prefix": "WL"
+  },
+  {
+    "id": "biology",
+    "name": "Department of Biology",
+    "field": "Biology",
+    "college": "science",
+    "cip": "26.0101",
+    "course_prefix": "BIOL"
+  },
+  {
+    "id": "chemistry",
+    "name": "Department of Chemistry",
+    "field": "Chemistry",
+    "college": "science",
+    "cip": "40.0501",
+    "course_prefix": "CHEM"
+  },
+  {
+    "id": "physics",
+    "name": "Department of Physics",
+    "field": "Physics",
+    "college": "science",
+    "cip": "40.0801",
+    "course_prefix": "PHYS"
+  },
+  {
+    "id": "mathematics",
+    "name": "Department of Mathematics",
+    "field": "Mathematics",
+    "college": "science",
+    "cip": "27.0101",
+    "course_prefix": "MATH"
+  },
+  {
+    "id": "environmental-science",
+    "name": "Department of Environmental Science",
+    "field": "Environmental Science",
+    "college": "science",
+    "cip": "03.0104",
+    "course_prefix": "ES"
+  },
+  {
+    "id": "marine-biology",
+    "name": "Department of Marine Biology",
+    "field": "Marine Biology",
+    "college": "science",
+    "cip": "26.1302",
+    "course_prefix": "MB"
+  },
+  {
+    "id": "geology",
+    "name": "Department of Geology",
+    "field": "Geology",
+    "college": "science",
+    "cip": "40.0601",
+    "course_prefix": "GEOL"
+  },
+  {
+    "id": "psychology",
+    "name": "Department of Psychology",
+    "field": "Psychology",
+    "college": "social-and-behavioral-sciences",
+    "cip": "42.0101",
+    "course_prefix": "PSYC"
+  },
+  {
+    "id": "sociology",
+    "name": "Department of Sociology",
+    "field": "Sociology",
+    "college": "social-and-behavioral-sciences",
+    "cip": "45.1101",
+    "course_prefix": "SOCI"
+  },
+  {
+    "id": "political-science",
+    "name": "Department of Political Science",
+    "field": "Political Science",
+    "college": "social-and-behavioral-sciences",
+    "cip": "45.1001",
+    "course_prefix": "PS"
+  },
+  {
+    "id": "economics",
+    "name": "Department of Economics",
+    "field": "Economics",
+    "college": "social-and-behavioral-sciences",
+    "cip": "45.0601",
+    "course_prefix": "ECON"
+  },
+  {
+    "id": "criminal-justice",
+    "name": "Department of Criminal Justice",
+    "field": "Criminal Justice",
+    "college": "social-and-behavioral-sciences",
+    "cip": "43.0104",
+    "course_prefix": "CJ"
+  },
+  {
+    "id": "anthropology",
+    "name": "Department of Anthropology",
+    "field": "Anthropology",
+    "college": "social-and-behavioral-sciences",
+    "cip": "45.0201",
+    "course_prefix": "ANTH"
+  },
+  {
+    "id": "elementary-education",
+    "name": "Department of Elementary Education",
+    "field": "Elementary Education",
+    "college": "education",
+    "cip": "13.1202",
+    "course_prefix": "ELED"
+  },
+  {
+    "id": "special-education",
+    "name": "Department of Special Education",
+    "field": "Special Education",
+    "college": "education",
+    "cip": "13.1001",
+    "course_prefix": "SE"
+  },
+  {
+    "id": "educational-leadership",
+    "name": "Department of Educational Leadership",
+    "field": "Educational Leadership",
+    "college": "education",
+    "cip": "13.0401",
+    "course_prefix": "EL"
+  },
+  {
+    "id": "higher-education-administration",
+    "name": "Department of Higher Education Administration",
+    "field": "Higher Education Administration",
+    "college": "education",
+    "cip": "13.0406",
+    "course_prefix": "HEA"
+  }
+]

@@ -1,0 +1,85 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { getCollection } from "astro:content";
+import siteConfig from "../../../../site.config.ts";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../../components/AskAiMenu.astro";
+import AtAGlance from "../../../components/AtAGlance.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import { courses, departmentOf, prerequisitesOf, programsInDepartment } from "../../../lib/catalog.ts";
+import { markdownPath, pagePath, subjectPath } from "../../../lib/urls.ts";
+
+export const getStaticPaths = (async () => {
+  const entries = await getCollection("courses");
+  return entries.map((entry) => ({ params: { id: entry.id }, props: { course: entry.data } }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { course: c } = Astro.props;
+const path = pagePath("courses", c.id);
+const department = departmentOf(c);
+const prerequisites = prerequisitesOf(c);
+const leadsTo = courses.filter((other) => other.prerequisites.includes(c.id));
+const programs = programsInDepartment(c.department);
+const title = `${c.code}: ${c.title}`;
+---
+
+<BaseLayout title={title} description={c.description}>
+  <Breadcrumb
+    items={[
+      { label: "Courses", href: "/courses/" },
+      { label: department.field, href: subjectPath(department.id) },
+      { label: c.code, href: path },
+    ]}
+  />
+  <div class="detail">
+    <article>
+      <h1>{title}</h1>
+      <p class="lede">{c.description}</p>
+      <AskAiMenu
+        prompt={`Read {origin}${path} and tell me about ${c.code} at ${siteConfig.name}: what it covers, what I need first, and when it's offered. Include the page link.`}
+        markdown={markdownPath("courses", c.id)}
+      />
+
+      <h2>Prerequisites</h2>
+      {
+        prerequisites.length ? (
+          <ul>{prerequisites.map((p) => <li><a href={pagePath("courses", p.id)}>{p.code}: {p.title}</a></li>)}</ul>
+        ) : (
+          <p>None. Any student can enroll.</p>
+        )
+      }
+
+      {
+        leadsTo.length > 0 && (
+          <>
+            <h2>Prepares you for</h2>
+            <ul>{leadsTo.map((n) => <li><a href={pagePath("courses", n.id)}>{n.code}: {n.title}</a></li>)}</ul>
+          </>
+        )
+      }
+
+      {
+        programs.length > 0 && (
+          <>
+            <h2>{department.field} programs</h2>
+            <ul>{programs.map((p) => <li><a href={pagePath("programs", p.id)}>{p.name}</a></li>)}</ul>
+          </>
+        )
+      }
+    </article>
+
+    <AtAGlance
+      heading="At a glance"
+      facts={[
+        ["Subject", { text: department.field, href: subjectPath(department.id) }],
+        ["Level", c.level],
+        ["Credits", String(c.credits)],
+        ["Offered", c.terms_offered.join(", ")],
+        ["Format", c.modality],
+        ["Instructor", c.instructor],
+      ]}
+    />
+  </div>
+</BaseLayout>

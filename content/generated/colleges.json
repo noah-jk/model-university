@@ -1,0 +1,37 @@
+[
+  {
+    "id": "engineering-and-computing",
+    "name": "College of Engineering & Computing",
+    "description": "Engineering, computing, and security programs built around regional industry partners."
+  },
+  {
+    "id": "health-and-human-services",
+    "name": "College of Health & Human Services",
+    "description": "Clinical, community, and health programs that prepare students to care for people across the Northwest."
+  },
+  {
+    "id": "carver-college-of-business",
+    "name": "Carver College of Business",
+    "description": "Business programs with small cohorts, applied projects, and close ties to Puget Sound employers."
+  },
+  {
+    "id": "arts-and-letters",
+    "name": "College of Arts & Letters",
+    "description": "Writing, design, languages, music, and the arts, taught by working scholars and artists."
+  },
+  {
+    "id": "science",
+    "name": "College of Science",
+    "description": "Life, physical, and earth sciences, with field research from the Salish Sea to the Cascades."
+  },
+  {
+    "id": "social-and-behavioral-sciences",
+    "name": "College of Social & Behavioral Sciences",
+    "description": "The study of people, societies, and institutions, with strong research and policy training."
+  },
+  {
+    "id": "education",
+    "name": "College of Education",
+    "description": "Teacher preparation and education leadership for schools and colleges."
+  }
+]

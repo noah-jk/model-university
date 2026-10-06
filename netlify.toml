@@ -9,7 +9,7 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
-# Serve Markdown copies of pages as plain text so AI tools can read them easily
+# AI-readable files are fetched from other origins by browser-based tools.
 [[headers]]
   for = "/*.md"
   [headers.values]

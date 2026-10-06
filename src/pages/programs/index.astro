@@ -1,0 +1,86 @@
+---
+// Every program in one filterable list. No college or department drill-down:
+// people search by what they want to study, and filter by level and format.
+import { getCollection } from "astro:content";
+import siteConfig from "../../../site.config.ts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../components/AskAiMenu.astro";
+import { colleges, collegeOf, departmentOf } from "../../lib/catalog.ts";
+import { usd } from "../../lib/format.ts";
+import { pagePath } from "../../lib/urls.ts";
+import { MODALITIES, PROGRAM_LEVELS, TERMS } from "../../lib/vocab.ts";
+
+const programs = (await getCollection("programs")).map((p) => p.data).sort((a, b) => a.name.localeCompare(b.name));
+
+const filters = [
+  { name: "level", label: "Level", any: "Any level", options: PROGRAM_LEVELS.map((v) => [v, v]) },
+  { name: "modality", label: "Format", any: "Any format", options: MODALITIES.map((v) => [v, v]) },
+  { name: "term", label: "Start term", any: "Any term", options: TERMS.map((v) => [v, v]) },
+  { name: "college", label: "College", any: "Any college", options: colleges.map((c) => [c.id, c.name]) },
+];
+
+const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms.txt. If I haven't said what I want, ask me one short question about my interests. Once I've given any preference, recommend the top 3 matches with links and don't keep asking questions.`;
+---
+
+<BaseLayout title="Academic programs" description={`All degree programs, minors, and certificates at ${siteConfig.name}.`}>
+  <div class="page-intro">
+    <h1>Academic programs</h1>
+    <p>Find a degree, minor, or certificate, or ask your AI assistant to help you choose.</p>
+    <AskAiMenu prompt={prompt} />
+  </div>
+
+  <form class="finder" data-filter-form="program-list" data-noun="program" role="search" aria-label="Filter programs">
+    <div class="field search">
+      <label for="q">Search by topic or career</label>
+      <input id="q" name="q" type="search" placeholder="For example, nursing, data, or teaching" />
+    </div>
+    {
+      filters.map((f) => (
+        <div class="field">
+          <label for={f.name}>{f.label}</label>
+          <select id={f.name} name={f.name}>
+            <option value="">{f.any}</option>
+            {f.options.map(([value, label]) => <option value={value}>{label}</option>)}
+          </select>
+        </div>
+      ))
+    }
+  </form>
+
+  <p id="program-list-count" class="results-count" aria-live="polite">{programs.length} programs</p>
+  <ul id="program-list" class="entry-list">
+    {
+      programs.map((p) => {
+        const department = departmentOf(p);
+        const college = collegeOf(p);
+        return (
+          <li
+            data-search={[p.name, department.field, college.name, ...p.keywords, ...p.careers].join(" ").toLowerCase()}
+            data-level={p.level}
+            data-modality={p.modality}
+            data-term={p.start_terms.join(",")}
+            data-college={college.id}
+          >
+            <div>
+              <h3><a href={pagePath("programs", p.id)}>{p.name}</a></h3>
+              <p>{college.name}</p>
+            </div>
+            <p class="facts">
+              <span>{p.modality}</span>
+              <span>starts {p.start_terms.join(", ")}</span>
+              <span>about {usd(p.estimated_total_tuition_usd)}</span>
+            </p>
+          </li>
+        );
+      })
+    }
+  </ul>
+</BaseLayout>
+
+<script>
+  import "../../scripts/filter-list.ts";
+</script>
+
+<style>
+  @media (min-width: 720px) { .entry-list > li { grid-template-columns: 1fr 14rem; } }
+</style>

@@ -1,0 +1,28 @@
+---
+// The MCP server address, with a copy button. `inline` shows just the address.
+import { absoluteUrl } from "../lib/urls.ts";
+
+interface Props {
+  inline?: boolean;
+}
+const { inline = false } = Astro.props;
+const address = absoluteUrl("/mcp", Astro.site!);
+---
+
+{
+  inline ? (
+    <code data-origin-text="{origin}/mcp">{address}</code>
+  ) : (
+    <div class="mcp-url">
+      <code data-origin-text="{origin}/mcp">{address}</code>
+      <button type="button" class="button secondary" data-copy="{origin}/mcp" data-copied="MCP server address copied." hidden>
+        Copy address
+      </button>
+    </div>
+  )
+}
+
+<style>
+  .mcp-url { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-block: 1rem; }
+  .mcp-url code { font-size: var(--step-0); padding: 0.45rem 0.7rem; }
+</style>

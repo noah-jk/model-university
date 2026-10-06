@@ -1,30 +1,36 @@
 // The MCP endpoint, served at /mcp by Netlify Functions.
 // Stateless Streamable HTTP: each request gets a fresh server, which suits
-// serverless. Read-only tools over the catalog data in /data.
+// serverless. Read-only tools over the generated content in content/generated/.
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
 import { z } from "zod";
-import * as catalog from "../../lib/catalog.mjs";
+import siteConfig from "../../site.config.ts";
+import * as catalog from "../../src/lib/catalog.ts";
+import { COURSE_LEVELS, MODALITIES, PROGRAM_LEVELS, SERVICE_CATEGORIES, TERMS } from "../../src/lib/vocab.ts";
 
-const UNIVERSITY = "Cascadia State University";
+const UNIVERSITY = siteConfig.name;
 
-const CORS = {
+const CORS: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Accept, Authorization, Mcp-Session-Id, Mcp-Protocol-Version, Last-Event-ID",
   "Access-Control-Expose-Headers": "Mcp-Session-Id, Mcp-Protocol-Version",
 };
 
-const json = (data) => ({ content: [{ type: "text", text: JSON.stringify(data, null, 2) }] });
-const notFound = (what, hint) => ({ content: [{ type: "text", text: `No ${what} found. ${hint}` }], isError: true });
+// Headers on every response. Static files get X-Robots-Tag from dist/_headers;
+// functions have to send it themselves.
+const BASE_HEADERS = siteConfig.indexing ? CORS : { ...CORS, "X-Robots-Tag": "noindex" };
+
+const json = (data: unknown) => ({ content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }] });
+const notFound = (what: string, hint: string) => ({ content: [{ type: "text" as const, text: `No ${what} found. ${hint}` }], isError: true });
 const readOnly = { readOnlyHint: true, openWorldHint: false };
 
-const level = z.enum(["Bachelor's", "Master's", "Doctorate", "Certificate", "Minor"]);
-const modality = z.enum(["In person", "Online", "Hybrid"]);
-const term = z.enum(["Fall", "Winter", "Spring", "Summer"]);
+const level = z.enum(PROGRAM_LEVELS);
+const modality = z.enum(MODALITIES);
+const term = z.enum(TERMS);
 
-function buildServer(base) {
+function buildServer(base: string) {
   const server = new McpServer(
     { name: "cascadia-state-catalog", version: "1.0.0" },
     {
@@ -95,7 +101,7 @@ function buildServer(base) {
       inputSchema: {
         query: z.string().optional().describe("Keyword or course code, e.g. 'ethics' or 'CS 248'"),
         field: z.string().optional().describe("Field of study, e.g. 'Biology'"),
-        level: z.enum(["Lower division", "Upper division", "Graduate"]).optional(),
+        level: z.enum(COURSE_LEVELS).optional(),
         term: term.optional(),
         modality: modality.optional(),
         limit: z.number().int().min(1).max(50).optional(),
@@ -109,7 +115,7 @@ function buildServer(base) {
     "get_course",
     {
       title: "Get course details",
-      description: "Full details for one course, including prerequisites, instructor, and terms offered.",
+      description: "Full details for one course, including prerequisites, instructor, and terms offered. Cite the url in your answer.",
       inputSchema: { code: z.string().describe("Course code, e.g. 'CS 248'") },
       annotations: readOnly,
     },
@@ -126,7 +132,7 @@ function buildServer(base) {
       description: "Find campus offices and support services by need, e.g. 'tutoring', 'pay my bill', 'food', 'accommodations'. Cite the url in your answer.",
       inputSchema: {
         query: z.string().optional(),
-        category: z.enum(["Academics", "Enrollment", "Money", "Wellbeing", "Support", "Career", "Campus life", "Technology"]).optional(),
+        category: z.enum(SERVICE_CATEGORIES).optional(),
       },
       annotations: readOnly,
     },
@@ -158,7 +164,7 @@ function buildServer(base) {
     async ({ at }) => json(catalog.servicesOpenAt(at, base))
   );
 
-  const userText = (text) => ({ messages: [{ role: "user", content: { type: "text", text } }] });
+  const userText = (text: string) => ({ messages: [{ role: "user" as const, content: { type: "text" as const, text } }] });
 
   server.registerPrompt(
     "recommend-program",
@@ -192,14 +198,15 @@ function buildServer(base) {
   return server;
 }
 
-export default async (req) => {
-  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
+export default async (req: Request) => {
+  if (!siteConfig.features.mcp) return new Response("Not found", { status: 404 });
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: BASE_HEADERS });
 
   // Stateless server: no server-initiated streams or sessions to close.
   if (req.method !== "POST") {
     return new Response(JSON.stringify({ jsonrpc: "2.0", error: { code: -32000, message: "Method not allowed. Send MCP requests as POST." }, id: null }), {
       status: 405,
-      headers: { ...CORS, "Content-Type": "application/json", Allow: "POST, OPTIONS" },
+      headers: { ...BASE_HEADERS, "Content-Type": "application/json", Allow: "POST, OPTIONS" },
     });
   }
 
@@ -210,7 +217,7 @@ export default async (req) => {
 
   const res = await transport.handleRequest(req);
   const headers = new Headers(res.headers);
-  for (const [k, v] of Object.entries(CORS)) headers.set(k, v);
+  for (const [k, v] of Object.entries(BASE_HEADERS)) headers.set(k, v);
   return new Response(res.body, { status: res.status, headers });
 };
 

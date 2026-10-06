@@ -1,0 +1,79 @@
+---
+import siteConfig from "../../../site.config.ts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../components/AskAiMenu.astro";
+import McpAddress from "../../components/McpAddress.astro";
+
+const { features } = siteConfig;
+const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms.txt. If I haven't said what I want, ask me one short question about my interests. Once I've given any preference, recommend the top 3 matches with links and don't keep asking questions.`;
+---
+
+<BaseLayout title="Use with your AI" description={`Connect ${siteConfig.name}'s catalog to Claude, ChatGPT, Cursor, and other AI assistants.`}>
+  <div class="page-intro">
+    <h1>Use {siteConfig.shortName} with your AI</h1>
+    <p>Connect our official catalog to the assistant you already use. It can then search programs, compare costs, look up courses, and check which offices are open.</p>
+  </div>
+
+  {
+    features.mcp && (
+      <>
+        <div class="panel address">
+          <h2>Our MCP server address</h2>
+          <McpAddress />
+          <p>No account or key is needed. The server is read-only.</p>
+        </div>
+        <div class="steps">
+          <section class="panel" aria-labelledby="c-claude">
+            <h2 id="c-claude">Claude</h2>
+            <ol>
+              <li>Open Claude and go to Settings, then Connectors.</li>
+              <li>Choose Add custom connector.</li>
+              <li>Name it {siteConfig.shortName} and paste the address above.</li>
+              <li>In a new chat, ask something like “What online programs does {siteConfig.shortName} offer?”</li>
+            </ol>
+          </section>
+          <section class="panel" aria-labelledby="c-chatgpt">
+            <h2 id="c-chatgpt">ChatGPT</h2>
+            <ol>
+              <li>In ChatGPT settings, open Apps and Connectors. Custom connectors may require developer mode or a specific plan.</li>
+              <li>Create a connector and paste the address above.</li>
+              <li>Enable it in a chat and start asking questions.</li>
+            </ol>
+          </section>
+          <section class="panel" aria-labelledby="c-cursor">
+            <h2 id="c-cursor">Cursor and VS Code</h2>
+            <p>These apps support one-click setup.</p>
+            <div class="page-actions">
+              <a class="button" id="cursor-install" href="/connect/">Add to Cursor</a>
+              <a class="button" id="vscode-install" href="/connect/">Add to VS Code</a>
+            </div>
+          </section>
+        </div>
+      </>
+    )
+  }
+
+  {
+    features.askAi && (
+      <section class="panel no-setup" aria-labelledby="c-quick">
+        <h2 id="c-quick">No setup at all</h2>
+        <p>Open a chat that already points your assistant at our site guide.</p>
+        <AskAiMenu prompt={prompt} />
+      </section>
+    )
+  }
+</BaseLayout>
+
+<script>
+  // One-click install links, built from the live address
+  const mcpUrl = `${window.location.origin}/mcp`;
+  const cursor = document.getElementById("cursor-install") as HTMLAnchorElement | null;
+  const vscode = document.getElementById("vscode-install") as HTMLAnchorElement | null;
+  if (cursor) cursor.href = `cursor://anysphere.cursor-deeplink/mcp/install?name=cascadia-state&config=${btoa(JSON.stringify({ url: mcpUrl }))}`;
+  if (vscode) vscode.href = `vscode:mcp/install?${encodeURIComponent(JSON.stringify({ name: "cascadia-state", type: "http", url: mcpUrl }))}`;
+</script>
+
+<style>
+  .address { border-left: 6px solid var(--fir); margin-bottom: 2rem; }
+  .steps { display: grid; gap: 1.5rem; margin-bottom: 1.5rem; }
+</style>

@@ -1,10 +1,11 @@
 // Smoke test: calls the MCP function directly, no Netlify needed.
 // Run with: npm test
 
-import handler from "../netlify/functions/mcp.mjs";
+import handler from "../netlify/functions/mcp.mts";
+import siteConfig from "../site.config.ts";
 
 let id = 0;
-async function call(method, params) {
+async function call(method: string, params: Record<string, unknown>): Promise<any> {
   const req = new Request("http://localhost:8888/mcp", {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json, text/event-stream", "Mcp-Protocol-Version": "2025-06-18" },
@@ -20,9 +21,9 @@ const init = await call("initialize", { protocolVersion: "2025-06-18", capabilit
 console.log(`✓ initialize: ${init.serverInfo.name}`);
 
 const { tools } = await call("tools/list", {});
-console.log(`✓ tools/list: ${tools.map((t) => t.name).join(", ")}`);
+console.log(`✓ tools/list: ${tools.map((t: { name: string }) => t.name).join(", ")}`);
 
-const checks = [
+const checks: [string, Record<string, unknown>][] = [
   ["search_programs", { query: "health", level: "Master's" }],
   ["get_program", { id: "nursing-bs" }],
   ["compare_programs", { ids: ["computer-science-bs", "data-science-bs"] }],
@@ -39,10 +40,11 @@ for (const [name, args] of checks) {
 // Prompts
 const { prompts } = await call("prompts/list", {});
 for (const name of ["recommend-program", "find-help"]) {
-  if (!prompts.some((p) => p.name === name)) throw new Error(`prompts/list: missing ${name}`);
+  if (!prompts.some((p: { name: string }) => p.name === name)) throw new Error(`prompts/list: missing ${name}`);
 }
-console.log(`✓ prompts/list: ${prompts.map((p) => p.name).join(", ")}`);
-for (const [name, args] of [["recommend-program", { interest: "nursing", level: "Bachelor's" }], ["recommend-program", {}], ["find-help", { need: "tutoring" }]]) {
+console.log(`✓ prompts/list: ${prompts.map((p: { name: string }) => p.name).join(", ")}`);
+const promptChecks: [string, Record<string, string>][] = [["recommend-program", { interest: "nursing", level: "Bachelor's" }], ["recommend-program", {}], ["find-help", { need: "tutoring" }]];
+for (const [name, args] of promptChecks) {
   const r = await call("prompts/get", { name, arguments: args });
   const text = r.messages?.[0]?.content?.text;
   if (!text) throw new Error(`prompts/get ${name}: no message text`);
@@ -56,6 +58,14 @@ const courseHit = JSON.parse((await call("tools/call", { name: "search_courses",
 for (const r of [...search.results, ...courseHit.results]) {
   if (!/^https?:\/\//.test(r.url)) throw new Error(`missing absolute url: ${JSON.stringify(r)}`);
 }
+const course = JSON.parse((await call("tools/call", { name: "get_course", arguments: { code: courseHit.results[0].code } })).content[0].text);
+if (!course.url.endsWith(`/courses/${course.id}/`)) throw new Error(`get_course: expected a course page url, got ${course.url}`);
 console.log(`✓ urls and note: ${search.note}`);
+
+// Search engines are kept out until indexing is switched on
+const options = await handler(new Request("http://localhost:8888/mcp", { method: "OPTIONS" }));
+const robots = options.headers.get("X-Robots-Tag");
+if (siteConfig.indexing ? robots : robots !== "noindex") throw new Error(`X-Robots-Tag is ${robots} with indexing ${siteConfig.indexing}`);
+console.log(`✓ X-Robots-Tag: ${robots ?? "not sent"}`);
 
 console.log("\nAll checks passed.");

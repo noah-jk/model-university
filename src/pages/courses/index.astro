@@ -1,0 +1,94 @@
+---
+// Course catalog hub: a flat, filterable list of subjects, plus a box to
+// jump straight to a course by its code.
+import { getCollection } from "astro:content";
+import siteConfig from "../../../site.config.ts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../components/AskAiMenu.astro";
+import { collegeOf, coursesInDepartment } from "../../lib/catalog.ts";
+import { subjectPath } from "../../lib/urls.ts";
+
+const departments = (await getCollection("departments")).map((d) => d.data).sort((a, b) => a.field.localeCompare(b.field));
+const courses = await getCollection("courses");
+const codes = courses.map((c) => c.data.code);
+
+const prompt = `Help me plan courses at ${siteConfig.name} using {origin}/llms.txt. If I haven't said what I'm studying, ask me one short question. Once I've given any preference, recommend specific courses with links and don't keep asking questions.`;
+---
+
+<BaseLayout title="Course catalog" description={`Every course offered at ${siteConfig.name}, by subject.`}>
+  <div class="page-intro">
+    <h1>Course catalog</h1>
+    <p>{courses.length.toLocaleString("en-US")} courses across {departments.length} subjects.</p>
+    <AskAiMenu prompt={prompt} />
+  </div>
+
+  <form id="course-jump" class="finder" data-codes={codes.join(",")} aria-label="Go to a course" hidden>
+    <div class="field">
+      <label for="course-code">Go to a course by code</label>
+      <input id="course-code" name="code" type="text" placeholder="For example, CS 144" aria-describedby="course-jump-error" autocomplete="off" />
+    </div>
+    <div class="jump-action">
+      <button class="button" type="submit">Go to course</button>
+    </div>
+    <p id="course-jump-error" class="error" aria-live="assertive"></p>
+  </form>
+
+  <form class="finder" data-filter-form="subject-list" data-noun="subject" role="search" aria-label="Filter subjects">
+    <div class="field search">
+      <label for="q">Find a subject</label>
+      <input id="q" name="q" type="search" placeholder="For example, biology or ACCO" />
+    </div>
+  </form>
+
+  <p id="subject-list-count" class="results-count" aria-live="polite">{departments.length} subjects</p>
+  <ul id="subject-list" class="entry-list">
+    {
+      departments.map((d) => (
+        <li data-search={[d.field, d.course_prefix, collegeOf(d).name].join(" ").toLowerCase()}>
+          <div>
+            <h3><a href={subjectPath(d.id)}>{d.field}</a></h3>
+            <p>{collegeOf(d).name}</p>
+          </div>
+          <p class="facts">
+            <span>Course codes {d.course_prefix}</span>
+            <span>{coursesInDepartment(d.id).length} courses</span>
+          </p>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
+
+<script>
+  import "../../scripts/filter-list.ts";
+
+  // Jump to a course page from its code, e.g. "cs144" or "CS 144" → /courses/cs-144/
+  const form = document.getElementById("course-jump") as HTMLFormElement;
+  const input = form.querySelector("input")!;
+  const error = document.getElementById("course-jump-error")!;
+  const codes = new Set(form.dataset.codes!.split(","));
+  form.hidden = false;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const match = input.value.trim().toUpperCase().match(/^([A-Z]{2,5})\s*(\d{3})$/);
+    const code = match && `${match[1]} ${match[2]}`;
+    if (code && codes.has(code)) {
+      window.location.href = `/courses/${code.toLowerCase().replace(" ", "-")}/`;
+    } else {
+      error.textContent = `There's no course with the code “${input.value.trim()}”. Check the code, or find its subject below.`;
+      input.setAttribute("aria-invalid", "true");
+      input.focus();
+    }
+  });
+  input.addEventListener("input", () => {
+    error.textContent = "";
+    input.removeAttribute("aria-invalid");
+  });
+</script>
+
+<style>
+  .jump-action { display: flex; align-items: end; }
+  .error { grid-column: 1 / -1; margin: 0; color: var(--salmonberry); font-weight: 600; }
+  .error:empty { display: none; }
+  @media (min-width: 720px) { .entry-list > li { grid-template-columns: 1fr 14rem; } }
+</style>
