@@ -1,0 +1,315 @@
+// Generates a synthetic course catalog for the fictional "Cascadia State University".
+// Deterministic: the same seed always produces the same data, so diffs stay clean.
+// Run with: npm run generate   (writes data/programs.json and data/services.json)
+
+import { writeFileSync, mkdirSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+
+const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const SEED = 20261003;
+
+// Small seeded PRNG (mulberry32)
+let s = SEED;
+const rand = () => {
+  s |= 0; s = (s + 0x6d2b79f5) | 0;
+  let t = Math.imul(s ^ (s >>> 15), 1 | s);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+};
+const pick = (arr) => arr[Math.floor(rand() * arr.length)];
+const chance = (p) => rand() < p;
+const between = (min, max) => Math.round(min + rand() * (max - min));
+const slug = (str) => str.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+// ---------------------------------------------------------------------------
+// Colleges and fields of study (CIP-style codes for realism; data is synthetic)
+// ---------------------------------------------------------------------------
+const colleges = {
+  "College of Engineering & Computing": [
+    ["Computer Science", "11.0701", ["software engineer", "systems developer", "research scientist"], ["programming", "algorithms", "software", "ai"]],
+    ["Data Science", "30.7001", ["data scientist", "analytics engineer", "machine learning engineer"], ["statistics", "machine learning", "python", "analytics"]],
+    ["Cybersecurity", "11.1003", ["security analyst", "penetration tester", "security architect"], ["security", "networks", "privacy", "risk"]],
+    ["Mechanical Engineering", "14.1901", ["mechanical engineer", "design engineer", "manufacturing engineer"], ["design", "thermodynamics", "robotics", "manufacturing"]],
+    ["Civil Engineering", "14.0801", ["civil engineer", "structural engineer", "transportation planner"], ["infrastructure", "structures", "transportation", "water"]],
+    ["Electrical Engineering", "14.1001", ["electrical engineer", "hardware engineer", "power systems engineer"], ["circuits", "power", "signals", "embedded systems"]],
+    ["Information Technology", "11.0103", ["IT specialist", "network administrator", "cloud engineer"], ["networks", "cloud", "systems administration", "support"]],
+  ],
+  "College of Health & Human Services": [
+    ["Nursing", "51.3801", ["registered nurse", "nurse educator", "clinical nurse leader"], ["patient care", "clinical", "healthcare", "rn"]],
+    ["Public Health", "51.2201", ["epidemiologist", "health educator", "policy analyst"], ["community health", "epidemiology", "health policy", "prevention"]],
+    ["Social Work", "44.0701", ["social worker", "case manager", "community organizer"], ["advocacy", "community", "case management", "families"]],
+    ["Kinesiology", "31.0505", ["exercise physiologist", "athletic trainer", "strength coach"], ["exercise", "movement", "sports", "fitness"]],
+    ["Nutrition & Dietetics", "51.3101", ["registered dietitian", "nutrition educator", "food service manager"], ["nutrition", "food", "wellness", "dietetics"]],
+    ["Health Administration", "51.0701", ["healthcare administrator", "practice manager", "health services manager"], ["management", "healthcare", "operations", "policy"]],
+    ["Speech-Language Pathology", "51.0203", ["speech-language pathologist", "audiology assistant", "clinical researcher"], ["communication disorders", "language", "clinical", "therapy"]],
+  ],
+  "Carver College of Business": [
+    ["Business Administration", "52.0201", ["operations manager", "management consultant", "entrepreneur"], ["management", "leadership", "strategy", "mba"]],
+    ["Accounting", "52.0301", ["accountant", "auditor", "tax advisor"], ["cpa", "audit", "tax", "financial reporting"]],
+    ["Finance", "52.0801", ["financial analyst", "investment associate", "corporate treasurer"], ["investing", "markets", "corporate finance", "banking"]],
+    ["Marketing", "52.1401", ["marketing manager", "brand strategist", "digital marketer"], ["branding", "digital marketing", "consumer behavior", "advertising"]],
+    ["Supply Chain Management", "52.0203", ["logistics analyst", "procurement manager", "operations planner"], ["logistics", "operations", "procurement", "global trade"]],
+    ["Human Resource Management", "52.1001", ["HR generalist", "talent acquisition partner", "compensation analyst"], ["people", "recruiting", "workplace", "talent"]],
+  ],
+  "College of Arts & Letters": [
+    ["English", "23.0101", ["editor", "content strategist", "teacher"], ["writing", "literature", "editing", "rhetoric"]],
+    ["History", "54.0101", ["archivist", "museum curator", "policy researcher"], ["archives", "research", "museums", "public history"]],
+    ["Communication", "09.0100", ["communications specialist", "public relations manager", "journalist"], ["media", "public relations", "journalism", "storytelling"]],
+    ["Studio Art", "50.0702", ["artist", "art director", "gallery manager"], ["painting", "sculpture", "printmaking", "drawing"]],
+    ["Graphic Design", "50.0409", ["graphic designer", "UX designer", "art director"], ["design", "typography", "branding", "ux"]],
+    ["Music", "50.0901", ["performer", "music educator", "audio producer"], ["performance", "composition", "audio", "ensemble"]],
+    ["Philosophy", "38.0101", ["ethicist", "policy analyst", "lawyer"], ["ethics", "logic", "critical thinking", "pre-law"]],
+    ["World Languages", "16.0101", ["translator", "interpreter", "international liaison"], ["spanish", "japanese", "translation", "culture"]],
+  ],
+  "College of Science": [
+    ["Biology", "26.0101", ["lab researcher", "biotech associate", "pre-med student"], ["life sciences", "genetics", "ecology", "pre-med"]],
+    ["Chemistry", "40.0501", ["chemist", "quality control analyst", "pharmaceutical researcher"], ["lab", "organic chemistry", "materials", "pharma"]],
+    ["Physics", "40.0801", ["physicist", "data analyst", "engineering researcher"], ["mechanics", "quantum", "astronomy", "modeling"]],
+    ["Mathematics", "27.0101", ["actuary", "quantitative analyst", "math teacher"], ["math", "proofs", "modeling", "statistics"]],
+    ["Environmental Science", "03.0104", ["environmental consultant", "conservation scientist", "sustainability manager"], ["climate", "sustainability", "conservation", "field research"]],
+    ["Marine Biology", "26.1302", ["marine biologist", "fisheries scientist", "aquarium educator"], ["oceans", "salish sea", "fisheries", "field research"]],
+    ["Geology", "40.0601", ["geologist", "hydrologist", "hazards analyst"], ["earth science", "volcanoes", "earthquakes", "field research"]],
+  ],
+  "College of Social & Behavioral Sciences": [
+    ["Psychology", "42.0101", ["counselor", "research assistant", "UX researcher"], ["behavior", "mental health", "research", "cognition"]],
+    ["Sociology", "45.1101", ["social researcher", "community program manager", "policy analyst"], ["society", "inequality", "research methods", "community"]],
+    ["Political Science", "45.1001", ["legislative aide", "policy analyst", "campaign manager"], ["government", "policy", "elections", "pre-law"]],
+    ["Economics", "45.0601", ["economist", "financial analyst", "policy researcher"], ["markets", "policy", "data", "econometrics"]],
+    ["Criminal Justice", "43.0104", ["probation officer", "victim advocate", "court administrator"], ["justice", "courts", "corrections", "policy"]],
+    ["Anthropology", "45.0201", ["cultural resource specialist", "UX researcher", "museum educator"], ["culture", "archaeology", "ethnography", "museums"]],
+  ],
+  "College of Education": [
+    ["Elementary Education", "13.1202", ["elementary teacher", "reading specialist", "curriculum coordinator"], ["teaching", "k-8", "literacy", "certification"]],
+    ["Special Education", "13.1001", ["special education teacher", "inclusion specialist", "behavior analyst"], ["inclusion", "disability", "iep", "teaching"]],
+    ["Educational Leadership", "13.0401", ["principal", "district administrator", "instructional coach"], ["leadership", "administration", "schools", "policy"]],
+    ["Higher Education Administration", "13.0406", ["student affairs director", "academic advisor", "admissions counselor"], ["student affairs", "advising", "colleges", "leadership"]],
+  ],
+};
+
+// Which credential levels each field tends to offer
+const levelTemplates = [
+  { level: "Bachelor's", credential: (f) => (["Studio Art", "Graphic Design", "Music"].includes(f) ? "BFA" : ["English", "History", "Philosophy", "World Languages", "Communication", "Sociology", "Anthropology", "Political Science"].includes(f) ? "BA" : "BS"), credits: [180, 180], years: "4 years", p: 0.97 },
+  { level: "Minor", credential: () => "Minor", credits: [25, 35], years: "Alongside a bachelor's", p: 0.65 },
+  { level: "Certificate", credential: () => "Graduate Certificate", credits: [15, 24], years: "9–12 months", p: 0.55 },
+  { level: "Master's", credential: (f) => (f === "Business Administration" ? "MBA" : f === "Social Work" ? "MSW" : f === "Public Health" ? "MPH" : f === "Nursing" ? "MSN" : ["English", "History", "Communication", "Studio Art", "Music"].includes(f) ? "MA" : f.includes("Education") || f.includes("Leadership") ? "MEd" : "MS"), credits: [45, 72], years: "1–2 years", p: 0.75 },
+  { level: "Doctorate", credential: (f) => (f === "Nursing" ? "DNP" : f.includes("Education") || f.includes("Leadership") ? "EdD" : "PhD"), credits: [90, 135], years: "4–6 years", p: 0.25 },
+];
+
+const modalities = ["In person", "Online", "Hybrid"];
+const terms = ["Fall", "Winter", "Spring", "Summer"];
+const campuses = ["Tacoma Bay campus", "Olympia campus", "Online"];
+
+const descOpeners = [
+  (f, lvl) => `The ${lvl} in ${f} pairs rigorous coursework with hands-on projects rooted in the Pacific Northwest.`,
+  (f, lvl) => `Cascadia State's ${f} ${lvl} prepares you to solve real problems from your first term.`,
+  (f, lvl) => `Study ${f.toLowerCase()} with faculty who work alongside regional employers, agencies, and research partners.`,
+  (f, lvl) => `Build a strong foundation in ${f.toLowerCase()} through small classes, mentored research, and community partnerships.`,
+];
+const descMiddles = [
+  "Students complete a capstone with a regional partner organization.",
+  "Every student finishes with a portfolio of applied work.",
+  "Flexible scheduling supports working students and transfer students.",
+  "A required internship connects classroom learning to professional practice.",
+  "Small cohorts mean close mentorship from faculty.",
+];
+
+const programs = [];
+const departments = {};
+
+for (const [college, fields] of Object.entries(colleges)) {
+  departments[college] = fields.map(([name]) => `Department of ${name}`);
+  for (const [field, cip, careers, keywords] of fields) {
+    for (const t of levelTemplates) {
+      if (!chance(t.p)) continue;
+      const credential = t.credential(field);
+      const name = t.level === "Minor" ? `${field} Minor` : t.level === "Certificate" ? `${field} Graduate Certificate` : `${field}, ${credential}`;
+      const isGrad = ["Master's", "Doctorate", "Certificate"].includes(t.level);
+      const modality = t.level === "Doctorate" ? (chance(0.8) ? "In person" : "Hybrid") : isGrad ? pick(modalities) : chance(0.75) ? "In person" : pick(modalities);
+      const startTerms = t.level === "Bachelor's" || t.level === "Minor" ? ["Fall", "Winter", "Spring"] : terms.filter(() => chance(0.5)).concat(["Fall"]).filter((v, i, a) => a.indexOf(v) === i);
+      const creditsTotal = between(t.credits[0], t.credits[1]);
+      const perCredit = isGrad ? between(520, 890) : between(270, 340);
+      const deadlineMonth = { Fall: "March 1", Winter: "October 15", Spring: "January 15", Summer: "April 1" };
+      programs.push({
+        id: slug(name),
+        name,
+        field,
+        level: t.level,
+        credential,
+        college,
+        department: `Department of ${field}`,
+        cip,
+        modality,
+        campus: modality === "Online" ? "Online" : pick(campuses.slice(0, 2)),
+        start_terms: terms.filter((x) => startTerms.includes(x)),
+        application_deadlines: t.level === "Minor" ? [] : terms.filter((x) => startTerms.includes(x)).map((term) => ({ term, deadline: deadlineMonth[term] })),
+        credits: creditsTotal,
+        duration: t.years,
+        tuition_per_credit_usd: perCredit,
+        estimated_total_tuition_usd: Math.round((perCredit * creditsTotal) / 10) * 10,
+        description: `${pick(descOpeners)(field, t.level === "Minor" ? "minor" : t.level === "Certificate" ? "certificate" : `${credential} program`)} ${pick(descMiddles)}`,
+        outcomes: [
+          `Apply core methods and theory in ${field.toLowerCase()}`,
+          `Communicate findings clearly to professional and public audiences`,
+          isGrad ? `Lead independent research or advanced professional practice` : `Work effectively on interdisciplinary teams`,
+        ],
+        careers,
+        keywords,
+        requirements: isGrad
+          ? ["Bachelor's degree from an accredited institution", `Minimum ${pick(["2.75", "3.0", "3.0", "3.2"])} GPA`, "Statement of purpose", chance(0.6) ? "Two letters of recommendation" : "Resume"]
+          : t.level === "Minor"
+          ? ["Declared bachelor's major at Cascadia State", "Completion of introductory course with C or better"]
+          : ["High school diploma or equivalent, or transfer credits", "Completed first-year application"],
+        accepts_transfer_credit: !isGrad || chance(0.4),
+        url_path: `/programs/${slug(name)}/`,
+      });
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Courses (the "big table": roughly 20–30 per field)
+// ---------------------------------------------------------------------------
+const courses = [];
+const prefixOverrides = { "Elementary Education": "ELED" };
+const prefixFor = (field) => {
+  if (prefixOverrides[field]) return prefixOverrides[field];
+  const words = field.replace(/&/g, "").split(/[\s-]+/).filter(Boolean);
+  return (words.length === 1 ? words[0].slice(0, 4) : words.map((w) => w[0]).join("")).toUpperCase();
+};
+const title = (str) => str.replace(/\b\w/g, (c) => c.toUpperCase());
+const courseTemplates = [
+  [100, (f) => `Introduction to ${f}`],
+  [100, (f) => `Foundations of ${f}`],
+  [200, (f, k) => `${title(k)} I`],
+  [200, (f, k) => `${title(k)} II`],
+  [200, (f) => `Research Methods in ${f}`],
+  [300, (f, k) => `Applied ${title(k)}`],
+  [300, (f, k) => `${title(k)} Lab`],
+  [300, (f) => `Ethics and Practice in ${f}`],
+  [300, (f, k) => `${title(k)} in the Pacific Northwest`],
+  [300, (f) => `Data and Evidence in ${f}`],
+  [400, (f, k) => `Advanced ${title(k)}`],
+  [400, (f, k) => `Seminar: ${title(k)}`],
+  [400, (f) => `Internship in ${f}`],
+  [400, (f) => `Senior Capstone in ${f}`],
+  [500, (f, k) => `Graduate Studies in ${title(k)}`],
+  [500, (f) => `Professional Practice in ${f}`],
+  [600, (f, k) => `Research Seminar: ${title(k)}`],
+  [600, (f) => `Thesis Research in ${f}`],
+];
+const instructorsFirst = ["Ana", "Ben", "Chen", "Dana", "Eli", "Farah", "Grace", "Hiro", "Imani", "Jonah", "Kai", "Leila", "Marcus", "Nia", "Omar", "Priya", "Quinn", "Rosa", "Sam", "Tomas", "Uma", "Victor", "Wren", "Yusuf"];
+const instructorsLast = ["Alvarez", "Bergstrom", "Cho", "Delgado", "Eriksen", "Fong", "Garcia", "Haugen", "Iyer", "Johansen", "Kealoha", "Larsen", "Morales", "Nakamura", "Okafor", "Patel", "Quintero", "Reyes", "Sato", "Thompson", "Vu", "Whitehorse", "Yamamoto", "Zhou"];
+
+for (const [college, fields] of Object.entries(colleges)) {
+  for (const [field, , , keywords] of fields) {
+    const prefix = prefixFor(field);
+    const used = new Set();
+    for (const [base, make] of courseTemplates) {
+      const kws = keywords.filter(() => chance(0.55));
+      const variants = make.length > 1 ? (kws.length ? kws : [pick(keywords)]) : [null];
+      for (const k of variants) {
+        let num = base + between(1, 89);
+        while (used.has(num)) num++;
+        used.add(num);
+        const code = `${prefix} ${num}`;
+        const prereq = base >= 300 && courses.length && chance(0.7)
+          ? courses.filter((c) => c.code.startsWith(prefix + " ") && Number(c.code.split(" ")[1]) < base).slice(-2).map((c) => c.code)
+          : [];
+        courses.push({
+          id: slug(code),
+          code,
+          title: make(field, k ?? field),
+          field,
+          college,
+          level: base >= 500 ? "Graduate" : base >= 300 ? "Upper division" : "Lower division",
+          credits: base >= 500 ? 3 : pick([3, 4, 5, 5]),
+          terms_offered: terms.filter(() => chance(0.5)).concat(base < 300 ? ["Fall"] : []).filter((v, i, a) => a.indexOf(v) === i),
+          modality: pick(["In person", "In person", "Online", "Hybrid"]),
+          instructor: `${pick(instructorsFirst)} ${pick(instructorsLast)}`,
+          prerequisites: prereq,
+          description: `Explores ${(k ?? field).toLowerCase()} through readings, discussion, and applied assignments.${base >= 400 ? " Includes a substantial independent project." : ""}`,
+        });
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Student services
+// ---------------------------------------------------------------------------
+const H = {
+  business: { mon: ["08:00", "17:00"], tue: ["08:00", "17:00"], wed: ["08:00", "17:00"], thu: ["08:00", "17:00"], fri: ["08:00", "17:00"], sat: null, sun: null },
+  extended: { mon: ["08:00", "20:00"], tue: ["08:00", "20:00"], wed: ["08:00", "20:00"], thu: ["08:00", "20:00"], fri: ["08:00", "17:00"], sat: ["10:00", "14:00"], sun: null },
+  library: { mon: ["07:30", "23:00"], tue: ["07:30", "23:00"], wed: ["07:30", "23:00"], thu: ["07:30", "23:00"], fri: ["07:30", "18:00"], sat: ["10:00", "18:00"], sun: ["12:00", "23:00"] },
+  rec: { mon: ["06:00", "22:00"], tue: ["06:00", "22:00"], wed: ["06:00", "22:00"], thu: ["06:00", "22:00"], fri: ["06:00", "20:00"], sat: ["09:00", "18:00"], sun: ["10:00", "18:00"] },
+  always: { mon: ["00:00", "24:00"], tue: ["00:00", "24:00"], wed: ["00:00", "24:00"], thu: ["00:00", "24:00"], fri: ["00:00", "24:00"], sat: ["00:00", "24:00"], sun: ["00:00", "24:00"] },
+  afternoons: { mon: ["12:00", "18:00"], tue: ["12:00", "18:00"], wed: ["12:00", "18:00"], thu: ["12:00", "18:00"], fri: null, sat: null, sun: null },
+};
+const buildings = ["Madrona Hall", "Cedar Commons", "Rainier Student Center", "Puget Library", "Alder Hall", "Fir Tower", "Salish Hall"];
+
+const serviceDefs = [
+  ["Academic Advising", "Academics", "Plan your degree, choose courses, and stay on track to graduate.", "business", ["advisor", "degree plan", "registration", "major"]],
+  ["Tutoring Center", "Academics", "Free drop-in and scheduled tutoring for most 100- and 200-level courses.", "extended", ["tutor", "homework", "study help"]],
+  ["Writing Center", "Academics", "One-on-one help with essays, research papers, and personal statements at any stage.", "extended", ["essay", "writing", "papers", "citations"]],
+  ["Math Learning Lab", "Academics", "Drop-in support for math, statistics, and quantitative courses.", "afternoons", ["math", "statistics", "calculus"]],
+  ["Puget Library", "Academics", "Research help, study rooms, laptop loans, and 24/7 online chat with librarians.", "library", ["research", "study rooms", "books", "laptops"]],
+  ["Testing Center", "Academics", "Proctored exams, placement tests, and accommodated testing.", "business", ["exams", "placement", "proctoring"]],
+  ["Registrar", "Enrollment", "Registration, transcripts, enrollment verification, and graduation applications.", "business", ["transcripts", "registration", "graduation", "records"]],
+  ["Financial Aid & Scholarships", "Money", "FAFSA and WASFA help, scholarships, grants, loans, and work-study.", "business", ["fafsa", "wasfa", "scholarships", "grants", "loans"]],
+  ["Student Accounts", "Money", "Tuition bills, payment plans, refunds, and 1098-T tax forms.", "business", ["tuition", "bill", "payment plan", "refund"]],
+  ["Student Employment", "Money", "On-campus jobs and work-study positions.", "business", ["jobs", "work-study", "part-time"]],
+  ["Basic Needs Center & Food Pantry", "Wellbeing", "Free groceries, emergency grants, and help finding housing and benefits.", "afternoons", ["food", "pantry", "emergency", "groceries"]],
+  ["Counseling Center", "Wellbeing", "Short-term counseling, groups, and workshops for currently enrolled students.", "business", ["counseling", "support", "workshops"]],
+  ["Student Health Center", "Wellbeing", "Primary care, immunizations, and prescriptions for enrolled students.", "business", ["doctor", "clinic", "immunizations", "health"]],
+  ["Recreation & Fitness Center", "Wellbeing", "Gym, pool, climbing wall, intramurals, and group fitness classes.", "rec", ["gym", "pool", "fitness", "intramurals"]],
+  ["Accessibility Resources", "Support", "Academic accommodations, accessible materials, and assistive technology.", "business", ["accommodations", "accessibility", "assistive technology"]],
+  ["Veterans Services", "Support", "GI Bill certification, veteran lounge, and transition support.", "business", ["veterans", "gi bill", "military"]],
+  ["International Student Services", "Support", "Visa advising, orientation, and support for international students.", "business", ["visa", "international", "i-20"]],
+  ["First-Generation Student Center", "Support", "Mentoring, community, and resources for first-gen college students.", "business", ["first-gen", "mentoring", "community"]],
+  ["Transfer Center", "Enrollment", "Credit evaluation and advising for students transferring in.", "business", ["transfer", "credits", "community college"]],
+  ["Admissions", "Enrollment", "Applications, campus tours, and admissions counseling.", "extended", ["apply", "tours", "admissions"]],
+  ["New Student Orientation", "Enrollment", "Orientation sessions and first-week programs for new students.", "business", ["orientation", "new students"]],
+  ["Graduate School Office", "Enrollment", "Graduate admissions, assistantships, and thesis submission.", "business", ["graduate", "assistantships", "thesis"]],
+  ["Career Center", "Career", "Resume reviews, mock interviews, career fairs, and internship search.", "business", ["resume", "internships", "interviews", "jobs"]],
+  ["Study Abroad", "Career", "Semester and short-term programs in more than 30 countries.", "business", ["travel", "exchange", "international"]],
+  ["Housing & Residence Life", "Campus life", "Residence halls, room assignments, and living-learning communities.", "business", ["dorms", "housing", "residence halls"]],
+  ["Dining Services", "Campus life", "Meal plans, campus cafés, and dietary accommodations.", "extended", ["food", "meal plan", "dining"]],
+  ["Child Care Center", "Campus life", "Licensed child care for children of students, faculty, and staff.", "business", ["child care", "parents", "kids"]],
+  ["Parking & Transportation", "Campus life", "Parking permits, transit passes, and bike storage.", "business", ["parking", "transit", "orca", "bikes"]],
+  ["Campus Safety", "Campus life", "24/7 safety escorts, lost and found, and emergency response.", "always", ["safety", "escort", "emergency", "lost and found"]],
+  ["IT Help Desk", "Technology", "Account access, Wi-Fi, software downloads, and device help.", "extended", ["wifi", "password", "software", "email"]],
+  ["Campus Bookstore", "Campus life", "Textbooks, course materials, supplies, and Cascadia State gear.", "business", ["textbooks", "books", "supplies"]],
+  ["Multicultural Center", "Support", "Community space, cultural programs, and student organizations.", "business", ["community", "culture", "events"]],
+  ["Student Legal Services", "Support", "Free consultations on leases, contracts, and other legal questions.", "afternoons", ["legal", "lease", "landlord"]],
+  ["Ombuds Office", "Support", "Confidential, neutral help resolving university-related concerns.", "business", ["conflict", "concerns", "complaints"]],
+  ["Student Government", "Campus life", "Student representation, funding for clubs, and campus initiatives.", "afternoons", ["government", "clubs", "funding"]],
+  ["Clubs & Organizations", "Campus life", "More than 200 student clubs, from rock climbing to robotics.", "afternoons", ["clubs", "organizations", "involvement"]],
+];
+
+const services = serviceDefs.map(([name, category, description, hoursKey, tags]) => {
+  const id = slug(name);
+  const online = hoursKey === "always" ? false : chance(0.35);
+  return {
+    id,
+    name,
+    category,
+    description,
+    location: hoursKey === "always" ? "Rainier Student Center, ground floor" : `${pick(buildings)}, room ${between(101, 420)}`,
+    campus: pick(["Tacoma Bay campus", "Tacoma Bay campus", "Olympia campus"]),
+    virtual_option: online,
+    hours: H[hoursKey],
+    phone: `(253) 555-${String(between(1000, 9999))}`,
+    email: `${id.split("-").slice(0, 2).join("")}@cascadiastate.example`,
+    eligibility: category === "Enrollment" && name === "Admissions" ? "Prospective and admitted students" : "Currently enrolled students",
+    appointment_required: hoursKey === "business" && chance(0.4),
+    tags,
+    url_path: `/services/${id}/`,
+  };
+});
+
+mkdirSync(join(root, "data"), { recursive: true });
+writeFileSync(join(root, "data/programs.json"), JSON.stringify({ university: "Cascadia State University", generated: "synthetic demo data", count: programs.length, departments, programs }, null, 2));
+writeFileSync(join(root, "data/courses.json"), JSON.stringify({ university: "Cascadia State University", count: courses.length, courses }, null, 2));
+writeFileSync(join(root, "data/services.json"), JSON.stringify({ university: "Cascadia State University", timezone: "America/Los_Angeles", count: services.length, services }, null, 2));
+console.log(`Wrote ${programs.length} programs, ${courses.length} courses, and ${services.length} services.`);

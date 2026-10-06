@@ -1,0 +1,17 @@
+{
+  "name": "cascadia-state-mcp-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Static university site plus an MCP endpoint, deployable to Netlify",
+  "scripts": {
+    "generate": "node scripts/generate-data.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node scripts/test-mcp.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.0",
+    "zod": "^4.0.0"
+  },
+  "engines": { "node": ">=22" }
+}

@@ -1,0 +1,1586 @@
+{
+  "university": "Cascadia State University",
+  "timezone": "America/Los_Angeles",
+  "count": 36,
+  "services": [
+    {
+      "id": "academic-advising",
+      "name": "Academic Advising",
+      "category": "Academics",
+      "description": "Plan your degree, choose courses, and stay on track to graduate.",
+      "location": "Salish Hall, room 170",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-9019",
+      "email": "academicadvising@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": true,
+      "tags": [
+        "advisor",
+        "degree plan",
+        "registration",
+        "major"
+      ],
+      "url_path": "/services/academic-advising/"
+    },
+    {
+      "id": "tutoring-center",
+      "name": "Tutoring Center",
+      "category": "Academics",
+      "description": "Free drop-in and scheduled tutoring for most 100- and 200-level courses.",
+      "location": "Rainier Student Center, room 362",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": true,
+      "hours": {
+        "mon": [
+          "08:00",
+          "20:00"
+        ],
+        "tue": [
+          "08:00",
+          "20:00"
+        ],
+        "wed": [
+          "08:00",
+          "20:00"
+        ],
+        "thu": [
+          "08:00",
+          "20:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": [
+          "10:00",
+          "14:00"
+        ],
+        "sun": null
+      },
+      "phone": "(253) 555-3705",
+      "email": "tutoringcenter@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "tutor",
+        "homework",
+        "study help"
+      ],
+      "url_path": "/services/tutoring-center/"
+    },
+    {
+      "id": "writing-center",
+      "name": "Writing Center",
+      "category": "Academics",
+      "description": "One-on-one help with essays, research papers, and personal statements at any stage.",
+      "location": "Rainier Student Center, room 233",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "08:00",
+          "20:00"
+        ],
+        "tue": [
+          "08:00",
+          "20:00"
+        ],
+        "wed": [
+          "08:00",
+          "20:00"
+        ],
+        "thu": [
+          "08:00",
+          "20:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": [
+          "10:00",
+          "14:00"
+        ],
+        "sun": null
+      },
+      "phone": "(253) 555-7040",
+      "email": "writingcenter@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "essay",
+        "writing",
+        "papers",
+        "citations"
+      ],
+      "url_path": "/services/writing-center/"
+    },
+    {
+      "id": "math-learning-lab",
+      "name": "Math Learning Lab",
+      "category": "Academics",
+      "description": "Drop-in support for math, statistics, and quantitative courses.",
+      "location": "Puget Library, room 394",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "12:00",
+          "18:00"
+        ],
+        "tue": [
+          "12:00",
+          "18:00"
+        ],
+        "wed": [
+          "12:00",
+          "18:00"
+        ],
+        "thu": [
+          "12:00",
+          "18:00"
+        ],
+        "fri": null,
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-7435",
+      "email": "mathlearning@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "math",
+        "statistics",
+        "calculus"
+      ],
+      "url_path": "/services/math-learning-lab/"
+    },
+    {
+      "id": "puget-library",
+      "name": "Puget Library",
+      "category": "Academics",
+      "description": "Research help, study rooms, laptop loans, and 24/7 online chat with librarians.",
+      "location": "Rainier Student Center, room 322",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "07:30",
+          "23:00"
+        ],
+        "tue": [
+          "07:30",
+          "23:00"
+        ],
+        "wed": [
+          "07:30",
+          "23:00"
+        ],
+        "thu": [
+          "07:30",
+          "23:00"
+        ],
+        "fri": [
+          "07:30",
+          "18:00"
+        ],
+        "sat": [
+          "10:00",
+          "18:00"
+        ],
+        "sun": [
+          "12:00",
+          "23:00"
+        ]
+      },
+      "phone": "(253) 555-8494",
+      "email": "pugetlibrary@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "research",
+        "study rooms",
+        "books",
+        "laptops"
+      ],
+      "url_path": "/services/puget-library/"
+    },
+    {
+      "id": "testing-center",
+      "name": "Testing Center",
+      "category": "Academics",
+      "description": "Proctored exams, placement tests, and accommodated testing.",
+      "location": "Rainier Student Center, room 364",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": true,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-5244",
+      "email": "testingcenter@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "exams",
+        "placement",
+        "proctoring"
+      ],
+      "url_path": "/services/testing-center/"
+    },
+    {
+      "id": "registrar",
+      "name": "Registrar",
+      "category": "Enrollment",
+      "description": "Registration, transcripts, enrollment verification, and graduation applications.",
+      "location": "Fir Tower, room 225",
+      "campus": "Olympia campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-2423",
+      "email": "registrar@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "transcripts",
+        "registration",
+        "graduation",
+        "records"
+      ],
+      "url_path": "/services/registrar/"
+    },
+    {
+      "id": "financial-aid-and-scholarships",
+      "name": "Financial Aid & Scholarships",
+      "category": "Money",
+      "description": "FAFSA and WASFA help, scholarships, grants, loans, and work-study.",
+      "location": "Alder Hall, room 400",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-4556",
+      "email": "financialaid@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "fafsa",
+        "wasfa",
+        "scholarships",
+        "grants",
+        "loans"
+      ],
+      "url_path": "/services/financial-aid-and-scholarships/"
+    },
+    {
+      "id": "student-accounts",
+      "name": "Student Accounts",
+      "category": "Money",
+      "description": "Tuition bills, payment plans, refunds, and 1098-T tax forms.",
+      "location": "Rainier Student Center, room 136",
+      "campus": "Olympia campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-5816",
+      "email": "studentaccounts@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": true,
+      "tags": [
+        "tuition",
+        "bill",
+        "payment plan",
+        "refund"
+      ],
+      "url_path": "/services/student-accounts/"
+    },
+    {
+      "id": "student-employment",
+      "name": "Student Employment",
+      "category": "Money",
+      "description": "On-campus jobs and work-study positions.",
+      "location": "Fir Tower, room 340",
+      "campus": "Olympia campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-8717",
+      "email": "studentemployment@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": true,
+      "tags": [
+        "jobs",
+        "work-study",
+        "part-time"
+      ],
+      "url_path": "/services/student-employment/"
+    },
+    {
+      "id": "basic-needs-center-and-food-pantry",
+      "name": "Basic Needs Center & Food Pantry",
+      "category": "Wellbeing",
+      "description": "Free groceries, emergency grants, and help finding housing and benefits.",
+      "location": "Fir Tower, room 280",
+      "campus": "Olympia campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "12:00",
+          "18:00"
+        ],
+        "tue": [
+          "12:00",
+          "18:00"
+        ],
+        "wed": [
+          "12:00",
+          "18:00"
+        ],
+        "thu": [
+          "12:00",
+          "18:00"
+        ],
+        "fri": null,
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-3127",
+      "email": "basicneeds@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "food",
+        "pantry",
+        "emergency",
+        "groceries"
+      ],
+      "url_path": "/services/basic-needs-center-and-food-pantry/"
+    },
+    {
+      "id": "counseling-center",
+      "name": "Counseling Center",
+      "category": "Wellbeing",
+      "description": "Short-term counseling, groups, and workshops for currently enrolled students.",
+      "location": "Salish Hall, room 177",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-3271",
+      "email": "counselingcenter@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": true,
+      "tags": [
+        "counseling",
+        "support",
+        "workshops"
+      ],
+      "url_path": "/services/counseling-center/"
+    },
+    {
+      "id": "student-health-center",
+      "name": "Student Health Center",
+      "category": "Wellbeing",
+      "description": "Primary care, immunizations, and prescriptions for enrolled students.",
+      "location": "Alder Hall, room 350",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-7981",
+      "email": "studenthealth@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": true,
+      "tags": [
+        "doctor",
+        "clinic",
+        "immunizations",
+        "health"
+      ],
+      "url_path": "/services/student-health-center/"
+    },
+    {
+      "id": "recreation-and-fitness-center",
+      "name": "Recreation & Fitness Center",
+      "category": "Wellbeing",
+      "description": "Gym, pool, climbing wall, intramurals, and group fitness classes.",
+      "location": "Fir Tower, room 401",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "06:00",
+          "22:00"
+        ],
+        "tue": [
+          "06:00",
+          "22:00"
+        ],
+        "wed": [
+          "06:00",
+          "22:00"
+        ],
+        "thu": [
+          "06:00",
+          "22:00"
+        ],
+        "fri": [
+          "06:00",
+          "20:00"
+        ],
+        "sat": [
+          "09:00",
+          "18:00"
+        ],
+        "sun": [
+          "10:00",
+          "18:00"
+        ]
+      },
+      "phone": "(253) 555-6831",
+      "email": "recreationand@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "gym",
+        "pool",
+        "fitness",
+        "intramurals"
+      ],
+      "url_path": "/services/recreation-and-fitness-center/"
+    },
+    {
+      "id": "accessibility-resources",
+      "name": "Accessibility Resources",
+      "category": "Support",
+      "description": "Academic accommodations, accessible materials, and assistive technology.",
+      "location": "Alder Hall, room 133",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": true,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-4832",
+      "email": "accessibilityresources@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": true,
+      "tags": [
+        "accommodations",
+        "accessibility",
+        "assistive technology"
+      ],
+      "url_path": "/services/accessibility-resources/"
+    },
+    {
+      "id": "veterans-services",
+      "name": "Veterans Services",
+      "category": "Support",
+      "description": "GI Bill certification, veteran lounge, and transition support.",
+      "location": "Rainier Student Center, room 307",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": true,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-5628",
+      "email": "veteransservices@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "veterans",
+        "gi bill",
+        "military"
+      ],
+      "url_path": "/services/veterans-services/"
+    },
+    {
+      "id": "international-student-services",
+      "name": "International Student Services",
+      "category": "Support",
+      "description": "Visa advising, orientation, and support for international students.",
+      "location": "Cedar Commons, room 417",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": true,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-7076",
+      "email": "internationalstudent@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "visa",
+        "international",
+        "i-20"
+      ],
+      "url_path": "/services/international-student-services/"
+    },
+    {
+      "id": "first-generation-student-center",
+      "name": "First-Generation Student Center",
+      "category": "Support",
+      "description": "Mentoring, community, and resources for first-gen college students.",
+      "location": "Alder Hall, room 389",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-5135",
+      "email": "firstgeneration@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": true,
+      "tags": [
+        "first-gen",
+        "mentoring",
+        "community"
+      ],
+      "url_path": "/services/first-generation-student-center/"
+    },
+    {
+      "id": "transfer-center",
+      "name": "Transfer Center",
+      "category": "Enrollment",
+      "description": "Credit evaluation and advising for students transferring in.",
+      "location": "Salish Hall, room 311",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-8175",
+      "email": "transfercenter@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "transfer",
+        "credits",
+        "community college"
+      ],
+      "url_path": "/services/transfer-center/"
+    },
+    {
+      "id": "admissions",
+      "name": "Admissions",
+      "category": "Enrollment",
+      "description": "Applications, campus tours, and admissions counseling.",
+      "location": "Salish Hall, room 222",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "08:00",
+          "20:00"
+        ],
+        "tue": [
+          "08:00",
+          "20:00"
+        ],
+        "wed": [
+          "08:00",
+          "20:00"
+        ],
+        "thu": [
+          "08:00",
+          "20:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": [
+          "10:00",
+          "14:00"
+        ],
+        "sun": null
+      },
+      "phone": "(253) 555-2240",
+      "email": "admissions@cascadiastate.example",
+      "eligibility": "Prospective and admitted students",
+      "appointment_required": false,
+      "tags": [
+        "apply",
+        "tours",
+        "admissions"
+      ],
+      "url_path": "/services/admissions/"
+    },
+    {
+      "id": "new-student-orientation",
+      "name": "New Student Orientation",
+      "category": "Enrollment",
+      "description": "Orientation sessions and first-week programs for new students.",
+      "location": "Alder Hall, room 408",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": true,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-3363",
+      "email": "newstudent@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "orientation",
+        "new students"
+      ],
+      "url_path": "/services/new-student-orientation/"
+    },
+    {
+      "id": "graduate-school-office",
+      "name": "Graduate School Office",
+      "category": "Enrollment",
+      "description": "Graduate admissions, assistantships, and thesis submission.",
+      "location": "Fir Tower, room 324",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-7803",
+      "email": "graduateschool@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "graduate",
+        "assistantships",
+        "thesis"
+      ],
+      "url_path": "/services/graduate-school-office/"
+    },
+    {
+      "id": "career-center",
+      "name": "Career Center",
+      "category": "Career",
+      "description": "Resume reviews, mock interviews, career fairs, and internship search.",
+      "location": "Alder Hall, room 267",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-2203",
+      "email": "careercenter@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": true,
+      "tags": [
+        "resume",
+        "internships",
+        "interviews",
+        "jobs"
+      ],
+      "url_path": "/services/career-center/"
+    },
+    {
+      "id": "study-abroad",
+      "name": "Study Abroad",
+      "category": "Career",
+      "description": "Semester and short-term programs in more than 30 countries.",
+      "location": "Rainier Student Center, room 351",
+      "campus": "Olympia campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-4638",
+      "email": "studyabroad@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": true,
+      "tags": [
+        "travel",
+        "exchange",
+        "international"
+      ],
+      "url_path": "/services/study-abroad/"
+    },
+    {
+      "id": "housing-and-residence-life",
+      "name": "Housing & Residence Life",
+      "category": "Campus life",
+      "description": "Residence halls, room assignments, and living-learning communities.",
+      "location": "Rainier Student Center, room 138",
+      "campus": "Olympia campus",
+      "virtual_option": true,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-3498",
+      "email": "housingand@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": true,
+      "tags": [
+        "dorms",
+        "housing",
+        "residence halls"
+      ],
+      "url_path": "/services/housing-and-residence-life/"
+    },
+    {
+      "id": "dining-services",
+      "name": "Dining Services",
+      "category": "Campus life",
+      "description": "Meal plans, campus cafés, and dietary accommodations.",
+      "location": "Madrona Hall, room 303",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": true,
+      "hours": {
+        "mon": [
+          "08:00",
+          "20:00"
+        ],
+        "tue": [
+          "08:00",
+          "20:00"
+        ],
+        "wed": [
+          "08:00",
+          "20:00"
+        ],
+        "thu": [
+          "08:00",
+          "20:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": [
+          "10:00",
+          "14:00"
+        ],
+        "sun": null
+      },
+      "phone": "(253) 555-4266",
+      "email": "diningservices@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "food",
+        "meal plan",
+        "dining"
+      ],
+      "url_path": "/services/dining-services/"
+    },
+    {
+      "id": "child-care-center",
+      "name": "Child Care Center",
+      "category": "Campus life",
+      "description": "Licensed child care for children of students, faculty, and staff.",
+      "location": "Cedar Commons, room 155",
+      "campus": "Olympia campus",
+      "virtual_option": true,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-3217",
+      "email": "childcare@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "child care",
+        "parents",
+        "kids"
+      ],
+      "url_path": "/services/child-care-center/"
+    },
+    {
+      "id": "parking-and-transportation",
+      "name": "Parking & Transportation",
+      "category": "Campus life",
+      "description": "Parking permits, transit passes, and bike storage.",
+      "location": "Madrona Hall, room 222",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": true,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-8592",
+      "email": "parkingand@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": true,
+      "tags": [
+        "parking",
+        "transit",
+        "orca",
+        "bikes"
+      ],
+      "url_path": "/services/parking-and-transportation/"
+    },
+    {
+      "id": "campus-safety",
+      "name": "Campus Safety",
+      "category": "Campus life",
+      "description": "24/7 safety escorts, lost and found, and emergency response.",
+      "location": "Rainier Student Center, ground floor",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "00:00",
+          "24:00"
+        ],
+        "tue": [
+          "00:00",
+          "24:00"
+        ],
+        "wed": [
+          "00:00",
+          "24:00"
+        ],
+        "thu": [
+          "00:00",
+          "24:00"
+        ],
+        "fri": [
+          "00:00",
+          "24:00"
+        ],
+        "sat": [
+          "00:00",
+          "24:00"
+        ],
+        "sun": [
+          "00:00",
+          "24:00"
+        ]
+      },
+      "phone": "(253) 555-2078",
+      "email": "campussafety@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "safety",
+        "escort",
+        "emergency",
+        "lost and found"
+      ],
+      "url_path": "/services/campus-safety/"
+    },
+    {
+      "id": "it-help-desk",
+      "name": "IT Help Desk",
+      "category": "Technology",
+      "description": "Account access, Wi-Fi, software downloads, and device help.",
+      "location": "Salish Hall, room 270",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "08:00",
+          "20:00"
+        ],
+        "tue": [
+          "08:00",
+          "20:00"
+        ],
+        "wed": [
+          "08:00",
+          "20:00"
+        ],
+        "thu": [
+          "08:00",
+          "20:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": [
+          "10:00",
+          "14:00"
+        ],
+        "sun": null
+      },
+      "phone": "(253) 555-6555",
+      "email": "ithelp@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "wifi",
+        "password",
+        "software",
+        "email"
+      ],
+      "url_path": "/services/it-help-desk/"
+    },
+    {
+      "id": "campus-bookstore",
+      "name": "Campus Bookstore",
+      "category": "Campus life",
+      "description": "Textbooks, course materials, supplies, and Cascadia State gear.",
+      "location": "Fir Tower, room 240",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": true,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-6835",
+      "email": "campusbookstore@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": true,
+      "tags": [
+        "textbooks",
+        "books",
+        "supplies"
+      ],
+      "url_path": "/services/campus-bookstore/"
+    },
+    {
+      "id": "multicultural-center",
+      "name": "Multicultural Center",
+      "category": "Support",
+      "description": "Community space, cultural programs, and student organizations.",
+      "location": "Fir Tower, room 376",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": true,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-9339",
+      "email": "multiculturalcenter@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": true,
+      "tags": [
+        "community",
+        "culture",
+        "events"
+      ],
+      "url_path": "/services/multicultural-center/"
+    },
+    {
+      "id": "student-legal-services",
+      "name": "Student Legal Services",
+      "category": "Support",
+      "description": "Free consultations on leases, contracts, and other legal questions.",
+      "location": "Rainier Student Center, room 359",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "12:00",
+          "18:00"
+        ],
+        "tue": [
+          "12:00",
+          "18:00"
+        ],
+        "wed": [
+          "12:00",
+          "18:00"
+        ],
+        "thu": [
+          "12:00",
+          "18:00"
+        ],
+        "fri": null,
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-5345",
+      "email": "studentlegal@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "legal",
+        "lease",
+        "landlord"
+      ],
+      "url_path": "/services/student-legal-services/"
+    },
+    {
+      "id": "ombuds-office",
+      "name": "Ombuds Office",
+      "category": "Support",
+      "description": "Confidential, neutral help resolving university-related concerns.",
+      "location": "Puget Library, room 195",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "08:00",
+          "17:00"
+        ],
+        "tue": [
+          "08:00",
+          "17:00"
+        ],
+        "wed": [
+          "08:00",
+          "17:00"
+        ],
+        "thu": [
+          "08:00",
+          "17:00"
+        ],
+        "fri": [
+          "08:00",
+          "17:00"
+        ],
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-8323",
+      "email": "ombudsoffice@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": true,
+      "tags": [
+        "conflict",
+        "concerns",
+        "complaints"
+      ],
+      "url_path": "/services/ombuds-office/"
+    },
+    {
+      "id": "student-government",
+      "name": "Student Government",
+      "category": "Campus life",
+      "description": "Student representation, funding for clubs, and campus initiatives.",
+      "location": "Fir Tower, room 280",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": false,
+      "hours": {
+        "mon": [
+          "12:00",
+          "18:00"
+        ],
+        "tue": [
+          "12:00",
+          "18:00"
+        ],
+        "wed": [
+          "12:00",
+          "18:00"
+        ],
+        "thu": [
+          "12:00",
+          "18:00"
+        ],
+        "fri": null,
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-1241",
+      "email": "studentgovernment@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "government",
+        "clubs",
+        "funding"
+      ],
+      "url_path": "/services/student-government/"
+    },
+    {
+      "id": "clubs-and-organizations",
+      "name": "Clubs & Organizations",
+      "category": "Campus life",
+      "description": "More than 200 student clubs, from rock climbing to robotics.",
+      "location": "Puget Library, room 391",
+      "campus": "Tacoma Bay campus",
+      "virtual_option": true,
+      "hours": {
+        "mon": [
+          "12:00",
+          "18:00"
+        ],
+        "tue": [
+          "12:00",
+          "18:00"
+        ],
+        "wed": [
+          "12:00",
+          "18:00"
+        ],
+        "thu": [
+          "12:00",
+          "18:00"
+        ],
+        "fri": null,
+        "sat": null,
+        "sun": null
+      },
+      "phone": "(253) 555-6617",
+      "email": "clubsand@cascadiastate.example",
+      "eligibility": "Currently enrolled students",
+      "appointment_required": false,
+      "tags": [
+        "clubs",
+        "organizations",
+        "involvement"
+      ],
+      "url_path": "/services/clubs-and-organizations/"
+    }
+  ]
+}
