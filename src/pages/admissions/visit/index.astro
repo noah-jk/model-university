@@ -1,6 +1,8 @@
 ---
+import siteConfig from "../../../../site.config.ts";
 import { getPage } from "../../../lib/pages.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../../components/AskAiMenu.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import EventList from "../../../components/EventList.astro";
 import { events, hasEnded } from "../../../lib/catalog.ts";
@@ -9,6 +11,7 @@ const page = await getPage("admissions/visit");
 const { Content } = page;
 const path = "/admissions/visit/";
 const visits = events.filter((e) => e.category === "Admissions" && !hasEnded(e));
+const prompt = `Read {origin}${path} and help me plan a visit to ${siteConfig.name}. Suggest upcoming tours or events that fit my schedule, with links.`;
 ---
 
 <BaseLayout title={page.title} description={page.description}>
@@ -17,6 +20,7 @@ const visits = events.filter((e) => e.category === "Admissions" && !hasEnded(e))
     <article>
       <h1>{page.title}</h1>
       <p class="lede">{page.description}</p>
+      <AskAiMenu prompt={prompt} label="Plan a visit with AI" />
       <Content />
     </article>
     <aside aria-labelledby="visits-title">

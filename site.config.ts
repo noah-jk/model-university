@@ -20,7 +20,7 @@ const siteConfig = {
     jsonFeeds: true,
     // Markdown copy of each detail page at …/index.md
     markdownPages: true,
-    // "Ask AI" menus on the home page and section overview pages
+    // "Ask AI" menus on the home page, section overviews, and admissions pages
     askAi: true,
   },
 } as const;
