@@ -1,0 +1,50 @@
+---
+import { getCollection } from "astro:content";
+import siteConfig from "../../../site.config.ts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../components/AskAiMenu.astro";
+import { pagePath } from "../../lib/urls.ts";
+import { SERVICE_CATEGORIES } from "../../lib/vocab.ts";
+
+const services = (await getCollection("services")).map((s) => s.data);
+const categories = [...SERVICE_CATEGORIES].sort().filter((cat) => services.some((s) => s.category === cat));
+const headingId = (cat: string) => `cat-${cat.toLowerCase().replace(/\W+/g, "-")}`;
+
+const prompt = `I'm a student at ${siteConfig.name}. Use {origin}/llms.txt to find the right office or service for me. If I haven't said what I need, ask me one short question. Once I've said, name the best match with its link and don't keep asking questions.`;
+---
+
+<BaseLayout title="Student services" description={`Student services and support offices at ${siteConfig.name}.`}>
+  <div class="page-intro">
+    <h1>Student services</h1>
+    <p>Support for every part of student life, from tutoring to tuition.</p>
+    <AskAiMenu prompt={prompt} label="Find a service with AI" />
+  </div>
+
+  <nav class="jump" aria-label="Service categories">
+    <ul>{categories.map((cat) => <li><a href={`#${headingId(cat)}`}>{cat}</a></li>)}</ul>
+  </nav>
+
+  {
+    categories.map((cat) => (
+      <section aria-labelledby={headingId(cat)}>
+        <h2 id={headingId(cat)}>{cat}</h2>
+        <ul class="entry-list">
+          {services
+            .filter((s) => s.category === cat)
+            .map((s) => (
+              <li>
+                <h3><a href={pagePath("services", s.id)}>{s.name}</a></h3>
+                <p>{s.description}</p>
+              </li>
+            ))}
+        </ul>
+      </section>
+    ))
+  }
+</BaseLayout>
+
+<style>
+  .jump ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; padding: 0; margin: 0 0 2.5rem; }
+  section { margin-bottom: 3rem; }
+  h2 { font-size: var(--step-2); padding-top: 1rem; border-top: 3px solid var(--fir); }
+</style>

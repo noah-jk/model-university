@@ -1,0 +1,47 @@
+---
+import siteConfig from "../../site.config.ts";
+
+const nav = [
+  { href: "/programs/", label: "Programs" },
+  { href: "/courses/", label: "Courses" },
+  { href: "/services/", label: "Student services" },
+  { href: "/connect/", label: "Connect your AI" },
+];
+const current = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 3 6 17h5l-6 9h22l-6-9h5z" /><path d="M14.5 26h3v3h-3z" /></svg>
+      <span>{siteConfig.name}</span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        {
+          nav.map(({ href, label }) => (
+            <li>
+              <a href={href} aria-current={current.startsWith(href) ? "page" : undefined}>{label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+  <div class="demo-note">
+    <div class="wrap"><p>Demo site with fictional data, built to test connecting a university website to AI assistants.</p></div>
+  </div>
+</header>
+
+<style>
+  .site-header { background: var(--fir-deep); color: var(--on-dark); }
+  .site-header > .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 2rem; padding-block: 1rem; }
+  .brand { color: inherit; text-decoration: none; font-family: var(--serif); font-size: var(--step-1); display: flex; align-items: center; gap: 0.6rem; }
+  .brand svg { width: 30px; height: 30px; flex: none; fill: #dce5c3; }
+  ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; margin: 0; padding: 0; }
+  nav a { color: var(--on-dark); text-decoration: none; padding-block: 0.4rem; border-bottom: 2px solid transparent; }
+  nav a:hover, nav a[aria-current="page"] { border-bottom-color: #dce5c3; }
+  a:focus-visible { outline-color: #dce5c3; }
+  .demo-note { background: var(--lichen); color: var(--basalt); font-size: var(--step--1); }
+  .demo-note p { margin-block: 0; padding-block: 0.45rem; max-width: none; }
+</style>

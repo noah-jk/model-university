@@ -1,0 +1,9 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    // Keep TypeScript to syntax Node can run directly (scripts/*.ts, tests).
+    "erasableSyntaxOnly": true
+  },
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "node_modules"]
+}

@@ -1,0 +1,40 @@
+---
+import siteConfig from "../../site.config.ts";
+import McpAddress from "./McpAddress.astro";
+
+const { features } = siteConfig;
+const links = [
+  ...(features.llmsTxt ? [{ href: "/llms.txt", label: "llms.txt" }] : []),
+  ...(features.jsonFeeds ? ["programs", "courses", "services"].map((f) => ({ href: `/data/${f}.json`, label: `${f}.json` })) : []),
+];
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>{siteConfig.name} is fictional. All programs, courses, and services are synthetic demo data.</p>
+    {
+      (links.length > 0 || features.mcp) && (
+        <p>
+          For AI tools:{" "}
+          {links.map(({ href, label }, i) => (
+            <>
+              {i > 0 && ", "}
+              <a href={href}>{label}</a>
+            </>
+          ))}
+          {features.mcp && (
+            <>
+              {links.length > 0 && ", and "}an MCP server at <McpAddress inline />
+            </>
+          )}
+          .
+        </p>
+      )
+    }
+  </div>
+</footer>
+
+<style>
+  .site-footer { border-top: 1px solid var(--line); padding-block: 2rem; font-size: var(--step--1); color: var(--muted); }
+  p { max-width: none; }
+</style>

@@ -1,0 +1,83 @@
+---
+// "Ask AI" menu: open a chat with a ready-made prompt, copy the
+// page as Markdown, or copy the MCP server address.
+// Without JavaScript the options show as a plain list of links.
+//
+// Write "{origin}" in the prompt wherever the site address belongs. It's
+// filled in with the production address now and the live one in the browser.
+import siteConfig from "../../site.config.ts";
+
+interface Props {
+  prompt: string;
+  // Path of the page's Markdown copy, when it has one
+  markdown?: string;
+  // Button text that says what the AI will help with, e.g. "Ask AI about this course"
+  label?: string;
+}
+
+const { prompt, markdown, label = "Use with your AI" } = Astro.props;
+const { features } = siteConfig;
+const site = Astro.site!.origin;
+
+const q = encodeURIComponent(prompt);
+const assistants = [
+  { name: "Ask Claude", href: `https://claude.ai/new?q=${q}` },
+  { name: "Ask ChatGPT", href: `https://chatgpt.com/?q=${q}` },
+  { name: "Ask Perplexity", href: `https://www.perplexity.ai/search?q=${q}` },
+];
+const withSite = (href: string) => href.replaceAll("%7Borigin%7D", encodeURIComponent(site));
+
+// A short stable id, so builds are reproducible
+const hash = [...prompt].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+const listId = `ai-menu-${hash.toString(36)}`;
+---
+
+{
+  features.askAi && (
+    <div class="ai-menu">
+      <button type="button" class="button ai-menu-toggle" aria-expanded="false" aria-controls={listId} hidden>
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0l1.8 5.2L15 7l-5.2 1.8L8 14l-1.8-5.2L1 7l5.2-1.8z" /></svg>
+        {label}
+      </button>
+      <ul class="ai-menu-list" id={listId}>
+        {assistants.map(({ name, href }) => (
+          <li class="assistant">
+            <a href={withSite(href)} data-href={href} target="_blank" rel="noopener">
+              {name}
+              <span class="visually-hidden"> (opens in a new tab)</span>
+            </a>
+          </li>
+        ))}
+        {features.markdownPages && markdown && (
+          <li>
+            <button type="button" data-copy-from={markdown} data-copied="Page copied as Markdown." hidden>
+              Copy page as Markdown<span class="hint">Paste into any AI chat</span>
+            </button>
+          </li>
+        )}
+        {features.mcp && (
+          <li>
+            <button type="button" data-copy="{origin}/mcp" data-copied="MCP server address copied." hidden>
+              Copy MCP server address<span class="hint">Connect the whole catalog to your AI</span>
+            </button>
+          </li>
+        )}
+        <li>
+          <a href="/connect/">More ways to connect</a>
+        </li>
+      </ul>
+    </div>
+  )
+}
+
+<style>
+  .ai-menu { position: relative; display: inline-block; }
+  .ai-menu-list { list-style: none; margin: 0.5rem 0 0; padding: 0.4rem; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 10px 30px rgb(20 43 38 / 0.18); min-width: 16rem; z-index: 5; }
+  :global(.js) .ai-menu-list { position: absolute; left: 0; }
+  li { max-width: none; }
+  a, button:not(.ai-menu-toggle) { display: block; width: 100%; text-align: left; padding: 0.65rem 0.8rem; border-radius: 6px; color: var(--basalt); text-decoration: none; background: none; border: 0; font: inherit; font-size: var(--step--1); cursor: pointer; min-height: 44px; }
+  a:hover, button:not(.ai-menu-toggle):hover { background: var(--lichen); }
+  /* A line between the assistants and the other options */
+  .assistant + li:not(.assistant) { border-top: 1px solid var(--line); margin-top: 0.3rem; padding-top: 0.3rem; }
+  .hint { display: block; color: var(--muted); font-size: 0.8rem; }
+</style>

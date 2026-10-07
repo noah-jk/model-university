@@ -1,6 +1,7 @@
 // Generates a synthetic course catalog for the fictional "Cascadia State University".
 // Deterministic: the same seed always produces the same data, so diffs stay clean.
-// Run with: npm run generate   (writes data/programs.json and data/services.json)
+// Run with: npm run generate   (writes JSON arrays to content/generated/)
+// The schemas in src/lib/schemas.ts validate everything written here.
 
 import { writeFileSync, mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -114,12 +115,12 @@ const descMiddles = [
   "Small cohorts mean close mentorship from faculty.",
 ];
 
-const programs = [];
-const departments = {};
+const collegeId = (name) => slug(name.replace(/^College of /, ""));
 
-for (const [college, fields] of Object.entries(colleges)) {
-  departments[college] = fields.map(([name]) => `Department of ${name}`);
-  for (const [field, cip, careers, keywords] of fields) {
+const programs = [];
+
+for (const fields of Object.values(colleges)) {
+  for (const [field, , careers, keywords] of fields) {
     for (const t of levelTemplates) {
       if (!chance(t.p)) continue;
       const credential = t.credential(field);
@@ -133,12 +134,9 @@ for (const [college, fields] of Object.entries(colleges)) {
       programs.push({
         id: slug(name),
         name,
-        field,
         level: t.level,
         credential,
-        college,
-        department: `Department of ${field}`,
-        cip,
+        department: slug(field),
         modality,
         campus: modality === "Online" ? "Online" : pick(campuses.slice(0, 2)),
         start_terms: terms.filter((x) => startTerms.includes(x)),
@@ -161,7 +159,6 @@ for (const [college, fields] of Object.entries(colleges)) {
           ? ["Declared bachelor's major at Cascadia State", "Completion of introductory course with C or better"]
           : ["High school diploma or equivalent, or transfer credits", "Completed first-year application"],
         accepts_transfer_credit: !isGrad || chance(0.4),
-        url_path: `/programs/${slug(name)}/`,
       });
     }
   }
@@ -201,7 +198,12 @@ const courseTemplates = [
 const instructorsFirst = ["Ana", "Ben", "Chen", "Dana", "Eli", "Farah", "Grace", "Hiro", "Imani", "Jonah", "Kai", "Leila", "Marcus", "Nia", "Omar", "Priya", "Quinn", "Rosa", "Sam", "Tomas", "Uma", "Victor", "Wren", "Yusuf"];
 const instructorsLast = ["Alvarez", "Bergstrom", "Cho", "Delgado", "Eriksen", "Fong", "Garcia", "Haugen", "Iyer", "Johansen", "Kealoha", "Larsen", "Morales", "Nakamura", "Okafor", "Patel", "Quintero", "Reyes", "Sato", "Thompson", "Vu", "Whitehorse", "Yamamoto", "Zhou"];
 
-for (const [college, fields] of Object.entries(colleges)) {
+// Every course runs at least once a year. The fallback doesn't draw from the
+// PRNG, so fixing an empty list leaves the rest of the data unchanged.
+// Terms are listed in academic-year order.
+const offeredTerms = (list, num) => (list.length ? list : [terms[num % 3]]).sort((a, b) => terms.indexOf(a) - terms.indexOf(b));
+
+for (const fields of Object.values(colleges)) {
   for (const [field, , , keywords] of fields) {
     const prefix = prefixFor(field);
     const used = new Set();
@@ -214,17 +216,16 @@ for (const [college, fields] of Object.entries(colleges)) {
         used.add(num);
         const code = `${prefix} ${num}`;
         const prereq = base >= 300 && courses.length && chance(0.7)
-          ? courses.filter((c) => c.code.startsWith(prefix + " ") && Number(c.code.split(" ")[1]) < base).slice(-2).map((c) => c.code)
+          ? courses.filter((c) => c.code.startsWith(prefix + " ") && Number(c.code.split(" ")[1]) < base).slice(-2).map((c) => c.id)
           : [];
         courses.push({
           id: slug(code),
           code,
           title: make(field, k ?? field),
-          field,
-          college,
+          department: slug(field),
           level: base >= 500 ? "Graduate" : base >= 300 ? "Upper division" : "Lower division",
           credits: base >= 500 ? 3 : pick([3, 4, 5, 5]),
-          terms_offered: terms.filter(() => chance(0.5)).concat(base < 300 ? ["Fall"] : []).filter((v, i, a) => a.indexOf(v) === i),
+          terms_offered: offeredTerms(terms.filter(() => chance(0.5)).concat(base < 300 ? ["Fall"] : []).filter((v, i, a) => a.indexOf(v) === i), num),
           modality: pick(["In person", "In person", "Online", "Hybrid"]),
           instructor: `${pick(instructorsFirst)} ${pick(instructorsLast)}`,
           prerequisites: prereq,
@@ -304,12 +305,40 @@ const services = serviceDefs.map(([name, category, description, hoursKey, tags])
     eligibility: category === "Enrollment" && name === "Admissions" ? "Prospective and admitted students" : "Currently enrolled students",
     appointment_required: hoursKey === "business" && chance(0.4),
     tags,
-    url_path: `/services/${id}/`,
   };
 });
 
-mkdirSync(join(root, "data"), { recursive: true });
-writeFileSync(join(root, "data/programs.json"), JSON.stringify({ university: "Cascadia State University", generated: "synthetic demo data", count: programs.length, departments, programs }, null, 2));
-writeFileSync(join(root, "data/courses.json"), JSON.stringify({ university: "Cascadia State University", count: courses.length, courses }, null, 2));
-writeFileSync(join(root, "data/services.json"), JSON.stringify({ university: "Cascadia State University", timezone: "America/Los_Angeles", count: services.length, services }, null, 2));
-console.log(`Wrote ${programs.length} programs, ${courses.length} courses, and ${services.length} services.`);
+// ---------------------------------------------------------------------------
+// Colleges and departments
+// ---------------------------------------------------------------------------
+const collegeDescriptions = {
+  "College of Engineering & Computing": "Engineering, computing, and security programs built around regional industry partners.",
+  "College of Health & Human Services": "Clinical, community, and health programs that prepare students to care for people across the Northwest.",
+  "Carver College of Business": "Business programs with small cohorts, applied projects, and close ties to Puget Sound employers.",
+  "College of Arts & Letters": "Writing, design, languages, music, and the arts, taught by working scholars and artists.",
+  "College of Science": "Life, physical, and earth sciences, with field research from the Salish Sea to the Cascades.",
+  "College of Social & Behavioral Sciences": "The study of people, societies, and institutions, with strong research and policy training.",
+  "College of Education": "Teacher preparation and education leadership for schools and colleges.",
+};
+
+const collegeList = Object.keys(colleges).map((name) => ({ id: collegeId(name), name, description: collegeDescriptions[name] }));
+const departments = Object.entries(colleges).flatMap(([college, fields]) =>
+  fields.map(([field, cip]) => ({
+    id: slug(field),
+    name: `Department of ${field}`,
+    field,
+    college: collegeId(college),
+    cip,
+    course_prefix: prefixFor(field),
+  }))
+);
+
+const outDir = join(root, "content/generated");
+mkdirSync(outDir, { recursive: true });
+const save = (name, rows) => writeFileSync(join(outDir, `${name}.json`), JSON.stringify(rows, null, 2) + "\n");
+save("colleges", collegeList);
+save("departments", departments);
+save("programs", programs);
+save("courses", courses);
+save("services", services);
+console.log(`Wrote ${collegeList.length} colleges, ${departments.length} departments, ${programs.length} programs, ${courses.length} courses, and ${services.length} services.`);

@@ -1,0 +1,33 @@
+---
+// Sidebar summary for detail pages. Pass label/value pairs; values may be
+// strings or { text, href } links.
+interface Props {
+  heading: string;
+  facts: [label: string, value: string | { text: string; href: string }][];
+}
+const { heading, facts } = Astro.props;
+const headingId = `glance-${heading.toLowerCase().replace(/\W+/g, "-")}`;
+---
+
+<aside class="at-a-glance" aria-labelledby={headingId}>
+  <h2 id={headingId}>{heading}</h2>
+  <dl>
+    {
+      facts.map(([label, value]) => (
+        <>
+          <dt>{label}</dt>
+          <dd>{typeof value === "string" ? value : <a href={value.href}>{value.text}</a>}</dd>
+        </>
+      ))
+    }
+  </dl>
+  <slot />
+</aside>
+
+<style>
+  .at-a-glance { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-s); padding: 1.25rem; align-self: start; }
+  h2 { font-size: var(--step-1); margin-top: 0; }
+  dl { display: grid; grid-template-columns: auto 1fr; gap: 0.5rem 1rem; margin: 0; font-size: var(--step--1); }
+  dt { font-weight: 600; }
+  dd { margin: 0; overflow-wrap: anywhere; }
+</style>
