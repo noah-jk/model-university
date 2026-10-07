@@ -44,14 +44,13 @@ document.querySelectorAll<HTMLElement>(".ai-menu").forEach((menu) => {
   });
 });
 
-// Copy buttons: data-copy="literal text" or data-copy-from="/path/to/file.md"
-document.querySelectorAll<HTMLButtonElement>("[data-copy], [data-copy-from]").forEach((button) => {
+// Copy buttons: data-copy="text to copy"
+document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((button) => {
   button.hidden = false;
   button.addEventListener("click", async () => {
     try {
-      const { copy, copyFrom, copied } = button.dataset;
-      const text = copy ? fill(copy) : await (await fetch(copyFrom!)).text();
-      await navigator.clipboard.writeText(text);
+      const { copy, copied } = button.dataset;
+      await navigator.clipboard.writeText(fill(copy!));
       announce(copied || "Copied to clipboard.");
     } catch {
       announce("Copy didn't work in this browser. Select the text and copy it manually.");

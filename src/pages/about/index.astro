@@ -1,14 +1,11 @@
 ---
-import siteConfig from "../../../site.config.ts";
 import { getPage } from "../../lib/pages.ts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import AskAiMenu from "../../components/AskAiMenu.astro";
 import AtAGlance from "../../components/AtAGlance.astro";
 import { colleges, courses, departments, faculty, programs, services } from "../../lib/catalog.ts";
 
 const page = await getPage("about");
 const { Content } = page;
-const prompt = `Tell me about ${siteConfig.name} using {origin}/about/ and {origin}/llms.txt: what it's like, what it's known for, and whether it might be a good fit for me. Include links.`;
 ---
 
 <BaseLayout title={page.title} description={page.description}>
@@ -16,7 +13,6 @@ const prompt = `Tell me about ${siteConfig.name} using {origin}/about/ and {orig
     <article>
       <h1>{page.title}</h1>
       <p class="lede">{page.description}</p>
-      <AskAiMenu prompt={prompt} label="Ask your AI about Cascadia State" />
       <Content />
 
       <h2>Colleges</h2>

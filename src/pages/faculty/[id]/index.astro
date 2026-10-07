@@ -3,7 +3,6 @@ import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
 import siteConfig from "../../../../site.config.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import AskAiMenu from "../../../components/AskAiMenu.astro";
 import AtAGlance from "../../../components/AtAGlance.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import EventList from "../../../components/EventList.astro";
@@ -30,10 +29,6 @@ const upcoming = eventsAbout("faculty", f.id).filter((e) => !hasEnded(e));
     <article>
       <h1>{f.name}</h1>
       <p class="lede">{f.title} of {department.field}{f.role && `, ${f.role.toLowerCase()}`}</p>
-      <AskAiMenu
-        prompt={`Read {origin}${path} and tell me about ${f.name}'s work and teaching at ${siteConfig.name}. Include the page link.`}
-        label="Ask AI about this faculty member"
-      />
 
       <h2>About</h2>
       <p>{f.bio}</p>

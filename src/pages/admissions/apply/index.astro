@@ -1,14 +1,11 @@
 ---
-import siteConfig from "../../../../site.config.ts";
 import { getPage } from "../../../lib/pages.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import AskAiMenu from "../../../components/AskAiMenu.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 
 const page = await getPage("admissions/apply");
 const { Content } = page;
 const path = "/admissions/apply/";
-const prompt = `Read {origin}${path} and help me apply to ${siteConfig.name}. If I haven't said whether I'm a first-year, transfer, or graduate applicant, ask me, then give me my steps and deadlines with links.`;
 ---
 
 <BaseLayout title={page.title} description={page.description}>
@@ -16,7 +13,6 @@ const prompt = `Read {origin}${path} and help me apply to ${siteConfig.name}. If
   <article class="prose">
     <h1>{page.title}</h1>
     <p class="lede">{page.description}</p>
-    <AskAiMenu prompt={prompt} label="Ask AI about applying" />
     <Content />
   </article>
 </BaseLayout>

@@ -1,15 +1,13 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
-import siteConfig from "../../../../site.config.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import AskAiMenu from "../../../components/AskAiMenu.astro";
 import AtAGlance from "../../../components/AtAGlance.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import EventList from "../../../components/EventList.astro";
 import { collegeOf, departmentOf, eventsForProgram, hasEnded, relatedCourses, relatedPrograms } from "../../../lib/catalog.ts";
 import { listText, usd } from "../../../lib/format.ts";
-import { markdownPath, pagePath, subjectPath } from "../../../lib/urls.ts";
+import { pagePath, subjectPath } from "../../../lib/urls.ts";
 
 export const getStaticPaths = (async () => {
   const programs = await getCollection("programs");
@@ -32,11 +30,6 @@ const upcoming = eventsForProgram(p).filter((e) => !hasEnded(e));
     <article>
       <h1>{p.name}</h1>
       <p class="lede">{p.description}</p>
-      <AskAiMenu
-        prompt={`Read {origin}${path} and tell me about the ${p.name} program at ${siteConfig.name}. Include the page link.`}
-        markdown={markdownPath("programs", p.id)}
-        label="Ask AI about this program"
-      />
 
       <h2>What you'll learn</h2>
       <ul>{p.outcomes.map((o) => <li>{o}</li>)}</ul>
