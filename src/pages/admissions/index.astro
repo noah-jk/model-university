@@ -1,0 +1,80 @@
+---
+import siteConfig from "../../../site.config.ts";
+import { getPage } from "../../lib/pages.ts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../components/AskAiMenu.astro";
+import EventList from "../../components/EventList.astro";
+import { events, hasEnded } from "../../lib/catalog.ts";
+
+const page = await getPage("admissions");
+const { Content } = page;
+const upcoming = events.filter((e) => e.category === "Admissions" && !hasEnded(e));
+
+const paths = [
+  { href: "/admissions/apply/", title: "How to apply", text: "Steps and deadlines for first-year, transfer, and graduate students." },
+  { href: "/admissions/tuition-and-aid/", title: "Tuition and aid", text: "What it costs, and the grants, scholarships, and work-study that help." },
+  { href: "/admissions/visit/", title: "Visit campus", text: "Tours, open houses, and online information sessions." },
+  { href: "/programs/", title: "Find a program", text: "Search every degree, minor, and certificate." },
+];
+const deadlines = [
+  ["Fall", "March 1"],
+  ["Winter", "October 15"],
+  ["Spring", "January 15"],
+];
+
+const prompt = `I'm thinking about applying to ${siteConfig.name}. Use {origin}/admissions/ and {origin}/llms.txt to help me. If I haven't said what I want to study, ask me one short question, then tell me how to apply, what it will cost, and the deadlines that matter for me, with links.`;
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <div class="page-intro">
+    <h1>{page.title}</h1>
+    <AskAiMenu prompt={prompt} label="Ask AI about applying" />
+  </div>
+
+  <div class="detail">
+    <article>
+      <Content />
+
+      <ul class="paths">
+        {
+          paths.map((p) => (
+            <li>
+              <h2><a href={p.href}>{p.title}</a></h2>
+              <p>{p.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+
+      <section aria-labelledby="events-title">
+        <h2 id="events-title">Upcoming admissions events</h2>
+        <EventList events={upcoming} upcomingOnly limit={4} />
+        <p><a href="/events/">All events</a></p>
+      </section>
+    </article>
+
+    <aside class="panel deadlines" aria-labelledby="deadlines-title">
+      <h2 id="deadlines-title">First-year deadlines</h2>
+      <table>
+        <caption class="visually-hidden">Application deadlines by start term</caption>
+        <thead><tr><th scope="col">Start term</th><th scope="col">Apply by</th></tr></thead>
+        <tbody>{deadlines.map(([term, date]) => <tr><th scope="row">{term}</th><td>{date}</td></tr>)}</tbody>
+      </table>
+      <p>Graduate deadlines vary by program. Check the program page.</p>
+    </aside>
+  </div>
+</BaseLayout>
+
+<script>
+  import "../../scripts/past-events.ts";
+</script>
+
+<style>
+  .paths { list-style: none; padding: 0; margin: 2rem 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+  .paths li { border-top: 3px solid var(--fir); padding-top: 0.75rem; }
+  .detail article .paths h2 { font-size: var(--step-1); margin: 0 0 0.25rem; }
+  .paths p { margin: 0; color: var(--muted); }
+  .deadlines { align-self: start; }
+  .deadlines h2 { font-size: var(--step-1); }
+  .deadlines p { font-size: var(--step--1); color: var(--muted); margin: 1rem 0 0; }
+</style>

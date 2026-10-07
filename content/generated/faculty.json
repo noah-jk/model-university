@@ -1,0 +1,4275 @@
+[
+  {
+    "id": "ingrid-duarte",
+    "name": "Ingrid Duarte",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "computer-science",
+    "email": "ingrid.duarte@cascadiastate.example",
+    "office": "Alder Hall, room 174",
+    "research_interests": [
+      "programming",
+      "algorithms",
+      "software"
+    ],
+    "bio": "Ingrid Duarte joined Cascadia State in 2008 after a decade in public service. Ingrid's work in computer science focuses on programming, algorithms, and software. Ingrid teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "jonah-gunnarsson",
+    "name": "Jonah Gunnarsson",
+    "title": "Assistant Professor",
+    "department": "computer-science",
+    "email": "jonah.gunnarsson@cascadiastate.example",
+    "office": "Alder Hall, room 213",
+    "research_interests": [
+      "programming",
+      "algorithms",
+      "ai"
+    ],
+    "bio": "Jonah Gunnarsson joined Cascadia State in 2005 after doctoral work in Oregon. Jonah's work in computer science focuses on programming, algorithms, and ai. Jonah is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "elena-whitehorse",
+    "name": "Elena Whitehorse",
+    "title": "Associate Professor",
+    "department": "computer-science",
+    "email": "elena.whitehorse@cascadiastate.example",
+    "office": "Alder Hall, room 101",
+    "research_interests": [
+      "programming",
+      "algorithms",
+      "software",
+      "ai"
+    ],
+    "bio": "Elena Whitehorse joined Cascadia State in 2013 after a postdoctoral fellowship in Vancouver, British Columbia. Elena's work in computer science focuses on programming, algorithms, software, and ai. Elena advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "selam-mendoza",
+    "name": "Selam Mendoza",
+    "title": "Assistant Professor",
+    "department": "computer-science",
+    "email": "selam.mendoza@cascadiastate.example",
+    "office": "Fir Tower, room 396",
+    "research_interests": [
+      "algorithms",
+      "software",
+      "ai"
+    ],
+    "bio": "Selam Mendoza joined Cascadia State in 2011 after a postdoctoral fellowship in Vancouver, British Columbia. Selam's work in computer science focuses on algorithms, software, and ai. Selam is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "noor-reyes",
+    "name": "Noor Reyes",
+    "title": "Professor",
+    "department": "computer-science",
+    "email": "noor.reyes@cascadiastate.example",
+    "office": "Alder Hall, room 201",
+    "research_interests": [
+      "programming",
+      "algorithms"
+    ],
+    "bio": "Noor Reyes joined Cascadia State in 2024 after doctoral work in Oregon. Noor's work in computer science focuses on programming and algorithms. Noor brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "camila-cho",
+    "name": "Camila Cho",
+    "title": "Assistant Professor",
+    "department": "computer-science",
+    "email": "camila.cho@cascadiastate.example",
+    "office": "Madrona Hall, room 301",
+    "research_interests": [
+      "programming",
+      "algorithms",
+      "software",
+      "ai"
+    ],
+    "bio": "Camila Cho joined Cascadia State in 2008 after teaching at a community college in Eastern Washington. Camila's work in computer science focuses on programming, algorithms, software, and ai. Camila teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "luis-zhou",
+    "name": "Luis Zhou",
+    "title": "Assistant Professor",
+    "department": "computer-science",
+    "email": "luis.zhou@cascadiastate.example",
+    "office": "Cedar Commons, room 338",
+    "research_interests": [
+      "algorithms",
+      "ai"
+    ],
+    "bio": "Luis Zhou joined Cascadia State in 2012 after a research post at a federal laboratory. Luis's work in computer science focuses on algorithms and ai. Luis leads the department's community-engaged learning program."
+  },
+  {
+    "id": "vikram-hassan",
+    "name": "Vikram Hassan",
+    "title": "Associate Professor",
+    "department": "computer-science",
+    "email": "vikram.hassan@cascadiastate.example",
+    "office": "Salish Hall, room 247",
+    "research_interests": [
+      "programming",
+      "algorithms",
+      "ai"
+    ],
+    "bio": "Vikram Hassan joined Cascadia State in 1999 after a visiting appointment in Japan. Vikram's work in computer science focuses on programming, algorithms, and ai. Vikram brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "hana-duarte",
+    "name": "Hana Duarte",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "data-science",
+    "email": "hana.duarte@cascadiastate.example",
+    "office": "Cedar Commons, room 359",
+    "research_interests": [
+      "analytics"
+    ],
+    "bio": "Hana Duarte joined Cascadia State in 2002 after eight years in industry. Hana's work in data science focuses on analytics. Hana teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "ana-quintero",
+    "name": "Ana Quintero",
+    "title": "Associate Professor",
+    "department": "data-science",
+    "email": "ana.quintero@cascadiastate.example",
+    "office": "Fir Tower, room 436",
+    "research_interests": [
+      "statistics",
+      "machine learning",
+      "analytics"
+    ],
+    "bio": "Ana Quintero joined Cascadia State in 2023 after doctoral work in Oregon. Ana's work in data science focuses on statistics, machine learning, and analytics. Ana is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "yusuf-haugen",
+    "name": "Yusuf Haugen",
+    "title": "Assistant Professor",
+    "department": "data-science",
+    "email": "yusuf.haugen@cascadiastate.example",
+    "office": "Fir Tower, room 274",
+    "research_interests": [
+      "statistics",
+      "analytics"
+    ],
+    "bio": "Yusuf Haugen joined Cascadia State in 2018 after a postdoctoral fellowship in Vancouver, British Columbia. Yusuf's work in data science focuses on statistics and analytics. Yusuf teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "farah-mendoza",
+    "name": "Farah Mendoza",
+    "title": "Associate Professor",
+    "department": "data-science",
+    "email": "farah.mendoza@cascadiastate.example",
+    "office": "Fir Tower, room 324",
+    "research_interests": [
+      "machine learning"
+    ],
+    "bio": "Farah Mendoza joined Cascadia State in 2019 after a postdoctoral fellowship in Vancouver, British Columbia. Farah's work in data science focuses on machine learning. Farah is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "lena-kim",
+    "name": "Lena Kim",
+    "title": "Assistant Professor",
+    "department": "data-science",
+    "email": "lena.kim@cascadiastate.example",
+    "office": "Alder Hall, room 226",
+    "research_interests": [
+      "machine learning"
+    ],
+    "bio": "Lena Kim joined Cascadia State in 2003 after a research post at a federal laboratory. Lena's work in data science focuses on machine learning. Lena is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "victor-reyes",
+    "name": "Victor Reyes",
+    "title": "Professor",
+    "department": "data-science",
+    "email": "victor.reyes@cascadiastate.example",
+    "office": "Madrona Hall, room 116",
+    "research_interests": [
+      "statistics",
+      "analytics"
+    ],
+    "bio": "Victor Reyes joined Cascadia State in 2001 after eight years in industry. Victor's work in data science focuses on statistics and analytics. Victor leads the department's community-engaged learning program."
+  },
+  {
+    "id": "quinn-ibarra",
+    "name": "Quinn Ibarra",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "cybersecurity",
+    "email": "quinn.ibarra@cascadiastate.example",
+    "office": "Salish Hall, room 469",
+    "research_interests": [
+      "security",
+      "networks",
+      "privacy",
+      "risk"
+    ],
+    "bio": "Quinn Ibarra joined Cascadia State in 2016 after eight years in industry. Quinn's work in cybersecurity focuses on security, networks, privacy, and risk. Quinn brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "nikhil-kowalski",
+    "name": "Nikhil Kowalski",
+    "title": "Associate Professor",
+    "department": "cybersecurity",
+    "email": "nikhil.kowalski@cascadiastate.example",
+    "office": "Fir Tower, room 474",
+    "research_interests": [
+      "security",
+      "privacy"
+    ],
+    "bio": "Nikhil Kowalski joined Cascadia State in 2004 after teaching at a community college in Eastern Washington. Nikhil's work in cybersecurity focuses on security and privacy. Nikhil is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "tuan-zhou",
+    "name": "Tuan Zhou",
+    "title": "Associate Professor",
+    "department": "cybersecurity",
+    "email": "tuan.zhou@cascadiastate.example",
+    "office": "Salish Hall, room 358",
+    "research_interests": [
+      "networks",
+      "risk"
+    ],
+    "bio": "Tuan Zhou joined Cascadia State in 2007 after a decade in public service. Tuan's work in cybersecurity focuses on networks and risk. Tuan is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "ana-nguyen",
+    "name": "Ana Nguyen",
+    "title": "Associate Professor",
+    "department": "cybersecurity",
+    "email": "ana.nguyen@cascadiastate.example",
+    "office": "Cedar Commons, room 448",
+    "research_interests": [
+      "security"
+    ],
+    "bio": "Ana Nguyen joined Cascadia State in 2013 after leading a nonprofit in the South Sound. Ana's work in cybersecurity focuses on security. Ana advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "keiko-okafor",
+    "name": "Keiko Okafor",
+    "title": "Associate Professor",
+    "department": "cybersecurity",
+    "email": "keiko.okafor@cascadiastate.example",
+    "office": "Salish Hall, room 300",
+    "research_interests": [
+      "security",
+      "networks",
+      "privacy",
+      "risk"
+    ],
+    "bio": "Keiko Okafor joined Cascadia State in 2011 after leading a nonprofit in the South Sound. Keiko's work in cybersecurity focuses on security, networks, privacy, and risk. Keiko leads the department's community-engaged learning program."
+  },
+  {
+    "id": "victor-garcia",
+    "name": "Victor Garcia",
+    "title": "Professor",
+    "department": "cybersecurity",
+    "email": "victor.garcia@cascadiastate.example",
+    "office": "Salish Hall, room 258",
+    "research_interests": [
+      "networks",
+      "risk"
+    ],
+    "bio": "Victor Garcia joined Cascadia State in 2011 after a visiting appointment in Japan. Victor's work in cybersecurity focuses on networks and risk. Victor is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "yusuf-olsen",
+    "name": "Yusuf Olsen",
+    "title": "Assistant Professor",
+    "department": "cybersecurity",
+    "email": "yusuf.olsen@cascadiastate.example",
+    "office": "Fir Tower, room 372",
+    "research_interests": [
+      "security"
+    ],
+    "bio": "Yusuf Olsen joined Cascadia State in 2005 after a visiting appointment in Japan. Yusuf's work in cybersecurity focuses on security. Yusuf teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "ingrid-brennan",
+    "name": "Ingrid Brennan",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "mechanical-engineering",
+    "email": "ingrid.brennan@cascadiastate.example",
+    "office": "Madrona Hall, room 198",
+    "research_interests": [
+      "design",
+      "thermodynamics",
+      "robotics",
+      "manufacturing"
+    ],
+    "bio": "Ingrid Brennan joined Cascadia State in 2014 after a decade in public service. Ingrid's work in mechanical engineering focuses on design, thermodynamics, robotics, and manufacturing. Ingrid teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "priya-ibarra",
+    "name": "Priya Ibarra",
+    "title": "Senior Lecturer",
+    "department": "mechanical-engineering",
+    "email": "priya.ibarra@cascadiastate.example",
+    "office": "Madrona Hall, room 194",
+    "research_interests": [
+      "robotics",
+      "manufacturing"
+    ],
+    "bio": "Priya Ibarra joined Cascadia State in 2005 after leading a nonprofit in the South Sound. Priya's work in mechanical engineering focuses on robotics and manufacturing. Priya brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "noor-garcia",
+    "name": "Noor Garcia",
+    "title": "Professor",
+    "department": "mechanical-engineering",
+    "email": "noor.garcia@cascadiastate.example",
+    "office": "Salish Hall, room 346",
+    "research_interests": [
+      "thermodynamics",
+      "manufacturing"
+    ],
+    "bio": "Noor Garcia joined Cascadia State in 1998 after leading a nonprofit in the South Sound. Noor's work in mechanical engineering focuses on thermodynamics and manufacturing. Noor brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "ines-silva",
+    "name": "Ines Silva",
+    "title": "Senior Lecturer",
+    "department": "mechanical-engineering",
+    "email": "ines.silva@cascadiastate.example",
+    "office": "Fir Tower, room 231",
+    "research_interests": [
+      "thermodynamics",
+      "manufacturing"
+    ],
+    "bio": "Ines Silva joined Cascadia State in 1999 after a visiting appointment in Japan. Ines's work in mechanical engineering focuses on thermodynamics and manufacturing. Ines teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "victor-moreau",
+    "name": "Victor Moreau",
+    "title": "Associate Professor",
+    "department": "mechanical-engineering",
+    "email": "victor.moreau@cascadiastate.example",
+    "office": "Alder Hall, room 121",
+    "research_interests": [
+      "thermodynamics",
+      "robotics"
+    ],
+    "bio": "Victor Moreau joined Cascadia State in 2018 after teaching at a community college in Eastern Washington. Victor's work in mechanical engineering focuses on thermodynamics and robotics. Victor advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "rosa-castillo",
+    "name": "Rosa Castillo",
+    "title": "Associate Professor",
+    "department": "mechanical-engineering",
+    "email": "rosa.castillo@cascadiastate.example",
+    "office": "Alder Hall, room 473",
+    "research_interests": [
+      "design",
+      "thermodynamics",
+      "robotics",
+      "manufacturing"
+    ],
+    "bio": "Rosa Castillo joined Cascadia State in 2015 after a decade in public service. Rosa's work in mechanical engineering focuses on design, thermodynamics, robotics, and manufacturing. Rosa teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "tuan-banerjee",
+    "name": "Tuan Banerjee",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "civil-engineering",
+    "email": "tuan.banerjee@cascadiastate.example",
+    "office": "Fir Tower, room 402",
+    "research_interests": [
+      "infrastructure",
+      "structures"
+    ],
+    "bio": "Tuan Banerjee joined Cascadia State in 2021 after leading a nonprofit in the South Sound. Tuan's work in civil engineering focuses on infrastructure and structures. Tuan teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "sam-brennan",
+    "name": "Sam Brennan",
+    "title": "Associate Professor",
+    "department": "civil-engineering",
+    "email": "sam.brennan@cascadiastate.example",
+    "office": "Madrona Hall, room 362",
+    "research_interests": [
+      "infrastructure",
+      "structures",
+      "water"
+    ],
+    "bio": "Sam Brennan joined Cascadia State in 2014 after eight years in industry. Sam's work in civil engineering focuses on infrastructure, structures, and water. Sam teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "ines-lindqvist",
+    "name": "Ines Lindqvist",
+    "title": "Associate Professor",
+    "department": "civil-engineering",
+    "email": "ines.lindqvist@cascadiastate.example",
+    "office": "Salish Hall, room 291",
+    "research_interests": [
+      "infrastructure",
+      "structures",
+      "transportation",
+      "water"
+    ],
+    "bio": "Ines Lindqvist joined Cascadia State in 2023 after a decade in public service. Ines's work in civil engineering focuses on infrastructure, structures, transportation, and water. Ines leads the department's community-engaged learning program."
+  },
+  {
+    "id": "ingrid-olsen",
+    "name": "Ingrid Olsen",
+    "title": "Professor",
+    "department": "civil-engineering",
+    "email": "ingrid.olsen@cascadiastate.example",
+    "office": "Cedar Commons, room 251",
+    "research_interests": [
+      "structures",
+      "water"
+    ],
+    "bio": "Ingrid Olsen joined Cascadia State in 2019 after a visiting appointment in Japan. Ingrid's work in civil engineering focuses on structures and water. Ingrid leads the department's community-engaged learning program."
+  },
+  {
+    "id": "ingrid-kealoha",
+    "name": "Ingrid Kealoha",
+    "title": "Associate Professor",
+    "department": "civil-engineering",
+    "email": "ingrid.kealoha@cascadiastate.example",
+    "office": "Madrona Hall, room 272",
+    "research_interests": [
+      "infrastructure",
+      "transportation",
+      "water"
+    ],
+    "bio": "Ingrid Kealoha joined Cascadia State in 2014 after teaching at a community college in Eastern Washington. Ingrid's work in civil engineering focuses on infrastructure, transportation, and water. Ingrid teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "imani-gunnarsson",
+    "name": "Imani Gunnarsson",
+    "title": "Professor",
+    "department": "civil-engineering",
+    "email": "imani.gunnarsson@cascadiastate.example",
+    "office": "Madrona Hall, room 170",
+    "research_interests": [
+      "infrastructure",
+      "water"
+    ],
+    "bio": "Imani Gunnarsson joined Cascadia State in 2001 after a research post at a federal laboratory. Imani's work in civil engineering focuses on infrastructure and water. Imani advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "ben-reyes",
+    "name": "Ben Reyes",
+    "title": "Senior Lecturer",
+    "department": "civil-engineering",
+    "email": "ben.reyes@cascadiastate.example",
+    "office": "Salish Hall, room 376",
+    "research_interests": [
+      "structures"
+    ],
+    "bio": "Ben Reyes joined Cascadia State in 2024 after a decade in public service. Ben's work in civil engineering focuses on structures. Ben advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "grace-eriksen",
+    "name": "Grace Eriksen",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "electrical-engineering",
+    "email": "grace.eriksen@cascadiastate.example",
+    "office": "Salish Hall, room 143",
+    "research_interests": [
+      "circuits",
+      "power"
+    ],
+    "bio": "Grace Eriksen joined Cascadia State in 2012 after a decade in public service. Grace's work in electrical engineering focuses on circuits and power. Grace leads the department's community-engaged learning program."
+  },
+  {
+    "id": "chen-delgado",
+    "name": "Chen Delgado",
+    "title": "Associate Professor",
+    "department": "electrical-engineering",
+    "email": "chen.delgado@cascadiastate.example",
+    "office": "Fir Tower, room 365",
+    "research_interests": [
+      "circuits",
+      "power",
+      "signals",
+      "embedded systems"
+    ],
+    "bio": "Chen Delgado joined Cascadia State in 1999 after doctoral work in Oregon. Chen's work in electrical engineering focuses on circuits, power, signals, and embedded systems. Chen brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "sina-nguyen",
+    "name": "Sina Nguyen",
+    "title": "Associate Professor",
+    "department": "electrical-engineering",
+    "email": "sina.nguyen@cascadiastate.example",
+    "office": "Fir Tower, room 113",
+    "research_interests": [
+      "circuits",
+      "power",
+      "signals",
+      "embedded systems"
+    ],
+    "bio": "Sina Nguyen joined Cascadia State in 2021 after a visiting appointment in Japan. Sina's work in electrical engineering focuses on circuits, power, signals, and embedded systems. Sina teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "adebayo-sato",
+    "name": "Adebayo Sato",
+    "title": "Assistant Professor",
+    "department": "electrical-engineering",
+    "email": "adebayo.sato@cascadiastate.example",
+    "office": "Madrona Hall, room 208",
+    "research_interests": [
+      "circuits",
+      "power"
+    ],
+    "bio": "Adebayo Sato joined Cascadia State in 2010 after a postdoctoral fellowship in Vancouver, British Columbia. Adebayo's work in electrical engineering focuses on circuits and power. Adebayo teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "imani-yazzie",
+    "name": "Imani Yazzie",
+    "title": "Associate Professor",
+    "department": "electrical-engineering",
+    "email": "imani.yazzie@cascadiastate.example",
+    "office": "Madrona Hall, room 466",
+    "research_interests": [
+      "circuits",
+      "power",
+      "embedded systems"
+    ],
+    "bio": "Imani Yazzie joined Cascadia State in 2004 after a decade in public service. Imani's work in electrical engineering focuses on circuits, power, and embedded systems. Imani leads the department's community-engaged learning program."
+  },
+  {
+    "id": "amara-iyer",
+    "name": "Amara Iyer",
+    "title": "Associate Professor",
+    "department": "electrical-engineering",
+    "email": "amara.iyer@cascadiastate.example",
+    "office": "Alder Hall, room 131",
+    "research_interests": [
+      "circuits"
+    ],
+    "bio": "Amara Iyer joined Cascadia State in 2012 after a research post at a federal laboratory. Amara's work in electrical engineering focuses on circuits. Amara brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "farah-hassan",
+    "name": "Farah Hassan",
+    "title": "Associate Professor",
+    "department": "electrical-engineering",
+    "email": "farah.hassan@cascadiastate.example",
+    "office": "Madrona Hall, room 109",
+    "research_interests": [
+      "circuits",
+      "signals",
+      "embedded systems"
+    ],
+    "bio": "Farah Hassan joined Cascadia State in 2008 after doctoral work in Oregon. Farah's work in electrical engineering focuses on circuits, signals, and embedded systems. Farah is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "bao-quintero",
+    "name": "Bao Quintero",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "information-technology",
+    "email": "bao.quintero@cascadiastate.example",
+    "office": "Fir Tower, room 427",
+    "research_interests": [
+      "networks",
+      "systems administration"
+    ],
+    "bio": "Bao Quintero joined Cascadia State in 2021 after a decade in public service. Bao's work in information technology focuses on networks and systems administration. Bao teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "nia-delgado",
+    "name": "Nia Delgado",
+    "title": "Assistant Professor",
+    "department": "information-technology",
+    "email": "nia.delgado@cascadiastate.example",
+    "office": "Salish Hall, room 177",
+    "research_interests": [
+      "cloud"
+    ],
+    "bio": "Nia Delgado joined Cascadia State in 2006 after teaching at a community college in Eastern Washington. Nia's work in information technology focuses on cloud. Nia leads the department's community-engaged learning program."
+  },
+  {
+    "id": "esther-chavez",
+    "name": "Esther Chavez",
+    "title": "Assistant Professor",
+    "department": "information-technology",
+    "email": "esther.chavez@cascadiastate.example",
+    "office": "Cedar Commons, room 205",
+    "research_interests": [
+      "cloud"
+    ],
+    "bio": "Esther Chavez joined Cascadia State in 2000 after eight years in industry. Esther's work in information technology focuses on cloud. Esther advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "leila-banerjee",
+    "name": "Leila Banerjee",
+    "title": "Senior Lecturer",
+    "department": "information-technology",
+    "email": "leila.banerjee@cascadiastate.example",
+    "office": "Fir Tower, room 390",
+    "research_interests": [
+      "cloud",
+      "systems administration"
+    ],
+    "bio": "Leila Banerjee joined Cascadia State in 1999 after a research post at a federal laboratory. Leila's work in information technology focuses on cloud and systems administration. Leila is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "yara-cho",
+    "name": "Yara Cho",
+    "title": "Senior Lecturer",
+    "department": "information-technology",
+    "email": "yara.cho@cascadiastate.example",
+    "office": "Salish Hall, room 102",
+    "research_interests": [
+      "networks",
+      "systems administration"
+    ],
+    "bio": "Yara Cho joined Cascadia State in 2010 after a visiting appointment in Japan. Yara's work in information technology focuses on networks and systems administration. Yara leads the department's community-engaged learning program."
+  },
+  {
+    "id": "rosa-banerjee",
+    "name": "Rosa Banerjee",
+    "title": "Assistant Professor",
+    "department": "information-technology",
+    "email": "rosa.banerjee@cascadiastate.example",
+    "office": "Salish Hall, room 343",
+    "research_interests": [
+      "networks",
+      "systems administration"
+    ],
+    "bio": "Rosa Banerjee joined Cascadia State in 2010 after a research post at a federal laboratory. Rosa's work in information technology focuses on networks and systems administration. Rosa leads the department's community-engaged learning program."
+  },
+  {
+    "id": "hamid-yamamoto",
+    "name": "Hamid Yamamoto",
+    "title": "Senior Lecturer",
+    "department": "information-technology",
+    "email": "hamid.yamamoto@cascadiastate.example",
+    "office": "Madrona Hall, room 424",
+    "research_interests": [
+      "networks",
+      "cloud",
+      "systems administration"
+    ],
+    "bio": "Hamid Yamamoto joined Cascadia State in 2015 after teaching at a community college in Eastern Washington. Hamid's work in information technology focuses on networks, cloud, and systems administration. Hamid leads the department's community-engaged learning program."
+  },
+  {
+    "id": "sam-yamamoto",
+    "name": "Sam Yamamoto",
+    "title": "Associate Professor",
+    "department": "information-technology",
+    "email": "sam.yamamoto@cascadiastate.example",
+    "office": "Madrona Hall, room 265",
+    "research_interests": [
+      "networks",
+      "systems administration"
+    ],
+    "bio": "Sam Yamamoto joined Cascadia State in 2014 after a decade in public service. Sam's work in information technology focuses on networks and systems administration. Sam brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "joaquin-fernandes",
+    "name": "Joaquin Fernandes",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "nursing",
+    "email": "joaquin.fernandes@cascadiastate.example",
+    "office": "Fir Tower, room 480",
+    "research_interests": [
+      "patient care"
+    ],
+    "bio": "Joaquin Fernandes joined Cascadia State in 2024 after eight years in industry. Joaquin's work in nursing focuses on patient care. Joaquin teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "nikhil-fong",
+    "name": "Nikhil Fong",
+    "title": "Associate Professor",
+    "department": "nursing",
+    "email": "nikhil.fong@cascadiastate.example",
+    "office": "Alder Hall, room 474",
+    "research_interests": [
+      "clinical"
+    ],
+    "bio": "Nikhil Fong joined Cascadia State in 2017 after teaching at a community college in Eastern Washington. Nikhil's work in nursing focuses on clinical. Nikhil is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "elena-mendoza",
+    "name": "Elena Mendoza",
+    "title": "Senior Lecturer",
+    "department": "nursing",
+    "email": "elena.mendoza@cascadiastate.example",
+    "office": "Fir Tower, room 350",
+    "research_interests": [
+      "patient care",
+      "healthcare"
+    ],
+    "bio": "Elena Mendoza joined Cascadia State in 2000 after a visiting appointment in Japan. Elena's work in nursing focuses on patient care and healthcare. Elena is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "aiyana-yamamoto",
+    "name": "Aiyana Yamamoto",
+    "title": "Associate Professor",
+    "department": "nursing",
+    "email": "aiyana.yamamoto@cascadiastate.example",
+    "office": "Madrona Hall, room 390",
+    "research_interests": [
+      "healthcare"
+    ],
+    "bio": "Aiyana Yamamoto joined Cascadia State in 2019 after eight years in industry. Aiyana's work in nursing focuses on healthcare. Aiyana teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "aiyana-park",
+    "name": "Aiyana Park",
+    "title": "Associate Professor",
+    "department": "nursing",
+    "email": "aiyana.park@cascadiastate.example",
+    "office": "Madrona Hall, room 329",
+    "research_interests": [
+      "healthcare"
+    ],
+    "bio": "Aiyana Park joined Cascadia State in 2010 after leading a nonprofit in the South Sound. Aiyana's work in nursing focuses on healthcare. Aiyana advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "ines-nakamura",
+    "name": "Ines Nakamura",
+    "title": "Assistant Professor",
+    "department": "nursing",
+    "email": "ines.nakamura@cascadiastate.example",
+    "office": "Fir Tower, room 274",
+    "research_interests": [
+      "clinical",
+      "healthcare"
+    ],
+    "bio": "Ines Nakamura joined Cascadia State in 2013 after leading a nonprofit in the South Sound. Ines's work in nursing focuses on clinical and healthcare. Ines brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "priya-delgado",
+    "name": "Priya Delgado",
+    "title": "Associate Professor",
+    "department": "nursing",
+    "email": "priya.delgado@cascadiastate.example",
+    "office": "Salish Hall, room 256",
+    "research_interests": [
+      "patient care",
+      "healthcare"
+    ],
+    "bio": "Priya Delgado joined Cascadia State in 2015 after eight years in industry. Priya's work in nursing focuses on patient care and healthcare. Priya teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "maya-banerjee",
+    "name": "Maya Banerjee",
+    "title": "Assistant Professor",
+    "department": "nursing",
+    "email": "maya.banerjee@cascadiastate.example",
+    "office": "Salish Hall, room 231",
+    "research_interests": [
+      "clinical",
+      "healthcare"
+    ],
+    "bio": "Maya Banerjee joined Cascadia State in 2000 after teaching at a community college in Eastern Washington. Maya's work in nursing focuses on clinical and healthcare. Maya is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "chen-abebe",
+    "name": "Chen Abebe",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "public-health",
+    "email": "chen.abebe@cascadiastate.example",
+    "office": "Fir Tower, room 292",
+    "research_interests": [
+      "community health",
+      "health policy",
+      "prevention"
+    ],
+    "bio": "Chen Abebe joined Cascadia State in 2000 after leading a nonprofit in the South Sound. Chen's work in public health focuses on community health, health policy, and prevention. Chen is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "bao-fernandes",
+    "name": "Bao Fernandes",
+    "title": "Associate Professor",
+    "department": "public-health",
+    "email": "bao.fernandes@cascadiastate.example",
+    "office": "Alder Hall, room 229",
+    "research_interests": [
+      "community health",
+      "epidemiology",
+      "health policy",
+      "prevention"
+    ],
+    "bio": "Bao Fernandes joined Cascadia State in 2017 after doctoral work in Oregon. Bao's work in public health focuses on community health, epidemiology, health policy, and prevention. Bao advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "sam-rahman",
+    "name": "Sam Rahman",
+    "title": "Professor",
+    "department": "public-health",
+    "email": "sam.rahman@cascadiastate.example",
+    "office": "Cedar Commons, room 341",
+    "research_interests": [
+      "epidemiology",
+      "health policy",
+      "prevention"
+    ],
+    "bio": "Sam Rahman joined Cascadia State in 2021 after leading a nonprofit in the South Sound. Sam's work in public health focuses on epidemiology, health policy, and prevention. Sam brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "sina-banerjee",
+    "name": "Sina Banerjee",
+    "title": "Assistant Professor",
+    "department": "public-health",
+    "email": "sina.banerjee@cascadiastate.example",
+    "office": "Salish Hall, room 208",
+    "research_interests": [
+      "community health",
+      "health policy",
+      "prevention"
+    ],
+    "bio": "Sina Banerjee joined Cascadia State in 2014 after eight years in industry. Sina's work in public health focuses on community health, health policy, and prevention. Sina advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "jonah-sato",
+    "name": "Jonah Sato",
+    "title": "Professor",
+    "department": "public-health",
+    "email": "jonah.sato@cascadiastate.example",
+    "office": "Alder Hall, room 157",
+    "research_interests": [
+      "epidemiology",
+      "prevention"
+    ],
+    "bio": "Jonah Sato joined Cascadia State in 2018 after teaching at a community college in Eastern Washington. Jonah's work in public health focuses on epidemiology and prevention. Jonah advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "camila-silva",
+    "name": "Camila Silva",
+    "title": "Associate Professor",
+    "department": "public-health",
+    "email": "camila.silva@cascadiastate.example",
+    "office": "Cedar Commons, room 448",
+    "research_interests": [
+      "community health",
+      "health policy",
+      "prevention"
+    ],
+    "bio": "Camila Silva joined Cascadia State in 2011 after a postdoctoral fellowship in Vancouver, British Columbia. Camila's work in public health focuses on community health, health policy, and prevention. Camila teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "maya-quintero",
+    "name": "Maya Quintero",
+    "title": "Assistant Professor",
+    "department": "public-health",
+    "email": "maya.quintero@cascadiastate.example",
+    "office": "Alder Hall, room 209",
+    "research_interests": [
+      "prevention"
+    ],
+    "bio": "Maya Quintero joined Cascadia State in 2018 after a visiting appointment in Japan. Maya's work in public health focuses on prevention. Maya advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "sina-alvarez",
+    "name": "Sina Alvarez",
+    "title": "Associate Professor",
+    "department": "public-health",
+    "email": "sina.alvarez@cascadiastate.example",
+    "office": "Fir Tower, room 176",
+    "research_interests": [
+      "community health",
+      "epidemiology",
+      "prevention"
+    ],
+    "bio": "Sina Alvarez joined Cascadia State in 2005 after a decade in public service. Sina's work in public health focuses on community health, epidemiology, and prevention. Sina is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "zoe-eriksen",
+    "name": "Zoe Eriksen",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "social-work",
+    "email": "zoe.eriksen@cascadiastate.example",
+    "office": "Madrona Hall, room 311",
+    "research_interests": [
+      "advocacy",
+      "case management",
+      "families"
+    ],
+    "bio": "Zoe Eriksen joined Cascadia State in 2001 after a research post at a federal laboratory. Zoe's work in social work focuses on advocacy, case management, and families. Zoe is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "quinn-adeyemi",
+    "name": "Quinn Adeyemi",
+    "title": "Senior Lecturer",
+    "department": "social-work",
+    "email": "quinn.adeyemi@cascadiastate.example",
+    "office": "Cedar Commons, room 263",
+    "research_interests": [
+      "advocacy",
+      "community"
+    ],
+    "bio": "Quinn Adeyemi joined Cascadia State in 2018 after doctoral work in Oregon. Quinn's work in social work focuses on advocacy and community. Quinn leads the department's community-engaged learning program."
+  },
+  {
+    "id": "rosa-thompson",
+    "name": "Rosa Thompson",
+    "title": "Assistant Professor",
+    "department": "social-work",
+    "email": "rosa.thompson@cascadiastate.example",
+    "office": "Salish Hall, room 371",
+    "research_interests": [
+      "advocacy",
+      "community",
+      "families"
+    ],
+    "bio": "Rosa Thompson joined Cascadia State in 2019 after leading a nonprofit in the South Sound. Rosa's work in social work focuses on advocacy, community, and families. Rosa leads the department's community-engaged learning program."
+  },
+  {
+    "id": "aiyana-kim",
+    "name": "Aiyana Kim",
+    "title": "Professor",
+    "department": "social-work",
+    "email": "aiyana.kim@cascadiastate.example",
+    "office": "Madrona Hall, room 373",
+    "research_interests": [
+      "community",
+      "families"
+    ],
+    "bio": "Aiyana Kim joined Cascadia State in 2015 after leading a nonprofit in the South Sound. Aiyana's work in social work focuses on community and families. Aiyana leads the department's community-engaged learning program."
+  },
+  {
+    "id": "pita-tanaka",
+    "name": "Pita Tanaka",
+    "title": "Professor",
+    "department": "social-work",
+    "email": "pita.tanaka@cascadiastate.example",
+    "office": "Cedar Commons, room 204",
+    "research_interests": [
+      "community",
+      "case management",
+      "families"
+    ],
+    "bio": "Pita Tanaka joined Cascadia State in 2007 after doctoral work in Oregon. Pita's work in social work focuses on community, case management, and families. Pita leads the department's community-engaged learning program."
+  },
+  {
+    "id": "selam-brennan",
+    "name": "Selam Brennan",
+    "title": "Associate Professor",
+    "department": "social-work",
+    "email": "selam.brennan@cascadiastate.example",
+    "office": "Alder Hall, room 437",
+    "research_interests": [
+      "case management"
+    ],
+    "bio": "Selam Brennan joined Cascadia State in 2009 after teaching at a community college in Eastern Washington. Selam's work in social work focuses on case management. Selam brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "bridget-kim",
+    "name": "Bridget Kim",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "kinesiology",
+    "email": "bridget.kim@cascadiastate.example",
+    "office": "Madrona Hall, room 403",
+    "research_interests": [
+      "movement",
+      "sports"
+    ],
+    "bio": "Bridget Kim joined Cascadia State in 2014 after a postdoctoral fellowship in Vancouver, British Columbia. Bridget's work in kinesiology focuses on movement and sports. Bridget leads the department's community-engaged learning program."
+  },
+  {
+    "id": "reuben-park",
+    "name": "Reuben Park",
+    "title": "Assistant Professor",
+    "department": "kinesiology",
+    "email": "reuben.park@cascadiastate.example",
+    "office": "Fir Tower, room 262",
+    "research_interests": [
+      "fitness"
+    ],
+    "bio": "Reuben Park joined Cascadia State in 2006 after leading a nonprofit in the South Sound. Reuben's work in kinesiology focuses on fitness. Reuben advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "uma-whitehorse",
+    "name": "Uma Whitehorse",
+    "title": "Associate Professor",
+    "department": "kinesiology",
+    "email": "uma.whitehorse@cascadiastate.example",
+    "office": "Alder Hall, room 150",
+    "research_interests": [
+      "exercise",
+      "movement",
+      "sports"
+    ],
+    "bio": "Uma Whitehorse joined Cascadia State in 2011 after eight years in industry. Uma's work in kinesiology focuses on exercise, movement, and sports. Uma advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "esther-adeyemi",
+    "name": "Esther Adeyemi",
+    "title": "Senior Lecturer",
+    "department": "kinesiology",
+    "email": "esther.adeyemi@cascadiastate.example",
+    "office": "Madrona Hall, room 195",
+    "research_interests": [
+      "exercise",
+      "fitness"
+    ],
+    "bio": "Esther Adeyemi joined Cascadia State in 2001 after eight years in industry. Esther's work in kinesiology focuses on exercise and fitness. Esther brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "yusuf-zhou",
+    "name": "Yusuf Zhou",
+    "title": "Associate Professor",
+    "department": "kinesiology",
+    "email": "yusuf.zhou@cascadiastate.example",
+    "office": "Salish Hall, room 119",
+    "research_interests": [
+      "exercise",
+      "movement",
+      "sports",
+      "fitness"
+    ],
+    "bio": "Yusuf Zhou joined Cascadia State in 2023 after a postdoctoral fellowship in Vancouver, British Columbia. Yusuf's work in kinesiology focuses on exercise, movement, sports, and fitness. Yusuf is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "diego-duarte",
+    "name": "Diego Duarte",
+    "title": "Professor",
+    "department": "kinesiology",
+    "email": "diego.duarte@cascadiastate.example",
+    "office": "Fir Tower, room 317",
+    "research_interests": [
+      "exercise",
+      "movement",
+      "sports",
+      "fitness"
+    ],
+    "bio": "Diego Duarte joined Cascadia State in 2001 after teaching at a community college in Eastern Washington. Diego's work in kinesiology focuses on exercise, movement, sports, and fitness. Diego teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "reuben-hassan",
+    "name": "Reuben Hassan",
+    "title": "Professor",
+    "department": "kinesiology",
+    "email": "reuben.hassan@cascadiastate.example",
+    "office": "Cedar Commons, room 433",
+    "research_interests": [
+      "movement",
+      "sports",
+      "fitness"
+    ],
+    "bio": "Reuben Hassan joined Cascadia State in 2006 after a postdoctoral fellowship in Vancouver, British Columbia. Reuben's work in kinesiology focuses on movement, sports, and fitness. Reuben leads the department's community-engaged learning program."
+  },
+  {
+    "id": "wren-tanaka",
+    "name": "Wren Tanaka",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "nutrition-and-dietetics",
+    "email": "wren.tanaka@cascadiastate.example",
+    "office": "Salish Hall, room 471",
+    "research_interests": [
+      "nutrition",
+      "food",
+      "wellness",
+      "dietetics"
+    ],
+    "bio": "Wren Tanaka joined Cascadia State in 2004 after teaching at a community college in Eastern Washington. Wren's work in nutrition & dietetics focuses on nutrition, food, wellness, and dietetics. Wren is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "selam-yamamoto",
+    "name": "Selam Yamamoto",
+    "title": "Senior Lecturer",
+    "department": "nutrition-and-dietetics",
+    "email": "selam.yamamoto@cascadiastate.example",
+    "office": "Alder Hall, room 396",
+    "research_interests": [
+      "food"
+    ],
+    "bio": "Selam Yamamoto joined Cascadia State in 2013 after doctoral work in Oregon. Selam's work in nutrition & dietetics focuses on food. Selam advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "adebayo-larsen",
+    "name": "Adebayo Larsen",
+    "title": "Professor",
+    "department": "nutrition-and-dietetics",
+    "email": "adebayo.larsen@cascadiastate.example",
+    "office": "Alder Hall, room 240",
+    "research_interests": [
+      "food",
+      "wellness"
+    ],
+    "bio": "Adebayo Larsen joined Cascadia State in 2006 after a decade in public service. Adebayo's work in nutrition & dietetics focuses on food and wellness. Adebayo is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "priya-hassan",
+    "name": "Priya Hassan",
+    "title": "Senior Lecturer",
+    "department": "nutrition-and-dietetics",
+    "email": "priya.hassan@cascadiastate.example",
+    "office": "Cedar Commons, room 370",
+    "research_interests": [
+      "dietetics"
+    ],
+    "bio": "Priya Hassan joined Cascadia State in 2014 after a visiting appointment in Japan. Priya's work in nutrition & dietetics focuses on dietetics. Priya leads the department's community-engaged learning program."
+  },
+  {
+    "id": "amara-banerjee",
+    "name": "Amara Banerjee",
+    "title": "Assistant Professor",
+    "department": "nutrition-and-dietetics",
+    "email": "amara.banerjee@cascadiastate.example",
+    "office": "Alder Hall, room 350",
+    "research_interests": [
+      "nutrition",
+      "food",
+      "wellness",
+      "dietetics"
+    ],
+    "bio": "Amara Banerjee joined Cascadia State in 2023 after a visiting appointment in Japan. Amara's work in nutrition & dietetics focuses on nutrition, food, wellness, and dietetics. Amara teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "esther-fernandes",
+    "name": "Esther Fernandes",
+    "title": "Senior Lecturer",
+    "department": "nutrition-and-dietetics",
+    "email": "esther.fernandes@cascadiastate.example",
+    "office": "Fir Tower, room 414",
+    "research_interests": [
+      "wellness",
+      "dietetics"
+    ],
+    "bio": "Esther Fernandes joined Cascadia State in 2010 after leading a nonprofit in the South Sound. Esther's work in nutrition & dietetics focuses on wellness and dietetics. Esther teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "ben-garcia",
+    "name": "Ben Garcia",
+    "title": "Associate Professor",
+    "department": "nutrition-and-dietetics",
+    "email": "ben.garcia@cascadiastate.example",
+    "office": "Alder Hall, room 408",
+    "research_interests": [
+      "nutrition",
+      "food",
+      "wellness"
+    ],
+    "bio": "Ben Garcia joined Cascadia State in 2001 after leading a nonprofit in the South Sound. Ben's work in nutrition & dietetics focuses on nutrition, food, and wellness. Ben is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "chen-haugen",
+    "name": "Chen Haugen",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "health-administration",
+    "email": "chen.haugen@cascadiastate.example",
+    "office": "Cedar Commons, room 153",
+    "research_interests": [
+      "management",
+      "policy"
+    ],
+    "bio": "Chen Haugen joined Cascadia State in 2022 after a postdoctoral fellowship in Vancouver, British Columbia. Chen's work in health administration focuses on management and policy. Chen brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "keiko-kealoha",
+    "name": "Keiko Kealoha",
+    "title": "Associate Professor",
+    "department": "health-administration",
+    "email": "keiko.kealoha@cascadiastate.example",
+    "office": "Cedar Commons, room 366",
+    "research_interests": [
+      "management",
+      "healthcare",
+      "operations",
+      "policy"
+    ],
+    "bio": "Keiko Kealoha joined Cascadia State in 2015 after teaching at a community college in Eastern Washington. Keiko's work in health administration focuses on management, healthcare, operations, and policy. Keiko teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "joaquin-eriksen",
+    "name": "Joaquin Eriksen",
+    "title": "Senior Lecturer",
+    "department": "health-administration",
+    "email": "joaquin.eriksen@cascadiastate.example",
+    "office": "Fir Tower, room 118",
+    "research_interests": [
+      "operations"
+    ],
+    "bio": "Joaquin Eriksen joined Cascadia State in 2017 after a postdoctoral fellowship in Vancouver, British Columbia. Joaquin's work in health administration focuses on operations. Joaquin leads the department's community-engaged learning program."
+  },
+  {
+    "id": "noor-zhou",
+    "name": "Noor Zhou",
+    "title": "Senior Lecturer",
+    "department": "health-administration",
+    "email": "noor.zhou@cascadiastate.example",
+    "office": "Salish Hall, room 115",
+    "research_interests": [
+      "healthcare"
+    ],
+    "bio": "Noor Zhou joined Cascadia State in 2002 after a research post at a federal laboratory. Noor's work in health administration focuses on healthcare. Noor leads the department's community-engaged learning program."
+  },
+  {
+    "id": "hamid-fong",
+    "name": "Hamid Fong",
+    "title": "Senior Lecturer",
+    "department": "health-administration",
+    "email": "hamid.fong@cascadiastate.example",
+    "office": "Fir Tower, room 348",
+    "research_interests": [
+      "management",
+      "policy"
+    ],
+    "bio": "Hamid Fong joined Cascadia State in 2007 after a visiting appointment in Japan. Hamid's work in health administration focuses on management and policy. Hamid brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "bao-tanaka",
+    "name": "Bao Tanaka",
+    "title": "Associate Professor",
+    "department": "health-administration",
+    "email": "bao.tanaka@cascadiastate.example",
+    "office": "Alder Hall, room 256",
+    "research_interests": [
+      "healthcare",
+      "operations",
+      "policy"
+    ],
+    "bio": "Bao Tanaka joined Cascadia State in 2002 after doctoral work in Oregon. Bao's work in health administration focuses on healthcare, operations, and policy. Bao advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "hiro-iyer",
+    "name": "Hiro Iyer",
+    "title": "Assistant Professor",
+    "department": "health-administration",
+    "email": "hiro.iyer@cascadiastate.example",
+    "office": "Cedar Commons, room 309",
+    "research_interests": [
+      "healthcare",
+      "policy"
+    ],
+    "bio": "Hiro Iyer joined Cascadia State in 2015 after doctoral work in Oregon. Hiro's work in health administration focuses on healthcare and policy. Hiro leads the department's community-engaged learning program."
+  },
+  {
+    "id": "grace-patel",
+    "name": "Grace Patel",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "speech-language-pathology",
+    "email": "grace.patel@cascadiastate.example",
+    "office": "Salish Hall, room 306",
+    "research_interests": [
+      "therapy"
+    ],
+    "bio": "Grace Patel joined Cascadia State in 2023 after a postdoctoral fellowship in Vancouver, British Columbia. Grace's work in speech-language pathology focuses on therapy. Grace leads the department's community-engaged learning program."
+  },
+  {
+    "id": "diego-abebe",
+    "name": "Diego Abebe",
+    "title": "Senior Lecturer",
+    "department": "speech-language-pathology",
+    "email": "diego.abebe@cascadiastate.example",
+    "office": "Fir Tower, room 202",
+    "research_interests": [
+      "language",
+      "therapy"
+    ],
+    "bio": "Diego Abebe joined Cascadia State in 2007 after leading a nonprofit in the South Sound. Diego's work in speech-language pathology focuses on language and therapy. Diego brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "ines-iyer",
+    "name": "Ines Iyer",
+    "title": "Senior Lecturer",
+    "department": "speech-language-pathology",
+    "email": "ines.iyer@cascadiastate.example",
+    "office": "Madrona Hall, room 372",
+    "research_interests": [
+      "clinical",
+      "therapy"
+    ],
+    "bio": "Ines Iyer joined Cascadia State in 2005 after a research post at a federal laboratory. Ines's work in speech-language pathology focuses on clinical and therapy. Ines leads the department's community-engaged learning program."
+  },
+  {
+    "id": "yara-kealoha",
+    "name": "Yara Kealoha",
+    "title": "Associate Professor",
+    "department": "speech-language-pathology",
+    "email": "yara.kealoha@cascadiastate.example",
+    "office": "Alder Hall, room 200",
+    "research_interests": [
+      "language",
+      "therapy"
+    ],
+    "bio": "Yara Kealoha joined Cascadia State in 2002 after a decade in public service. Yara's work in speech-language pathology focuses on language and therapy. Yara teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "kai-reyes",
+    "name": "Kai Reyes",
+    "title": "Assistant Professor",
+    "department": "speech-language-pathology",
+    "email": "kai.reyes@cascadiastate.example",
+    "office": "Fir Tower, room 334",
+    "research_interests": [
+      "communication disorders",
+      "therapy"
+    ],
+    "bio": "Kai Reyes joined Cascadia State in 2022 after teaching at a community college in Eastern Washington. Kai's work in speech-language pathology focuses on communication disorders and therapy. Kai advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "amara-olsen",
+    "name": "Amara Olsen",
+    "title": "Senior Lecturer",
+    "department": "speech-language-pathology",
+    "email": "amara.olsen@cascadiastate.example",
+    "office": "Cedar Commons, room 257",
+    "research_interests": [
+      "communication disorders",
+      "clinical"
+    ],
+    "bio": "Amara Olsen joined Cascadia State in 2023 after a decade in public service. Amara's work in speech-language pathology focuses on communication disorders and clinical. Amara brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "selam-quintero",
+    "name": "Selam Quintero",
+    "title": "Assistant Professor",
+    "department": "speech-language-pathology",
+    "email": "selam.quintero@cascadiastate.example",
+    "office": "Cedar Commons, room 205",
+    "research_interests": [
+      "communication disorders",
+      "therapy"
+    ],
+    "bio": "Selam Quintero joined Cascadia State in 2008 after eight years in industry. Selam's work in speech-language pathology focuses on communication disorders and therapy. Selam brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "ines-quintero",
+    "name": "Ines Quintero",
+    "title": "Senior Lecturer",
+    "department": "speech-language-pathology",
+    "email": "ines.quintero@cascadiastate.example",
+    "office": "Alder Hall, room 394",
+    "research_interests": [
+      "clinical",
+      "therapy"
+    ],
+    "bio": "Ines Quintero joined Cascadia State in 2010 after doctoral work in Oregon. Ines's work in speech-language pathology focuses on clinical and therapy. Ines teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "jonah-johansen",
+    "name": "Jonah Johansen",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "business-administration",
+    "email": "jonah.johansen@cascadiastate.example",
+    "office": "Alder Hall, room 317",
+    "research_interests": [
+      "management",
+      "leadership",
+      "strategy"
+    ],
+    "bio": "Jonah Johansen joined Cascadia State in 2023 after a decade in public service. Jonah's work in business administration focuses on management, leadership, and strategy. Jonah leads the department's community-engaged learning program."
+  },
+  {
+    "id": "mateo-larsen",
+    "name": "Mateo Larsen",
+    "title": "Associate Professor",
+    "department": "business-administration",
+    "email": "mateo.larsen@cascadiastate.example",
+    "office": "Fir Tower, room 237",
+    "research_interests": [
+      "management",
+      "leadership"
+    ],
+    "bio": "Mateo Larsen joined Cascadia State in 2001 after leading a nonprofit in the South Sound. Mateo's work in business administration focuses on management and leadership. Mateo brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "pita-kim",
+    "name": "Pita Kim",
+    "title": "Assistant Professor",
+    "department": "business-administration",
+    "email": "pita.kim@cascadiastate.example",
+    "office": "Alder Hall, room 454",
+    "research_interests": [
+      "management",
+      "leadership",
+      "strategy"
+    ],
+    "bio": "Pita Kim joined Cascadia State in 2022 after a postdoctoral fellowship in Vancouver, British Columbia. Pita's work in business administration focuses on management, leadership, and strategy. Pita teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "imani-rahman",
+    "name": "Imani Rahman",
+    "title": "Assistant Professor",
+    "department": "business-administration",
+    "email": "imani.rahman@cascadiastate.example",
+    "office": "Salish Hall, room 212",
+    "research_interests": [
+      "strategy"
+    ],
+    "bio": "Imani Rahman joined Cascadia State in 2013 after a postdoctoral fellowship in Vancouver, British Columbia. Imani's work in business administration focuses on strategy. Imani leads the department's community-engaged learning program."
+  },
+  {
+    "id": "yara-olsen",
+    "name": "Yara Olsen",
+    "title": "Associate Professor",
+    "department": "business-administration",
+    "email": "yara.olsen@cascadiastate.example",
+    "office": "Cedar Commons, room 338",
+    "research_interests": [
+      "management",
+      "leadership",
+      "strategy"
+    ],
+    "bio": "Yara Olsen joined Cascadia State in 2022 after a decade in public service. Yara's work in business administration focuses on management, leadership, and strategy. Yara teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "kai-tanaka",
+    "name": "Kai Tanaka",
+    "title": "Professor",
+    "department": "business-administration",
+    "email": "kai.tanaka@cascadiastate.example",
+    "office": "Fir Tower, room 248",
+    "research_interests": [
+      "management",
+      "leadership",
+      "strategy"
+    ],
+    "bio": "Kai Tanaka joined Cascadia State in 2008 after teaching at a community college in Eastern Washington. Kai's work in business administration focuses on management, leadership, and strategy. Kai brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "luis-reyes",
+    "name": "Luis Reyes",
+    "title": "Assistant Professor",
+    "department": "business-administration",
+    "email": "luis.reyes@cascadiastate.example",
+    "office": "Cedar Commons, room 453",
+    "research_interests": [
+      "management",
+      "strategy"
+    ],
+    "bio": "Luis Reyes joined Cascadia State in 2020 after eight years in industry. Luis's work in business administration focuses on management and strategy. Luis teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "amara-abebe",
+    "name": "Amara Abebe",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "accounting",
+    "email": "amara.abebe@cascadiastate.example",
+    "office": "Alder Hall, room 378",
+    "research_interests": [
+      "financial reporting"
+    ],
+    "bio": "Amara Abebe joined Cascadia State in 2016 after a postdoctoral fellowship in Vancouver, British Columbia. Amara's work in accounting focuses on financial reporting. Amara is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "jamal-okafor",
+    "name": "Jamal Okafor",
+    "title": "Senior Lecturer",
+    "department": "accounting",
+    "email": "jamal.okafor@cascadiastate.example",
+    "office": "Fir Tower, room 296",
+    "research_interests": [
+      "audit",
+      "tax",
+      "financial reporting"
+    ],
+    "bio": "Jamal Okafor joined Cascadia State in 2001 after a decade in public service. Jamal's work in accounting focuses on audit, tax, and financial reporting. Jamal leads the department's community-engaged learning program."
+  },
+  {
+    "id": "joaquin-kowalski",
+    "name": "Joaquin Kowalski",
+    "title": "Associate Professor",
+    "department": "accounting",
+    "email": "joaquin.kowalski@cascadiastate.example",
+    "office": "Fir Tower, room 310",
+    "research_interests": [
+      "tax"
+    ],
+    "bio": "Joaquin Kowalski joined Cascadia State in 2010 after a research post at a federal laboratory. Joaquin's work in accounting focuses on tax. Joaquin advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "priya-bergstrom",
+    "name": "Priya Bergstrom",
+    "title": "Associate Professor",
+    "department": "accounting",
+    "email": "priya.bergstrom@cascadiastate.example",
+    "office": "Salish Hall, room 371",
+    "research_interests": [
+      "financial reporting"
+    ],
+    "bio": "Priya Bergstrom joined Cascadia State in 2021 after leading a nonprofit in the South Sound. Priya's work in accounting focuses on financial reporting. Priya brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "marcus-uribe",
+    "name": "Marcus Uribe",
+    "title": "Assistant Professor",
+    "department": "accounting",
+    "email": "marcus.uribe@cascadiastate.example",
+    "office": "Salish Hall, room 279",
+    "research_interests": [
+      "tax"
+    ],
+    "bio": "Marcus Uribe joined Cascadia State in 2000 after eight years in industry. Marcus's work in accounting focuses on tax. Marcus leads the department's community-engaged learning program."
+  },
+  {
+    "id": "priya-fong",
+    "name": "Priya Fong",
+    "title": "Associate Professor",
+    "department": "accounting",
+    "email": "priya.fong@cascadiastate.example",
+    "office": "Salish Hall, room 269",
+    "research_interests": [
+      "audit",
+      "tax",
+      "financial reporting"
+    ],
+    "bio": "Priya Fong joined Cascadia State in 2002 after doctoral work in Oregon. Priya's work in accounting focuses on audit, tax, and financial reporting. Priya teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "nikhil-gunnarsson",
+    "name": "Nikhil Gunnarsson",
+    "title": "Associate Professor",
+    "department": "accounting",
+    "email": "nikhil.gunnarsson@cascadiastate.example",
+    "office": "Madrona Hall, room 392",
+    "research_interests": [
+      "audit",
+      "tax",
+      "financial reporting"
+    ],
+    "bio": "Nikhil Gunnarsson joined Cascadia State in 2010 after leading a nonprofit in the South Sound. Nikhil's work in accounting focuses on audit, tax, and financial reporting. Nikhil advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "bao-thompson",
+    "name": "Bao Thompson",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "finance",
+    "email": "bao.thompson@cascadiastate.example",
+    "office": "Fir Tower, room 179",
+    "research_interests": [
+      "investing",
+      "markets",
+      "corporate finance",
+      "banking"
+    ],
+    "bio": "Bao Thompson joined Cascadia State in 2020 after eight years in industry. Bao's work in finance focuses on investing, markets, corporate finance, and banking. Bao brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "pita-ibarra",
+    "name": "Pita Ibarra",
+    "title": "Professor",
+    "department": "finance",
+    "email": "pita.ibarra@cascadiastate.example",
+    "office": "Madrona Hall, room 458",
+    "research_interests": [
+      "corporate finance",
+      "banking"
+    ],
+    "bio": "Pita Ibarra joined Cascadia State in 2018 after a visiting appointment in Japan. Pita's work in finance focuses on corporate finance and banking. Pita advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "tuan-dubois",
+    "name": "Tuan Dubois",
+    "title": "Professor",
+    "department": "finance",
+    "email": "tuan.dubois@cascadiastate.example",
+    "office": "Cedar Commons, room 478",
+    "research_interests": [
+      "investing",
+      "markets",
+      "corporate finance"
+    ],
+    "bio": "Tuan Dubois joined Cascadia State in 2022 after doctoral work in Oregon. Tuan's work in finance focuses on investing, markets, and corporate finance. Tuan teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "nia-wallace",
+    "name": "Nia Wallace",
+    "title": "Senior Lecturer",
+    "department": "finance",
+    "email": "nia.wallace@cascadiastate.example",
+    "office": "Salish Hall, room 125",
+    "research_interests": [
+      "markets",
+      "corporate finance"
+    ],
+    "bio": "Nia Wallace joined Cascadia State in 2010 after eight years in industry. Nia's work in finance focuses on markets and corporate finance. Nia brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "aiyana-nakamura",
+    "name": "Aiyana Nakamura",
+    "title": "Associate Professor",
+    "department": "finance",
+    "email": "aiyana.nakamura@cascadiastate.example",
+    "office": "Fir Tower, room 359",
+    "research_interests": [
+      "investing",
+      "markets",
+      "corporate finance",
+      "banking"
+    ],
+    "bio": "Aiyana Nakamura joined Cascadia State in 2024 after a postdoctoral fellowship in Vancouver, British Columbia. Aiyana's work in finance focuses on investing, markets, corporate finance, and banking. Aiyana is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "zoe-larsen",
+    "name": "Zoe Larsen",
+    "title": "Assistant Professor",
+    "department": "finance",
+    "email": "zoe.larsen@cascadiastate.example",
+    "office": "Cedar Commons, room 384",
+    "research_interests": [
+      "investing",
+      "markets",
+      "corporate finance",
+      "banking"
+    ],
+    "bio": "Zoe Larsen joined Cascadia State in 2022 after leading a nonprofit in the South Sound. Zoe's work in finance focuses on investing, markets, corporate finance, and banking. Zoe advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "omar-wallace",
+    "name": "Omar Wallace",
+    "title": "Associate Professor",
+    "department": "finance",
+    "email": "omar.wallace@cascadiastate.example",
+    "office": "Cedar Commons, room 277",
+    "research_interests": [
+      "markets",
+      "corporate finance",
+      "banking"
+    ],
+    "bio": "Omar Wallace joined Cascadia State in 2012 after doctoral work in Oregon. Omar's work in finance focuses on markets, corporate finance, and banking. Omar is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "maya-olsen",
+    "name": "Maya Olsen",
+    "title": "Senior Lecturer",
+    "department": "finance",
+    "email": "maya.olsen@cascadiastate.example",
+    "office": "Madrona Hall, room 308",
+    "research_interests": [
+      "investing",
+      "markets",
+      "banking"
+    ],
+    "bio": "Maya Olsen joined Cascadia State in 2014 after a visiting appointment in Japan. Maya's work in finance focuses on investing, markets, and banking. Maya teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "bao-lindqvist",
+    "name": "Bao Lindqvist",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "marketing",
+    "email": "bao.lindqvist@cascadiastate.example",
+    "office": "Madrona Hall, room 257",
+    "research_interests": [
+      "branding",
+      "digital marketing",
+      "advertising"
+    ],
+    "bio": "Bao Lindqvist joined Cascadia State in 1999 after a decade in public service. Bao's work in marketing focuses on branding, digital marketing, and advertising. Bao teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "pita-eriksen",
+    "name": "Pita Eriksen",
+    "title": "Assistant Professor",
+    "department": "marketing",
+    "email": "pita.eriksen@cascadiastate.example",
+    "office": "Alder Hall, room 314",
+    "research_interests": [
+      "branding",
+      "consumer behavior",
+      "advertising"
+    ],
+    "bio": "Pita Eriksen joined Cascadia State in 2019 after eight years in industry. Pita's work in marketing focuses on branding, consumer behavior, and advertising. Pita brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "felipe-abebe",
+    "name": "Felipe Abebe",
+    "title": "Associate Professor",
+    "department": "marketing",
+    "email": "felipe.abebe@cascadiastate.example",
+    "office": "Cedar Commons, room 129",
+    "research_interests": [
+      "branding",
+      "digital marketing",
+      "consumer behavior",
+      "advertising"
+    ],
+    "bio": "Felipe Abebe joined Cascadia State in 2021 after a visiting appointment in Japan. Felipe's work in marketing focuses on branding, digital marketing, consumer behavior, and advertising. Felipe brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "ana-vu",
+    "name": "Ana Vu",
+    "title": "Associate Professor",
+    "department": "marketing",
+    "email": "ana.vu@cascadiastate.example",
+    "office": "Alder Hall, room 378",
+    "research_interests": [
+      "consumer behavior",
+      "advertising"
+    ],
+    "bio": "Ana Vu joined Cascadia State in 2010 after a research post at a federal laboratory. Ana's work in marketing focuses on consumer behavior and advertising. Ana leads the department's community-engaged learning program."
+  },
+  {
+    "id": "felipe-lindqvist",
+    "name": "Felipe Lindqvist",
+    "title": "Assistant Professor",
+    "department": "marketing",
+    "email": "felipe.lindqvist@cascadiastate.example",
+    "office": "Cedar Commons, room 272",
+    "research_interests": [
+      "digital marketing",
+      "consumer behavior",
+      "advertising"
+    ],
+    "bio": "Felipe Lindqvist joined Cascadia State in 2022 after a decade in public service. Felipe's work in marketing focuses on digital marketing, consumer behavior, and advertising. Felipe advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "uma-morales",
+    "name": "Uma Morales",
+    "title": "Assistant Professor",
+    "department": "marketing",
+    "email": "uma.morales@cascadiastate.example",
+    "office": "Alder Hall, room 196",
+    "research_interests": [
+      "branding",
+      "digital marketing",
+      "consumer behavior",
+      "advertising"
+    ],
+    "bio": "Uma Morales joined Cascadia State in 2012 after a postdoctoral fellowship in Vancouver, British Columbia. Uma's work in marketing focuses on branding, digital marketing, consumer behavior, and advertising. Uma advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "imani-mendoza",
+    "name": "Imani Mendoza",
+    "title": "Assistant Professor",
+    "department": "marketing",
+    "email": "imani.mendoza@cascadiastate.example",
+    "office": "Fir Tower, room 231",
+    "research_interests": [
+      "branding",
+      "advertising"
+    ],
+    "bio": "Imani Mendoza joined Cascadia State in 2001 after a decade in public service. Imani's work in marketing focuses on branding and advertising. Imani teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "ana-banerjee",
+    "name": "Ana Banerjee",
+    "title": "Assistant Professor",
+    "department": "marketing",
+    "email": "ana.banerjee@cascadiastate.example",
+    "office": "Madrona Hall, room 319",
+    "research_interests": [
+      "branding",
+      "consumer behavior",
+      "advertising"
+    ],
+    "bio": "Ana Banerjee joined Cascadia State in 2016 after a decade in public service. Ana's work in marketing focuses on branding, consumer behavior, and advertising. Ana advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "chen-rahman",
+    "name": "Chen Rahman",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "supply-chain-management",
+    "email": "chen.rahman@cascadiastate.example",
+    "office": "Cedar Commons, room 230",
+    "research_interests": [
+      "logistics",
+      "operations",
+      "procurement"
+    ],
+    "bio": "Chen Rahman joined Cascadia State in 2023 after teaching at a community college in Eastern Washington. Chen's work in supply chain management focuses on logistics, operations, and procurement. Chen brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "vikram-kowalski",
+    "name": "Vikram Kowalski",
+    "title": "Senior Lecturer",
+    "department": "supply-chain-management",
+    "email": "vikram.kowalski@cascadiastate.example",
+    "office": "Alder Hall, room 429",
+    "research_interests": [
+      "logistics",
+      "operations",
+      "procurement",
+      "global trade"
+    ],
+    "bio": "Vikram Kowalski joined Cascadia State in 2009 after a postdoctoral fellowship in Vancouver, British Columbia. Vikram's work in supply chain management focuses on logistics, operations, procurement, and global trade. Vikram is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "selam-kealoha",
+    "name": "Selam Kealoha",
+    "title": "Associate Professor",
+    "department": "supply-chain-management",
+    "email": "selam.kealoha@cascadiastate.example",
+    "office": "Madrona Hall, room 201",
+    "research_interests": [
+      "logistics"
+    ],
+    "bio": "Selam Kealoha joined Cascadia State in 2008 after a research post at a federal laboratory. Selam's work in supply chain management focuses on logistics. Selam advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "aiyana-banerjee",
+    "name": "Aiyana Banerjee",
+    "title": "Associate Professor",
+    "department": "supply-chain-management",
+    "email": "aiyana.banerjee@cascadiastate.example",
+    "office": "Madrona Hall, room 398",
+    "research_interests": [
+      "logistics",
+      "operations",
+      "procurement",
+      "global trade"
+    ],
+    "bio": "Aiyana Banerjee joined Cascadia State in 2007 after a decade in public service. Aiyana's work in supply chain management focuses on logistics, operations, procurement, and global trade. Aiyana teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "reuben-okafor",
+    "name": "Reuben Okafor",
+    "title": "Assistant Professor",
+    "department": "supply-chain-management",
+    "email": "reuben.okafor@cascadiastate.example",
+    "office": "Alder Hall, room 158",
+    "research_interests": [
+      "logistics",
+      "operations",
+      "procurement"
+    ],
+    "bio": "Reuben Okafor joined Cascadia State in 2002 after leading a nonprofit in the South Sound. Reuben's work in supply chain management focuses on logistics, operations, and procurement. Reuben brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "nia-garcia",
+    "name": "Nia Garcia",
+    "title": "Assistant Professor",
+    "department": "supply-chain-management",
+    "email": "nia.garcia@cascadiastate.example",
+    "office": "Salish Hall, room 207",
+    "research_interests": [
+      "logistics",
+      "operations"
+    ],
+    "bio": "Nia Garcia joined Cascadia State in 1999 after doctoral work in Oregon. Nia's work in supply chain management focuses on logistics and operations. Nia brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "leila-tanaka",
+    "name": "Leila Tanaka",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "human-resource-management",
+    "email": "leila.tanaka@cascadiastate.example",
+    "office": "Alder Hall, room 277",
+    "research_interests": [
+      "workplace",
+      "talent"
+    ],
+    "bio": "Leila Tanaka joined Cascadia State in 2012 after eight years in industry. Leila's work in human resource management focuses on workplace and talent. Leila leads the department's community-engaged learning program."
+  },
+  {
+    "id": "elena-nakamura",
+    "name": "Elena Nakamura",
+    "title": "Senior Lecturer",
+    "department": "human-resource-management",
+    "email": "elena.nakamura@cascadiastate.example",
+    "office": "Madrona Hall, room 308",
+    "research_interests": [
+      "workplace",
+      "talent"
+    ],
+    "bio": "Elena Nakamura joined Cascadia State in 2006 after doctoral work in Oregon. Elena's work in human resource management focuses on workplace and talent. Elena teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "bridget-patel",
+    "name": "Bridget Patel",
+    "title": "Assistant Professor",
+    "department": "human-resource-management",
+    "email": "bridget.patel@cascadiastate.example",
+    "office": "Alder Hall, room 180",
+    "research_interests": [
+      "people"
+    ],
+    "bio": "Bridget Patel joined Cascadia State in 2020 after a postdoctoral fellowship in Vancouver, British Columbia. Bridget's work in human resource management focuses on people. Bridget advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "farah-kowalski",
+    "name": "Farah Kowalski",
+    "title": "Assistant Professor",
+    "department": "human-resource-management",
+    "email": "farah.kowalski@cascadiastate.example",
+    "office": "Fir Tower, room 169",
+    "research_interests": [
+      "people",
+      "workplace",
+      "talent"
+    ],
+    "bio": "Farah Kowalski joined Cascadia State in 2000 after a decade in public service. Farah's work in human resource management focuses on people, workplace, and talent. Farah leads the department's community-engaged learning program."
+  },
+  {
+    "id": "leila-cho",
+    "name": "Leila Cho",
+    "title": "Senior Lecturer",
+    "department": "human-resource-management",
+    "email": "leila.cho@cascadiastate.example",
+    "office": "Salish Hall, room 168",
+    "research_interests": [
+      "recruiting",
+      "workplace",
+      "talent"
+    ],
+    "bio": "Leila Cho joined Cascadia State in 2016 after a research post at a federal laboratory. Leila's work in human resource management focuses on recruiting, workplace, and talent. Leila advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "zoe-zhou",
+    "name": "Zoe Zhou",
+    "title": "Associate Professor",
+    "department": "human-resource-management",
+    "email": "zoe.zhou@cascadiastate.example",
+    "office": "Cedar Commons, room 112",
+    "research_interests": [
+      "people",
+      "workplace"
+    ],
+    "bio": "Zoe Zhou joined Cascadia State in 2015 after leading a nonprofit in the South Sound. Zoe's work in human resource management focuses on people and workplace. Zoe advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "bao-moreau",
+    "name": "Bao Moreau",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "english",
+    "email": "bao.moreau@cascadiastate.example",
+    "office": "Fir Tower, room 255",
+    "research_interests": [
+      "writing",
+      "editing"
+    ],
+    "bio": "Bao Moreau joined Cascadia State in 1999 after teaching at a community college in Eastern Washington. Bao's work in english focuses on writing and editing. Bao is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "yara-eriksen",
+    "name": "Yara Eriksen",
+    "title": "Senior Lecturer",
+    "department": "english",
+    "email": "yara.eriksen@cascadiastate.example",
+    "office": "Madrona Hall, room 333",
+    "research_interests": [
+      "writing",
+      "literature",
+      "editing",
+      "rhetoric"
+    ],
+    "bio": "Yara Eriksen joined Cascadia State in 2001 after a decade in public service. Yara's work in english focuses on writing, literature, editing, and rhetoric. Yara is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "gabriel-duarte",
+    "name": "Gabriel Duarte",
+    "title": "Associate Professor",
+    "department": "english",
+    "email": "gabriel.duarte@cascadiastate.example",
+    "office": "Salish Hall, room 234",
+    "research_interests": [
+      "writing",
+      "literature"
+    ],
+    "bio": "Gabriel Duarte joined Cascadia State in 2006 after leading a nonprofit in the South Sound. Gabriel's work in english focuses on writing and literature. Gabriel brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "lena-adeyemi",
+    "name": "Lena Adeyemi",
+    "title": "Associate Professor",
+    "department": "english",
+    "email": "lena.adeyemi@cascadiastate.example",
+    "office": "Madrona Hall, room 416",
+    "research_interests": [
+      "writing",
+      "editing",
+      "rhetoric"
+    ],
+    "bio": "Lena Adeyemi joined Cascadia State in 1998 after eight years in industry. Lena's work in english focuses on writing, editing, and rhetoric. Lena brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "aiyana-haugen",
+    "name": "Aiyana Haugen",
+    "title": "Assistant Professor",
+    "department": "english",
+    "email": "aiyana.haugen@cascadiastate.example",
+    "office": "Madrona Hall, room 340",
+    "research_interests": [
+      "literature",
+      "rhetoric"
+    ],
+    "bio": "Aiyana Haugen joined Cascadia State in 2002 after eight years in industry. Aiyana's work in english focuses on literature and rhetoric. Aiyana is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "selam-fong",
+    "name": "Selam Fong",
+    "title": "Senior Lecturer",
+    "department": "english",
+    "email": "selam.fong@cascadiastate.example",
+    "office": "Madrona Hall, room 353",
+    "research_interests": [
+      "writing",
+      "editing",
+      "rhetoric"
+    ],
+    "bio": "Selam Fong joined Cascadia State in 2019 after teaching at a community college in Eastern Washington. Selam's work in english focuses on writing, editing, and rhetoric. Selam is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "quinn-park",
+    "name": "Quinn Park",
+    "title": "Associate Professor",
+    "department": "english",
+    "email": "quinn.park@cascadiastate.example",
+    "office": "Salish Hall, room 391",
+    "research_interests": [
+      "editing"
+    ],
+    "bio": "Quinn Park joined Cascadia State in 2021 after a postdoctoral fellowship in Vancouver, British Columbia. Quinn's work in english focuses on editing. Quinn advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "marcus-reyes",
+    "name": "Marcus Reyes",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "history",
+    "email": "marcus.reyes@cascadiastate.example",
+    "office": "Madrona Hall, room 246",
+    "research_interests": [
+      "archives",
+      "museums"
+    ],
+    "bio": "Marcus Reyes joined Cascadia State in 2022 after a postdoctoral fellowship in Vancouver, British Columbia. Marcus's work in history focuses on archives and museums. Marcus leads the department's community-engaged learning program."
+  },
+  {
+    "id": "grace-park",
+    "name": "Grace Park",
+    "title": "Assistant Professor",
+    "department": "history",
+    "email": "grace.park@cascadiastate.example",
+    "office": "Fir Tower, room 433",
+    "research_interests": [
+      "research"
+    ],
+    "bio": "Grace Park joined Cascadia State in 2005 after doctoral work in Oregon. Grace's work in history focuses on research. Grace leads the department's community-engaged learning program."
+  },
+  {
+    "id": "teresa-reyes",
+    "name": "Teresa Reyes",
+    "title": "Associate Professor",
+    "department": "history",
+    "email": "teresa.reyes@cascadiastate.example",
+    "office": "Madrona Hall, room 292",
+    "research_interests": [
+      "research",
+      "museums",
+      "public history"
+    ],
+    "bio": "Teresa Reyes joined Cascadia State in 2023 after a decade in public service. Teresa's work in history focuses on research, museums, and public history. Teresa is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "quinn-gunnarsson",
+    "name": "Quinn Gunnarsson",
+    "title": "Associate Professor",
+    "department": "history",
+    "email": "quinn.gunnarsson@cascadiastate.example",
+    "office": "Madrona Hall, room 359",
+    "research_interests": [
+      "archives",
+      "museums"
+    ],
+    "bio": "Quinn Gunnarsson joined Cascadia State in 2008 after eight years in industry. Quinn's work in history focuses on archives and museums. Quinn brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "dana-banerjee",
+    "name": "Dana Banerjee",
+    "title": "Associate Professor",
+    "department": "history",
+    "email": "dana.banerjee@cascadiastate.example",
+    "office": "Salish Hall, room 314",
+    "research_interests": [
+      "archives",
+      "museums",
+      "public history"
+    ],
+    "bio": "Dana Banerjee joined Cascadia State in 2009 after teaching at a community college in Eastern Washington. Dana's work in history focuses on archives, museums, and public history. Dana is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "yara-quintero",
+    "name": "Yara Quintero",
+    "title": "Assistant Professor",
+    "department": "history",
+    "email": "yara.quintero@cascadiastate.example",
+    "office": "Madrona Hall, room 341",
+    "research_interests": [
+      "archives",
+      "research"
+    ],
+    "bio": "Yara Quintero joined Cascadia State in 2004 after eight years in industry. Yara's work in history focuses on archives and research. Yara teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "bao-larsen",
+    "name": "Bao Larsen",
+    "title": "Associate Professor",
+    "department": "history",
+    "email": "bao.larsen@cascadiastate.example",
+    "office": "Salish Hall, room 300",
+    "research_interests": [
+      "archives",
+      "research",
+      "museums",
+      "public history"
+    ],
+    "bio": "Bao Larsen joined Cascadia State in 2023 after a decade in public service. Bao's work in history focuses on archives, research, museums, and public history. Bao advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "dana-sato",
+    "name": "Dana Sato",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "communication",
+    "email": "dana.sato@cascadiastate.example",
+    "office": "Fir Tower, room 119",
+    "research_interests": [
+      "public relations",
+      "journalism",
+      "storytelling"
+    ],
+    "bio": "Dana Sato joined Cascadia State in 2014 after a research post at a federal laboratory. Dana's work in communication focuses on public relations, journalism, and storytelling. Dana is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "tomas-silva",
+    "name": "Tomas Silva",
+    "title": "Associate Professor",
+    "department": "communication",
+    "email": "tomas.silva@cascadiastate.example",
+    "office": "Fir Tower, room 185",
+    "research_interests": [
+      "public relations",
+      "journalism",
+      "storytelling"
+    ],
+    "bio": "Tomas Silva joined Cascadia State in 2013 after teaching at a community college in Eastern Washington. Tomas's work in communication focuses on public relations, journalism, and storytelling. Tomas leads the department's community-engaged learning program."
+  },
+  {
+    "id": "hamid-rahman",
+    "name": "Hamid Rahman",
+    "title": "Associate Professor",
+    "department": "communication",
+    "email": "hamid.rahman@cascadiastate.example",
+    "office": "Salish Hall, room 428",
+    "research_interests": [
+      "public relations"
+    ],
+    "bio": "Hamid Rahman joined Cascadia State in 2003 after a research post at a federal laboratory. Hamid's work in communication focuses on public relations. Hamid advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "keiko-abebe",
+    "name": "Keiko Abebe",
+    "title": "Assistant Professor",
+    "department": "communication",
+    "email": "keiko.abebe@cascadiastate.example",
+    "office": "Madrona Hall, room 422",
+    "research_interests": [
+      "public relations",
+      "journalism",
+      "storytelling"
+    ],
+    "bio": "Keiko Abebe joined Cascadia State in 2011 after eight years in industry. Keiko's work in communication focuses on public relations, journalism, and storytelling. Keiko brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "bao-brennan",
+    "name": "Bao Brennan",
+    "title": "Senior Lecturer",
+    "department": "communication",
+    "email": "bao.brennan@cascadiastate.example",
+    "office": "Madrona Hall, room 181",
+    "research_interests": [
+      "public relations",
+      "journalism"
+    ],
+    "bio": "Bao Brennan joined Cascadia State in 2003 after a postdoctoral fellowship in Vancouver, British Columbia. Bao's work in communication focuses on public relations and journalism. Bao brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "victor-olsen",
+    "name": "Victor Olsen",
+    "title": "Assistant Professor",
+    "department": "communication",
+    "email": "victor.olsen@cascadiastate.example",
+    "office": "Salish Hall, room 370",
+    "research_interests": [
+      "public relations",
+      "journalism",
+      "storytelling"
+    ],
+    "bio": "Victor Olsen joined Cascadia State in 2007 after teaching at a community college in Eastern Washington. Victor's work in communication focuses on public relations, journalism, and storytelling. Victor advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "hiro-cho",
+    "name": "Hiro Cho",
+    "title": "Associate Professor",
+    "department": "communication",
+    "email": "hiro.cho@cascadiastate.example",
+    "office": "Salish Hall, room 159",
+    "research_interests": [
+      "media",
+      "public relations"
+    ],
+    "bio": "Hiro Cho joined Cascadia State in 2020 after eight years in industry. Hiro's work in communication focuses on media and public relations. Hiro is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "imani-wallace",
+    "name": "Imani Wallace",
+    "title": "Professor",
+    "department": "communication",
+    "email": "imani.wallace@cascadiastate.example",
+    "office": "Alder Hall, room 230",
+    "research_interests": [
+      "media",
+      "storytelling"
+    ],
+    "bio": "Imani Wallace joined Cascadia State in 2001 after a visiting appointment in Japan. Imani's work in communication focuses on media and storytelling. Imani is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "maya-garcia",
+    "name": "Maya Garcia",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "studio-art",
+    "email": "maya.garcia@cascadiastate.example",
+    "office": "Alder Hall, room 473",
+    "research_interests": [
+      "sculpture"
+    ],
+    "bio": "Maya Garcia joined Cascadia State in 2013 after teaching at a community college in Eastern Washington. Maya's work in studio art focuses on sculpture. Maya advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "hiro-chavez",
+    "name": "Hiro Chavez",
+    "title": "Professor",
+    "department": "studio-art",
+    "email": "hiro.chavez@cascadiastate.example",
+    "office": "Cedar Commons, room 242",
+    "research_interests": [
+      "painting",
+      "sculpture",
+      "drawing"
+    ],
+    "bio": "Hiro Chavez joined Cascadia State in 2012 after eight years in industry. Hiro's work in studio art focuses on painting, sculpture, and drawing. Hiro advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "mateo-banerjee",
+    "name": "Mateo Banerjee",
+    "title": "Assistant Professor",
+    "department": "studio-art",
+    "email": "mateo.banerjee@cascadiastate.example",
+    "office": "Fir Tower, room 257",
+    "research_interests": [
+      "painting",
+      "sculpture",
+      "printmaking"
+    ],
+    "bio": "Mateo Banerjee joined Cascadia State in 2011 after a postdoctoral fellowship in Vancouver, British Columbia. Mateo's work in studio art focuses on painting, sculpture, and printmaking. Mateo leads the department's community-engaged learning program."
+  },
+  {
+    "id": "adebayo-yazzie",
+    "name": "Adebayo Yazzie",
+    "title": "Assistant Professor",
+    "department": "studio-art",
+    "email": "adebayo.yazzie@cascadiastate.example",
+    "office": "Fir Tower, room 386",
+    "research_interests": [
+      "painting",
+      "sculpture",
+      "printmaking",
+      "drawing"
+    ],
+    "bio": "Adebayo Yazzie joined Cascadia State in 2010 after a research post at a federal laboratory. Adebayo's work in studio art focuses on painting, sculpture, printmaking, and drawing. Adebayo brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "leila-kim",
+    "name": "Leila Kim",
+    "title": "Assistant Professor",
+    "department": "studio-art",
+    "email": "leila.kim@cascadiastate.example",
+    "office": "Madrona Hall, room 106",
+    "research_interests": [
+      "painting",
+      "sculpture",
+      "drawing"
+    ],
+    "bio": "Leila Kim joined Cascadia State in 2012 after a research post at a federal laboratory. Leila's work in studio art focuses on painting, sculpture, and drawing. Leila brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "nikhil-morales",
+    "name": "Nikhil Morales",
+    "title": "Professor",
+    "department": "studio-art",
+    "email": "nikhil.morales@cascadiastate.example",
+    "office": "Alder Hall, room 265",
+    "research_interests": [
+      "painting",
+      "sculpture"
+    ],
+    "bio": "Nikhil Morales joined Cascadia State in 2005 after a postdoctoral fellowship in Vancouver, British Columbia. Nikhil's work in studio art focuses on painting and sculpture. Nikhil leads the department's community-engaged learning program."
+  },
+  {
+    "id": "reuben-bergstrom",
+    "name": "Reuben Bergstrom",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "graphic-design",
+    "email": "reuben.bergstrom@cascadiastate.example",
+    "office": "Madrona Hall, room 476",
+    "research_interests": [
+      "design",
+      "typography",
+      "branding",
+      "ux"
+    ],
+    "bio": "Reuben Bergstrom joined Cascadia State in 2014 after a research post at a federal laboratory. Reuben's work in graphic design focuses on design, typography, branding, and ux. Reuben is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "olivia-chavez",
+    "name": "Olivia Chavez",
+    "title": "Associate Professor",
+    "department": "graphic-design",
+    "email": "olivia.chavez@cascadiastate.example",
+    "office": "Salish Hall, room 441",
+    "research_interests": [
+      "typography",
+      "ux"
+    ],
+    "bio": "Olivia Chavez joined Cascadia State in 2008 after a postdoctoral fellowship in Vancouver, British Columbia. Olivia's work in graphic design focuses on typography and ux. Olivia brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "elena-alvarez",
+    "name": "Elena Alvarez",
+    "title": "Assistant Professor",
+    "department": "graphic-design",
+    "email": "elena.alvarez@cascadiastate.example",
+    "office": "Salish Hall, room 345",
+    "research_interests": [
+      "design",
+      "typography",
+      "ux"
+    ],
+    "bio": "Elena Alvarez joined Cascadia State in 2013 after doctoral work in Oregon. Elena's work in graphic design focuses on design, typography, and ux. Elena is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "maya-bergstrom",
+    "name": "Maya Bergstrom",
+    "title": "Senior Lecturer",
+    "department": "graphic-design",
+    "email": "maya.bergstrom@cascadiastate.example",
+    "office": "Alder Hall, room 453",
+    "research_interests": [
+      "ux"
+    ],
+    "bio": "Maya Bergstrom joined Cascadia State in 2013 after a research post at a federal laboratory. Maya's work in graphic design focuses on ux. Maya brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "maya-moreau",
+    "name": "Maya Moreau",
+    "title": "Assistant Professor",
+    "department": "graphic-design",
+    "email": "maya.moreau@cascadiastate.example",
+    "office": "Cedar Commons, room 273",
+    "research_interests": [
+      "design",
+      "branding"
+    ],
+    "bio": "Maya Moreau joined Cascadia State in 1999 after leading a nonprofit in the South Sound. Maya's work in graphic design focuses on design and branding. Maya advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "hamid-olsen",
+    "name": "Hamid Olsen",
+    "title": "Associate Professor",
+    "department": "graphic-design",
+    "email": "hamid.olsen@cascadiastate.example",
+    "office": "Cedar Commons, room 116",
+    "research_interests": [
+      "design",
+      "typography",
+      "branding",
+      "ux"
+    ],
+    "bio": "Hamid Olsen joined Cascadia State in 2003 after doctoral work in Oregon. Hamid's work in graphic design focuses on design, typography, branding, and ux. Hamid brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "dana-hassan",
+    "name": "Dana Hassan",
+    "title": "Associate Professor",
+    "department": "graphic-design",
+    "email": "dana.hassan@cascadiastate.example",
+    "office": "Salish Hall, room 339",
+    "research_interests": [
+      "design",
+      "branding",
+      "ux"
+    ],
+    "bio": "Dana Hassan joined Cascadia State in 2006 after doctoral work in Oregon. Dana's work in graphic design focuses on design, branding, and ux. Dana leads the department's community-engaged learning program."
+  },
+  {
+    "id": "tuan-olsen",
+    "name": "Tuan Olsen",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "music",
+    "email": "tuan.olsen@cascadiastate.example",
+    "office": "Madrona Hall, room 225",
+    "research_interests": [
+      "composition",
+      "ensemble"
+    ],
+    "bio": "Tuan Olsen joined Cascadia State in 2014 after doctoral work in Oregon. Tuan's work in music focuses on composition and ensemble. Tuan leads the department's community-engaged learning program."
+  },
+  {
+    "id": "camila-larsen",
+    "name": "Camila Larsen",
+    "title": "Assistant Professor",
+    "department": "music",
+    "email": "camila.larsen@cascadiastate.example",
+    "office": "Alder Hall, room 266",
+    "research_interests": [
+      "performance",
+      "composition"
+    ],
+    "bio": "Camila Larsen joined Cascadia State in 2000 after a research post at a federal laboratory. Camila's work in music focuses on performance and composition. Camila is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "felipe-castillo",
+    "name": "Felipe Castillo",
+    "title": "Associate Professor",
+    "department": "music",
+    "email": "felipe.castillo@cascadiastate.example",
+    "office": "Alder Hall, room 318",
+    "research_interests": [
+      "composition"
+    ],
+    "bio": "Felipe Castillo joined Cascadia State in 2011 after a decade in public service. Felipe's work in music focuses on composition. Felipe teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "lena-morales",
+    "name": "Lena Morales",
+    "title": "Associate Professor",
+    "department": "music",
+    "email": "lena.morales@cascadiastate.example",
+    "office": "Alder Hall, room 151",
+    "research_interests": [
+      "performance",
+      "audio",
+      "ensemble"
+    ],
+    "bio": "Lena Morales joined Cascadia State in 2005 after eight years in industry. Lena's work in music focuses on performance, audio, and ensemble. Lena advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "ben-yamamoto",
+    "name": "Ben Yamamoto",
+    "title": "Assistant Professor",
+    "department": "music",
+    "email": "ben.yamamoto@cascadiastate.example",
+    "office": "Alder Hall, room 463",
+    "research_interests": [
+      "performance",
+      "composition"
+    ],
+    "bio": "Ben Yamamoto joined Cascadia State in 2019 after eight years in industry. Ben's work in music focuses on performance and composition. Ben leads the department's community-engaged learning program."
+  },
+  {
+    "id": "adebayo-vu",
+    "name": "Adebayo Vu",
+    "title": "Associate Professor",
+    "department": "music",
+    "email": "adebayo.vu@cascadiastate.example",
+    "office": "Cedar Commons, room 252",
+    "research_interests": [
+      "composition",
+      "ensemble"
+    ],
+    "bio": "Adebayo Vu joined Cascadia State in 2002 after eight years in industry. Adebayo's work in music focuses on composition and ensemble. Adebayo leads the department's community-engaged learning program."
+  },
+  {
+    "id": "elena-dubois",
+    "name": "Elena Dubois",
+    "title": "Associate Professor",
+    "department": "music",
+    "email": "elena.dubois@cascadiastate.example",
+    "office": "Alder Hall, room 457",
+    "research_interests": [
+      "performance",
+      "composition",
+      "ensemble"
+    ],
+    "bio": "Elena Dubois joined Cascadia State in 2007 after leading a nonprofit in the South Sound. Elena's work in music focuses on performance, composition, and ensemble. Elena brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "yara-abebe",
+    "name": "Yara Abebe",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "philosophy",
+    "email": "yara.abebe@cascadiastate.example",
+    "office": "Fir Tower, room 411",
+    "research_interests": [
+      "ethics",
+      "logic",
+      "critical thinking"
+    ],
+    "bio": "Yara Abebe joined Cascadia State in 2019 after a research post at a federal laboratory. Yara's work in philosophy focuses on ethics, logic, and critical thinking. Yara teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "teresa-okafor",
+    "name": "Teresa Okafor",
+    "title": "Senior Lecturer",
+    "department": "philosophy",
+    "email": "teresa.okafor@cascadiastate.example",
+    "office": "Salish Hall, room 168",
+    "research_interests": [
+      "ethics",
+      "logic"
+    ],
+    "bio": "Teresa Okafor joined Cascadia State in 2016 after a visiting appointment in Japan. Teresa's work in philosophy focuses on ethics and logic. Teresa is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "dana-cho",
+    "name": "Dana Cho",
+    "title": "Assistant Professor",
+    "department": "philosophy",
+    "email": "dana.cho@cascadiastate.example",
+    "office": "Cedar Commons, room 107",
+    "research_interests": [
+      "ethics",
+      "logic"
+    ],
+    "bio": "Dana Cho joined Cascadia State in 2013 after doctoral work in Oregon. Dana's work in philosophy focuses on ethics and logic. Dana brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "yusuf-uribe",
+    "name": "Yusuf Uribe",
+    "title": "Assistant Professor",
+    "department": "philosophy",
+    "email": "yusuf.uribe@cascadiastate.example",
+    "office": "Cedar Commons, room 178",
+    "research_interests": [
+      "critical thinking"
+    ],
+    "bio": "Yusuf Uribe joined Cascadia State in 2015 after eight years in industry. Yusuf's work in philosophy focuses on critical thinking. Yusuf brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "felipe-johansen",
+    "name": "Felipe Johansen",
+    "title": "Associate Professor",
+    "department": "philosophy",
+    "email": "felipe.johansen@cascadiastate.example",
+    "office": "Cedar Commons, room 338",
+    "research_interests": [
+      "ethics",
+      "critical thinking"
+    ],
+    "bio": "Felipe Johansen joined Cascadia State in 2012 after a decade in public service. Felipe's work in philosophy focuses on ethics and critical thinking. Felipe brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "aiyana-chavez",
+    "name": "Aiyana Chavez",
+    "title": "Senior Lecturer",
+    "department": "philosophy",
+    "email": "aiyana.chavez@cascadiastate.example",
+    "office": "Madrona Hall, room 234",
+    "research_interests": [
+      "logic",
+      "critical thinking"
+    ],
+    "bio": "Aiyana Chavez joined Cascadia State in 2012 after leading a nonprofit in the South Sound. Aiyana's work in philosophy focuses on logic and critical thinking. Aiyana is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "nia-silva",
+    "name": "Nia Silva",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "world-languages",
+    "email": "nia.silva@cascadiastate.example",
+    "office": "Fir Tower, room 217",
+    "research_interests": [
+      "translation",
+      "culture"
+    ],
+    "bio": "Nia Silva joined Cascadia State in 2003 after leading a nonprofit in the South Sound. Nia's work in world languages focuses on translation and culture. Nia is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "vikram-park",
+    "name": "Vikram Park",
+    "title": "Assistant Professor",
+    "department": "world-languages",
+    "email": "vikram.park@cascadiastate.example",
+    "office": "Alder Hall, room 175",
+    "research_interests": [
+      "spanish",
+      "japanese",
+      "culture"
+    ],
+    "bio": "Vikram Park joined Cascadia State in 2001 after leading a nonprofit in the South Sound. Vikram's work in world languages focuses on spanish, japanese, and culture. Vikram brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "teresa-kim",
+    "name": "Teresa Kim",
+    "title": "Professor",
+    "department": "world-languages",
+    "email": "teresa.kim@cascadiastate.example",
+    "office": "Cedar Commons, room 328",
+    "research_interests": [
+      "spanish",
+      "japanese"
+    ],
+    "bio": "Teresa Kim joined Cascadia State in 2012 after a research post at a federal laboratory. Teresa's work in world languages focuses on spanish and japanese. Teresa leads the department's community-engaged learning program."
+  },
+  {
+    "id": "esther-silva",
+    "name": "Esther Silva",
+    "title": "Assistant Professor",
+    "department": "world-languages",
+    "email": "esther.silva@cascadiastate.example",
+    "office": "Cedar Commons, room 300",
+    "research_interests": [
+      "spanish"
+    ],
+    "bio": "Esther Silva joined Cascadia State in 2019 after doctoral work in Oregon. Esther's work in world languages focuses on spanish. Esther is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "sina-kim",
+    "name": "Sina Kim",
+    "title": "Senior Lecturer",
+    "department": "world-languages",
+    "email": "sina.kim@cascadiastate.example",
+    "office": "Madrona Hall, room 228",
+    "research_interests": [
+      "spanish",
+      "japanese",
+      "translation",
+      "culture"
+    ],
+    "bio": "Sina Kim joined Cascadia State in 2004 after a research post at a federal laboratory. Sina's work in world languages focuses on spanish, japanese, translation, and culture. Sina brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "ines-sato",
+    "name": "Ines Sato",
+    "title": "Assistant Professor",
+    "department": "world-languages",
+    "email": "ines.sato@cascadiastate.example",
+    "office": "Alder Hall, room 270",
+    "research_interests": [
+      "spanish",
+      "japanese",
+      "translation"
+    ],
+    "bio": "Ines Sato joined Cascadia State in 2019 after leading a nonprofit in the South Sound. Ines's work in world languages focuses on spanish, japanese, and translation. Ines advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "hana-kowalski",
+    "name": "Hana Kowalski",
+    "title": "Associate Professor",
+    "department": "world-languages",
+    "email": "hana.kowalski@cascadiastate.example",
+    "office": "Salish Hall, room 135",
+    "research_interests": [
+      "spanish",
+      "japanese"
+    ],
+    "bio": "Hana Kowalski joined Cascadia State in 2021 after eight years in industry. Hana's work in world languages focuses on spanish and japanese. Hana teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "omar-whitehorse",
+    "name": "Omar Whitehorse",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "biology",
+    "email": "omar.whitehorse@cascadiastate.example",
+    "office": "Madrona Hall, room 285",
+    "research_interests": [
+      "genetics",
+      "ecology"
+    ],
+    "bio": "Omar Whitehorse joined Cascadia State in 2003 after doctoral work in Oregon. Omar's work in biology focuses on genetics and ecology. Omar teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "jamal-bergstrom",
+    "name": "Jamal Bergstrom",
+    "title": "Associate Professor",
+    "department": "biology",
+    "email": "jamal.bergstrom@cascadiastate.example",
+    "office": "Salish Hall, room 277",
+    "research_interests": [
+      "life sciences",
+      "genetics",
+      "ecology"
+    ],
+    "bio": "Jamal Bergstrom joined Cascadia State in 2002 after teaching at a community college in Eastern Washington. Jamal's work in biology focuses on life sciences, genetics, and ecology. Jamal is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "bao-rahman",
+    "name": "Bao Rahman",
+    "title": "Associate Professor",
+    "department": "biology",
+    "email": "bao.rahman@cascadiastate.example",
+    "office": "Madrona Hall, room 197",
+    "research_interests": [
+      "life sciences",
+      "ecology"
+    ],
+    "bio": "Bao Rahman joined Cascadia State in 2023 after a visiting appointment in Japan. Bao's work in biology focuses on life sciences and ecology. Bao leads the department's community-engaged learning program."
+  },
+  {
+    "id": "bao-olsen",
+    "name": "Bao Olsen",
+    "title": "Associate Professor",
+    "department": "biology",
+    "email": "bao.olsen@cascadiastate.example",
+    "office": "Madrona Hall, room 191",
+    "research_interests": [
+      "life sciences",
+      "genetics"
+    ],
+    "bio": "Bao Olsen joined Cascadia State in 2020 after doctoral work in Oregon. Bao's work in biology focuses on life sciences and genetics. Bao leads the department's community-engaged learning program."
+  },
+  {
+    "id": "mateo-castillo",
+    "name": "Mateo Castillo",
+    "title": "Associate Professor",
+    "department": "biology",
+    "email": "mateo.castillo@cascadiastate.example",
+    "office": "Alder Hall, room 280",
+    "research_interests": [
+      "genetics",
+      "ecology"
+    ],
+    "bio": "Mateo Castillo joined Cascadia State in 2018 after a decade in public service. Mateo's work in biology focuses on genetics and ecology. Mateo brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "joaquin-vu",
+    "name": "Joaquin Vu",
+    "title": "Senior Lecturer",
+    "department": "biology",
+    "email": "joaquin.vu@cascadiastate.example",
+    "office": "Madrona Hall, room 225",
+    "research_interests": [
+      "life sciences",
+      "genetics",
+      "ecology"
+    ],
+    "bio": "Joaquin Vu joined Cascadia State in 2014 after eight years in industry. Joaquin's work in biology focuses on life sciences, genetics, and ecology. Joaquin brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "joaquin-kim",
+    "name": "Joaquin Kim",
+    "title": "Professor",
+    "department": "biology",
+    "email": "joaquin.kim@cascadiastate.example",
+    "office": "Salish Hall, room 418",
+    "research_interests": [
+      "life sciences",
+      "genetics"
+    ],
+    "bio": "Joaquin Kim joined Cascadia State in 2004 after a research post at a federal laboratory. Joaquin's work in biology focuses on life sciences and genetics. Joaquin leads the department's community-engaged learning program."
+  },
+  {
+    "id": "vikram-rahman",
+    "name": "Vikram Rahman",
+    "title": "Senior Lecturer",
+    "department": "biology",
+    "email": "vikram.rahman@cascadiastate.example",
+    "office": "Cedar Commons, room 154",
+    "research_interests": [
+      "life sciences",
+      "genetics"
+    ],
+    "bio": "Vikram Rahman joined Cascadia State in 2024 after leading a nonprofit in the South Sound. Vikram's work in biology focuses on life sciences and genetics. Vikram leads the department's community-engaged learning program."
+  },
+  {
+    "id": "yara-whitehorse",
+    "name": "Yara Whitehorse",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "chemistry",
+    "email": "yara.whitehorse@cascadiastate.example",
+    "office": "Fir Tower, room 249",
+    "research_interests": [
+      "pharma"
+    ],
+    "bio": "Yara Whitehorse joined Cascadia State in 2015 after leading a nonprofit in the South Sound. Yara's work in chemistry focuses on pharma. Yara is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "hamid-cho",
+    "name": "Hamid Cho",
+    "title": "Associate Professor",
+    "department": "chemistry",
+    "email": "hamid.cho@cascadiastate.example",
+    "office": "Fir Tower, room 352",
+    "research_interests": [
+      "materials"
+    ],
+    "bio": "Hamid Cho joined Cascadia State in 2012 after leading a nonprofit in the South Sound. Hamid's work in chemistry focuses on materials. Hamid advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "priya-johansen",
+    "name": "Priya Johansen",
+    "title": "Associate Professor",
+    "department": "chemistry",
+    "email": "priya.johansen@cascadiastate.example",
+    "office": "Fir Tower, room 117",
+    "research_interests": [
+      "organic chemistry",
+      "pharma"
+    ],
+    "bio": "Priya Johansen joined Cascadia State in 2020 after teaching at a community college in Eastern Washington. Priya's work in chemistry focuses on organic chemistry and pharma. Priya is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "dmitri-zhou",
+    "name": "Dmitri Zhou",
+    "title": "Associate Professor",
+    "department": "chemistry",
+    "email": "dmitri.zhou@cascadiastate.example",
+    "office": "Fir Tower, room 441",
+    "research_interests": [
+      "materials",
+      "pharma"
+    ],
+    "bio": "Dmitri Zhou joined Cascadia State in 2023 after a postdoctoral fellowship in Vancouver, British Columbia. Dmitri's work in chemistry focuses on materials and pharma. Dmitri advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "hamid-sato",
+    "name": "Hamid Sato",
+    "title": "Senior Lecturer",
+    "department": "chemistry",
+    "email": "hamid.sato@cascadiastate.example",
+    "office": "Alder Hall, room 329",
+    "research_interests": [
+      "organic chemistry"
+    ],
+    "bio": "Hamid Sato joined Cascadia State in 2016 after teaching at a community college in Eastern Washington. Hamid's work in chemistry focuses on organic chemistry. Hamid advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "priya-whitehorse",
+    "name": "Priya Whitehorse",
+    "title": "Associate Professor",
+    "department": "chemistry",
+    "email": "priya.whitehorse@cascadiastate.example",
+    "office": "Fir Tower, room 240",
+    "research_interests": [
+      "materials",
+      "pharma"
+    ],
+    "bio": "Priya Whitehorse joined Cascadia State in 2018 after a postdoctoral fellowship in Vancouver, British Columbia. Priya's work in chemistry focuses on materials and pharma. Priya leads the department's community-engaged learning program."
+  },
+  {
+    "id": "sam-tanaka",
+    "name": "Sam Tanaka",
+    "title": "Associate Professor",
+    "department": "chemistry",
+    "email": "sam.tanaka@cascadiastate.example",
+    "office": "Fir Tower, room 370",
+    "research_interests": [
+      "pharma"
+    ],
+    "bio": "Sam Tanaka joined Cascadia State in 2018 after doctoral work in Oregon. Sam's work in chemistry focuses on pharma. Sam is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "ingrid-silva",
+    "name": "Ingrid Silva",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "physics",
+    "email": "ingrid.silva@cascadiastate.example",
+    "office": "Fir Tower, room 314",
+    "research_interests": [
+      "mechanics",
+      "astronomy"
+    ],
+    "bio": "Ingrid Silva joined Cascadia State in 2009 after teaching at a community college in Eastern Washington. Ingrid's work in physics focuses on mechanics and astronomy. Ingrid teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "bao-zhou",
+    "name": "Bao Zhou",
+    "title": "Assistant Professor",
+    "department": "physics",
+    "email": "bao.zhou@cascadiastate.example",
+    "office": "Madrona Hall, room 262",
+    "research_interests": [
+      "mechanics",
+      "quantum",
+      "astronomy",
+      "modeling"
+    ],
+    "bio": "Bao Zhou joined Cascadia State in 2012 after doctoral work in Oregon. Bao's work in physics focuses on mechanics, quantum, astronomy, and modeling. Bao teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "grace-moreau",
+    "name": "Grace Moreau",
+    "title": "Associate Professor",
+    "department": "physics",
+    "email": "grace.moreau@cascadiastate.example",
+    "office": "Alder Hall, room 335",
+    "research_interests": [
+      "modeling"
+    ],
+    "bio": "Grace Moreau joined Cascadia State in 2024 after leading a nonprofit in the South Sound. Grace's work in physics focuses on modeling. Grace advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "hiro-johansen",
+    "name": "Hiro Johansen",
+    "title": "Senior Lecturer",
+    "department": "physics",
+    "email": "hiro.johansen@cascadiastate.example",
+    "office": "Madrona Hall, room 246",
+    "research_interests": [
+      "mechanics",
+      "quantum",
+      "astronomy",
+      "modeling"
+    ],
+    "bio": "Hiro Johansen joined Cascadia State in 2013 after doctoral work in Oregon. Hiro's work in physics focuses on mechanics, quantum, astronomy, and modeling. Hiro brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "tuan-hassan",
+    "name": "Tuan Hassan",
+    "title": "Assistant Professor",
+    "department": "physics",
+    "email": "tuan.hassan@cascadiastate.example",
+    "office": "Alder Hall, room 226",
+    "research_interests": [
+      "mechanics",
+      "quantum",
+      "astronomy"
+    ],
+    "bio": "Tuan Hassan joined Cascadia State in 2001 after doctoral work in Oregon. Tuan's work in physics focuses on mechanics, quantum, and astronomy. Tuan leads the department's community-engaged learning program."
+  },
+  {
+    "id": "yara-mendoza",
+    "name": "Yara Mendoza",
+    "title": "Associate Professor",
+    "department": "physics",
+    "email": "yara.mendoza@cascadiastate.example",
+    "office": "Cedar Commons, room 349",
+    "research_interests": [
+      "quantum",
+      "astronomy",
+      "modeling"
+    ],
+    "bio": "Yara Mendoza joined Cascadia State in 2005 after a postdoctoral fellowship in Vancouver, British Columbia. Yara's work in physics focuses on quantum, astronomy, and modeling. Yara leads the department's community-engaged learning program."
+  },
+  {
+    "id": "quinn-sato",
+    "name": "Quinn Sato",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "mathematics",
+    "email": "quinn.sato@cascadiastate.example",
+    "office": "Salish Hall, room 106",
+    "research_interests": [
+      "math",
+      "proofs",
+      "modeling"
+    ],
+    "bio": "Quinn Sato joined Cascadia State in 2004 after a research post at a federal laboratory. Quinn's work in mathematics focuses on math, proofs, and modeling. Quinn teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "dana-whitehorse",
+    "name": "Dana Whitehorse",
+    "title": "Assistant Professor",
+    "department": "mathematics",
+    "email": "dana.whitehorse@cascadiastate.example",
+    "office": "Salish Hall, room 233",
+    "research_interests": [
+      "math",
+      "modeling",
+      "statistics"
+    ],
+    "bio": "Dana Whitehorse joined Cascadia State in 2008 after leading a nonprofit in the South Sound. Dana's work in mathematics focuses on math, modeling, and statistics. Dana brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "chen-nakamura",
+    "name": "Chen Nakamura",
+    "title": "Associate Professor",
+    "department": "mathematics",
+    "email": "chen.nakamura@cascadiastate.example",
+    "office": "Fir Tower, room 179",
+    "research_interests": [
+      "math"
+    ],
+    "bio": "Chen Nakamura joined Cascadia State in 2002 after a visiting appointment in Japan. Chen's work in mathematics focuses on math. Chen advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "rosa-larsen",
+    "name": "Rosa Larsen",
+    "title": "Associate Professor",
+    "department": "mathematics",
+    "email": "rosa.larsen@cascadiastate.example",
+    "office": "Madrona Hall, room 104",
+    "research_interests": [
+      "math",
+      "proofs",
+      "statistics"
+    ],
+    "bio": "Rosa Larsen joined Cascadia State in 2004 after a visiting appointment in Japan. Rosa's work in mathematics focuses on math, proofs, and statistics. Rosa brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "victor-bergstrom",
+    "name": "Victor Bergstrom",
+    "title": "Assistant Professor",
+    "department": "mathematics",
+    "email": "victor.bergstrom@cascadiastate.example",
+    "office": "Madrona Hall, room 307",
+    "research_interests": [
+      "math"
+    ],
+    "bio": "Victor Bergstrom joined Cascadia State in 2019 after doctoral work in Oregon. Victor's work in mathematics focuses on math. Victor is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "yara-morales",
+    "name": "Yara Morales",
+    "title": "Professor",
+    "department": "mathematics",
+    "email": "yara.morales@cascadiastate.example",
+    "office": "Alder Hall, room 120",
+    "research_interests": [
+      "modeling",
+      "statistics"
+    ],
+    "bio": "Yara Morales joined Cascadia State in 2009 after a research post at a federal laboratory. Yara's work in mathematics focuses on modeling and statistics. Yara advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "eli-brennan",
+    "name": "Eli Brennan",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "environmental-science",
+    "email": "eli.brennan@cascadiastate.example",
+    "office": "Madrona Hall, room 387",
+    "research_interests": [
+      "sustainability",
+      "conservation"
+    ],
+    "bio": "Eli Brennan joined Cascadia State in 2021 after a research post at a federal laboratory. Eli's work in environmental science focuses on sustainability and conservation. Eli teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "dmitri-cho",
+    "name": "Dmitri Cho",
+    "title": "Senior Lecturer",
+    "department": "environmental-science",
+    "email": "dmitri.cho@cascadiastate.example",
+    "office": "Salish Hall, room 437",
+    "research_interests": [
+      "climate",
+      "sustainability"
+    ],
+    "bio": "Dmitri Cho joined Cascadia State in 1999 after teaching at a community college in Eastern Washington. Dmitri's work in environmental science focuses on climate and sustainability. Dmitri brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "sam-uribe",
+    "name": "Sam Uribe",
+    "title": "Associate Professor",
+    "department": "environmental-science",
+    "email": "sam.uribe@cascadiastate.example",
+    "office": "Salish Hall, room 475",
+    "research_interests": [
+      "climate",
+      "sustainability",
+      "field research"
+    ],
+    "bio": "Sam Uribe joined Cascadia State in 2005 after leading a nonprofit in the South Sound. Sam's work in environmental science focuses on climate, sustainability, and field research. Sam teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "aiyana-johansen",
+    "name": "Aiyana Johansen",
+    "title": "Assistant Professor",
+    "department": "environmental-science",
+    "email": "aiyana.johansen@cascadiastate.example",
+    "office": "Cedar Commons, room 144",
+    "research_interests": [
+      "sustainability",
+      "conservation"
+    ],
+    "bio": "Aiyana Johansen joined Cascadia State in 2008 after leading a nonprofit in the South Sound. Aiyana's work in environmental science focuses on sustainability and conservation. Aiyana teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "hiro-sato",
+    "name": "Hiro Sato",
+    "title": "Associate Professor",
+    "department": "environmental-science",
+    "email": "hiro.sato@cascadiastate.example",
+    "office": "Fir Tower, room 122",
+    "research_interests": [
+      "climate",
+      "sustainability"
+    ],
+    "bio": "Hiro Sato joined Cascadia State in 2018 after teaching at a community college in Eastern Washington. Hiro's work in environmental science focuses on climate and sustainability. Hiro teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "pita-yamamoto",
+    "name": "Pita Yamamoto",
+    "title": "Professor",
+    "department": "environmental-science",
+    "email": "pita.yamamoto@cascadiastate.example",
+    "office": "Fir Tower, room 213",
+    "research_interests": [
+      "sustainability",
+      "conservation",
+      "field research"
+    ],
+    "bio": "Pita Yamamoto joined Cascadia State in 2012 after a postdoctoral fellowship in Vancouver, British Columbia. Pita's work in environmental science focuses on sustainability, conservation, and field research. Pita is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "joaquin-johansen",
+    "name": "Joaquin Johansen",
+    "title": "Associate Professor",
+    "department": "environmental-science",
+    "email": "joaquin.johansen@cascadiastate.example",
+    "office": "Cedar Commons, room 423",
+    "research_interests": [
+      "climate",
+      "sustainability",
+      "conservation",
+      "field research"
+    ],
+    "bio": "Joaquin Johansen joined Cascadia State in 2023 after doctoral work in Oregon. Joaquin's work in environmental science focuses on climate, sustainability, conservation, and field research. Joaquin teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "keiko-hassan",
+    "name": "Keiko Hassan",
+    "title": "Associate Professor",
+    "department": "environmental-science",
+    "email": "keiko.hassan@cascadiastate.example",
+    "office": "Cedar Commons, room 225",
+    "research_interests": [
+      "climate",
+      "sustainability",
+      "conservation",
+      "field research"
+    ],
+    "bio": "Keiko Hassan joined Cascadia State in 2022 after a decade in public service. Keiko's work in environmental science focuses on climate, sustainability, conservation, and field research. Keiko is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "hana-brennan",
+    "name": "Hana Brennan",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "marine-biology",
+    "email": "hana.brennan@cascadiastate.example",
+    "office": "Cedar Commons, room 253",
+    "research_interests": [
+      "fisheries",
+      "field research"
+    ],
+    "bio": "Hana Brennan joined Cascadia State in 1999 after eight years in industry. Hana's work in marine biology focuses on fisheries and field research. Hana brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "tomas-fong",
+    "name": "Tomas Fong",
+    "title": "Associate Professor",
+    "department": "marine-biology",
+    "email": "tomas.fong@cascadiastate.example",
+    "office": "Madrona Hall, room 456",
+    "research_interests": [
+      "fisheries"
+    ],
+    "bio": "Tomas Fong joined Cascadia State in 2003 after eight years in industry. Tomas's work in marine biology focuses on fisheries. Tomas advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "amara-thompson",
+    "name": "Amara Thompson",
+    "title": "Associate Professor",
+    "department": "marine-biology",
+    "email": "amara.thompson@cascadiastate.example",
+    "office": "Salish Hall, room 219",
+    "research_interests": [
+      "oceans",
+      "salish sea",
+      "field research"
+    ],
+    "bio": "Amara Thompson joined Cascadia State in 2001 after a research post at a federal laboratory. Amara's work in marine biology focuses on oceans, salish sea, and field research. Amara teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "quinn-kealoha",
+    "name": "Quinn Kealoha",
+    "title": "Associate Professor",
+    "department": "marine-biology",
+    "email": "quinn.kealoha@cascadiastate.example",
+    "office": "Salish Hall, room 194",
+    "research_interests": [
+      "oceans",
+      "field research"
+    ],
+    "bio": "Quinn Kealoha joined Cascadia State in 2004 after a research post at a federal laboratory. Quinn's work in marine biology focuses on oceans and field research. Quinn brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "esther-cho",
+    "name": "Esther Cho",
+    "title": "Associate Professor",
+    "department": "marine-biology",
+    "email": "esther.cho@cascadiastate.example",
+    "office": "Cedar Commons, room 131",
+    "research_interests": [
+      "salish sea",
+      "fisheries"
+    ],
+    "bio": "Esther Cho joined Cascadia State in 2009 after eight years in industry. Esther's work in marine biology focuses on salish sea and fisheries. Esther teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "selam-delgado",
+    "name": "Selam Delgado",
+    "title": "Professor",
+    "department": "marine-biology",
+    "email": "selam.delgado@cascadiastate.example",
+    "office": "Cedar Commons, room 318",
+    "research_interests": [
+      "oceans",
+      "fisheries"
+    ],
+    "bio": "Selam Delgado joined Cascadia State in 2018 after a decade in public service. Selam's work in marine biology focuses on oceans and fisheries. Selam brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "reuben-larsen",
+    "name": "Reuben Larsen",
+    "title": "Assistant Professor",
+    "department": "marine-biology",
+    "email": "reuben.larsen@cascadiastate.example",
+    "office": "Salish Hall, room 448",
+    "research_interests": [
+      "oceans",
+      "field research"
+    ],
+    "bio": "Reuben Larsen joined Cascadia State in 2007 after doctoral work in Oregon. Reuben's work in marine biology focuses on oceans and field research. Reuben advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "camila-moreau",
+    "name": "Camila Moreau",
+    "title": "Senior Lecturer",
+    "department": "marine-biology",
+    "email": "camila.moreau@cascadiastate.example",
+    "office": "Alder Hall, room 365",
+    "research_interests": [
+      "field research"
+    ],
+    "bio": "Camila Moreau joined Cascadia State in 2006 after a visiting appointment in Japan. Camila's work in marine biology focuses on field research. Camila brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "vikram-silva",
+    "name": "Vikram Silva",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "geology",
+    "email": "vikram.silva@cascadiastate.example",
+    "office": "Fir Tower, room 289",
+    "research_interests": [
+      "earth science",
+      "volcanoes",
+      "earthquakes"
+    ],
+    "bio": "Vikram Silva joined Cascadia State in 2017 after teaching at a community college in Eastern Washington. Vikram's work in geology focuses on earth science, volcanoes, and earthquakes. Vikram brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "tomas-fernandes",
+    "name": "Tomas Fernandes",
+    "title": "Senior Lecturer",
+    "department": "geology",
+    "email": "tomas.fernandes@cascadiastate.example",
+    "office": "Madrona Hall, room 205",
+    "research_interests": [
+      "earth science",
+      "volcanoes",
+      "earthquakes",
+      "field research"
+    ],
+    "bio": "Tomas Fernandes joined Cascadia State in 2019 after doctoral work in Oregon. Tomas's work in geology focuses on earth science, volcanoes, earthquakes, and field research. Tomas leads the department's community-engaged learning program."
+  },
+  {
+    "id": "adebayo-reyes",
+    "name": "Adebayo Reyes",
+    "title": "Assistant Professor",
+    "department": "geology",
+    "email": "adebayo.reyes@cascadiastate.example",
+    "office": "Salish Hall, room 118",
+    "research_interests": [
+      "volcanoes",
+      "field research"
+    ],
+    "bio": "Adebayo Reyes joined Cascadia State in 1999 after eight years in industry. Adebayo's work in geology focuses on volcanoes and field research. Adebayo teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "nikhil-fernandes",
+    "name": "Nikhil Fernandes",
+    "title": "Associate Professor",
+    "department": "geology",
+    "email": "nikhil.fernandes@cascadiastate.example",
+    "office": "Salish Hall, room 324",
+    "research_interests": [
+      "volcanoes",
+      "earthquakes",
+      "field research"
+    ],
+    "bio": "Nikhil Fernandes joined Cascadia State in 2013 after a decade in public service. Nikhil's work in geology focuses on volcanoes, earthquakes, and field research. Nikhil brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "jamal-larsen",
+    "name": "Jamal Larsen",
+    "title": "Assistant Professor",
+    "department": "geology",
+    "email": "jamal.larsen@cascadiastate.example",
+    "office": "Cedar Commons, room 455",
+    "research_interests": [
+      "earth science",
+      "volcanoes"
+    ],
+    "bio": "Jamal Larsen joined Cascadia State in 2018 after a decade in public service. Jamal's work in geology focuses on earth science and volcanoes. Jamal teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "eli-bergstrom",
+    "name": "Eli Bergstrom",
+    "title": "Assistant Professor",
+    "department": "geology",
+    "email": "eli.bergstrom@cascadiastate.example",
+    "office": "Alder Hall, room 428",
+    "research_interests": [
+      "earth science",
+      "earthquakes",
+      "field research"
+    ],
+    "bio": "Eli Bergstrom joined Cascadia State in 2011 after a visiting appointment in Japan. Eli's work in geology focuses on earth science, earthquakes, and field research. Eli brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "eli-duarte",
+    "name": "Eli Duarte",
+    "title": "Assistant Professor",
+    "department": "geology",
+    "email": "eli.duarte@cascadiastate.example",
+    "office": "Alder Hall, room 290",
+    "research_interests": [
+      "earthquakes",
+      "field research"
+    ],
+    "bio": "Eli Duarte joined Cascadia State in 2000 after a research post at a federal laboratory. Eli's work in geology focuses on earthquakes and field research. Eli advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "felipe-kealoha",
+    "name": "Felipe Kealoha",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "psychology",
+    "email": "felipe.kealoha@cascadiastate.example",
+    "office": "Cedar Commons, room 163",
+    "research_interests": [
+      "behavior",
+      "mental health",
+      "cognition"
+    ],
+    "bio": "Felipe Kealoha joined Cascadia State in 2020 after doctoral work in Oregon. Felipe's work in psychology focuses on behavior, mental health, and cognition. Felipe leads the department's community-engaged learning program."
+  },
+  {
+    "id": "bridget-park",
+    "name": "Bridget Park",
+    "title": "Professor",
+    "department": "psychology",
+    "email": "bridget.park@cascadiastate.example",
+    "office": "Fir Tower, room 399",
+    "research_interests": [
+      "behavior",
+      "mental health",
+      "research",
+      "cognition"
+    ],
+    "bio": "Bridget Park joined Cascadia State in 2019 after a decade in public service. Bridget's work in psychology focuses on behavior, mental health, research, and cognition. Bridget leads the department's community-engaged learning program."
+  },
+  {
+    "id": "yara-vu",
+    "name": "Yara Vu",
+    "title": "Associate Professor",
+    "department": "psychology",
+    "email": "yara.vu@cascadiastate.example",
+    "office": "Fir Tower, room 152",
+    "research_interests": [
+      "behavior",
+      "mental health",
+      "research",
+      "cognition"
+    ],
+    "bio": "Yara Vu joined Cascadia State in 2007 after a decade in public service. Yara's work in psychology focuses on behavior, mental health, research, and cognition. Yara is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "joaquin-larsen",
+    "name": "Joaquin Larsen",
+    "title": "Assistant Professor",
+    "department": "psychology",
+    "email": "joaquin.larsen@cascadiastate.example",
+    "office": "Alder Hall, room 272",
+    "research_interests": [
+      "mental health",
+      "cognition"
+    ],
+    "bio": "Joaquin Larsen joined Cascadia State in 2013 after a research post at a federal laboratory. Joaquin's work in psychology focuses on mental health and cognition. Joaquin brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "tomas-quintero",
+    "name": "Tomas Quintero",
+    "title": "Assistant Professor",
+    "department": "psychology",
+    "email": "tomas.quintero@cascadiastate.example",
+    "office": "Cedar Commons, room 107",
+    "research_interests": [
+      "research",
+      "cognition"
+    ],
+    "bio": "Tomas Quintero joined Cascadia State in 2011 after teaching at a community college in Eastern Washington. Tomas's work in psychology focuses on research and cognition. Tomas is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "teresa-gunnarsson",
+    "name": "Teresa Gunnarsson",
+    "title": "Associate Professor",
+    "department": "psychology",
+    "email": "teresa.gunnarsson@cascadiastate.example",
+    "office": "Madrona Hall, room 254",
+    "research_interests": [
+      "behavior",
+      "mental health",
+      "research"
+    ],
+    "bio": "Teresa Gunnarsson joined Cascadia State in 2004 after a postdoctoral fellowship in Vancouver, British Columbia. Teresa's work in psychology focuses on behavior, mental health, and research. Teresa leads the department's community-engaged learning program."
+  },
+  {
+    "id": "lena-fernandes",
+    "name": "Lena Fernandes",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "sociology",
+    "email": "lena.fernandes@cascadiastate.example",
+    "office": "Salish Hall, room 469",
+    "research_interests": [
+      "inequality"
+    ],
+    "bio": "Lena Fernandes joined Cascadia State in 2018 after a research post at a federal laboratory. Lena's work in sociology focuses on inequality. Lena is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "tuan-patel",
+    "name": "Tuan Patel",
+    "title": "Professor",
+    "department": "sociology",
+    "email": "tuan.patel@cascadiastate.example",
+    "office": "Alder Hall, room 372",
+    "research_interests": [
+      "society",
+      "community"
+    ],
+    "bio": "Tuan Patel joined Cascadia State in 2004 after teaching at a community college in Eastern Washington. Tuan's work in sociology focuses on society and community. Tuan brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "luis-johansen",
+    "name": "Luis Johansen",
+    "title": "Professor",
+    "department": "sociology",
+    "email": "luis.johansen@cascadiastate.example",
+    "office": "Alder Hall, room 167",
+    "research_interests": [
+      "inequality"
+    ],
+    "bio": "Luis Johansen joined Cascadia State in 2011 after a postdoctoral fellowship in Vancouver, British Columbia. Luis's work in sociology focuses on inequality. Luis brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "bao-abebe",
+    "name": "Bao Abebe",
+    "title": "Professor",
+    "department": "sociology",
+    "email": "bao.abebe@cascadiastate.example",
+    "office": "Alder Hall, room 466",
+    "research_interests": [
+      "research methods",
+      "community"
+    ],
+    "bio": "Bao Abebe joined Cascadia State in 2019 after eight years in industry. Bao's work in sociology focuses on research methods and community. Bao advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "hiro-adeyemi",
+    "name": "Hiro Adeyemi",
+    "title": "Associate Professor",
+    "department": "sociology",
+    "email": "hiro.adeyemi@cascadiastate.example",
+    "office": "Cedar Commons, room 461",
+    "research_interests": [
+      "community"
+    ],
+    "bio": "Hiro Adeyemi joined Cascadia State in 2014 after leading a nonprofit in the South Sound. Hiro's work in sociology focuses on community. Hiro teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "reuben-moreau",
+    "name": "Reuben Moreau",
+    "title": "Associate Professor",
+    "department": "sociology",
+    "email": "reuben.moreau@cascadiastate.example",
+    "office": "Alder Hall, room 241",
+    "research_interests": [
+      "society",
+      "inequality",
+      "research methods",
+      "community"
+    ],
+    "bio": "Reuben Moreau joined Cascadia State in 2023 after a research post at a federal laboratory. Reuben's work in sociology focuses on society, inequality, research methods, and community. Reuben leads the department's community-engaged learning program."
+  },
+  {
+    "id": "marcus-johansen",
+    "name": "Marcus Johansen",
+    "title": "Assistant Professor",
+    "department": "sociology",
+    "email": "marcus.johansen@cascadiastate.example",
+    "office": "Cedar Commons, room 120",
+    "research_interests": [
+      "research methods"
+    ],
+    "bio": "Marcus Johansen joined Cascadia State in 2002 after a research post at a federal laboratory. Marcus's work in sociology focuses on research methods. Marcus is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "farah-wallace",
+    "name": "Farah Wallace",
+    "title": "Associate Professor",
+    "department": "sociology",
+    "email": "farah.wallace@cascadiastate.example",
+    "office": "Cedar Commons, room 325",
+    "research_interests": [
+      "research methods",
+      "community"
+    ],
+    "bio": "Farah Wallace joined Cascadia State in 2023 after leading a nonprofit in the South Sound. Farah's work in sociology focuses on research methods and community. Farah advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "olivia-vu",
+    "name": "Olivia Vu",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "political-science",
+    "email": "olivia.vu@cascadiastate.example",
+    "office": "Madrona Hall, room 360",
+    "research_interests": [
+      "elections"
+    ],
+    "bio": "Olivia Vu joined Cascadia State in 2024 after a research post at a federal laboratory. Olivia's work in political science focuses on elections. Olivia brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "tomas-garcia",
+    "name": "Tomas Garcia",
+    "title": "Assistant Professor",
+    "department": "political-science",
+    "email": "tomas.garcia@cascadiastate.example",
+    "office": "Alder Hall, room 250",
+    "research_interests": [
+      "government",
+      "elections"
+    ],
+    "bio": "Tomas Garcia joined Cascadia State in 2009 after teaching at a community college in Eastern Washington. Tomas's work in political science focuses on government and elections. Tomas is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "jamal-silva",
+    "name": "Jamal Silva",
+    "title": "Assistant Professor",
+    "department": "political-science",
+    "email": "jamal.silva@cascadiastate.example",
+    "office": "Madrona Hall, room 448",
+    "research_interests": [
+      "government",
+      "policy",
+      "elections"
+    ],
+    "bio": "Jamal Silva joined Cascadia State in 2004 after leading a nonprofit in the South Sound. Jamal's work in political science focuses on government, policy, and elections. Jamal advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "amara-fong",
+    "name": "Amara Fong",
+    "title": "Assistant Professor",
+    "department": "political-science",
+    "email": "amara.fong@cascadiastate.example",
+    "office": "Salish Hall, room 116",
+    "research_interests": [
+      "government",
+      "elections"
+    ],
+    "bio": "Amara Fong joined Cascadia State in 2012 after leading a nonprofit in the South Sound. Amara's work in political science focuses on government and elections. Amara leads the department's community-engaged learning program."
+  },
+  {
+    "id": "leila-thompson",
+    "name": "Leila Thompson",
+    "title": "Senior Lecturer",
+    "department": "political-science",
+    "email": "leila.thompson@cascadiastate.example",
+    "office": "Madrona Hall, room 235",
+    "research_interests": [
+      "government",
+      "elections"
+    ],
+    "bio": "Leila Thompson joined Cascadia State in 2013 after a research post at a federal laboratory. Leila's work in political science focuses on government and elections. Leila is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "wren-mendoza",
+    "name": "Wren Mendoza",
+    "title": "Professor",
+    "department": "political-science",
+    "email": "wren.mendoza@cascadiastate.example",
+    "office": "Cedar Commons, room 306",
+    "research_interests": [
+      "government",
+      "policy"
+    ],
+    "bio": "Wren Mendoza joined Cascadia State in 2017 after eight years in industry. Wren's work in political science focuses on government and policy. Wren leads the department's community-engaged learning program."
+  },
+  {
+    "id": "ana-patel",
+    "name": "Ana Patel",
+    "title": "Assistant Professor",
+    "department": "political-science",
+    "email": "ana.patel@cascadiastate.example",
+    "office": "Alder Hall, room 188",
+    "research_interests": [
+      "policy"
+    ],
+    "bio": "Ana Patel joined Cascadia State in 2000 after leading a nonprofit in the South Sound. Ana's work in political science focuses on policy. Ana teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "amara-haugen",
+    "name": "Amara Haugen",
+    "title": "Senior Lecturer",
+    "department": "political-science",
+    "email": "amara.haugen@cascadiastate.example",
+    "office": "Fir Tower, room 111",
+    "research_interests": [
+      "government",
+      "policy",
+      "elections"
+    ],
+    "bio": "Amara Haugen joined Cascadia State in 2018 after teaching at a community college in Eastern Washington. Amara's work in political science focuses on government, policy, and elections. Amara advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "joaquin-castillo",
+    "name": "Joaquin Castillo",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "economics",
+    "email": "joaquin.castillo@cascadiastate.example",
+    "office": "Madrona Hall, room 404",
+    "research_interests": [
+      "markets",
+      "data"
+    ],
+    "bio": "Joaquin Castillo joined Cascadia State in 2004 after leading a nonprofit in the South Sound. Joaquin's work in economics focuses on markets and data. Joaquin teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "bridget-moreau",
+    "name": "Bridget Moreau",
+    "title": "Assistant Professor",
+    "department": "economics",
+    "email": "bridget.moreau@cascadiastate.example",
+    "office": "Madrona Hall, room 360",
+    "research_interests": [
+      "policy",
+      "data"
+    ],
+    "bio": "Bridget Moreau joined Cascadia State in 2016 after doctoral work in Oregon. Bridget's work in economics focuses on policy and data. Bridget leads the department's community-engaged learning program."
+  },
+  {
+    "id": "leila-gunnarsson",
+    "name": "Leila Gunnarsson",
+    "title": "Associate Professor",
+    "department": "economics",
+    "email": "leila.gunnarsson@cascadiastate.example",
+    "office": "Salish Hall, room 255",
+    "research_interests": [
+      "markets",
+      "data"
+    ],
+    "bio": "Leila Gunnarsson joined Cascadia State in 2003 after doctoral work in Oregon. Leila's work in economics focuses on markets and data. Leila leads the department's community-engaged learning program."
+  },
+  {
+    "id": "vikram-moreau",
+    "name": "Vikram Moreau",
+    "title": "Associate Professor",
+    "department": "economics",
+    "email": "vikram.moreau@cascadiastate.example",
+    "office": "Salish Hall, room 124",
+    "research_interests": [
+      "econometrics"
+    ],
+    "bio": "Vikram Moreau joined Cascadia State in 2020 after eight years in industry. Vikram's work in economics focuses on econometrics. Vikram teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "yusuf-banerjee",
+    "name": "Yusuf Banerjee",
+    "title": "Professor",
+    "department": "economics",
+    "email": "yusuf.banerjee@cascadiastate.example",
+    "office": "Cedar Commons, room 319",
+    "research_interests": [
+      "markets",
+      "econometrics"
+    ],
+    "bio": "Yusuf Banerjee joined Cascadia State in 2003 after doctoral work in Oregon. Yusuf's work in economics focuses on markets and econometrics. Yusuf leads the department's community-engaged learning program."
+  },
+  {
+    "id": "bridget-johansen",
+    "name": "Bridget Johansen",
+    "title": "Assistant Professor",
+    "department": "economics",
+    "email": "bridget.johansen@cascadiastate.example",
+    "office": "Salish Hall, room 409",
+    "research_interests": [
+      "data"
+    ],
+    "bio": "Bridget Johansen joined Cascadia State in 2001 after a postdoctoral fellowship in Vancouver, British Columbia. Bridget's work in economics focuses on data. Bridget brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "zoe-nguyen",
+    "name": "Zoe Nguyen",
+    "title": "Associate Professor",
+    "department": "economics",
+    "email": "zoe.nguyen@cascadiastate.example",
+    "office": "Cedar Commons, room 371",
+    "research_interests": [
+      "markets",
+      "policy",
+      "econometrics"
+    ],
+    "bio": "Zoe Nguyen joined Cascadia State in 2011 after a decade in public service. Zoe's work in economics focuses on markets, policy, and econometrics. Zoe advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "adebayo-okafor",
+    "name": "Adebayo Okafor",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "criminal-justice",
+    "email": "adebayo.okafor@cascadiastate.example",
+    "office": "Fir Tower, room 416",
+    "research_interests": [
+      "justice",
+      "courts",
+      "corrections"
+    ],
+    "bio": "Adebayo Okafor joined Cascadia State in 2003 after doctoral work in Oregon. Adebayo's work in criminal justice focuses on justice, courts, and corrections. Adebayo is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "amara-silva",
+    "name": "Amara Silva",
+    "title": "Assistant Professor",
+    "department": "criminal-justice",
+    "email": "amara.silva@cascadiastate.example",
+    "office": "Cedar Commons, room 175",
+    "research_interests": [
+      "justice",
+      "courts",
+      "corrections"
+    ],
+    "bio": "Amara Silva joined Cascadia State in 2003 after a postdoctoral fellowship in Vancouver, British Columbia. Amara's work in criminal justice focuses on justice, courts, and corrections. Amara leads the department's community-engaged learning program."
+  },
+  {
+    "id": "maya-haugen",
+    "name": "Maya Haugen",
+    "title": "Associate Professor",
+    "department": "criminal-justice",
+    "email": "maya.haugen@cascadiastate.example",
+    "office": "Madrona Hall, room 419",
+    "research_interests": [
+      "policy"
+    ],
+    "bio": "Maya Haugen joined Cascadia State in 2009 after teaching at a community college in Eastern Washington. Maya's work in criminal justice focuses on policy. Maya is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "ben-gunnarsson",
+    "name": "Ben Gunnarsson",
+    "title": "Associate Professor",
+    "department": "criminal-justice",
+    "email": "ben.gunnarsson@cascadiastate.example",
+    "office": "Cedar Commons, room 389",
+    "research_interests": [
+      "policy"
+    ],
+    "bio": "Ben Gunnarsson joined Cascadia State in 2010 after teaching at a community college in Eastern Washington. Ben's work in criminal justice focuses on policy. Ben advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "omar-kim",
+    "name": "Omar Kim",
+    "title": "Assistant Professor",
+    "department": "criminal-justice",
+    "email": "omar.kim@cascadiastate.example",
+    "office": "Salish Hall, room 139",
+    "research_interests": [
+      "justice",
+      "courts",
+      "corrections",
+      "policy"
+    ],
+    "bio": "Omar Kim joined Cascadia State in 2022 after a postdoctoral fellowship in Vancouver, British Columbia. Omar's work in criminal justice focuses on justice, courts, corrections, and policy. Omar is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "tomas-delgado",
+    "name": "Tomas Delgado",
+    "title": "Professor",
+    "department": "criminal-justice",
+    "email": "tomas.delgado@cascadiastate.example",
+    "office": "Fir Tower, room 272",
+    "research_interests": [
+      "justice",
+      "corrections",
+      "policy"
+    ],
+    "bio": "Tomas Delgado joined Cascadia State in 2017 after a visiting appointment in Japan. Tomas's work in criminal justice focuses on justice, corrections, and policy. Tomas teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "priya-brennan",
+    "name": "Priya Brennan",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "anthropology",
+    "email": "priya.brennan@cascadiastate.example",
+    "office": "Fir Tower, room 464",
+    "research_interests": [
+      "culture",
+      "archaeology",
+      "museums"
+    ],
+    "bio": "Priya Brennan joined Cascadia State in 2008 after eight years in industry. Priya's work in anthropology focuses on culture, archaeology, and museums. Priya is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "dana-fernandes",
+    "name": "Dana Fernandes",
+    "title": "Assistant Professor",
+    "department": "anthropology",
+    "email": "dana.fernandes@cascadiastate.example",
+    "office": "Fir Tower, room 413",
+    "research_interests": [
+      "ethnography",
+      "museums"
+    ],
+    "bio": "Dana Fernandes joined Cascadia State in 2001 after doctoral work in Oregon. Dana's work in anthropology focuses on ethnography and museums. Dana is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "mateo-haugen",
+    "name": "Mateo Haugen",
+    "title": "Assistant Professor",
+    "department": "anthropology",
+    "email": "mateo.haugen@cascadiastate.example",
+    "office": "Alder Hall, room 115",
+    "research_interests": [
+      "culture",
+      "ethnography"
+    ],
+    "bio": "Mateo Haugen joined Cascadia State in 2005 after eight years in industry. Mateo's work in anthropology focuses on culture and ethnography. Mateo brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "omar-kowalski",
+    "name": "Omar Kowalski",
+    "title": "Professor",
+    "department": "anthropology",
+    "email": "omar.kowalski@cascadiastate.example",
+    "office": "Madrona Hall, room 327",
+    "research_interests": [
+      "culture",
+      "archaeology",
+      "ethnography"
+    ],
+    "bio": "Omar Kowalski joined Cascadia State in 2004 after a decade in public service. Omar's work in anthropology focuses on culture, archaeology, and ethnography. Omar teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "esther-duarte",
+    "name": "Esther Duarte",
+    "title": "Professor",
+    "department": "anthropology",
+    "email": "esther.duarte@cascadiastate.example",
+    "office": "Madrona Hall, room 138",
+    "research_interests": [
+      "culture",
+      "ethnography",
+      "museums"
+    ],
+    "bio": "Esther Duarte joined Cascadia State in 2010 after a visiting appointment in Japan. Esther's work in anthropology focuses on culture, ethnography, and museums. Esther advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "tomas-ibarra",
+    "name": "Tomas Ibarra",
+    "title": "Senior Lecturer",
+    "department": "anthropology",
+    "email": "tomas.ibarra@cascadiastate.example",
+    "office": "Madrona Hall, room 414",
+    "research_interests": [
+      "archaeology",
+      "ethnography"
+    ],
+    "bio": "Tomas Ibarra joined Cascadia State in 2023 after a visiting appointment in Japan. Tomas's work in anthropology focuses on archaeology and ethnography. Tomas advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "marcus-okafor",
+    "name": "Marcus Okafor",
+    "title": "Associate Professor",
+    "department": "anthropology",
+    "email": "marcus.okafor@cascadiastate.example",
+    "office": "Alder Hall, room 287",
+    "research_interests": [
+      "culture",
+      "museums"
+    ],
+    "bio": "Marcus Okafor joined Cascadia State in 2023 after leading a nonprofit in the South Sound. Marcus's work in anthropology focuses on culture and museums. Marcus advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "reuben-wallace",
+    "name": "Reuben Wallace",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "elementary-education",
+    "email": "reuben.wallace@cascadiastate.example",
+    "office": "Fir Tower, room 114",
+    "research_interests": [
+      "teaching"
+    ],
+    "bio": "Reuben Wallace joined Cascadia State in 2006 after eight years in industry. Reuben's work in elementary education focuses on teaching. Reuben teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "ana-tanaka",
+    "name": "Ana Tanaka",
+    "title": "Senior Lecturer",
+    "department": "elementary-education",
+    "email": "ana.tanaka@cascadiastate.example",
+    "office": "Fir Tower, room 366",
+    "research_interests": [
+      "teaching"
+    ],
+    "bio": "Ana Tanaka joined Cascadia State in 2001 after a visiting appointment in Japan. Ana's work in elementary education focuses on teaching. Ana leads the department's community-engaged learning program."
+  },
+  {
+    "id": "yusuf-ibarra",
+    "name": "Yusuf Ibarra",
+    "title": "Senior Lecturer",
+    "department": "elementary-education",
+    "email": "yusuf.ibarra@cascadiastate.example",
+    "office": "Cedar Commons, room 406",
+    "research_interests": [
+      "teaching",
+      "literacy"
+    ],
+    "bio": "Yusuf Ibarra joined Cascadia State in 2000 after teaching at a community college in Eastern Washington. Yusuf's work in elementary education focuses on teaching and literacy. Yusuf leads the department's community-engaged learning program."
+  },
+  {
+    "id": "ben-duarte",
+    "name": "Ben Duarte",
+    "title": "Assistant Professor",
+    "department": "elementary-education",
+    "email": "ben.duarte@cascadiastate.example",
+    "office": "Cedar Commons, room 199",
+    "research_interests": [
+      "teaching"
+    ],
+    "bio": "Ben Duarte joined Cascadia State in 2014 after a visiting appointment in Japan. Ben's work in elementary education focuses on teaching. Ben teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "maya-fong",
+    "name": "Maya Fong",
+    "title": "Associate Professor",
+    "department": "elementary-education",
+    "email": "maya.fong@cascadiastate.example",
+    "office": "Salish Hall, room 319",
+    "research_interests": [
+      "teaching"
+    ],
+    "bio": "Maya Fong joined Cascadia State in 2005 after leading a nonprofit in the South Sound. Maya's work in elementary education focuses on teaching. Maya is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "omar-iyer",
+    "name": "Omar Iyer",
+    "title": "Associate Professor",
+    "department": "elementary-education",
+    "email": "omar.iyer@cascadiastate.example",
+    "office": "Madrona Hall, room 131",
+    "research_interests": [
+      "teaching"
+    ],
+    "bio": "Omar Iyer joined Cascadia State in 2003 after eight years in industry. Omar's work in elementary education focuses on teaching. Omar leads the department's community-engaged learning program."
+  },
+  {
+    "id": "victor-vu",
+    "name": "Victor Vu",
+    "title": "Assistant Professor",
+    "department": "elementary-education",
+    "email": "victor.vu@cascadiastate.example",
+    "office": "Alder Hall, room 197",
+    "research_interests": [
+      "literacy"
+    ],
+    "bio": "Victor Vu joined Cascadia State in 2004 after teaching at a community college in Eastern Washington. Victor's work in elementary education focuses on literacy. Victor advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "hiro-wallace",
+    "name": "Hiro Wallace",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "special-education",
+    "email": "hiro.wallace@cascadiastate.example",
+    "office": "Salish Hall, room 283",
+    "research_interests": [
+      "inclusion",
+      "disability",
+      "teaching"
+    ],
+    "bio": "Hiro Wallace joined Cascadia State in 2009 after a postdoctoral fellowship in Vancouver, British Columbia. Hiro's work in special education focuses on inclusion, disability, and teaching. Hiro leads the department's community-engaged learning program."
+  },
+  {
+    "id": "hiro-moreau",
+    "name": "Hiro Moreau",
+    "title": "Associate Professor",
+    "department": "special-education",
+    "email": "hiro.moreau@cascadiastate.example",
+    "office": "Alder Hall, room 358",
+    "research_interests": [
+      "teaching"
+    ],
+    "bio": "Hiro Moreau joined Cascadia State in 1998 after leading a nonprofit in the South Sound. Hiro's work in special education focuses on teaching. Hiro advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "eli-kealoha",
+    "name": "Eli Kealoha",
+    "title": "Senior Lecturer",
+    "department": "special-education",
+    "email": "eli.kealoha@cascadiastate.example",
+    "office": "Cedar Commons, room 349",
+    "research_interests": [
+      "inclusion",
+      "teaching"
+    ],
+    "bio": "Eli Kealoha joined Cascadia State in 1999 after teaching at a community college in Eastern Washington. Eli's work in special education focuses on inclusion and teaching. Eli teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "noor-morales",
+    "name": "Noor Morales",
+    "title": "Associate Professor",
+    "department": "special-education",
+    "email": "noor.morales@cascadiastate.example",
+    "office": "Madrona Hall, room 365",
+    "research_interests": [
+      "disability",
+      "teaching"
+    ],
+    "bio": "Noor Morales joined Cascadia State in 2010 after a decade in public service. Noor's work in special education focuses on disability and teaching. Noor teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "imani-larsen",
+    "name": "Imani Larsen",
+    "title": "Senior Lecturer",
+    "department": "special-education",
+    "email": "imani.larsen@cascadiastate.example",
+    "office": "Madrona Hall, room 252",
+    "research_interests": [
+      "inclusion"
+    ],
+    "bio": "Imani Larsen joined Cascadia State in 2019 after a visiting appointment in Japan. Imani's work in special education focuses on inclusion. Imani teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "selam-bergstrom",
+    "name": "Selam Bergstrom",
+    "title": "Assistant Professor",
+    "department": "special-education",
+    "email": "selam.bergstrom@cascadiastate.example",
+    "office": "Salish Hall, room 207",
+    "research_interests": [
+      "inclusion"
+    ],
+    "bio": "Selam Bergstrom joined Cascadia State in 2023 after a decade in public service. Selam's work in special education focuses on inclusion. Selam brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "rosa-hassan",
+    "name": "Rosa Hassan",
+    "title": "Associate Professor",
+    "department": "special-education",
+    "email": "rosa.hassan@cascadiastate.example",
+    "office": "Cedar Commons, room 270",
+    "research_interests": [
+      "inclusion",
+      "disability"
+    ],
+    "bio": "Rosa Hassan joined Cascadia State in 2022 after leading a nonprofit in the South Sound. Rosa's work in special education focuses on inclusion and disability. Rosa teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "noor-bergstrom",
+    "name": "Noor Bergstrom",
+    "title": "Senior Lecturer",
+    "department": "special-education",
+    "email": "noor.bergstrom@cascadiastate.example",
+    "office": "Cedar Commons, room 267",
+    "research_interests": [
+      "inclusion"
+    ],
+    "bio": "Noor Bergstrom joined Cascadia State in 2022 after doctoral work in Oregon. Noor's work in special education focuses on inclusion. Noor advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "yusuf-fernandes",
+    "name": "Yusuf Fernandes",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "educational-leadership",
+    "email": "yusuf.fernandes@cascadiastate.example",
+    "office": "Alder Hall, room 120",
+    "research_interests": [
+      "administration"
+    ],
+    "bio": "Yusuf Fernandes joined Cascadia State in 2016 after a research post at a federal laboratory. Yusuf's work in educational leadership focuses on administration. Yusuf advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "zoe-okafor",
+    "name": "Zoe Okafor",
+    "title": "Professor",
+    "department": "educational-leadership",
+    "email": "zoe.okafor@cascadiastate.example",
+    "office": "Cedar Commons, room 417",
+    "research_interests": [
+      "leadership",
+      "schools"
+    ],
+    "bio": "Zoe Okafor joined Cascadia State in 2004 after a research post at a federal laboratory. Zoe's work in educational leadership focuses on leadership and schools. Zoe advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "aiyana-ibarra",
+    "name": "Aiyana Ibarra",
+    "title": "Assistant Professor",
+    "department": "educational-leadership",
+    "email": "aiyana.ibarra@cascadiastate.example",
+    "office": "Fir Tower, room 159",
+    "research_interests": [
+      "leadership",
+      "policy"
+    ],
+    "bio": "Aiyana Ibarra joined Cascadia State in 1999 after teaching at a community college in Eastern Washington. Aiyana's work in educational leadership focuses on leadership and policy. Aiyana brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "tuan-kowalski",
+    "name": "Tuan Kowalski",
+    "title": "Professor",
+    "department": "educational-leadership",
+    "email": "tuan.kowalski@cascadiastate.example",
+    "office": "Madrona Hall, room 447",
+    "research_interests": [
+      "administration",
+      "schools",
+      "policy"
+    ],
+    "bio": "Tuan Kowalski joined Cascadia State in 1998 after teaching at a community college in Eastern Washington. Tuan's work in educational leadership focuses on administration, schools, and policy. Tuan is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "uma-castillo",
+    "name": "Uma Castillo",
+    "title": "Assistant Professor",
+    "department": "educational-leadership",
+    "email": "uma.castillo@cascadiastate.example",
+    "office": "Cedar Commons, room 328",
+    "research_interests": [
+      "leadership"
+    ],
+    "bio": "Uma Castillo joined Cascadia State in 2010 after teaching at a community college in Eastern Washington. Uma's work in educational leadership focuses on leadership. Uma teaches across the curriculum and mentors undergraduate researchers."
+  },
+  {
+    "id": "chen-whitehorse",
+    "name": "Chen Whitehorse",
+    "title": "Assistant Professor",
+    "department": "educational-leadership",
+    "email": "chen.whitehorse@cascadiastate.example",
+    "office": "Madrona Hall, room 385",
+    "research_interests": [
+      "administration",
+      "policy"
+    ],
+    "bio": "Chen Whitehorse joined Cascadia State in 2021 after a visiting appointment in Japan. Chen's work in educational leadership focuses on administration and policy. Chen leads the department's community-engaged learning program."
+  },
+  {
+    "id": "wren-nguyen",
+    "name": "Wren Nguyen",
+    "title": "Professor",
+    "department": "educational-leadership",
+    "email": "wren.nguyen@cascadiastate.example",
+    "office": "Cedar Commons, room 343",
+    "research_interests": [
+      "leadership",
+      "administration",
+      "schools",
+      "policy"
+    ],
+    "bio": "Wren Nguyen joined Cascadia State in 2000 after eight years in industry. Wren's work in educational leadership focuses on leadership, administration, schools, and policy. Wren advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "imani-tanaka",
+    "name": "Imani Tanaka",
+    "title": "Professor",
+    "role": "Department chair",
+    "department": "higher-education-administration",
+    "email": "imani.tanaka@cascadiastate.example",
+    "office": "Fir Tower, room 442",
+    "research_interests": [
+      "student affairs",
+      "advising"
+    ],
+    "bio": "Imani Tanaka joined Cascadia State in 2021 after eight years in industry. Imani's work in higher education administration focuses on student affairs and advising. Imani advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "pita-zhou",
+    "name": "Pita Zhou",
+    "title": "Assistant Professor",
+    "department": "higher-education-administration",
+    "email": "pita.zhou@cascadiastate.example",
+    "office": "Fir Tower, room 175",
+    "research_interests": [
+      "advising",
+      "leadership"
+    ],
+    "bio": "Pita Zhou joined Cascadia State in 1999 after teaching at a community college in Eastern Washington. Pita's work in higher education administration focuses on advising and leadership. Pita leads the department's community-engaged learning program."
+  },
+  {
+    "id": "joaquin-adeyemi",
+    "name": "Joaquin Adeyemi",
+    "title": "Professor",
+    "department": "higher-education-administration",
+    "email": "joaquin.adeyemi@cascadiastate.example",
+    "office": "Cedar Commons, room 189",
+    "research_interests": [
+      "colleges"
+    ],
+    "bio": "Joaquin Adeyemi joined Cascadia State in 1999 after a decade in public service. Joaquin's work in higher education administration focuses on colleges. Joaquin advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "nia-uribe",
+    "name": "Nia Uribe",
+    "title": "Assistant Professor",
+    "department": "higher-education-administration",
+    "email": "nia.uribe@cascadiastate.example",
+    "office": "Salish Hall, room 321",
+    "research_interests": [
+      "student affairs",
+      "advising",
+      "colleges"
+    ],
+    "bio": "Nia Uribe joined Cascadia State in 2002 after leading a nonprofit in the South Sound. Nia's work in higher education administration focuses on student affairs, advising, and colleges. Nia is a past recipient of the university's Excellence in Teaching award."
+  },
+  {
+    "id": "felipe-iyer",
+    "name": "Felipe Iyer",
+    "title": "Associate Professor",
+    "department": "higher-education-administration",
+    "email": "felipe.iyer@cascadiastate.example",
+    "office": "Cedar Commons, room 167",
+    "research_interests": [
+      "colleges"
+    ],
+    "bio": "Felipe Iyer joined Cascadia State in 2006 after a research post at a federal laboratory. Felipe's work in higher education administration focuses on colleges. Felipe brings applied projects with regional partners into the classroom."
+  },
+  {
+    "id": "yara-yazzie",
+    "name": "Yara Yazzie",
+    "title": "Assistant Professor",
+    "department": "higher-education-administration",
+    "email": "yara.yazzie@cascadiastate.example",
+    "office": "Madrona Hall, room 218",
+    "research_interests": [
+      "advising",
+      "colleges"
+    ],
+    "bio": "Yara Yazzie joined Cascadia State in 2001 after eight years in industry. Yara's work in higher education administration focuses on advising and colleges. Yara advises graduate students and serves on the university's research council."
+  },
+  {
+    "id": "rafael-mendoza",
+    "name": "Rafael Mendoza",
+    "title": "Assistant Professor",
+    "department": "higher-education-administration",
+    "email": "rafael.mendoza@cascadiastate.example",
+    "office": "Salish Hall, room 140",
+    "research_interests": [
+      "student affairs",
+      "advising",
+      "colleges",
+      "leadership"
+    ],
+    "bio": "Rafael Mendoza joined Cascadia State in 2004 after eight years in industry. Rafael's work in higher education administration focuses on student affairs, advising, colleges, and leadership. Rafael advises graduate students and serves on the university's research council."
+  }
+]

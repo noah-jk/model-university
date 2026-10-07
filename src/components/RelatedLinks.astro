@@ -1,0 +1,28 @@
+---
+// "Related" links for events and news: the programs, departments, services,
+// and people an entry is about.
+import type { Related } from "../lib/schemas.ts";
+import { departments, faculty, programs, services } from "../lib/catalog.ts";
+import { pagePath, subjectPath } from "../lib/urls.ts";
+
+interface Props {
+  related: Related;
+}
+const { related } = Astro.props;
+
+const groups = [
+  { heading: "People", links: (related.faculty ?? []).map((id) => faculty.find((f) => f.id === id)!).map((f) => ({ href: pagePath("faculty", f.id), text: `${f.name}, ${f.title}` })) },
+  { heading: "Programs", links: (related.programs ?? []).map((id) => programs.find((p) => p.id === id)!).map((p) => ({ href: pagePath("programs", p.id), text: p.name })) },
+  { heading: "Subjects", links: (related.departments ?? []).map((id) => departments.find((d) => d.id === id)!).map((d) => ({ href: subjectPath(d.id), text: `${d.field} courses` })) },
+  { heading: "Student services", links: (related.services ?? []).map((id) => services.find((s) => s.id === id)!).map((s) => ({ href: pagePath("services", s.id), text: s.name })) },
+].filter((g) => g.links.length > 0);
+---
+
+{
+  groups.map((g) => (
+    <>
+      <h2>{g.heading}</h2>
+      <ul>{g.links.map((l) => <li><a href={l.href}>{l.text}</a></li>)}</ul>
+    </>
+  ))
+}

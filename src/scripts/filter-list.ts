@@ -1,7 +1,8 @@
 // Filters a list in place as people type or pick options. Used by the
 // program finder and the course subject list.
 //
-// Markup: a <form data-filter-form="LIST_ID" data-noun="program"> and a list
+// Markup: a <form data-filter-form="LIST_ID" data-noun="program"> (add
+// data-plural="people" when adding "s" doesn't work) and a list
 // with id LIST_ID whose items carry data-search="lowercase words" plus one
 // data-* attribute per <select> name (comma-separated when an item has several values).
 // A <p id="LIST_ID-count"> shows the number of matches.
@@ -11,6 +12,7 @@ document.querySelectorAll<HTMLFormElement>("[data-filter-form]").forEach((form) 
   const items = [...document.querySelectorAll<HTMLElement>(`#${listId} > li`)];
   const count = document.getElementById(`${listId}-count`)!;
   const noun = form.dataset.noun!;
+  const plural = form.dataset.plural ?? `${noun}s`;
 
   const apply = () => {
     const values = Object.fromEntries(new FormData(form)) as Record<string, string>;
@@ -23,7 +25,7 @@ document.querySelectorAll<HTMLFormElement>("[data-filter-form]").forEach((form) 
       item.hidden = !matches;
       if (matches) shown++;
     }
-    count.textContent = `${shown} ${shown === 1 ? noun : `${noun}s`}`;
+    count.textContent = `${shown} ${shown === 1 ? noun : plural}`;
   };
 
   let timer: ReturnType<typeof setTimeout>;
@@ -35,4 +37,6 @@ document.querySelectorAll<HTMLFormElement>("[data-filter-form]").forEach((form) 
     e.preventDefault();
     apply();
   });
+  // Apply right away too, so default selections (like "Upcoming") take effect
+  apply();
 });

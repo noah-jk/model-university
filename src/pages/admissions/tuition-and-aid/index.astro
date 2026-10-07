@@ -1,0 +1,55 @@
+---
+import siteConfig from "../../../../site.config.ts";
+import { getPage } from "../../../lib/pages.ts";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../../components/AskAiMenu.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import { programs } from "../../../lib/catalog.ts";
+import { usd } from "../../../lib/format.ts";
+import { pagePath } from "../../../lib/urls.ts";
+import { PROGRAM_LEVELS } from "../../../lib/vocab.ts";
+
+const page = await getPage("admissions/tuition-and-aid");
+const { Content } = page;
+const path = "/admissions/tuition-and-aid/";
+
+// Tuition ranges by level, straight from the program data
+const range = (values: number[]) => [Math.min(...values), Math.max(...values)].map(usd).join(" to ");
+const byLevel = PROGRAM_LEVELS.map((level) => {
+  const list = programs.filter((p) => p.level === level);
+  return { level, perCredit: range(list.map((p) => p.tuition_per_credit_usd)), total: range(list.map((p) => p.estimated_total_tuition_usd)) };
+});
+
+const prompt = `Read {origin}${path} and help me understand what ${siteConfig.name} would cost me and how to pay for it. If I haven't said which program I'm interested in, ask me, then look up its tuition and link to its page.`;
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <Breadcrumb items={[{ label: "Admissions", href: "/admissions/" }, { label: page.title, href: path }]} />
+  <article class="prose">
+    <h1>{page.title}</h1>
+    <p class="lede">{page.description}</p>
+    <AskAiMenu prompt={prompt} label="Ask AI about costs and aid" />
+
+    <h2>Tuition by program level</h2>
+    <div class="table-scroll">
+      <table>
+        <caption class="visually-hidden">Tuition ranges by program level</caption>
+        <thead>
+          <tr><th scope="col">Level</th><th scope="col">Per credit</th><th scope="col">Estimated total tuition</th></tr>
+        </thead>
+        <tbody>
+          {byLevel.map((row) => <tr><th scope="row">{row.level}</th><td>{row.perCredit}</td><td>{row.total}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Totals are estimates based on each program's required credits, before financial aid. <a href="/programs/">Find a program</a> to see its exact rate, or ask the <a href={pagePath("services", "student-accounts")}>Student Accounts</a> office.</p>
+
+    <Content />
+
+    <p>Questions? Contact <a href={pagePath("services", "financial-aid-and-scholarships")}>Financial Aid &amp; Scholarships</a>.</p>
+  </article>
+</BaseLayout>
+
+<style>
+  .note { font-size: var(--step--1); color: var(--muted); }
+</style>

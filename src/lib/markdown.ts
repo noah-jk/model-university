@@ -2,7 +2,7 @@
 
 import siteConfig from "../../site.config.ts";
 import type { Course, Program, Service } from "./schemas.ts";
-import { collegeOf, departmentOf, prerequisitesOf } from "./catalog.ts";
+import { collegeOf, departmentOf, instructorOf, prerequisitesOf } from "./catalog.ts";
 import { formatHours } from "./hours.ts";
 import { usd } from "./format.ts";
 import { absoluteUrl, pagePath } from "./urls.ts";
@@ -46,7 +46,7 @@ export function courseMarkdown(c: Course, site: URL) {
       `Credits: ${c.credits}`,
       `Offered: ${c.terms_offered.join(", ")}`,
       `Format: ${c.modality}`,
-      `Instructor: ${c.instructor}`,
+      `Instructor: ${instructorOf(c).name}`,
     ])}`,
     `## Prerequisites\n\n${prereqs.length ? bullets(prereqs.map((p) => `[${p.code}: ${p.title}](${absoluteUrl(pagePath("courses", p.id), site)})`)) : "None"}`,
   ].join("\n\n") + "\n";

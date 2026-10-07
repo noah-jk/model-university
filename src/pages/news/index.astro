@@ -1,0 +1,16 @@
+---
+import { getCollection } from "astro:content";
+import siteConfig from "../../../site.config.ts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import NewsList from "../../components/NewsList.astro";
+
+const stories = (await getCollection("news")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title="News" description={`News from ${siteConfig.name}: research, students, and campus life.`}>
+  <div class="page-intro">
+    <h1>News</h1>
+    <p>Research, students, and campus life at {siteConfig.shortName}.</p>
+  </div>
+  <NewsList stories={stories} headingLevel={2} />
+</BaseLayout>

@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { storyDate } from "../lib/dates.ts";
+import { pagePath } from "../lib/urls.ts";
+
+interface Props {
+  stories: CollectionEntry<"news">[];
+  headingLevel?: 2 | 3;
+}
+const { stories, headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as "h2" | "h3";
+---
+
+<ul class="news-list">
+  {
+    stories.map(({ id, data }) => (
+      <li>
+        <Heading><a href={pagePath("news", id)}>{data.title}</a></Heading>
+        <p class="date"><time datetime={data.date.toISOString().slice(0, 10)}>{storyDate(data.date)}</time></p>
+        <p>{data.summary}</p>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .news-list { list-style: none; padding: 0; margin: 0; }
+  li { max-width: none; padding-block: 1rem; border-bottom: 1px solid var(--line); }
+  h2, h3 { font-size: var(--step-1); margin: 0 0 0.25rem; }
+  p { margin: 0; color: var(--muted); }
+  .date { font-size: var(--step--1); font-weight: 600; color: var(--basalt); margin-bottom: 0.25rem; }
+</style>

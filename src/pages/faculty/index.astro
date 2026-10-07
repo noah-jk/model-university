@@ -1,0 +1,72 @@
+---
+// Every faculty member in one filterable list, sorted by last name.
+import { getCollection } from "astro:content";
+import siteConfig from "../../../site.config.ts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../components/AskAiMenu.astro";
+import { departmentOf, departments } from "../../lib/catalog.ts";
+import { pagePath } from "../../lib/urls.ts";
+import { FACULTY_TITLES } from "../../lib/vocab.ts";
+
+const lastName = (name: string) => name.split(" ").at(-1)!;
+const people = (await getCollection("faculty")).map((f) => f.data).sort((a, b) => lastName(a.name).localeCompare(lastName(b.name)) || a.name.localeCompare(b.name));
+const subjects = [...departments].sort((a, b) => a.field.localeCompare(b.field));
+
+const prompt = `Help me find faculty at ${siteConfig.name} using {origin}/faculty/. Ask me what I'm interested in if I haven't said, then suggest specific people with links to their pages.`;
+---
+
+<BaseLayout title="Faculty directory" description={`Faculty at ${siteConfig.name}, with research interests, courses, and contact details.`}>
+  <div class="page-intro">
+    <h1>Faculty directory</h1>
+    <p>{people.length} faculty across {departments.length} departments. Search by name or research interest.</p>
+    <AskAiMenu prompt={prompt} label="Find faculty with AI" />
+  </div>
+
+  <form class="finder" data-filter-form="faculty-list" data-noun="person" data-plural="people" role="search" aria-label="Filter faculty">
+    <div class="field search">
+      <label for="q">Search by name or research interest</label>
+      <input id="q" name="q" type="search" placeholder="For example, Nguyen or climate" />
+    </div>
+    <div class="field">
+      <label for="department">Department</label>
+      <select id="department" name="department">
+        <option value="">Any department</option>
+        {subjects.map((d) => <option value={d.id}>{d.field}</option>)}
+      </select>
+    </div>
+    <div class="field">
+      <label for="title">Title</label>
+      <select id="title" name="title">
+        <option value="">Any title</option>
+        {FACULTY_TITLES.map((t) => <option value={t}>{t}</option>)}
+      </select>
+    </div>
+  </form>
+
+  <p id="faculty-list-count" class="results-count" aria-live="polite">{people.length} people</p>
+  <ul id="faculty-list" class="entry-list">
+    {
+      people.map((f) => {
+        const department = departmentOf(f);
+        return (
+          <li data-search={[f.name, department.field, ...f.research_interests].join(" ").toLowerCase()} data-department={f.department} data-title={f.title}>
+            <div>
+              <h2><a href={pagePath("faculty", f.id)}>{f.name}</a></h2>
+              <p>{f.role ? `${f.title} and ${f.role.toLowerCase()}` : f.title}, {department.field}</p>
+            </div>
+            <p class="facts">{f.research_interests.join(", ")}</p>
+          </li>
+        );
+      })
+    }
+  </ul>
+</BaseLayout>
+
+<script>
+  import "../../scripts/filter-list.ts";
+</script>
+
+<style>
+  h2 { font-size: var(--step-1); margin: 0; }
+  @media (min-width: 720px) { .entry-list > li { grid-template-columns: 1fr 16rem; } }
+</style>

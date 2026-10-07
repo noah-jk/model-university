@@ -6,6 +6,8 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import AskAiMenu from "../../../components/AskAiMenu.astro";
 import AtAGlance from "../../../components/AtAGlance.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
+import EventList from "../../../components/EventList.astro";
+import { eventsAbout, hasEnded } from "../../../lib/catalog.ts";
 import { formatHours } from "../../../lib/hours.ts";
 import { markdownPath, pagePath } from "../../../lib/urls.ts";
 import { DAYS, DAY_NAMES } from "../../../lib/vocab.ts";
@@ -19,6 +21,7 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { service: s } = Astro.props;
 const path = pagePath("services", s.id);
+const upcoming = eventsAbout("services", s.id).filter((e) => !hasEnded(e));
 ---
 
 <BaseLayout title={s.name} description={s.description}>
@@ -55,6 +58,15 @@ const path = pagePath("services", s.id);
         {s.eligibility}.{s.appointment_required ? " Appointments are required." : " Drop in anytime during open hours."}
         {s.virtual_option && " Virtual appointments are available."}
       </p>
+
+      {
+        upcoming.length > 0 && (
+          <section aria-labelledby="events-title">
+            <h2 id="events-title">Upcoming events</h2>
+            <EventList events={upcoming} upcomingOnly limit={3} />
+          </section>
+        )
+      }
     </article>
 
     <AtAGlance
@@ -68,6 +80,10 @@ const path = pagePath("services", s.id);
     />
   </div>
 </BaseLayout>
+
+<script>
+  import "../../../scripts/past-events.ts";
+</script>
 
 <style>
   table { max-width: 28rem; }
