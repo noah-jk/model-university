@@ -1,8 +1,6 @@
 ---
-import siteConfig from "../../../../site.config.ts";
 import { getPage } from "../../../lib/pages.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import AskAiMenu from "../../../components/AskAiMenu.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import { programs } from "../../../lib/catalog.ts";
 import { usd } from "../../../lib/format.ts";
@@ -20,7 +18,6 @@ const byLevel = PROGRAM_LEVELS.map((level) => {
   return { level, perCredit: range(list.map((p) => p.tuition_per_credit_usd)), total: range(list.map((p) => p.estimated_total_tuition_usd)) };
 });
 
-const prompt = `Read {origin}${path} and help me understand what ${siteConfig.name} would cost me and how to pay for it. If I haven't said which program I'm interested in, ask me, then look up its tuition and link to its page.`;
 ---
 
 <BaseLayout title={page.title} description={page.description}>
@@ -28,7 +25,6 @@ const prompt = `Read {origin}${path} and help me understand what ${siteConfig.na
   <article class="prose">
     <h1>{page.title}</h1>
     <p class="lede">{page.description}</p>
-    <AskAiMenu prompt={prompt} label="Ask AI about costs and aid" />
 
     <h2>Tuition by program level</h2>
     <div class="table-scroll">
