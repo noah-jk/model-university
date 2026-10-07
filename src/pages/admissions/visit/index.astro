@@ -1,25 +1,25 @@
 ---
-import { getEntry, render } from "astro:content";
 import siteConfig from "../../../../site.config.ts";
+import { getPage } from "../../../lib/pages.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import AskAiMenu from "../../../components/AskAiMenu.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import EventList from "../../../components/EventList.astro";
 import { events, hasEnded } from "../../../lib/catalog.ts";
 
-const entry = (await getEntry("pages", "admissions/visit"))!;
-const { Content } = await render(entry);
+const page = await getPage("admissions/visit");
+const { Content } = page;
 const path = "/admissions/visit/";
 const visits = events.filter((e) => e.category === "Admissions" && !hasEnded(e));
 const prompt = `Read {origin}${path} and help me plan a visit to ${siteConfig.name}. Suggest upcoming tours or events that fit my schedule, with links.`;
 ---
 
-<BaseLayout title={entry.data.title} description={entry.data.description}>
-  <Breadcrumb items={[{ label: "Admissions", href: "/admissions/" }, { label: entry.data.title, href: path }]} />
+<BaseLayout title={page.title} description={page.description}>
+  <Breadcrumb items={[{ label: "Admissions", href: "/admissions/" }, { label: page.title, href: path }]} />
   <div class="detail">
     <article>
-      <h1>{entry.data.title}</h1>
-      <p class="lede">{entry.data.description}</p>
+      <h1>{page.title}</h1>
+      <p class="lede">{page.description}</p>
       <AskAiMenu prompt={prompt} label="Plan a visit with AI" />
       <Content />
     </article>

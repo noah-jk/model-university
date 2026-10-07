@@ -1,6 +1,6 @@
 ---
-import { getEntry, render } from "astro:content";
 import siteConfig from "../../../../site.config.ts";
+import { getPage } from "../../../lib/pages.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import AskAiMenu from "../../../components/AskAiMenu.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
@@ -9,8 +9,8 @@ import { usd } from "../../../lib/format.ts";
 import { pagePath } from "../../../lib/urls.ts";
 import { PROGRAM_LEVELS } from "../../../lib/vocab.ts";
 
-const entry = (await getEntry("pages", "admissions/tuition-and-aid"))!;
-const { Content } = await render(entry);
+const page = await getPage("admissions/tuition-and-aid");
+const { Content } = page;
 const path = "/admissions/tuition-and-aid/";
 
 // Tuition ranges by level, straight from the program data
@@ -23,11 +23,11 @@ const byLevel = PROGRAM_LEVELS.map((level) => {
 const prompt = `Read {origin}${path} and help me understand what ${siteConfig.name} would cost me and how to pay for it. If I haven't said which program I'm interested in, ask me, then look up its tuition and link to its page.`;
 ---
 
-<BaseLayout title={entry.data.title} description={entry.data.description}>
-  <Breadcrumb items={[{ label: "Admissions", href: "/admissions/" }, { label: entry.data.title, href: path }]} />
+<BaseLayout title={page.title} description={page.description}>
+  <Breadcrumb items={[{ label: "Admissions", href: "/admissions/" }, { label: page.title, href: path }]} />
   <article class="prose">
-    <h1>{entry.data.title}</h1>
-    <p class="lede">{entry.data.description}</p>
+    <h1>{page.title}</h1>
+    <p class="lede">{page.description}</p>
     <AskAiMenu prompt={prompt} label="Ask AI about costs and aid" />
 
     <h2>Tuition by program level</h2>

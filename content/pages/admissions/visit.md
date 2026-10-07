@@ -1,4 +1,5 @@
 ---
+slug: admissions/visit
 title: Visit campus
 description: Campus tours, open houses, and information sessions at Cascadia State's Tacoma Bay and Olympia campuses, and online.
 ---

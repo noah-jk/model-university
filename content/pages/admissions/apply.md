@@ -1,4 +1,5 @@
 ---
+slug: admissions/apply
 title: How to apply
 description: Steps, deadlines, and requirements for first-year, transfer, and graduate applicants to Cascadia State.
 ---

@@ -1,4 +1,5 @@
 ---
+slug: admissions
 title: Admissions
 description: How to apply to Cascadia State, what it costs, and how to visit, for first-year, transfer, and graduate students.
 ---

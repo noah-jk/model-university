@@ -1,4 +1,5 @@
 ---
+slug: about
 title: About Cascadia State
 description: A public university in the South Puget Sound, with campuses in Tacoma and Olympia.
 ---

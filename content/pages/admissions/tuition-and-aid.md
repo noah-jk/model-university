@@ -1,4 +1,5 @@
 ---
+slug: admissions/tuition-and-aid
 title: Tuition and financial aid
 description: What Cascadia State costs, and the grants, scholarships, loans, and work-study that help pay for it.
 ---

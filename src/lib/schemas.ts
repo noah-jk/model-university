@@ -129,6 +129,9 @@ export const newsStory = z.object({
 });
 
 export const page = z.object({
+  // The page's id, e.g. "admissions/visit". Set explicitly so it doesn't
+  // depend on how the files are arranged in folders.
+  slug: z.string().regex(/^[a-z0-9-]+(\/[a-z0-9-]+)*$/),
   title: text,
   description: text,
 });
