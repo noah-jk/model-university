@@ -1,10 +1,10 @@
 # Model University: Cascadia State
 
-A model university website for showing what an AI-ready higher-ed site looks like. "Cascadia State University" is fictional, and so is every program, course, and service on it.
+A model university website for showing what an AI-ready higher-ed site looks like. "Cascadia State University" is fictional, and so is every program, course, person, event, and story on it.
 
 What's included today:
 
-- **The site**: programs (a single filterable list, plus a page for each program), a course catalog (a page for every subject and every course), student services, and a "Connect your AI" page
+- **The site**: programs (a single filterable list, plus a page for each program), a course catalog (a page for every subject and every course), admissions (apply, tuition and aid, visit), student services, a faculty directory, events, news, about, and a "Connect your AI" page
 - **An MCP server** at `/mcp` with read-only tools: `search_programs`, `get_program`, `compare_programs`, `list_colleges`, `search_courses`, `get_course`, `find_services`, `get_service`, `services_open_now`, plus the prompts `recommend-program` and `find-help`. Every result carries an absolute page url.
 - **AI-readable files**: `/llms.txt`, JSON feeds at `/data/*.json`, and a Markdown copy of every detail page at `…/index.md`
 
@@ -16,7 +16,10 @@ One content layer feeds every page and every AI feature.
 
 ```
 site.config.ts              Site name, URL, timezone, indexing, and AI feature switches
-content/generated/          The catalog as JSON, written by scripts/generate-data.mjs (don't edit by hand)
+content/
+  generated/                Catalog, faculty, and events as JSON, written by scripts/generate-data.mjs (don't edit by hand)
+  news/                     News stories, one Markdown file each
+  pages/                    About and admissions pages in Markdown
 src/
   content.config.ts         Astro content collections, one per generated file
   lib/
@@ -43,8 +46,16 @@ scripts/
 | `programs` | 142 degrees, minors, and certificates | `department` |
 | `courses` | 1,330 courses | `department`, `prerequisites` (courses) |
 | `services` | 36 student services with weekly hours | |
+| `faculty` | 318 faculty, 6 to 8 per department | `department` |
+| `events` | 64 events across the 2026–27 academic year | `related` programs, departments, services, faculty |
+| `news` | News stories (Markdown) | `related` programs, departments, services, faculty |
+| `pages` | About and admissions pages (Markdown) | |
 
-Content is checked twice: `npm run check:content` validates every entry and reference before each build, and Astro validates the collections again during the build. Either failure stops the deploy.
+Courses also point to their `instructor` (a faculty id).
+
+Content is checked twice: `npm run check:content` validates every generated entry and reference before each build, and Astro validates every collection again during the build, including the related links in news stories. Either failure stops the deploy.
+
+Pages are built ahead of time, so event lists decide in the browser which events have already happened (`src/scripts/past-events.ts`). Without JavaScript, lists show what was upcoming when the site was built.
 
 ### AI features
 

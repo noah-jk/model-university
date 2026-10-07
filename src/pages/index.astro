@@ -4,6 +4,9 @@ import siteConfig from "../../site.config.ts";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AskAiMenu from "../components/AskAiMenu.astro";
 import McpAddress from "../components/McpAddress.astro";
+import EventList from "../components/EventList.astro";
+import NewsList from "../components/NewsList.astro";
+import { events, hasEnded } from "../lib/catalog.ts";
 
 const [programs, courses, services, colleges] = await Promise.all([
   getCollection("programs"),
@@ -11,6 +14,8 @@ const [programs, courses, services, colleges] = await Promise.all([
   getCollection("services"),
   getCollection("colleges"),
 ]);
+const latestNews = (await getCollection("news")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 3);
+const upcoming = events.filter((e) => !hasEnded(e));
 
 const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms.txt. If I haven't said what I want, ask me one short question about my interests. Once I've given any preference, recommend the top 3 matches with links and don't keep asking questions.`;
 ---
@@ -47,6 +52,19 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
     </a>
   </section>
 
+  <div class="happening">
+    <section aria-labelledby="events-title">
+      <h2 id="events-title">Upcoming events</h2>
+      <EventList events={upcoming} upcomingOnly limit={3} />
+      <p><a href="/events/">All events</a></p>
+    </section>
+    <section aria-labelledby="news-title">
+      <h2 id="news-title">News</h2>
+      <NewsList stories={latestNews} />
+      <p><a href="/news/">All news</a></p>
+    </section>
+  </div>
+
   {
     siteConfig.features.mcp && (
       <section class="panel connect" aria-labelledby="connect-title">
@@ -72,5 +90,12 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
   .explore h2 { font-size: var(--step-2); margin-bottom: 0.25em; }
   .explore p { color: var(--muted); margin: 0; }
 
+  .happening { display: grid; gap: 2rem 3rem; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); margin-bottom: 4rem; }
+  .happening h2 { font-size: var(--step-2); padding-top: 1rem; border-top: 3px solid var(--fir); }
+  .happening p { margin-top: 1rem; }
   .connect { border-left: 6px solid var(--fir); }
 </style>
+
+<script>
+  import "../scripts/past-events.ts";
+</script>

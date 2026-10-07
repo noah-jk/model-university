@@ -13,3 +13,7 @@ export const DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"] as const;
 export const DAY_NAMES = { mon: "Monday", tue: "Tuesday", wed: "Wednesday", thu: "Thursday", fri: "Friday", sat: "Saturday", sun: "Sunday" } as const;
 
 export type Day = (typeof DAYS)[number];
+
+export const FACULTY_TITLES = ["Professor", "Associate Professor", "Assistant Professor", "Senior Lecturer"] as const;
+export const EVENT_CATEGORIES = ["Admissions", "Academics", "Arts", "Career", "Community", "Money", "Wellbeing"] as const;
+export const AUDIENCES = ["Prospective students", "Current students", "Families", "Alumni", "Faculty and staff", "Public"] as const;

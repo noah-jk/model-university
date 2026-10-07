@@ -8,8 +8,10 @@ import departmentsData from "../../content/generated/departments.json" with { ty
 import programsData from "../../content/generated/programs.json" with { type: "json" };
 import coursesData from "../../content/generated/courses.json" with { type: "json" };
 import servicesData from "../../content/generated/services.json" with { type: "json" };
+import facultyData from "../../content/generated/faculty.json" with { type: "json" };
+import eventsData from "../../content/generated/events.json" with { type: "json" };
 import siteConfig from "../../site.config.ts";
-import type { College, Course, Department, Program, Service } from "./schemas.ts";
+import type { College, Course, Department, Event, FacultyMember, Program, Related, Service } from "./schemas.ts";
 import { campusTime, isOpen } from "./hours.ts";
 import { absoluteUrl, pagePath } from "./urls.ts";
 
@@ -18,6 +20,8 @@ export const departments = departmentsData as Department[];
 export const programs = programsData as Program[];
 export const courses = coursesData as Course[];
 export const services = servicesData as Service[];
+export const faculty = facultyData as FacultyMember[];
+export const events = eventsData as Event[];
 
 type Base = string | URL;
 
@@ -25,6 +29,7 @@ const byId = <T extends { id: string }>(rows: T[]) => new Map(rows.map((r) => [r
 const collegeById = byId(colleges);
 const departmentById = byId(departments);
 const courseById = byId(courses);
+const facultyById = byId(faculty);
 
 // Lookups -------------------------------------------------------------------
 
@@ -51,6 +56,30 @@ export const relatedPrograms = (program: Program) =>
 
 export const programsInDepartment = (departmentId: string) => programs.filter((p) => p.department === departmentId);
 export const coursesInDepartment = (departmentId: string) => courses.filter((c) => c.department === departmentId);
+
+// Faculty -------------------------------------------------------------------
+
+export const instructorOf = (course: Course) => facultyById.get(course.instructor)!;
+export const coursesTaughtBy = (facultyId: string) => courses.filter((c) => c.instructor === facultyId);
+
+// Chair first, then everyone else by last name
+export function facultyInDepartment(departmentId: string) {
+  const lastName = (f: FacultyMember) => f.name.split(" ").at(-1)!;
+  return faculty
+    .filter((f) => f.department === departmentId)
+    .sort((a, b) => Number(Boolean(b.role)) - Number(Boolean(a.role)) || lastName(a).localeCompare(lastName(b)));
+}
+
+// Events --------------------------------------------------------------------
+
+// Events linked to an entry, e.g. eventsAbout("services", "career-center")
+export const eventsAbout = (type: keyof Related, id: string) => events.filter((e) => e.related[type]?.includes(id));
+
+// Events for a program: linked to the program itself or to its department
+export const eventsForProgram = (program: Program) =>
+  events.filter((e) => e.related.programs?.includes(program.id) || e.related.departments?.includes(program.department));
+
+export const hasEnded = (event: Event, now = new Date()) => new Date(event.end) < now;
 
 // Search ---------------------------------------------------------------------
 
@@ -166,7 +195,7 @@ export function searchCourses({ query, field, level, term, modality, limit = 20 
   const results = courses
     .filter((c) => !field || norm(departmentOf(c).field).includes(norm(field)))
     .filter((c) => eq(c.level, level) && has(c.terms_offered, term) && eq(c.modality, modality))
-    .map((c) => ({ c, s: score(query, [[c.code, 6], [c.title, 5], [departmentOf(c).field, 3], [c.description, 1], [c.instructor, 2]]) }))
+    .map((c) => ({ c, s: score(query, [[c.code, 6], [c.title, 5], [departmentOf(c).field, 3], [c.description, 1], [instructorOf(c).name, 2]]) }))
     .filter((r) => r.s > 0)
     .sort((a, b) => b.s - a.s || a.c.code.localeCompare(b.c.code, undefined, { numeric: true }));
   return {
@@ -187,11 +216,13 @@ export function getCourse(code: string, base: Base) {
   const c = courses.find((x) => norm(x.code) === norm(code) || x.id === norm(code));
   if (!c) return null;
   const department = departmentOf(c);
+  const instructor = instructorOf(c);
   return {
     ...c,
     field: department.field,
     department: department.name,
     college: collegeOf(c).name,
+    instructor: { name: instructor.name, title: instructor.title, url: absoluteUrl(pagePath("faculty", instructor.id), base) },
     prerequisites: prerequisitesOf(c).map((p) => ({ code: p.code, title: p.title, url: absoluteUrl(pagePath("courses", p.id), base) })),
     url: absoluteUrl(pagePath("courses", c.id), base),
     programs_in_field: programsInDepartment(c.department).map((p) => ({ name: p.name, url: absoluteUrl(pagePath("programs", p.id), base) })),

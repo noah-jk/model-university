@@ -6,7 +6,8 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import AskAiMenu from "../../../components/AskAiMenu.astro";
 import AtAGlance from "../../../components/AtAGlance.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
-import { collegeOf, departmentOf, relatedCourses, relatedPrograms } from "../../../lib/catalog.ts";
+import EventList from "../../../components/EventList.astro";
+import { collegeOf, departmentOf, eventsForProgram, hasEnded, relatedCourses, relatedPrograms } from "../../../lib/catalog.ts";
 import { listText, usd } from "../../../lib/format.ts";
 import { markdownPath, pagePath, subjectPath } from "../../../lib/urls.ts";
 
@@ -22,6 +23,7 @@ const path = pagePath("programs", p.id);
 const department = departmentOf(p);
 const related = relatedPrograms(p);
 const sampleCourses = relatedCourses(p).slice(0, 8);
+const upcoming = eventsForProgram(p).filter((e) => !hasEnded(e));
 ---
 
 <BaseLayout title={p.name} description={p.description}>
@@ -69,6 +71,15 @@ const sampleCourses = relatedCourses(p).slice(0, 8);
       }
 
       {
+        upcoming.length > 0 && (
+          <section aria-labelledby="events-title">
+            <h2 id="events-title">Upcoming events</h2>
+            <EventList events={upcoming} upcomingOnly limit={3} />
+          </section>
+        )
+      }
+
+      {
         related.length > 0 && (
           <>
             <h2>Related programs</h2>
@@ -95,3 +106,7 @@ const sampleCourses = relatedCourses(p).slice(0, 8);
     />
   </div>
 </BaseLayout>
+
+<script>
+  import "../../../scripts/past-events.ts";
+</script>

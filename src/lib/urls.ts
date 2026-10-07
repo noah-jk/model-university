@@ -1,6 +1,6 @@
 // The one place page URLs are built. Pages, feeds, and MCP results all use it.
 
-export type PageType = "programs" | "courses" | "services";
+export type PageType = "programs" | "courses" | "services" | "faculty" | "events" | "news";
 
 export const pagePath = (type: PageType, id: string) => `/${type}/${id}/`;
 export const markdownPath = (type: PageType, id: string) => `${pagePath(type, id)}index.md`;

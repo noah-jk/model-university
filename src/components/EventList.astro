@@ -1,0 +1,66 @@
+---
+// A list of events with a date badge. Pass `upcomingOnly` to hide events
+// that have ended. The build hides what had ended at build time, and the
+// browser updates that on each visit (see scripts/past-events.ts). Pass every
+// event that hadn't ended at build time, so the list stays full even if the
+// site isn't rebuilt for a while; `limit` decides how many show.
+import type { Event } from "../lib/schemas.ts";
+import { eventBadge, eventWhen } from "../lib/dates.ts";
+import { hasEnded } from "../lib/catalog.ts";
+import { pagePath } from "../lib/urls.ts";
+
+interface Props {
+  events: Event[];
+  id?: string;
+  upcomingOnly?: boolean;
+  limit?: number;
+  headingLevel?: 2 | 3;
+}
+
+const { events, id, upcomingOnly = false, limit, headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as "h2" | "h3";
+const buildTime = new Date();
+---
+
+<ul class="event-list" id={id} data-upcoming-only={upcomingOnly ? "" : undefined} data-limit={limit}>
+  {
+    events.map((e, i) => {
+      const badge = eventBadge(e);
+      const past = hasEnded(e, buildTime);
+      return (
+        <li
+          data-ends={e.end}
+          data-when={past ? "past" : "upcoming"}
+          data-search={[e.title, e.description, e.location].join(" ").toLowerCase()}
+          data-category={e.category}
+          data-audience={e.audience.join(",")}
+          data-campus={e.campus}
+          hidden={upcomingOnly && (past || (limit !== undefined && i >= limit)) ? true : undefined}
+        >
+          <p class="badge" aria-hidden="true">
+            <span class="month">{badge.month}</span>
+            <span class="day">{badge.day}</span>
+          </p>
+          <div>
+            <Heading><a href={pagePath("events", e.id)}>{e.title}</a></Heading>
+            <p class="when">{eventWhen(e)}</p>
+            <p class="where">{e.campus === "Online" ? "Online" : `${e.location}, ${e.campus}`}</p>
+          </div>
+        </li>
+      );
+    })
+  }
+</ul>
+{upcomingOnly && <p data-none-upcoming hidden>No upcoming events right now. <a href="/events/">See all events</a>.</p>}
+
+<style>
+  .event-list { list-style: none; padding: 0; margin: 0; }
+  li { max-width: none; display: grid; grid-template-columns: 3.5rem 1fr; gap: 1rem; align-items: start; padding-block: 1rem; border-bottom: 1px solid var(--line); }
+  .badge { margin: 0; display: grid; text-align: center; border: 1.5px solid var(--fir); border-radius: var(--radius-s); line-height: 1.1; padding-block: 0.35rem; }
+  .month { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--fir); }
+  .day { font-family: var(--serif); font-size: var(--step-1); }
+  h2, h3 { font-size: var(--step-1); margin: 0 0 0.25rem; }
+  p { margin: 0; }
+  .when { font-weight: 600; font-size: var(--step--1); }
+  .where { color: var(--muted); font-size: var(--step--1); }
+</style>

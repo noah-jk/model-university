@@ -110,7 +110,8 @@ th { font-weight: 600; }
 /* Detail pages: article plus an "at a glance" sidebar */
 .detail { display: grid; gap: 3rem; grid-template-columns: 1fr; }
 @media (min-width: 900px) { .detail { grid-template-columns: minmax(0, 1fr) 20rem; } }
-.detail article h2 { font-size: var(--step-2); margin-top: 2rem; }
+.detail article h2, .prose h2 { font-size: var(--step-2); margin-top: 2rem; }
+.prose .ai-menu { margin-bottom: 1.5rem; }
 
 .panel { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-s); padding: clamp(1.25rem, 3vw, 2rem); }
 .panel h2 { font-size: var(--step-2); }

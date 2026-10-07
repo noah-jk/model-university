@@ -6,7 +6,7 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import AskAiMenu from "../../../components/AskAiMenu.astro";
 import AtAGlance from "../../../components/AtAGlance.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
-import { courses, departmentOf, prerequisitesOf, programsInDepartment } from "../../../lib/catalog.ts";
+import { courses, departmentOf, instructorOf, prerequisitesOf, programsInDepartment } from "../../../lib/catalog.ts";
 import { markdownPath, pagePath, subjectPath } from "../../../lib/urls.ts";
 
 export const getStaticPaths = (async () => {
@@ -23,6 +23,7 @@ const prerequisites = prerequisitesOf(c);
 const leadsTo = courses.filter((other) => other.prerequisites.includes(c.id));
 const programs = programsInDepartment(c.department);
 const title = `${c.code}: ${c.title}`;
+const instructor = instructorOf(c);
 ---
 
 <BaseLayout title={title} description={c.description}>
@@ -79,7 +80,7 @@ const title = `${c.code}: ${c.title}`;
         ["Credits", String(c.credits)],
         ["Offered", c.terms_offered.join(", ")],
         ["Format", c.modality],
-        ["Instructor", c.instructor],
+        ["Instructor", { text: instructor.name, href: pagePath("faculty", instructor.id) }],
       ]}
     />
   </div>

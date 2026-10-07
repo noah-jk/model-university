@@ -6,7 +6,7 @@ import siteConfig from "../../../../../site.config.ts";
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
 import AskAiMenu from "../../../../components/AskAiMenu.astro";
 import Breadcrumb from "../../../../components/Breadcrumb.astro";
-import { collegeOf, coursesInDepartment, programsInDepartment } from "../../../../lib/catalog.ts";
+import { collegeOf, coursesInDepartment, facultyInDepartment, programsInDepartment } from "../../../../lib/catalog.ts";
 import { pagePath, subjectPath } from "../../../../lib/urls.ts";
 
 export const getStaticPaths = (async () => {
@@ -20,6 +20,7 @@ const { department: d } = Astro.props;
 const path = subjectPath(d.id);
 const courses = coursesInDepartment(d.id).sort((a, b) => a.code.localeCompare(b.code, undefined, { numeric: true }));
 const programs = programsInDepartment(d.id);
+const people = facultyInDepartment(d.id);
 ---
 
 <BaseLayout title={`${d.field} courses`} description={`All ${courses.length} ${d.field} (${d.course_prefix}) courses at ${siteConfig.name}.`}>
@@ -60,6 +61,13 @@ const programs = programsInDepartment(d.id);
       </tbody>
     </table>
   </div>
+
+  <section aria-labelledby="faculty-title">
+    <h2 id="faculty-title">{d.field} faculty</h2>
+    <ul>
+      {people.map((f) => <li><a href={pagePath("faculty", f.id)}>{f.name}</a>, {f.role ? `${f.title} and ${f.role.toLowerCase()}` : f.title}</li>)}
+    </ul>
+  </section>
 
   {
     programs.length > 0 && (

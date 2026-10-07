@@ -1,0 +1,54 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { getCollection, render } from "astro:content";
+import siteConfig from "../../../../site.config.ts";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../../components/AskAiMenu.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import RelatedLinks from "../../../components/RelatedLinks.astro";
+import { storyDate } from "../../../lib/dates.ts";
+import { pagePath } from "../../../lib/urls.ts";
+
+export const getStaticPaths = (async () => {
+  const stories = await getCollection("news");
+  return stories.map((story) => ({ params: { id: story.id }, props: { story } }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { story } = Astro.props;
+const { title, date, summary, author, related } = story.data;
+const { Content } = await render(story);
+const path = pagePath("news", story.id);
+const hasRelated = Object.values(related).some((ids) => ids.length > 0);
+---
+
+<BaseLayout title={title} description={summary}>
+  <Breadcrumb items={[{ label: "News", href: "/news/" }, { label: title, href: path }]} />
+  <div class="detail">
+    <article class="prose">
+      <h1>{title}</h1>
+      <p class="byline"><time datetime={date.toISOString().slice(0, 10)}>{storyDate(date)}</time> · {author}</p>
+      <p class="lede">{summary}</p>
+      <AskAiMenu prompt={`Read {origin}${path} and summarize this ${siteConfig.name} news story for me, then tell me how I could get involved. Include links.`} label="Ask AI about this story" />
+      <Content />
+    </article>
+    {
+      hasRelated && (
+        <aside class="panel related" aria-label="Related">
+          <RelatedLinks related={related} />
+        </aside>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .byline { font-size: var(--step--1); font-weight: 600; margin-bottom: 0.5rem; }
+  .related { align-self: start; font-size: var(--step--1); }
+  .related :global(h2) { font-size: var(--step-0); font-family: var(--sans); font-weight: 600; margin: 1rem 0 0.25rem; }
+  .related :global(h2:first-child) { margin-top: 0; }
+  .related :global(ul) { padding-left: 1.1rem; margin-bottom: 0.5rem; }
+  /* Room between links, so each one is an easy target (WCAG 2.5.8) */
+  .related :global(li) { padding-block: 0.3rem; line-height: 1.4; }
+</style>

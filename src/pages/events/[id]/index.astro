@@ -1,0 +1,70 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { getCollection } from "astro:content";
+import siteConfig from "../../../../site.config.ts";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../../components/AskAiMenu.astro";
+import AtAGlance from "../../../components/AtAGlance.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import RelatedLinks from "../../../components/RelatedLinks.astro";
+import { eventWhen } from "../../../lib/dates.ts";
+import { listText } from "../../../lib/format.ts";
+import { pagePath } from "../../../lib/urls.ts";
+
+export const getStaticPaths = (async () => {
+  const events = await getCollection("events");
+  return events.map((entry) => ({ params: { id: entry.id }, props: { event: entry.data } }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { event: e } = Astro.props;
+const path = pagePath("events", e.id);
+const when = eventWhen(e);
+const where = e.campus === "Online" ? "Online" : `${e.location}, ${e.campus}`;
+---
+
+<BaseLayout title={e.title} description={`${when}. ${e.description}`}>
+  <Breadcrumb items={[{ label: "Events", href: "/events/" }, { label: e.title, href: path }]} />
+  <div class="detail">
+    <article>
+      <h1>{e.title}</h1>
+      <p class="lede"><time datetime={e.start}>{when}</time> (Pacific time)</p>
+      <p class="past-notice" data-past-notice data-ends={e.end} hidden>This event has already taken place.</p>
+      <AskAiMenu
+        prompt={`Read {origin}${path} and tell me about the event "${e.title}" at ${siteConfig.name}: when and where it is, who it's for, and how to attend. Include the page link.`}
+        label="Ask AI about this event"
+      />
+
+      <h2>About this event</h2>
+      <p>{e.description}</p>
+
+      <h2>How to attend</h2>
+      <p>
+        {e.registration_required ? "Registration is required. " : "No registration needed. "}
+        {e.campus === "Online" ? "The link to join is emailed to registered guests the day before." : `Meet at ${e.location} on the ${e.campus}.`}
+      </p>
+
+      <RelatedLinks related={e.related} />
+    </article>
+
+    <AtAGlance
+      heading="At a glance"
+      facts={[
+        ["When", when],
+        ["Where", where],
+        ["Category", e.category],
+        ["For", listText(e.audience)],
+        ["Registration", e.registration_required ? "Required" : "Not needed"],
+      ]}
+    />
+  </div>
+</BaseLayout>
+
+<script>
+  import "../../../scripts/past-events.ts";
+</script>
+
+<style>
+  .past-notice { font-weight: 600; border-left: 4px solid var(--salmonberry); padding-left: 0.75rem; }
+</style>

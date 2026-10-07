@@ -3,6 +3,19 @@ import siteConfig from "../../site.config.ts";
 import McpAddress from "./McpAddress.astro";
 
 const { features } = siteConfig;
+const sections = [
+  { href: "/programs/", label: "Programs" },
+  { href: "/courses/", label: "Courses" },
+  { href: "/admissions/", label: "Admissions" },
+  { href: "/admissions/tuition-and-aid/", label: "Tuition and aid" },
+  { href: "/admissions/visit/", label: "Visit" },
+  { href: "/services/", label: "Student services" },
+  { href: "/faculty/", label: "Faculty" },
+  { href: "/events/", label: "Events" },
+  { href: "/news/", label: "News" },
+  { href: "/about/", label: "About" },
+  { href: "/connect/", label: "Connect your AI" },
+];
 const links = [
   ...(features.llmsTxt ? [{ href: "/llms.txt", label: "llms.txt" }] : []),
   ...(features.jsonFeeds ? ["programs", "courses", "services"].map((f) => ({ href: `/data/${f}.json`, label: `${f}.json` })) : []),
@@ -11,6 +24,11 @@ const links = [
 
 <footer class="site-footer">
   <div class="wrap">
+    <nav aria-label="Site">
+      <ul>
+        {sections.map(({ href, label }) => <li><a href={href}>{label}</a></li>)}
+      </ul>
+    </nav>
     <p>{siteConfig.name} is fictional. All programs, courses, and services are synthetic demo data.</p>
     {
       (links.length > 0 || features.mcp) && (
@@ -37,4 +55,5 @@ const links = [
 <style>
   .site-footer { border-top: 1px solid var(--line); padding-block: 2rem; font-size: var(--step--1); color: var(--muted); }
   p { max-width: none; }
+  nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; padding: 0; margin: 0 0 1.5rem; }
 </style>

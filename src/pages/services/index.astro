@@ -6,7 +6,7 @@ import AskAiMenu from "../../components/AskAiMenu.astro";
 import { pagePath } from "../../lib/urls.ts";
 import { SERVICE_CATEGORIES } from "../../lib/vocab.ts";
 
-const services = (await getCollection("services")).map((s) => s.data);
+const services = (await getCollection("services")).map((s) => s.data).sort((a, b) => a.name.localeCompare(b.name));
 const categories = [...SERVICE_CATEGORIES].sort().filter((cat) => services.some((s) => s.category === cat));
 const headingId = (cat: string) => `cat-${cat.toLowerCase().replace(/\W+/g, "-")}`;
 

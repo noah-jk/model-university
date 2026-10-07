@@ -21,8 +21,9 @@ for (const name of names) {
       for (const issue of result.error.issues) errors.push(`${name}/${entry.id}: ${issue.path.join(".")}: ${issue.message}`);
     }
     for (const [field, target] of Object.entries(references[name] ?? {})) {
-      const value = (entry as Record<string, unknown>)[field];
-      for (const ref of [value].flat() as string[]) {
+      // Follow dotted paths like "related.programs"; a missing optional field has nothing to check
+      const value = field.split(".").reduce<unknown>((obj, key) => (obj as Record<string, unknown> | undefined)?.[key], entry);
+      for (const ref of [value ?? []].flat() as string[]) {
         if (!ids[target].has(ref)) errors.push(`${name}/${entry.id}: ${field} "${ref}" is not a ${target} id`);
       }
     }
