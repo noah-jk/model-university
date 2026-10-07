@@ -17,7 +17,7 @@ export function announce(message: string) {
   setTimeout(() => (announcer.textContent = message), 50);
 }
 
-// "Use with your AI" disclosure menus: a button that shows and hides a list
+// "Ask AI" disclosure menus: a button that shows and hides a list
 document.querySelectorAll<HTMLElement>(".ai-menu").forEach((menu) => {
   const button = menu.querySelector<HTMLButtonElement>(".ai-menu-toggle")!;
   const list = menu.querySelector<HTMLElement>(".ai-menu-list")!;

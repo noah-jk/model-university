@@ -1,5 +1,5 @@
 ---
-// "Use with your AI" menu: open a chat with a ready-made prompt, copy the
+// "Ask AI" menu: open a chat with a ready-made prompt, copy the
 // page as Markdown, or copy the MCP server address.
 // Without JavaScript the options show as a plain list of links.
 //
@@ -11,6 +11,7 @@ interface Props {
   prompt: string;
   // Path of the page's Markdown copy, when it has one
   markdown?: string;
+  // Button text that says what the AI will help with, e.g. "Ask AI about this course"
   label?: string;
 }
 

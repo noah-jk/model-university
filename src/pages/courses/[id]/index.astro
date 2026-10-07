@@ -40,6 +40,7 @@ const title = `${c.code}: ${c.title}`;
       <AskAiMenu
         prompt={`Read {origin}${path} and tell me about ${c.code} at ${siteConfig.name}: what it covers, what I need first, and when it's offered. Include the page link.`}
         markdown={markdownPath("courses", c.id)}
+        label="Ask AI about this course"
       />
 
       <h2>Prerequisites</h2>

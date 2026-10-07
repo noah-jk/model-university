@@ -4,7 +4,7 @@ A model university website for showing what an AI-ready higher-ed site looks lik
 
 What's included today:
 
-- **The site**: programs (a single filterable list, plus a page for each program), a course catalog (a page for every subject and every course), student services, and a "Use with your AI" page
+- **The site**: programs (a single filterable list, plus a page for each program), a course catalog (a page for every subject and every course), student services, and a "Connect your AI" page
 - **An MCP server** at `/mcp` with read-only tools: `search_programs`, `get_program`, `compare_programs`, `list_colleges`, `search_courses`, `get_course`, `find_services`, `get_service`, `services_open_now`, plus the prompts `recommend-program` and `find-help`. Every result carries an absolute page url.
 - **AI-readable files**: `/llms.txt`, JSON feeds at `/data/*.json`, and a Markdown copy of every detail page at `…/index.md`
 
@@ -56,7 +56,7 @@ Each feature is a switch in `site.config.ts`. When a switch is off, its routes a
 | `llmsTxt` | `/llms.txt` |
 | `jsonFeeds` | `/data/programs.json`, `/data/courses.json`, `/data/services.json` |
 | `markdownPages` | `…/index.md` copies of program, course, and service pages |
-| `askAi` | "Use with your AI" menus |
+| `askAi` | "Ask AI" menus on pages, with a label suited to each page |
 
 ## Working on it
 

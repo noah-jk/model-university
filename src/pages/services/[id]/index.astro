@@ -27,7 +27,11 @@ const path = pagePath("services", s.id);
     <article>
       <h1>{s.name}</h1>
       <p class="lede">{s.description}</p>
-      <AskAiMenu prompt={`Read {origin}${path} and help me use the ${s.name} at ${siteConfig.name}.`} markdown={markdownPath("services", s.id)} />
+      <AskAiMenu
+        prompt={`Read {origin}${path} and help me use the ${s.name} at ${siteConfig.name}.`}
+        markdown={markdownPath("services", s.id)}
+        label="Ask AI about this service"
+      />
 
       <h2>Hours</h2>
       <div class="table-scroll">

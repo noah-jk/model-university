@@ -33,6 +33,7 @@ const sampleCourses = relatedCourses(p).slice(0, 8);
       <AskAiMenu
         prompt={`Read {origin}${path} and tell me about the ${p.name} program at ${siteConfig.name}. Include the page link.`}
         markdown={markdownPath("programs", p.id)}
+        label="Ask AI about this program"
       />
 
       <h2>What you'll learn</h2>

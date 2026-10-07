@@ -19,7 +19,7 @@ const prompt = `Help me plan courses at ${siteConfig.name} using {origin}/llms.t
   <div class="page-intro">
     <h1>Course catalog</h1>
     <p>{courses.length.toLocaleString("en-US")} courses across {departments.length} subjects.</p>
-    <AskAiMenu prompt={prompt} />
+    <AskAiMenu prompt={prompt} label="Explore courses with AI" />
   </div>
 
   <form id="course-jump" class="finder" data-codes={codes.join(",")} aria-label="Go to a course" hidden>

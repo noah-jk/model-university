@@ -29,6 +29,7 @@ const programs = programsInDepartment(d.id);
     <p>{courses.length} courses from the {d.name}, {collegeOf(d).name}.</p>
     <AskAiMenu
       prompt={`Help me choose ${d.field} courses at ${siteConfig.name} using {origin}${path}. Recommend specific courses with links, and don't keep asking questions once I've said what I need.`}
+      label="Explore courses with AI"
     />
   </div>
 
