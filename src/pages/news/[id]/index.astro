@@ -1,9 +1,7 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection, render } from "astro:content";
-import siteConfig from "../../../../site.config.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import AskAiMenu from "../../../components/AskAiMenu.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import RelatedLinks from "../../../components/RelatedLinks.astro";
 import { storyDate } from "../../../lib/dates.ts";
@@ -30,7 +28,6 @@ const hasRelated = Object.values(related).some((ids) => ids.length > 0);
       <h1>{title}</h1>
       <p class="byline"><time datetime={date.toISOString().slice(0, 10)}>{storyDate(date)}</time> · {author}</p>
       <p class="lede">{summary}</p>
-      <AskAiMenu prompt={`Read {origin}${path} and summarize this ${siteConfig.name} news story for me, then tell me how I could get involved. Include links.`} label="Ask AI about this story" />
       <Content />
     </article>
     {

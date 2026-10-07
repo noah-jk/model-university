@@ -1,15 +1,13 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
-import siteConfig from "../../../../site.config.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import AskAiMenu from "../../../components/AskAiMenu.astro";
 import AtAGlance from "../../../components/AtAGlance.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import EventList from "../../../components/EventList.astro";
 import { eventsAbout, hasEnded } from "../../../lib/catalog.ts";
 import { formatHours } from "../../../lib/hours.ts";
-import { markdownPath, pagePath } from "../../../lib/urls.ts";
+import { pagePath } from "../../../lib/urls.ts";
 import { DAYS, DAY_NAMES } from "../../../lib/vocab.ts";
 
 export const getStaticPaths = (async () => {
@@ -30,11 +28,6 @@ const upcoming = eventsAbout("services", s.id).filter((e) => !hasEnded(e));
     <article>
       <h1>{s.name}</h1>
       <p class="lede">{s.description}</p>
-      <AskAiMenu
-        prompt={`Read {origin}${path} and help me use the ${s.name} at ${siteConfig.name}.`}
-        markdown={markdownPath("services", s.id)}
-        label="Ask AI about this service"
-      />
 
       <h2>Hours</h2>
       <div class="table-scroll">

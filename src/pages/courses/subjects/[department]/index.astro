@@ -4,7 +4,6 @@ import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
 import siteConfig from "../../../../../site.config.ts";
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
-import AskAiMenu from "../../../../components/AskAiMenu.astro";
 import Breadcrumb from "../../../../components/Breadcrumb.astro";
 import { collegeOf, coursesInDepartment, facultyInDepartment, programsInDepartment } from "../../../../lib/catalog.ts";
 import { pagePath, subjectPath } from "../../../../lib/urls.ts";
@@ -28,10 +27,6 @@ const people = facultyInDepartment(d.id);
   <div class="page-intro">
     <h1>{d.field} courses</h1>
     <p>{courses.length} courses from the {d.name}, {collegeOf(d).name}.</p>
-    <AskAiMenu
-      prompt={`Help me choose ${d.field} courses at ${siteConfig.name} using {origin}${path}. Recommend specific courses with links, and don't keep asking questions once I've said what I need.`}
-      label="Explore courses with AI"
-    />
   </div>
 
   <div class="table-scroll">

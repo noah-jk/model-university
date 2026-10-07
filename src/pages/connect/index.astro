@@ -1,11 +1,9 @@
 ---
 import siteConfig from "../../../site.config.ts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import AskAiMenu from "../../components/AskAiMenu.astro";
 import McpAddress from "../../components/McpAddress.astro";
 
 const { features } = siteConfig;
-const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms.txt. If I haven't said what I want, ask me one short question about my interests. Once I've given any preference, recommend the top 3 matches with links and don't keep asking questions.`;
 ---
 
 <BaseLayout title="Connect your AI" description={`Connect ${siteConfig.name}'s catalog to Claude, ChatGPT, Cursor, and other AI assistants.`}>
@@ -50,16 +48,6 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
           </section>
         </div>
       </>
-    )
-  }
-
-  {
-    features.askAi && (
-      <section class="panel no-setup" aria-labelledby="c-quick">
-        <h2 id="c-quick">No setup at all</h2>
-        <p>Open a chat that already points your assistant at our site guide.</p>
-        <AskAiMenu prompt={prompt} />
-      </section>
     )
   }
 </BaseLayout>
