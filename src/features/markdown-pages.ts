@@ -3,6 +3,7 @@
 
 import type { APIRoute, GetStaticPaths } from "astro";
 import { courses, programs, services } from "../lib/catalog.ts";
+import { pagePath } from "../lib/urls.ts";
 import { courseMarkdown, programMarkdown, serviceMarkdown } from "../lib/markdown.ts";
 
 const builders = {
@@ -11,13 +12,20 @@ const builders = {
   services: (id: string, site: URL) => serviceMarkdown(services.find((s) => s.id === id)!, site),
 };
 
+// The route is /[...path]/index.md, where path is the page's own URL path
+// (e.g. academics/programs/cs-bs), so the copies sit next to the pages.
+const entry = (type: keyof typeof builders, id: string) => ({
+  params: { path: pagePath(type, id).slice(1, -1) },
+  props: { type, id },
+});
+
 export const getStaticPaths = (() => [
-  ...programs.map((p) => ({ params: { type: "programs", id: p.id } })),
-  ...courses.map((c) => ({ params: { type: "courses", id: c.id } })),
-  ...services.map((s) => ({ params: { type: "services", id: s.id } })),
+  ...programs.map((p) => entry("programs", p.id)),
+  ...courses.map((c) => entry("courses", c.id)),
+  ...services.map((s) => entry("services", s.id)),
 ]) satisfies GetStaticPaths;
 
-export const GET: APIRoute = ({ params, site }) => {
-  const markdown = builders[params.type as keyof typeof builders](params.id!, site!);
+export const GET: APIRoute = ({ props, site }) => {
+  const markdown = builders[props.type as keyof typeof builders](props.id, site!);
   return new Response(markdown, { headers: { "Content-Type": "text/markdown; charset=utf-8" } });
 };

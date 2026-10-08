@@ -29,7 +29,7 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
       </p>
       <div class="page-actions">
         <AskAiMenu prompt={prompt} label="Ask your AI about Cascadia State" />
-        <a class="button secondary" href="/programs/">Browse programs</a>
+        <a class="button secondary" href="/academics/programs/">Browse programs</a>
       </div>
     </div>
     <figure>
@@ -38,11 +38,11 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
   </section>
 
   <section class="explore" aria-label="Explore the catalog">
-    <a href="/programs/">
+    <a href="/academics/programs/">
       <h2>Programs</h2>
       <p>{programs.length} degrees, minors, and certificates across {colleges.length} colleges.</p>
     </a>
-    <a href="/courses/">
+    <a href="/academics/courses/">
       <h2>Courses</h2>
       <p>{courses.length.toLocaleString("en-US")} courses with terms, formats, and prerequisites.</p>
     </a>
@@ -56,12 +56,12 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
     <section aria-labelledby="events-title">
       <h2 id="events-title">Upcoming events</h2>
       <EventList events={upcoming} upcomingOnly limit={3} />
-      <p><a href="/events/">All events</a></p>
+      <p><a href="/about/events/">All events</a></p>
     </section>
     <section aria-labelledby="news-title">
       <h2 id="news-title">News</h2>
       <NewsList stories={latestNews} />
-      <p><a href="/news/">All news</a></p>
+      <p><a href="/about/news/">All news</a></p>
     </section>
   </div>
 

@@ -1,18 +1,18 @@
 ---
 // Every faculty member in one filterable list, sorted by last name.
 import { getCollection } from "astro:content";
-import siteConfig from "../../../site.config.ts";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import AskAiMenu from "../../components/AskAiMenu.astro";
-import { departmentOf, departments } from "../../lib/catalog.ts";
-import { pagePath } from "../../lib/urls.ts";
-import { FACULTY_TITLES } from "../../lib/vocab.ts";
+import siteConfig from "../../../../site.config.ts";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../../components/AskAiMenu.astro";
+import { departmentOf, departments } from "../../../lib/catalog.ts";
+import { pagePath } from "../../../lib/urls.ts";
+import { FACULTY_TITLES } from "../../../lib/vocab.ts";
 
 const lastName = (name: string) => name.split(" ").at(-1)!;
 const people = (await getCollection("faculty")).map((f) => f.data).sort((a, b) => lastName(a.name).localeCompare(lastName(b.name)) || a.name.localeCompare(b.name));
 const subjects = [...departments].sort((a, b) => a.field.localeCompare(b.field));
 
-const prompt = `Help me find faculty at ${siteConfig.name} using {origin}/faculty/. Ask me what I'm interested in if I haven't said, then suggest specific people with links to their pages.`;
+const prompt = `Help me find faculty at ${siteConfig.name} using {origin}/about/faculty/. Ask me what I'm interested in if I haven't said, then suggest specific people with links to their pages.`;
 ---
 
 <BaseLayout title="Faculty directory" description={`Faculty at ${siteConfig.name}, with research interests, courses, and contact details.`}>
@@ -63,7 +63,7 @@ const prompt = `Help me find faculty at ${siteConfig.name} using {origin}/facult
 </BaseLayout>
 
 <script>
-  import "../../scripts/filter-list.ts";
+  import "../../../scripts/filter-list.ts";
 </script>
 
 <style>

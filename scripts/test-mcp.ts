@@ -59,7 +59,7 @@ for (const r of [...search.results, ...courseHit.results]) {
   if (!/^https?:\/\//.test(r.url)) throw new Error(`missing absolute url: ${JSON.stringify(r)}`);
 }
 const course = JSON.parse((await call("tools/call", { name: "get_course", arguments: { code: courseHit.results[0].code } })).content[0].text);
-if (!course.url.endsWith(`/courses/${course.id}/`)) throw new Error(`get_course: expected a course page url, got ${course.url}`);
+if (!course.url.endsWith(`/academics/courses/${course.id}/`)) throw new Error(`get_course: expected a course page url, got ${course.url}`);
 console.log(`✓ urls and note: ${search.note}`);
 
 // Search engines are kept out until indexing is switched on

@@ -14,7 +14,7 @@ const paths = [
   { href: "/admissions/apply/", title: "How to apply", text: "Steps and deadlines for first-year, transfer, and graduate students." },
   { href: "/admissions/tuition-and-aid/", title: "Tuition and aid", text: "What it costs, and the grants, scholarships, and work-study that help." },
   { href: "/admissions/visit/", title: "Visit campus", text: "Tours, open houses, and online information sessions." },
-  { href: "/programs/", title: "Find a program", text: "Search every degree, minor, and certificate." },
+  { href: "/academics/programs/", title: "Find a program", text: "Search every degree, minor, and certificate." },
 ];
 const deadlines = [
   ["Fall", "March 1"],
@@ -49,7 +49,7 @@ const prompt = `I'm thinking about applying to ${siteConfig.name}. Use {origin}/
       <section aria-labelledby="events-title">
         <h2 id="events-title">Upcoming admissions events</h2>
         <EventList events={upcoming} upcomingOnly limit={4} />
-        <p><a href="/events/">All events</a></p>
+        <p><a href="/about/events/">All events</a></p>
       </section>
     </article>
 

@@ -2,11 +2,11 @@
 // Course catalog hub: a flat, filterable list of subjects, plus a box to
 // jump straight to a course by its code.
 import { getCollection } from "astro:content";
-import siteConfig from "../../../site.config.ts";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import AskAiMenu from "../../components/AskAiMenu.astro";
-import { collegeOf, coursesInDepartment } from "../../lib/catalog.ts";
-import { subjectPath } from "../../lib/urls.ts";
+import siteConfig from "../../../../site.config.ts";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../../components/AskAiMenu.astro";
+import { collegeOf, coursesInDepartment } from "../../../lib/catalog.ts";
+import { subjectPath } from "../../../lib/urls.ts";
 
 const departments = (await getCollection("departments")).map((d) => d.data).sort((a, b) => a.field.localeCompare(b.field));
 const courses = await getCollection("courses");
@@ -60,7 +60,7 @@ const prompt = `Help me plan courses at ${siteConfig.name} using {origin}/llms.t
 </BaseLayout>
 
 <script>
-  import "../../scripts/filter-list.ts";
+  import "../../../scripts/filter-list.ts";
 
   // Jump to a course page from its code, e.g. "cs144" or "CS 144" → /courses/cs-144/
   const form = document.getElementById("course-jump") as HTMLFormElement;
@@ -73,7 +73,7 @@ const prompt = `Help me plan courses at ${siteConfig.name} using {origin}/llms.t
     const match = input.value.trim().toUpperCase().match(/^([A-Z]{2,5})\s*(\d{3})$/);
     const code = match && `${match[1]} ${match[2]}`;
     if (code && codes.has(code)) {
-      window.location.href = `/courses/${code.toLowerCase().replace(" ", "-")}/`;
+      window.location.href = `/academics/courses/${code.toLowerCase().replace(" ", "-")}/`;
     } else {
       error.textContent = `There's no course with the code “${input.value.trim()}”. Check the code, or find its subject below.`;
       input.setAttribute("aria-invalid", "true");

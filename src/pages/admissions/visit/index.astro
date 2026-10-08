@@ -22,7 +22,7 @@ const visits = events.filter((e) => e.category === "Admissions" && !hasEnded(e))
     <aside aria-labelledby="visits-title">
       <h2 id="visits-title">Upcoming tours and sessions</h2>
       <EventList events={visits} upcomingOnly limit={6} />
-      <p><a href="/events/">All events</a></p>
+      <p><a href="/about/events/">All events</a></p>
     </aside>
   </div>
 </BaseLayout>

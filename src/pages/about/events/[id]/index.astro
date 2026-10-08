@@ -1,13 +1,13 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import AtAGlance from "../../../components/AtAGlance.astro";
-import Breadcrumb from "../../../components/Breadcrumb.astro";
-import RelatedLinks from "../../../components/RelatedLinks.astro";
-import { eventWhen } from "../../../lib/dates.ts";
-import { listText } from "../../../lib/format.ts";
-import { pagePath } from "../../../lib/urls.ts";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import AtAGlance from "../../../../components/AtAGlance.astro";
+import Breadcrumb from "../../../../components/Breadcrumb.astro";
+import RelatedLinks from "../../../../components/RelatedLinks.astro";
+import { eventWhen } from "../../../../lib/dates.ts";
+import { listText } from "../../../../lib/format.ts";
+import { pagePath } from "../../../../lib/urls.ts";
 
 export const getStaticPaths = (async () => {
   const events = await getCollection("events");
@@ -23,7 +23,7 @@ const where = e.campus === "Online" ? "Online" : `${e.location}, ${e.campus}`;
 ---
 
 <BaseLayout title={e.title} description={`${when}. ${e.description}`}>
-  <Breadcrumb items={[{ label: "Events", href: "/events/" }, { label: e.title, href: path }]} />
+  <Breadcrumb items={[{ label: "Events", href: "/about/events/" }, { label: e.title, href: path }]} />
   <div class="detail">
     <article>
       <h1>{e.title}</h1>
@@ -56,7 +56,7 @@ const where = e.campus === "Online" ? "Online" : `${e.location}, ${e.campus}`;
 </BaseLayout>
 
 <script>
-  import "../../../scripts/past-events.ts";
+  import "../../../../scripts/past-events.ts";
 </script>
 
 <style>
