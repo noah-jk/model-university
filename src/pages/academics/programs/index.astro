@@ -2,13 +2,13 @@
 // Every program in one filterable list. No college or department drill-down:
 // people search by what they want to study, and filter by level and format.
 import { getCollection } from "astro:content";
-import siteConfig from "../../../site.config.ts";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import AskAiMenu from "../../components/AskAiMenu.astro";
-import { colleges, collegeOf, departmentOf } from "../../lib/catalog.ts";
-import { usd } from "../../lib/format.ts";
-import { pagePath } from "../../lib/urls.ts";
-import { MODALITIES, PROGRAM_LEVELS, TERMS } from "../../lib/vocab.ts";
+import siteConfig from "../../../../site.config.ts";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../../components/AskAiMenu.astro";
+import { colleges, collegeOf, departmentOf } from "../../../lib/catalog.ts";
+import { usd } from "../../../lib/format.ts";
+import { pagePath } from "../../../lib/urls.ts";
+import { MODALITIES, PROGRAM_LEVELS, TERMS } from "../../../lib/vocab.ts";
 
 const programs = (await getCollection("programs")).map((p) => p.data).sort((a, b) => a.name.localeCompare(b.name));
 
@@ -78,7 +78,7 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
 </BaseLayout>
 
 <script>
-  import "../../scripts/filter-list.ts";
+  import "../../../scripts/filter-list.ts";
 </script>
 
 <style>

@@ -2,11 +2,11 @@
 // All events for the academic year. Upcoming events show by default; the
 // "When" filter brings back past ones.
 import { getCollection } from "astro:content";
-import siteConfig from "../../../site.config.ts";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import AskAiMenu from "../../components/AskAiMenu.astro";
-import EventList from "../../components/EventList.astro";
-import { AUDIENCES, CAMPUSES, EVENT_CATEGORIES } from "../../lib/vocab.ts";
+import siteConfig from "../../../../site.config.ts";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../../components/AskAiMenu.astro";
+import EventList from "../../../components/EventList.astro";
+import { AUDIENCES, CAMPUSES, EVENT_CATEGORIES } from "../../../lib/vocab.ts";
 
 // Collections come back in no particular order, so sort by start time
 const events = (await getCollection("events")).map((e) => e.data).sort((a, b) => Date.parse(a.start) - Date.parse(b.start));
@@ -17,7 +17,7 @@ const filters = [
   { name: "campus", label: "Campus", any: "Any campus", options: CAMPUSES },
 ];
 
-const prompt = `Help me find events at ${siteConfig.name} using {origin}/events/. If I haven't said what I'm looking for, ask me one short question. Then recommend specific upcoming events with dates and links.`;
+const prompt = `Help me find events at ${siteConfig.name} using {origin}/about/events/. If I haven't said what I'm looking for, ask me one short question. Then recommend specific upcoming events with dates and links.`;
 ---
 
 <BaseLayout title="Events" description={`Tours, lectures, performances, workshops, and more at ${siteConfig.name}.`}>
@@ -60,6 +60,6 @@ const prompt = `Help me find events at ${siteConfig.name} using {origin}/events/
 <script>
   // past-events marks each event as past or upcoming and re-runs the filter,
   // so the default "Upcoming" works whichever script runs first.
-  import "../../scripts/filter-list.ts";
-  import "../../scripts/past-events.ts";
+  import "../../../scripts/filter-list.ts";
+  import "../../../scripts/past-events.ts";
 </script>

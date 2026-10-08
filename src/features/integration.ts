@@ -10,7 +10,7 @@ import siteConfig, { type Feature } from "../../site.config.ts";
 const routes: Partial<Record<Feature, { pattern: string; entrypoint: string }[]>> = {
   llmsTxt: [{ pattern: "/llms.txt", entrypoint: "./src/features/llms-txt.ts" }],
   jsonFeeds: [{ pattern: "/data/[feed].json", entrypoint: "./src/features/json-feeds.ts" }],
-  markdownPages: [{ pattern: "/[type]/[id]/index.md", entrypoint: "./src/features/markdown-pages.ts" }],
+  markdownPages: [{ pattern: "/[...path]/index.md", entrypoint: "./src/features/markdown-pages.ts" }],
 };
 
 export default function aiFeatures(): AstroIntegration {

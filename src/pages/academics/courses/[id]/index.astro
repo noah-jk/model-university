@@ -1,11 +1,11 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import AtAGlance from "../../../components/AtAGlance.astro";
-import Breadcrumb from "../../../components/Breadcrumb.astro";
-import { courses, departmentOf, instructorOf, prerequisitesOf, programsInDepartment } from "../../../lib/catalog.ts";
-import { pagePath, subjectPath } from "../../../lib/urls.ts";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import AtAGlance from "../../../../components/AtAGlance.astro";
+import Breadcrumb from "../../../../components/Breadcrumb.astro";
+import { courses, departmentOf, instructorOf, prerequisitesOf, programsInDepartment } from "../../../../lib/catalog.ts";
+import { pagePath, subjectPath } from "../../../../lib/urls.ts";
 
 export const getStaticPaths = (async () => {
   const entries = await getCollection("courses");
@@ -27,7 +27,7 @@ const instructor = instructorOf(c);
 <BaseLayout title={title} description={c.description}>
   <Breadcrumb
     items={[
-      { label: "Courses", href: "/courses/" },
+      { label: "Courses", href: "/academics/courses/" },
       { label: department.field, href: subjectPath(department.id) },
       { label: c.code, href: path },
     ]}

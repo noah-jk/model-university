@@ -1,22 +1,39 @@
 ---
 import siteConfig from "../../site.config.ts";
 
-// Main sections, plus a smaller utility row for news, events, and the rest.
-const mainNav = [
-  { href: "/programs/", label: "Programs" },
-  { href: "/courses/", label: "Courses" },
+// Main sections (some with a submenu), plus a smaller utility row.
+type NavItem = { href: string; label: string; children?: { href: string; label: string }[] };
+const mainNav: NavItem[] = [
+  {
+    href: "/academics/",
+    label: "Academics",
+    children: [
+      { href: "/academics/programs/", label: "Programs" },
+      { href: "/academics/courses/", label: "Courses" },
+    ],
+  },
   { href: "/admissions/", label: "Admissions" },
-  { href: "/services/", label: "Student services" },
-  { href: "/faculty/", label: "Faculty" },
+  { href: "/services/", label: "Student Services" },
+  {
+    href: "/about/",
+    label: "About",
+    children: [
+      { href: "/about/faculty/", label: "Faculty" },
+      { href: "/about/news/", label: "News" },
+      { href: "/about/events/", label: "Events" },
+    ],
+  },
 ];
 const utilityNav = [
-  { href: "/events/", label: "Events" },
-  { href: "/news/", label: "News" },
-  { href: "/about/", label: "About" },
-  { href: "/connect/", label: "Connect your AI" },
+  { href: "/about/events/", label: "Events" },
+  { href: "/about/news/", label: "News" },
+  { href: "/academics/courses/", label: "Courses" },
 ];
 const current = Astro.url.pathname;
 const ariaCurrent = (href: string) => (current.startsWith(href) ? "page" : undefined);
+// A parent is "current" only on its own page; its children are marked on theirs.
+const parentCurrent = (item: NavItem) => (current === item.href ? "page" : undefined);
+const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.startsWith(c.href)) ?? false;
 ---
 
 <header class="site-header">
@@ -25,19 +42,92 @@ const ariaCurrent = (href: string) => (current.startsWith(href) ? "page" : undef
       <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 3 6 17h5l-6 9h22l-6-9h5z" /><path d="M14.5 26h3v3h-3z" /></svg>
       <span>{siteConfig.name}</span>
     </a>
+    <button type="button" class="menu-button" aria-expanded="false" aria-controls="site-nav" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bars" d="M4 7h16M4 12h16M4 17h16" /><path class="x" d="M6 6l12 12M18 6 6 18" /></svg>
+      <span>Menu</span>
+    </button>
     <nav class="utility" aria-label="Utility">
       <ul>{utilityNav.map(({ href, label }) => <li><a href={href} aria-current={ariaCurrent(href)}>{label}</a></li>)}</ul>
     </nav>
   </div>
   <div class="wrap">
-    <nav class="main" aria-label="Main">
-      <ul>{mainNav.map(({ href, label }) => <li><a href={href} aria-current={ariaCurrent(href)}>{label}</a></li>)}</ul>
+    <nav class="main" id="site-nav" aria-label="Main">
+      <ul>
+        {
+          mainNav.map((item) =>
+            item.children ? (
+              <li class="has-menu" data-current-child={hasCurrentChild(item) || undefined}>
+                <a href={item.href} aria-current={parentCurrent(item)}>{item.label}</a>
+                <button type="button" class="toggle" aria-expanded="false" aria-controls={`menu-${item.label}`} hidden>
+                  <span class="visually-hidden">{item.label} menu</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4.5 6 8.5 10 4.5" /></svg>
+                </button>
+                <ul class="submenu" id={`menu-${item.label}`}>
+                  {item.children.map((c) => <li><a href={c.href} aria-current={ariaCurrent(c.href)}>{c.label}</a></li>)}
+                </ul>
+              </li>
+            ) : (
+              <li><a href={item.href} aria-current={ariaCurrent(item.href)}>{item.label}</a></li>
+            ),
+          )
+        }
+      </ul>
     </nav>
   </div>
   <div class="demo-note">
     <div class="wrap"><p>Demo site with fictional data, built to test connecting a university website to AI assistants.</p></div>
   </div>
 </header>
+
+<script>
+  // Submenus work with CSS alone (hover and focus). With JavaScript, a button
+  // also toggles them so touch and keyboard users get an explicit control.
+  const header = document.querySelector<HTMLElement>(".site-header")!;
+  const menuButton = header.querySelector<HTMLButtonElement>(".menu-button")!;
+  const setMenu = (open: boolean) => {
+    header.classList.toggle("menu-open", open);
+    menuButton.setAttribute("aria-expanded", String(open));
+  };
+  // On small screens the main nav is a push menu behind this button.
+  menuButton.hidden = false;
+  header.classList.add("js-menu");
+  menuButton.addEventListener("click", () => setMenu(!header.classList.contains("menu-open")));
+  header.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || !header.classList.contains("menu-open") || matchMedia("(min-width: 48rem)").matches) return;
+    if ((e.target as Element).closest(".has-menu.open")) return; // Esc closes the submenu first
+    setMenu(false);
+    menuButton.focus();
+  });
+  matchMedia("(min-width: 48rem)").addEventListener("change", (e) => e.matches && setMenu(false));
+
+  const items = document.querySelectorAll<HTMLElement>(".main .has-menu");
+  const setOpen = (item: HTMLElement, open: boolean) => {
+    item.classList.toggle("open", open);
+    item.querySelector(".toggle")?.setAttribute("aria-expanded", String(open));
+  };
+  const closeAll = (except?: HTMLElement) => items.forEach((i) => i !== except && setOpen(i, false));
+  items.forEach((item) => {
+    const button = item.querySelector<HTMLButtonElement>(".toggle")!;
+    button.hidden = false;
+    item.classList.add("js");
+    button.addEventListener("click", () => {
+      const open = !item.classList.contains("open");
+      closeAll(item);
+      setOpen(item, open);
+    });
+    item.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape" || !item.classList.contains("open")) return;
+      setOpen(item, false);
+      button.focus();
+    });
+    item.addEventListener("focusout", (e) => {
+      if (!item.contains(e.relatedTarget as Node | null)) setOpen(item, false);
+    });
+  });
+  document.addEventListener("click", (e) => {
+    if (!(e.target as Element).closest(".has-menu")) closeAll();
+  });
+</script>
 
 <style>
   .site-header { background: var(--fir-deep); color: var(--on-dark); }
@@ -51,6 +141,44 @@ const ariaCurrent = (href: string) => (current.startsWith(href) ? "page" : undef
   .main a { font-weight: 600; }
   nav a:hover, nav a[aria-current="page"] { border-bottom-color: #dce5c3; }
   a:focus-visible { outline-color: #dce5c3; }
+  .has-menu { position: relative; display: flex; align-items: center; flex-wrap: wrap; }
+  .toggle { background: none; border: 0; color: inherit; cursor: pointer; padding: 0.4rem 0.35rem; display: inline-flex; }
+  .toggle svg { width: 0.8rem; height: 0.8rem; fill: none; stroke: currentColor; stroke-width: 1.6; transition: transform 0.15s; }
+  .toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .toggle:focus-visible { outline: 2px solid #dce5c3; outline-offset: 2px; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .has-menu[data-current-child] > a { border-bottom-color: #dce5c3; }
+  .submenu { flex-basis: 100%; flex-direction: column; padding: 0 0 0 1rem; gap: 0; }
+  .submenu a { font-weight: 400; }
+  /* Wide screens: submenu drops down; opens on hover, focus, or the toggle. */
+  @media (min-width: 48rem) {
+    .main .submenu { display: none; position: absolute; top: 100%; left: 0; z-index: 10; min-width: 12rem; padding: 0.4rem 0.9rem; background: var(--fir-deep); border: 1px solid #dce5c344; border-radius: 4px; }
+    .has-menu:hover > .submenu, .has-menu:not(.js):focus-within > .submenu, .has-menu.open > .submenu { display: flex; }
+  }
+  .menu-button { display: none; align-items: center; gap: 0.5rem; background: none; border: 1.5px solid #dce5c366; border-radius: 999px; color: inherit; font: 600 var(--step--1) / 1 var(--sans); padding: 0 1rem; min-height: 44px; cursor: pointer; }
+  .menu-button svg { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+  .menu-button .x, .menu-open .menu-button .bars { display: none; }
+  .menu-open .menu-button .x { display: inline; }
+  .menu-button:focus-visible { outline: 2px solid #dce5c3; outline-offset: 2px; }
+  /* Small screens: logo + Menu button; the main nav is a push menu that opens
+     in the page flow, with sub sections as an accordion. Utility links repeat
+     the menu, so they are hidden. Without JavaScript the full nav just shows. */
+  @media (max-width: 47.99rem) {
+    .utility { display: none; }
+    .top { flex-wrap: nowrap; padding-bottom: 0.75rem; }
+    .js-menu .menu-button { display: inline-flex; }
+    .js-menu .main { display: none; }
+    .js-menu.menu-open .main { display: block; }
+    .main ul { flex-direction: column; gap: 0; padding-block: 0 0.5rem; }
+    .main > ul > li { border-top: 1px solid #dce5c322; }
+    .main > ul > li > a { flex: 1; display: flex; align-items: center; min-height: 48px; padding-block: 0; border-bottom: 0; font-size: var(--step-0); }
+    .main > ul > li > a[aria-current="page"], .has-menu[data-current-child] > a { text-decoration: underline; text-underline-offset: 0.35em; text-decoration-color: #dce5c3; }
+    .toggle { min-width: 48px; min-height: 48px; justify-content: center; align-items: center; }
+    .toggle svg { width: 1rem; height: 1rem; }
+    .submenu a { display: flex; align-items: center; min-height: 44px; padding-block: 0; border-bottom: 0; }
+    .has-menu.js > .submenu { display: none; }
+    .has-menu.js.open > .submenu { display: flex; }
+  }
   .demo-note { background: var(--lichen); color: var(--basalt); font-size: var(--step--1); }
   .demo-note p { margin-block: 0; padding-block: 0.45rem; max-width: none; }
 </style>

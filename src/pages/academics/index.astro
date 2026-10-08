@@ -1,0 +1,82 @@
+---
+import siteConfig from "../../../site.config.ts";
+import { getPage } from "../../lib/pages.ts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../components/AskAiMenu.astro";
+import AtAGlance from "../../components/AtAGlance.astro";
+import { colleges, courses, departments, programs } from "../../lib/catalog.ts";
+import { PROGRAM_LEVELS } from "../../lib/vocab.ts";
+
+const page = await getPage("academics");
+const { Content } = page;
+
+const paths = [
+  {
+    href: "/academics/programs/",
+    title: "Programs",
+    text: `${programs.length} degrees, minors, and certificates across ${colleges.length} colleges.`,
+    cta: "Browse programs",
+  },
+  {
+    href: "/academics/courses/",
+    title: "Courses",
+    text: `${courses.length.toLocaleString("en-US")} courses in ${departments.length} subjects, with terms, formats, and prerequisites.`,
+    cta: "Browse courses",
+  },
+];
+const levels = PROGRAM_LEVELS.map((level) => [level, String(programs.filter((p) => p.level === level).length)] as [string, string]);
+
+const prompt = `Help me explore academics at ${siteConfig.name}. Use {origin}/academics/ and {origin}/llms.txt. If I haven't said what I'm interested in, ask me one short question, then suggest specific programs and courses with links.`;
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <div class="page-intro">
+    <h1>{page.title}</h1>
+    <AskAiMenu prompt={prompt} label="Ask AI about academics" />
+  </div>
+
+  <div class="detail">
+    <article>
+      <Content />
+
+      <ul class="paths">
+        {
+          paths.map((p) => (
+            <li>
+              <h2><a href={p.href}>{p.title}</a></h2>
+              <p>{p.text}</p>
+              <p><a class="button secondary" href={p.href}>{p.cta}</a></p>
+            </li>
+          ))
+        }
+      </ul>
+
+      <section aria-labelledby="colleges-title">
+        <h2 id="colleges-title">Our colleges</h2>
+        <ul class="colleges">
+          {
+            colleges.map((c) => (
+              <li>
+                <strong>{c.name}</strong>
+                <span>{c.description}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <p><a href="/academics/programs/">See all programs</a></p>
+      </section>
+    </article>
+
+    <AtAGlance heading="Programs by level" facts={levels} />
+  </div>
+</BaseLayout>
+
+<style>
+  .paths { list-style: none; padding: 0; margin: 2rem 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+  .paths li { border-top: 3px solid var(--fir); padding-top: 0.75rem; }
+  .detail article .paths h2 { font-size: var(--step-2); margin: 0 0 0.25rem; }
+  .paths p { margin: 0 0 0.75rem; color: var(--muted); }
+  .colleges { list-style: none; padding: 0; display: grid; gap: 1rem; }
+  .colleges li { display: grid; gap: 0.15rem; }
+  .colleges span { color: var(--muted); }
+</style>

@@ -1,13 +1,13 @@
 ---
 import { getCollection } from "astro:content";
-import siteConfig from "../../../site.config.ts";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import AskAiMenu from "../../components/AskAiMenu.astro";
-import NewsList from "../../components/NewsList.astro";
+import siteConfig from "../../../../site.config.ts";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import AskAiMenu from "../../../components/AskAiMenu.astro";
+import NewsList from "../../../components/NewsList.astro";
 
 const stories = (await getCollection("news")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-const prompt = `Read {origin}/news/ and tell me what's been happening at ${siteConfig.name} lately. Summarize the stories most relevant to me, with links, and ask me what I'm interested in only if I haven't said.`;
+const prompt = `Read {origin}/about/news/ and tell me what's been happening at ${siteConfig.name} lately. Summarize the stories most relevant to me, with links, and ask me what I'm interested in only if I haven't said.`;
 ---
 
 <BaseLayout title="News" description={`News from ${siteConfig.name}: research, students, and campus life.`}>

@@ -1,11 +1,11 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection, render } from "astro:content";
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import Breadcrumb from "../../../components/Breadcrumb.astro";
-import RelatedLinks from "../../../components/RelatedLinks.astro";
-import { storyDate } from "../../../lib/dates.ts";
-import { pagePath } from "../../../lib/urls.ts";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../../../components/Breadcrumb.astro";
+import RelatedLinks from "../../../../components/RelatedLinks.astro";
+import { storyDate } from "../../../../lib/dates.ts";
+import { pagePath } from "../../../../lib/urls.ts";
 
 export const getStaticPaths = (async () => {
   const stories = await getCollection("news");
@@ -22,7 +22,7 @@ const hasRelated = Object.values(related).some((ids) => ids.length > 0);
 ---
 
 <BaseLayout title={title} description={summary}>
-  <Breadcrumb items={[{ label: "News", href: "/news/" }, { label: title, href: path }]} />
+  <Breadcrumb items={[{ label: "News", href: "/about/news/" }, { label: title, href: path }]} />
   <div class="detail">
     <article class="prose">
       <h1>{title}</h1>

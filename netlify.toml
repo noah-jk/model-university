@@ -26,3 +26,29 @@
   [headers.values]
     Content-Type = "text/plain; charset=utf-8"
     Access-Control-Allow-Origin = "*"
+
+# Programs and courses moved under /academics/; faculty, news and events under /about/.
+[[redirects]]
+  from = "/programs/*"
+  to = "/academics/programs/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/courses/*"
+  to = "/academics/courses/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/faculty/*"
+  to = "/about/faculty/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/news/*"
+  to = "/about/news/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/events/*"
+  to = "/about/events/:splat"
+  status = 301

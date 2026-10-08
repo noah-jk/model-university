@@ -1,13 +1,13 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
-import siteConfig from "../../../../site.config.ts";
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import AtAGlance from "../../../components/AtAGlance.astro";
-import Breadcrumb from "../../../components/Breadcrumb.astro";
-import EventList from "../../../components/EventList.astro";
-import { coursesTaughtBy, departmentOf, eventsAbout, hasEnded } from "../../../lib/catalog.ts";
-import { pagePath, subjectPath } from "../../../lib/urls.ts";
+import siteConfig from "../../../../../site.config.ts";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import AtAGlance from "../../../../components/AtAGlance.astro";
+import Breadcrumb from "../../../../components/Breadcrumb.astro";
+import EventList from "../../../../components/EventList.astro";
+import { coursesTaughtBy, departmentOf, eventsAbout, hasEnded } from "../../../../lib/catalog.ts";
+import { pagePath, subjectPath } from "../../../../lib/urls.ts";
 
 export const getStaticPaths = (async () => {
   const people = await getCollection("faculty");
@@ -24,7 +24,7 @@ const upcoming = eventsAbout("faculty", f.id).filter((e) => !hasEnded(e));
 ---
 
 <BaseLayout title={f.name} description={`${f.name}, ${f.title} of ${department.field} at ${siteConfig.name}.`}>
-  <Breadcrumb items={[{ label: "Faculty", href: "/faculty/" }, { label: f.name, href: path }]} />
+  <Breadcrumb items={[{ label: "Faculty", href: "/about/faculty/" }, { label: f.name, href: path }]} />
   <div class="detail">
     <article>
       <h1>{f.name}</h1>
@@ -69,5 +69,5 @@ const upcoming = eventsAbout("faculty", f.id).filter((e) => !hasEnded(e));
 </BaseLayout>
 
 <script>
-  import "../../../scripts/past-events.ts";
+  import "../../../../scripts/past-events.ts";
 </script>

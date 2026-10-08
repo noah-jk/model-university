@@ -67,7 +67,7 @@ Each feature is a switch in `site.config.ts`. When a switch is off, its routes a
 | `llmsTxt` | `/llms.txt` |
 | `jsonFeeds` | `/data/programs.json`, `/data/courses.json`, `/data/services.json` |
 | `markdownPages` | `…/index.md` copies of program, course, and service pages |
-| `askAi` | "Ask AI" menus on the home page and section overview pages (programs, courses, admissions, services, faculty, events, news) |
+| `askAi` | "Ask AI" menus on the home page and section overview pages (academics, programs, courses, admissions, services, faculty, events, news) |
 
 ## Working on it
 
