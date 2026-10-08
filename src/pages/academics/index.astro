@@ -2,6 +2,7 @@
 import siteConfig from "../../../site.config.ts";
 import { getPage } from "../../lib/pages.ts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ForYou from "../../components/ForYou.astro";
 import AskAiMenu from "../../components/AskAiMenu.astro";
 import AtAGlance from "../../components/AtAGlance.astro";
 import { colleges, courses, departments, programs } from "../../lib/catalog.ts";
@@ -34,6 +35,8 @@ const prompt = `Help me explore academics at ${siteConfig.name}. Use {origin}/ac
     <h1>{page.title}</h1>
     <AskAiMenu prompt={prompt} label="Ask AI about academics" />
   </div>
+
+  <ForYou recommend />
 
   <div class="detail">
     <article>

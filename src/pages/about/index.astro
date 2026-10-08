@@ -1,6 +1,7 @@
 ---
 import { getPage } from "../../lib/pages.ts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ForYou from "../../components/ForYou.astro";
 import AtAGlance from "../../components/AtAGlance.astro";
 import { colleges, courses, departments, faculty, programs, services } from "../../lib/catalog.ts";
 
@@ -9,6 +10,8 @@ const { Content } = page;
 ---
 
 <BaseLayout title={page.title} description={page.description}>
+  <ForYou />
+
   <div class="detail">
     <article>
       <h1>{page.title}</h1>

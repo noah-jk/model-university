@@ -1,0 +1,103 @@
+---
+// "Under the hood": a docked panel that shows what the personalization
+// experiment knows about this tab, and what it changed on the current page.
+// Docked on the right on wide screens, a bottom sheet on small ones.
+// It isn't a dialog: the page stays usable, and focus is never trapped.
+//
+// Open state lives on <html data-under-the-hood="open">, set by an inline
+// script in BaseLayout's <head> before the page is drawn, so a panel that was
+// open on the last page doesn't push content around on this one.
+---
+
+<section id="under-the-hood" class="uth" aria-labelledby="uth-title">
+  <div class="uth-head">
+    <h2 id="uth-title" tabindex="-1">Under the hood</h2>
+    <button type="button" class="button secondary uth-close">Close</button>
+  </div>
+  <p class="uth-intro">
+    What this site knows about this browser tab. It's kept in sessionStorage, never sent anywhere, and cleared when you close the tab.{" "}
+    <a href="/lab/personalization/">About this experiment</a>
+  </p>
+  <p class="uth-stat"></p>
+  <p class="visually-hidden uth-live" aria-live="polite"></p>
+
+  <section aria-labelledby="uth-changed">
+    <h3 id="uth-changed">What changed on this page</h3>
+    <ul class="uth-changes"></ul>
+  </section>
+
+  <section aria-labelledby="uth-profile">
+    <h3 id="uth-profile">Interest profile</h3>
+    <div class="uth-bars"></div>
+  </section>
+
+  <section aria-labelledby="uth-log">
+    <h3 id="uth-log">Visit log, newest first</h3>
+    <ol class="uth-visits"></ol>
+  </section>
+
+  <button type="button" class="button uth-reset">Reset session</button>
+</section>
+
+<script>
+  import "../scripts/under-the-hood.ts";
+</script>
+
+<style>
+  .uth {
+    --uth-width: 22rem;
+    display: none;
+    position: fixed;
+    z-index: 30;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 1rem 1.25rem 1.5rem;
+    background: var(--paper);
+    color: var(--basalt);
+    font-size: var(--step--1);
+    box-shadow: 0 0 24px rgb(0 0 0 / 0.18);
+  }
+  :global(html[data-under-the-hood="open"]) .uth { display: block; }
+
+  /* Wide screens: docked on the right, and the page makes room for it */
+  @media (min-width: 48rem) {
+    .uth { top: 0; right: 0; bottom: 0; width: var(--uth-width); border-left: 1px solid var(--line); }
+    :global(html[data-under-the-hood="open"] body) { padding-right: 22rem; }
+  }
+  /* Small screens: a bottom sheet over the tab bar, with room to scroll past it */
+  @media (max-width: 47.99rem) {
+    .uth { left: 0; right: 0; bottom: 0; height: 60vh; border-top: 1px solid var(--line); border-radius: 14px 14px 0 0; }
+    :global(html[data-under-the-hood="open"] body) { padding-bottom: 60vh; }
+  }
+  /* A short fade when someone opens it; none with reduced motion */
+  @media (prefers-reduced-motion: no-preference) {
+    .uth.opening { animation: uth-in 0.18s ease-out; }
+  }
+  @keyframes uth-in { from { opacity: 0; } }
+
+  .uth-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  h2 { font-size: var(--step-1); margin: 0; }
+  h2:focus { outline: none; }
+  h2:focus-visible { outline: 3px solid var(--focus); }
+  h3 { font-family: var(--sans); font-weight: 600; font-size: var(--step-0); margin: 1.25rem 0 0.4rem; }
+  p { margin: 0.5rem 0 0; }
+  .uth-intro { color: var(--muted); }
+  .uth-stat { font-weight: 600; font-size: var(--step-0); }
+  ul, ol { padding-left: 1.1rem; margin: 0; }
+  li { margin-bottom: 0.3rem; }
+  .uth-visits { list-style: none; padding: 0; }
+  .uth-visits :global(li) { display: grid; grid-template-columns: 3.5rem 1fr; gap: 0.5rem; padding-block: 0.3rem; border-bottom: 1px solid var(--line); margin: 0; }
+  .uth-visits :global(time), .uth-visits :global(.type) { color: var(--muted); }
+  .uth-visits :global(.type) { display: block; }
+  .uth-reset { margin-top: 1.25rem; }
+
+  /* Bar charts: the count is always written out; the bar is decoration */
+  .uth-bars :global(h4) { font-family: var(--sans); font-size: var(--step--1); font-weight: 600; color: var(--muted); margin: 0.75rem 0 0.25rem; }
+  .uth-bars :global(ul) { list-style: none; padding: 0; }
+  .uth-bars :global(li) { display: grid; grid-template-columns: minmax(0, 1fr) 2rem; grid-template-areas: "label count" "bar bar"; gap: 0.15rem 0.5rem; margin-bottom: 0.45rem; }
+  .uth-bars :global(.label) { grid-area: label; overflow-wrap: anywhere; }
+  .uth-bars :global(.count) { grid-area: count; text-align: right; font-weight: 600; }
+  .uth-bars :global(.bar) { grid-area: bar; height: 0.5rem; border-radius: 999px; background: var(--lichen); overflow: hidden; }
+  .uth-bars :global(.bar span) { display: block; height: 100%; width: var(--share); background: var(--fir); border-radius: inherit; }
+  :global(.link-button) { background: none; border: 0; padding: 0; font: inherit; color: var(--salmonberry); text-decoration: underline; text-underline-offset: 0.18em; cursor: pointer; }
+</style>

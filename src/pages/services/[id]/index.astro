@@ -2,6 +2,7 @@
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { pageMeta } from "../../../lib/personalization.ts";
 import AtAGlance from "../../../components/AtAGlance.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import EventList from "../../../components/EventList.astro";
@@ -22,7 +23,7 @@ const path = pagePath("services", s.id);
 const upcoming = eventsAbout("services", s.id).filter((e) => !hasEnded(e));
 ---
 
-<BaseLayout title={s.name} description={s.description}>
+<BaseLayout title={s.name} description={s.description} page={pageMeta.service(s)}>
   <Breadcrumb items={[{ label: "Student services", href: "/services/" }, { label: s.name, href: path }]} />
   <div class="detail">
     <article>

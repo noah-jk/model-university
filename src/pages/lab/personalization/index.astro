@@ -1,0 +1,66 @@
+---
+import siteConfig from "../../../../site.config.ts";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import { getPage } from "../../../lib/pages.ts";
+import { programs } from "../../../lib/catalog.ts";
+import { MAX_VIEWS, RECOMMEND_AFTER } from "../../../lib/personalization-settings.ts";
+import { pagePath, SECTION_PATH } from "../../../lib/urls.ts";
+
+const page = await getPage("lab/personalization");
+const { Content } = page;
+const path = "/lab/personalization/";
+const enabled = siteConfig.features.personalization;
+// Three nursing programs to try it with
+const nursing = programs.filter((p) => p.department === "nursing").slice(0, 3);
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <Breadcrumb items={[{ label: "Lab", href: "/lab/" }, { label: page.title, href: path }]} />
+  <article class="prose">
+    <h1>{page.title}</h1>
+    <p class="lede">{page.description}</p>
+
+    {
+      enabled ? (
+        <section class="panel try" aria-labelledby="try-title">
+          <h2 id="try-title">Try it</h2>
+          <ol>
+            <li>
+              View {RECOMMEND_AFTER} nursing pages:{" "}
+              {nursing.map((p, i) => (
+                <>
+                  {i > 0 && (i === nursing.length - 1 ? ", and " : ", ")}
+                  <a href={pagePath("programs", p.id)}>{p.name}</a>
+                </>
+              ))}
+              .
+            </li>
+            <li>
+              Go to the <a href={`${SECTION_PATH.programs}/`}>program list</a>: nursing programs now come first, and the home page shows programs picked for you.
+            </li>
+            <li>
+              Open the panel to see your visit log, your interest profile, and what changed on each page.{" "}
+              <button type="button" class="link-button needs-js" data-under-the-hood-toggle aria-expanded="false">Open Under the hood</button>
+              <noscript>(The panel needs JavaScript.)</noscript>
+            </li>
+          </ol>
+          <p class="hint">You can also add <code>?demo</code> to any address to open the panel there, for example <a href="/?demo">the home page with the panel open</a>.</p>
+        </section>
+      ) : (
+        <p class="panel"><strong>This experiment is switched off on this site.</strong> Set <code>personalization: true</code> in <code>site.config.ts</code> to turn it on.</p>
+      )
+    }
+
+    <Content />
+    <p class="hint">The log keeps at most {MAX_VIEWS} page views. The code is in <code>src/scripts/personalize.ts</code>, <code>src/components/ForYou.astro</code>, and <code>src/components/UnderTheHood.astro</code>.</p>
+  </article>
+</BaseLayout>
+
+<style>
+  .try { margin-block: 1.5rem 2rem; border-left: 6px solid var(--fir); }
+  .try h2 { margin-top: 0; }
+  .try ol { padding-left: 1.25rem; }
+  .try li { margin-bottom: 0.5rem; }
+  .hint { font-size: var(--step--1); color: var(--muted); }
+</style>

@@ -22,6 +22,9 @@ const siteConfig = {
     markdownPages: true,
     // "Ask AI" menus on the home page and section overview pages
     askAi: true,
+    // Lab experiment: session-based personalization and the "Under the hood"
+    // panel. Uses sessionStorage only; nothing leaves the browser.
+    personalization: true,
   },
 } as const;
 
