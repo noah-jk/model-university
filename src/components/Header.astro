@@ -42,12 +42,16 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
       <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M16 3 6 17h5l-6 9h22l-6-9h5z" /><path d="M14.5 26h3v3h-3z" /></svg>
       <span>{siteConfig.name}</span>
     </a>
+    <button type="button" class="menu-button" aria-expanded="false" aria-controls="site-nav" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bars" d="M4 7h16M4 12h16M4 17h16" /><path class="x" d="M6 6l12 12M18 6 6 18" /></svg>
+      <span>Menu</span>
+    </button>
     <nav class="utility" aria-label="Utility">
       <ul>{utilityNav.map(({ href, label }) => <li><a href={href} aria-current={ariaCurrent(href)}>{label}</a></li>)}</ul>
     </nav>
   </div>
   <div class="wrap">
-    <nav class="main" aria-label="Main">
+    <nav class="main" id="site-nav" aria-label="Main">
       <ul>
         {
           mainNav.map((item) =>
@@ -78,6 +82,24 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
 <script>
   // Submenus work with CSS alone (hover and focus). With JavaScript, a button
   // also toggles them so touch and keyboard users get an explicit control.
+  const header = document.querySelector<HTMLElement>(".site-header")!;
+  const menuButton = header.querySelector<HTMLButtonElement>(".menu-button")!;
+  const setMenu = (open: boolean) => {
+    header.classList.toggle("menu-open", open);
+    menuButton.setAttribute("aria-expanded", String(open));
+  };
+  // On small screens the main nav is a push menu behind this button.
+  menuButton.hidden = false;
+  header.classList.add("js-menu");
+  menuButton.addEventListener("click", () => setMenu(!header.classList.contains("menu-open")));
+  header.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || !header.classList.contains("menu-open") || matchMedia("(min-width: 48rem)").matches) return;
+    if ((e.target as Element).closest(".has-menu.open")) return; // Esc closes the submenu first
+    setMenu(false);
+    menuButton.focus();
+  });
+  matchMedia("(min-width: 48rem)").addEventListener("change", (e) => e.matches && setMenu(false));
+
   const items = document.querySelectorAll<HTMLElement>(".main .has-menu");
   const setOpen = (item: HTMLElement, open: boolean) => {
     item.classList.toggle("open", open);
@@ -132,6 +154,30 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
   @media (min-width: 48rem) {
     .main .submenu { display: none; position: absolute; top: 100%; left: 0; z-index: 10; min-width: 12rem; padding: 0.4rem 0.9rem; background: var(--fir-deep); border: 1px solid #dce5c344; border-radius: 4px; }
     .has-menu:hover > .submenu, .has-menu:not(.js):focus-within > .submenu, .has-menu.open > .submenu { display: flex; }
+  }
+  .menu-button { display: none; align-items: center; gap: 0.5rem; background: none; border: 1.5px solid #dce5c366; border-radius: 999px; color: inherit; font: 600 var(--step--1) / 1 var(--sans); padding: 0 1rem; min-height: 44px; cursor: pointer; }
+  .menu-button svg { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+  .menu-button .x, .menu-open .menu-button .bars { display: none; }
+  .menu-open .menu-button .x { display: inline; }
+  .menu-button:focus-visible { outline: 2px solid #dce5c3; outline-offset: 2px; }
+  /* Small screens: logo + Menu button; the main nav is a push menu that opens
+     in the page flow, with sub sections as an accordion. Utility links repeat
+     the menu, so they are hidden. Without JavaScript the full nav just shows. */
+  @media (max-width: 47.99rem) {
+    .utility { display: none; }
+    .top { flex-wrap: nowrap; padding-bottom: 0.75rem; }
+    .js-menu .menu-button { display: inline-flex; }
+    .js-menu .main { display: none; }
+    .js-menu.menu-open .main { display: block; }
+    .main ul { flex-direction: column; gap: 0; padding-block: 0 0.5rem; }
+    .main > ul > li { border-top: 1px solid #dce5c322; }
+    .main > ul > li > a { flex: 1; display: flex; align-items: center; min-height: 48px; padding-block: 0; border-bottom: 0; font-size: var(--step-0); }
+    .main > ul > li > a[aria-current="page"], .has-menu[data-current-child] > a { text-decoration: underline; text-underline-offset: 0.35em; text-decoration-color: #dce5c3; }
+    .toggle { min-width: 48px; min-height: 48px; justify-content: center; align-items: center; }
+    .toggle svg { width: 1rem; height: 1rem; }
+    .submenu a { display: flex; align-items: center; min-height: 44px; padding-block: 0; border-bottom: 0; }
+    .has-menu.js > .submenu { display: none; }
+    .has-menu.js.open > .submenu { display: flex; }
   }
   .demo-note { background: var(--lichen); color: var(--basalt); font-size: var(--step--1); }
   .demo-note p { margin-block: 0; padding-block: 0.45rem; max-width: none; }
