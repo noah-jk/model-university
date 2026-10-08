@@ -21,6 +21,11 @@ const pageTitle = isHome ? siteConfig.name : `${title} | ${siteConfig.name}`;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      // Mark JavaScript as available before the page is drawn, so controls that
+      // need it (.needs-js) show from the start instead of popping in and shifting content.
+      document.documentElement.classList.add("js");
+    </script>
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     {!siteConfig.indexing && <meta name="robots" content="noindex" />}

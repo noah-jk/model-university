@@ -17,36 +17,32 @@ export function announce(message: string) {
   setTimeout(() => (announcer.textContent = message), 50);
 }
 
-// "Ask AI" disclosure menus: a button that shows and hides a list
+// "Ask AI" disclosure menus: a button that opens and closes a list.
+// The .open class shows the list (see AskAiMenu.astro).
 document.querySelectorAll<HTMLElement>(".ai-menu").forEach((menu) => {
   const button = menu.querySelector<HTMLButtonElement>(".ai-menu-toggle")!;
-  const list = menu.querySelector<HTMLElement>(".ai-menu-list")!;
-  button.hidden = false;
-  list.hidden = true;
-  const close = (returnFocus: boolean) => {
-    list.hidden = true;
-    button.setAttribute("aria-expanded", "false");
-    if (returnFocus) button.focus();
+  const isOpen = () => menu.classList.contains("open");
+  const setOpen = (open: boolean) => {
+    menu.classList.toggle("open", open);
+    button.setAttribute("aria-expanded", String(open));
   };
-  button.addEventListener("click", () => {
-    const opening = list.hidden;
-    list.hidden = !opening;
-    button.setAttribute("aria-expanded", String(opening));
-  });
+  button.addEventListener("click", () => setOpen(!isOpen()));
   menu.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !list.hidden) close(true);
+    if (e.key === "Escape" && isOpen()) {
+      setOpen(false);
+      button.focus();
+    }
   });
   menu.addEventListener("focusout", (e) => {
-    if (!menu.contains(e.relatedTarget as Node)) close(false);
+    if (!menu.contains(e.relatedTarget as Node)) setOpen(false);
   });
   document.addEventListener("click", (e) => {
-    if (!menu.contains(e.target as Node)) close(false);
+    if (!menu.contains(e.target as Node)) setOpen(false);
   });
 });
 
 // Copy buttons: data-copy="text to copy"
 document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((button) => {
-  button.hidden = false;
   button.addEventListener("click", async () => {
     try {
       const { copy, copied } = button.dataset;

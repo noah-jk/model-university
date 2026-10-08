@@ -15,7 +15,7 @@ const address = absoluteUrl("/mcp", Astro.site!);
   ) : (
     <div class="mcp-url">
       <code data-origin-text="{origin}/mcp">{address}</code>
-      <button type="button" class="button secondary" data-copy="{origin}/mcp" data-copied="MCP server address copied." hidden>
+      <button type="button" class="button secondary needs-js" data-copy="{origin}/mcp" data-copied="MCP server address copied.">
         Copy address
       </button>
     </div>

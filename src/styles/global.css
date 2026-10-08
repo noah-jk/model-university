@@ -120,3 +120,6 @@ th { font-weight: 600; }
 }
 
 [hidden] { display: none !important; }
+/* Controls that only work with JavaScript. BaseLayout adds .js to <html>
+   before the page is drawn, so these appear without moving anything. */
+html:not(.js) .needs-js { display: none !important; }
