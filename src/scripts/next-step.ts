@@ -44,13 +44,21 @@ function pitch(session: Session) {
   }
 }
 
-// Fill the next-step tile inside root (the Recents panel or the home page)
-export function renderNext(root: ParentNode, session: Session) {
+// Where the next step goes. Used by the tile below and the header button.
+// Request information starts with the program viewed last chosen.
+export function nextAction(session: Session) {
   const next = nextStep(session.profile);
   const lastProgram = session.views.filter((v) => v.type === "program").at(-1);
+  const href = !next ? "/admissions/tuition-and-aid/" : next.step === "requestInfo" && lastProgram ? `${next.href}?program=${encodeURIComponent(lastProgram.id)}` : next.href;
+  return { next, href, isApply: next?.step === "apply" };
+}
+
+// Fill the next-step tile inside root (the Recents panel or the home page)
+export function renderNext(root: ParentNode, session: Session) {
+  const { next, href, isApply } = nextAction(session);
   const tile = root.querySelector<HTMLAnchorElement>(".next-tile")!;
-  tile.href = !next ? "/admissions/tuition-and-aid/" : next.step === "requestInfo" && lastProgram ? `${next.href}?program=${encodeURIComponent(lastProgram.id)}` : next.href;
-  tile.toggleAttribute("data-journey-apply", next?.step === "apply");
+  tile.href = href;
+  tile.toggleAttribute("data-journey-apply", isApply);
   tile.querySelector(".title")!.textContent = next ? next.label : "Tuition and financial aid";
   tile.querySelector(".pitch")!.textContent = pitch(session);
   tile.querySelector(".count")!.textContent = next ? `Step ${JOURNEY.indexOf(next) + 1} of ${JOURNEY.length}` : "";
