@@ -46,7 +46,7 @@ const prompt = `Help me plan courses at ${siteConfig.name} using {origin}/llms.t
       departments.map((d) => (
         <li data-search={[d.field, d.course_prefix, collegeOf(d).name].join(" ").toLowerCase()}>
           <div>
-            <h3><a href={subjectPath(d.id)}>{d.field}</a></h3>
+            <h2><a href={subjectPath(d.id)}>{d.field}</a></h2>
             <p>{collegeOf(d).name}</p>
           </div>
           <p class="facts">

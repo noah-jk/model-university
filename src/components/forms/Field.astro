@@ -1,0 +1,42 @@
+---
+// One labeled form field with an optional hint and a slot for its error
+// message, wired together with aria-describedby. Pass `select` and put
+// <option>s in the slot for a dropdown.
+//
+// Error messages come from data attributes, so the field explains itself:
+// `missing` when a required field is empty, `invalid` when the value doesn't fit.
+import type { HTMLAttributes } from "astro/types";
+
+type Props = Omit<HTMLAttributes<"input">, "id" | "name"> & {
+  formId: string;
+  name: string;
+  label: string;
+  hint?: string;
+  missing?: string;
+  invalid?: string;
+  select?: boolean;
+};
+
+const { formId, name, label, hint, missing, invalid, select = false, required, ...attrs } = Astro.props;
+const id = `${formId}-${name}`;
+const describedBy = [hint && `${id}-hint`, `${id}-error`].filter(Boolean).join(" ");
+const fieldAttrs = { id, name, required, "aria-describedby": describedBy, "data-missing": missing, "data-invalid": invalid };
+---
+
+<div class="field">
+  <label for={id}>
+    {label}
+    {!required && <span class="optional"> (optional)</span>}
+  </label>
+  {hint && <p class="hint" id={`${id}-hint`}>{hint}</p>}
+  <p class="error" id={`${id}-error`} hidden></p>
+  {
+    select ? (
+      <select {...fieldAttrs}>
+        <slot />
+      </select>
+    ) : (
+      <input {...fieldAttrs} {...attrs} />
+    )
+  }
+</div>

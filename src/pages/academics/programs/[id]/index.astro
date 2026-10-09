@@ -5,6 +5,7 @@ import BaseLayout from "../../../../layouts/BaseLayout.astro";
 import { pageMeta } from "../../../../lib/personalization.ts";
 import AtAGlance from "../../../../components/AtAGlance.astro";
 import Breadcrumb from "../../../../components/Breadcrumb.astro";
+import JourneyActions from "../../../../components/JourneyActions.astro";
 import EventList from "../../../../components/EventList.astro";
 import { collegeOf, departmentOf, eventsForProgram, hasEnded, relatedCourses, relatedPrograms } from "../../../../lib/catalog.ts";
 import { listText, usd } from "../../../../lib/format.ts";
@@ -31,6 +32,7 @@ const upcoming = eventsForProgram(p).filter((e) => !hasEnded(e));
     <article>
       <h1>{p.name}</h1>
       <p class="lede">{p.description}</p>
+      <JourneyActions programId={p.id} />
 
       <h2>What you'll learn</h2>
       <ul>{p.outcomes.map((o) => <li>{o}</li>)}</ul>

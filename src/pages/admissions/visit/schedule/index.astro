@@ -1,0 +1,26 @@
+---
+import { getPage } from "../../../../lib/pages.ts";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../../../components/Breadcrumb.astro";
+import VisitForm from "../../../../components/forms/VisitForm.astro";
+
+const page = await getPage("admissions/visit/schedule");
+const { Content } = page;
+const path = "/admissions/visit/schedule/";
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <Breadcrumb
+    items={[
+      { label: "Admissions", href: "/admissions/" },
+      { label: "Visit campus", href: "/admissions/visit/" },
+      { label: page.title, href: path },
+    ]}
+  />
+  <div class="prose">
+    <h1>{page.title}</h1>
+    <p class="lede">{page.description}</p>
+    <Content />
+  </div>
+  <VisitForm heading="Choose your visit" />
+</BaseLayout>

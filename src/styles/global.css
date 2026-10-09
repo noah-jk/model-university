@@ -96,7 +96,7 @@ main { padding-block: clamp(2rem, 6vw, 4rem); }
 /* Lists of things: programs, services, subjects */
 .entry-list { list-style: none; padding: 0; margin: 0; }
 .entry-list > li { max-width: none; border-bottom: 1px solid var(--line); padding-block: 1.1rem; display: grid; gap: 0.3rem 1.5rem; }
-.entry-list h3 { margin: 0; font-size: var(--step-1); }
+.entry-list h2, .entry-list h3 { margin: 0; font-size: var(--step-1); }
 .entry-list p { margin: 0; color: var(--muted); }
 .facts { font-size: var(--step--1); color: var(--muted); }
 .facts span + span::before { content: ", "; }

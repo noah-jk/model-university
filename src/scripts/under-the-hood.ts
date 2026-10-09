@@ -2,8 +2,8 @@
 // any [data-under-the-hood-toggle] button, shows the session's visit log and
 // interest profile, lists what was personalized on this page, and resets.
 
-import { PANEL_KEY, TYPE_LABELS } from "../lib/personalization-settings.ts";
-import { loadSession, resetSession, storageAvailable, type Profile, type Session } from "./personalize.ts";
+import { JOURNEY, PANEL_KEY, TYPE_LABELS } from "../lib/personalization-settings.ts";
+import { loadSession, nextStep, resetSession, storageAvailable, type Profile, type Session } from "./personalize.ts";
 
 const html = document.documentElement;
 const panel = document.getElementById("under-the-hood")!;
@@ -76,6 +76,45 @@ function barGroup(title: string, counts: Record<string, number>, limit = 5) {
   return [el("h4", title), list];
 }
 
+const shortDate = (iso: string) => new Date(iso.length === 10 ? `${iso}T12:00:00` : iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+
+function renderJourney(profile: Profile) {
+  const next = nextStep(profile)?.step;
+  const items = JOURNEY.map(({ step, label }) => {
+    const done = profile.journey[step];
+    const li = el("li", label);
+    li.append(el("span", done ? ` — done ${shortDate(done)}` : step === next ? " — next" : " — not yet", "state"));
+    if (step === next) li.setAttribute("aria-current", "step");
+    return li;
+  });
+  panel.querySelector(".uth-steps")!.replaceChildren(...items);
+}
+
+// Everything the forms stored, as label and value pairs
+function renderAnswers(profile: Profile) {
+  const { stated, contact } = profile;
+  const rows: [string, string | undefined][] = [
+    ["Name", [contact.firstName, contact.lastName].filter(Boolean).join(" ") || undefined],
+    ["Email", contact.email],
+    ["Phone", contact.phone],
+    ["Date of birth", contact.dob && shortDate(contact.dob)],
+    ["Degree level", stated.level],
+    ["Program", stated.program],
+    ["Start term", stated.startTerm],
+    ["Visit date", stated.visitDate && shortDate(stated.visitDate)],
+    ["Guests", stated.guests === undefined ? undefined : String(stated.guests)],
+  ];
+  const filled = rows.filter(([, value]) => value);
+  const container = panel.querySelector(".uth-answers")!;
+  if (!filled.length) {
+    container.replaceChildren(el("p", "Nothing yet. The request-info and visit forms save their answers here."));
+    return;
+  }
+  const list = el("dl");
+  list.append(...filled.flatMap(([label, value]) => [el("dt", label), el("dd", value)]));
+  container.replaceChildren(list);
+}
+
 function renderProfile(profile: Profile) {
   const groups = [
     ...barGroup("Departments", profile.department),
@@ -83,6 +122,8 @@ function renderProfile(profile: Profile) {
     ...barGroup("Levels", profile.level),
     ...barGroup("Formats", profile.modality),
   ];
+  // The program chosen in the request-info form counts too, alongside page views
+  if (groups.length && profile.stated.program) groups.push(el("p", `Includes the program from your request-info form: ${profile.stated.program}.`));
   panel.querySelector(".uth-bars")!.replaceChildren(...(groups.length ? groups : [el("p", "Nothing yet. Program, course, and faculty pages add to the profile.")]));
 }
 
@@ -116,7 +157,9 @@ function render(session: Session) {
     ? `${views} ${views === 1 ? "page view" : "page views"} in this tab`
     : "Session storage isn't available in this browser, so nothing is tracked.";
   renderChanges();
+  renderJourney(session.profile);
   renderProfile(session.profile);
+  renderAnswers(session.profile);
   renderVisits(session);
 }
 

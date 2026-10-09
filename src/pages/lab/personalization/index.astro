@@ -4,15 +4,16 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import { getPage } from "../../../lib/pages.ts";
 import { programs } from "../../../lib/catalog.ts";
-import { MAX_VIEWS, RECOMMEND_AFTER } from "../../../lib/personalization-settings.ts";
+import { JOURNEY, MAX_VIEWS } from "../../../lib/personalization-settings.ts";
 import { pagePath, SECTION_PATH } from "../../../lib/urls.ts";
 
 const page = await getPage("lab/personalization");
 const { Content } = page;
 const path = "/lab/personalization/";
 const enabled = siteConfig.features.personalization;
-// Three nursing programs to try it with
-const nursing = programs.filter((p) => p.department === "nursing").slice(0, 3);
+// Two nursing programs to try it with
+const nursing = programs.filter((p) => p.department === "nursing").slice(0, 2);
+const step = (name: string) => JOURNEY.find((j) => j.step === name)!;
 ---
 
 <BaseLayout title={page.title} description={page.description}>
@@ -27,21 +28,25 @@ const nursing = programs.filter((p) => p.department === "nursing").slice(0, 3);
           <h2 id="try-title">Try it</h2>
           <ol>
             <li>
-              View {RECOMMEND_AFTER} nursing pages:{" "}
+              Explore a couple of programs, like{" "}
               {nursing.map((p, i) => (
                 <>
-                  {i > 0 && (i === nursing.length - 1 ? ", and " : ", ")}
+                  {i > 0 && " and "}
                   <a href={pagePath("programs", p.id)}>{p.name}</a>
                 </>
               ))}
-              .
+              . Open <strong>Recents</strong> in the header: your next step is requesting information.
             </li>
             <li>
-              Open <strong>Recents</strong> in the header to see the pages you viewed and programs picked for you, then go to the{" "}
-              <a href={`${SECTION_PATH.programs}/`}>program list</a>: nursing programs now come first.
+              Fill in the <a href={step("requestInfo").href}>request information</a> form, then the <a href={step("visit").href}>visit</a> form. Each one moves
+              your journey forward, and the visit form fills in your name and email for you.
             </li>
             <li>
-              Open the panel to see your visit log, your interest profile, and what changed on each page.{" "}
+              Click any <strong>Apply</strong> button to finish the journey. The <a href={`${SECTION_PATH.programs}/`}>program list</a> also puts your
+              most-viewed department first.
+            </li>
+            <li>
+              Open the panel to see your journey, interest profile, form answers, and visit log.{" "}
               <button type="button" class="link-button needs-js" data-under-the-hood-toggle aria-expanded="false">Open Under the hood</button>
               <noscript>(The panel needs JavaScript.)</noscript>
             </li>
@@ -54,7 +59,7 @@ const nursing = programs.filter((p) => p.department === "nursing").slice(0, 3);
     }
 
     <Content />
-    <p class="hint">The log keeps at most {MAX_VIEWS} page views. The code is in <code>src/scripts/personalize.ts</code>, <code>src/components/Recents.astro</code>, and <code>src/components/UnderTheHood.astro</code>.</p>
+    <p class="hint">The log keeps at most {MAX_VIEWS} page views. The code is in <code>src/scripts/personalize.ts</code>, <code>src/components/Recents.astro</code>, <code>src/components/forms/</code>, and <code>src/components/UnderTheHood.astro</code>.</p>
   </article>
 </BaseLayout>
 

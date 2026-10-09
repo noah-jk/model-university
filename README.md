@@ -69,16 +69,18 @@ Each feature is a switch in `site.config.ts`. When a switch is off, its routes a
 | `jsonFeeds` | `/data/programs.json`, `/data/courses.json`, `/data/services.json` |
 | `markdownPages` | `…/index.md` copies of program, course, and service pages |
 | `askAi` | "Ask AI" menus on the home page and section overview pages (academics, programs, courses, admissions, services, faculty, events, news) |
-| `personalization` | Session-based personalization: the Recents panel in the header, the program list's order, and the "Under the hood" panel. Uses sessionStorage only. |
+| `personalization` | Session-based personalization: the application journey and Recents panel in the header, the program list's order, the journey forms' prefilling, and the "Under the hood" panel. Uses sessionStorage only. |
 
 ### Personalization (Lab)
 
 Detail pages describe themselves with `data-page-*` attributes on `<main>` (built in `src/lib/personalization.ts`). `src/scripts/personalize.ts` records each view in sessionStorage (the last 50) and derives an interest profile; nothing leaves the browser.
 
-- `src/components/Recents.astro`: the Recents panel, opened from the header's utility row (or the Menu on small screens), with "Recently viewed" and, when there are matches, "Recommended for you"
+- Application journey: explore programs (any program page view) → request information (form sent) → schedule a visit (form sent) → apply (any `[data-journey-apply]` click). Steps are defined in `src/lib/personalization-settings.ts`.
+- `src/components/forms/`: `RequestInfoForm.astro` and `VisitForm.astro`, portable forms that can go on any page (give each copy its own `id`). They aren't connected to anything; answers are saved to the session and shown in Under the hood. Pages: `/admissions/request-info/` and `/admissions/visit/schedule/`.
+- `src/components/JourneyActions.astro`: Request information, Schedule a visit, and Apply buttons (on program pages and the admissions overview)
+- `src/components/Recents.astro`: the Recents panel, opened from the header's utility row (or the Menu on small screens), with "Recently viewed" and "Your next step"
 - `src/pages/academics/programs/index.astro`: lists the most-viewed department's programs first
 - `src/components/UnderTheHood.astro`: the panel, opened from the footer or with `?demo` in the address
-- `/personalization/programs.json`: the program list the browser picks recommendations from
 
 To avoid layout shift, the program list is reordered by a small inline script before the page is first painted, and Recents only appears when someone opens it. Controls that need JavaScript use the `needs-js` class, which works because BaseLayout adds `.js` to `<html>` before first paint.
 

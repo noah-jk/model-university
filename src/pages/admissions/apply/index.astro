@@ -13,6 +13,24 @@ const path = "/admissions/apply/";
   <article class="prose">
     <h1>{page.title}</h1>
     <p class="lede">{page.description}</p>
+    <div class="start">
+      <button type="button" class="button needs-js" data-journey-apply id="start-application">Start your application</button>
+      <p id="start-note" class="note" role="status"></p>
+    </div>
     <Content />
   </article>
 </BaseLayout>
+
+<script>
+  // There's no real application portal in this demo. Clicking still counts as
+  // the "apply" step of the journey (see src/scripts/personalize.ts).
+  document.getElementById("start-application")!.addEventListener("click", () => {
+    document.getElementById("start-note")!.textContent =
+      "This is a demo, so there's no application portal. On a real site, this button would open it. Your journey now shows this step as started.";
+  });
+</script>
+
+<style>
+  .start { margin-block: 1.25rem 2rem; }
+  .note { font-size: var(--step--1); color: var(--muted); margin-top: 0.75rem; min-height: 1.5em; }
+</style>

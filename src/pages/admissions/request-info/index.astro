@@ -1,0 +1,20 @@
+---
+import { getPage } from "../../../lib/pages.ts";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import RequestInfoForm from "../../../components/forms/RequestInfoForm.astro";
+
+const page = await getPage("admissions/request-info");
+const { Content } = page;
+const path = "/admissions/request-info/";
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <Breadcrumb items={[{ label: "Admissions", href: "/admissions/" }, { label: page.title, href: path }]} />
+  <div class="prose">
+    <h1>{page.title}</h1>
+    <p class="lede">{page.description}</p>
+    <Content />
+  </div>
+  <RequestInfoForm heading="Your details and interests" />
+</BaseLayout>

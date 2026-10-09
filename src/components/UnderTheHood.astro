@@ -26,9 +26,19 @@
     <ul class="uth-changes"></ul>
   </section>
 
+  <section aria-labelledby="uth-journey">
+    <h3 id="uth-journey">Application journey</h3>
+    <ol class="uth-steps"></ol>
+  </section>
+
   <section aria-labelledby="uth-profile">
     <h3 id="uth-profile">Interest profile</h3>
     <div class="uth-bars"></div>
+  </section>
+
+  <section aria-labelledby="uth-forms">
+    <h3 id="uth-forms">From your forms</h3>
+    <div class="uth-answers"></div>
   </section>
 
   <section aria-labelledby="uth-log">
@@ -90,6 +100,11 @@
   .uth-visits :global(time), .uth-visits :global(.type) { color: var(--muted); }
   .uth-visits :global(.type) { display: block; }
   .uth-reset { margin-top: 1.25rem; }
+  .uth-steps { padding-left: 1.25rem; }
+  .uth-steps :global(.state) { color: var(--muted); }
+  .uth-answers :global(dl) { display: grid; grid-template-columns: auto 1fr; gap: 0.25rem 0.75rem; margin: 0; }
+  .uth-answers :global(dt) { font-weight: 600; }
+  .uth-answers :global(dd) { margin: 0; overflow-wrap: anywhere; }
 
   /* Bar charts: the count is always written out; the bar is decoration */
   .uth-bars :global(h4) { font-family: var(--sans); font-size: var(--step--1); font-weight: 600; color: var(--muted); margin: 0.75rem 0 0.25rem; }
