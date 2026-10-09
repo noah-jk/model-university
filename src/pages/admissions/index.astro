@@ -2,7 +2,6 @@
 import siteConfig from "../../../site.config.ts";
 import { getPage } from "../../lib/pages.ts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ForYou from "../../components/ForYou.astro";
 import AskAiMenu from "../../components/AskAiMenu.astro";
 import EventList from "../../components/EventList.astro";
 import { events, hasEnded } from "../../lib/catalog.ts";
@@ -31,8 +30,6 @@ const prompt = `I'm thinking about applying to ${siteConfig.name}. Use {origin}/
     <h1>{page.title}</h1>
     <AskAiMenu prompt={prompt} label="Ask AI about applying" />
   </div>
-
-  <ForYou />
 
   <div class="detail">
     <article>

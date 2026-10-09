@@ -2,7 +2,6 @@
 import { getCollection } from "astro:content";
 import siteConfig from "../../../../site.config.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import ForYou from "../../../components/ForYou.astro";
 import AskAiMenu from "../../../components/AskAiMenu.astro";
 import NewsList from "../../../components/NewsList.astro";
 
@@ -17,7 +16,5 @@ const prompt = `Read {origin}/about/news/ and tell me what's been happening at $
     <p>Research, students, and campus life at {siteConfig.shortName}.</p>
     <AskAiMenu prompt={prompt} label="Explore news with AI" />
   </div>
-
-  <ForYou />
   <NewsList stories={stories} headingLevel={2} />
 </BaseLayout>

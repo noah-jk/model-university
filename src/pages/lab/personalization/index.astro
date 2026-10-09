@@ -37,7 +37,8 @@ const nursing = programs.filter((p) => p.department === "nursing").slice(0, 3);
               .
             </li>
             <li>
-              Go to the <a href={`${SECTION_PATH.programs}/`}>program list</a>: nursing programs now come first, and the home page shows programs picked for you.
+              Open <strong>Recents</strong> in the header to see the pages you viewed and programs picked for you, then go to the{" "}
+              <a href={`${SECTION_PATH.programs}/`}>program list</a>: nursing programs now come first.
             </li>
             <li>
               Open the panel to see your visit log, your interest profile, and what changed on each page.{" "}
@@ -53,7 +54,7 @@ const nursing = programs.filter((p) => p.department === "nursing").slice(0, 3);
     }
 
     <Content />
-    <p class="hint">The log keeps at most {MAX_VIEWS} page views. The code is in <code>src/scripts/personalize.ts</code>, <code>src/components/ForYou.astro</code>, and <code>src/components/UnderTheHood.astro</code>.</p>
+    <p class="hint">The log keeps at most {MAX_VIEWS} page views. The code is in <code>src/scripts/personalize.ts</code>, <code>src/components/Recents.astro</code>, and <code>src/components/UnderTheHood.astro</code>.</p>
   </article>
 </BaseLayout>
 

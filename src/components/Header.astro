@@ -1,5 +1,6 @@
 ---
 import siteConfig from "../../site.config.ts";
+import Recents from "./Recents.astro";
 
 // Main sections (some with a submenu), plus a smaller utility row.
 type NavItem = { href: string; label: string; children?: { href: string; label: string }[] };
@@ -29,6 +30,9 @@ const utilityNav = [
   { href: "/about/news/", label: "News" },
   { href: "/academics/courses/", label: "Courses" },
 ];
+// The personalization experiment's Recents panel opens from the utility row
+// (and from the Menu on small screens, where the utility row is hidden).
+const recents = siteConfig.features.personalization;
 const current = Astro.url.pathname;
 const ariaCurrent = (href: string) => (current.startsWith(href) ? "page" : undefined);
 // A parent is "current" only on its own page; its children are marked on theirs.
@@ -47,7 +51,10 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
       <span>Menu</span>
     </button>
     <nav class="utility" aria-label="Utility">
-      <ul>{utilityNav.map(({ href, label }) => <li><a href={href} aria-current={ariaCurrent(href)}>{label}</a></li>)}</ul>
+      <ul>
+        {utilityNav.map(({ href, label }) => <li><a href={href} aria-current={ariaCurrent(href)}>{label}</a></li>)}
+        {recents && <li><button type="button" class="recents-toggle needs-js" data-recents-toggle aria-expanded="false">Recents</button></li>}
+      </ul>
     </nav>
   </div>
   <div class="wrap">
@@ -71,9 +78,15 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
             ),
           )
         }
+        {recents && (
+          <li class="small-screens">
+            <button type="button" class="recents-toggle needs-js" data-recents-toggle aria-expanded="false">Recents</button>
+          </li>
+        )}
       </ul>
     </nav>
   </div>
+  {recents && <Recents />}
   <div class="demo-note">
     <div class="wrap"><p>Demo site with fictional data, built to test connecting a university website to AI assistants.</p></div>
   </div>
@@ -175,6 +188,16 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
     .submenu a { display: flex; align-items: center; min-height: 44px; padding-block: 0; border-bottom: 0; }
     :global(.js) .has-menu > .submenu { display: none; }
     :global(.js) .has-menu.open > .submenu { display: flex; }
+  }
+  /* Recents buttons look like the nav links around them */
+  .recents-toggle { background: none; border: 0; padding: 0.4rem 0; border-bottom: 2px solid transparent; color: var(--on-dark); font: inherit; cursor: pointer; }
+  .recents-toggle:hover, .recents-toggle[aria-expanded="true"] { border-bottom-color: #dce5c3; }
+  .recents-toggle:focus-visible { outline: 2px solid #dce5c3; outline-offset: 2px; }
+  .main .recents-toggle { font-weight: 600; }
+  @media (min-width: 48rem) { .small-screens { display: none; } }
+  @media (max-width: 47.99rem) {
+    .main .recents-toggle { width: 100%; text-align: left; min-height: 48px; border-bottom: 0; font-size: var(--step-0); }
+    .main .recents-toggle[aria-expanded="true"] { text-decoration: underline; text-underline-offset: 0.35em; text-decoration-color: #dce5c3; }
   }
   .demo-note { background: var(--lichen); color: var(--basalt); font-size: var(--step--1); }
   .demo-note p { margin-block: 0; padding-block: 0.45rem; max-width: none; }

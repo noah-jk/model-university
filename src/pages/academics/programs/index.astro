@@ -5,7 +5,6 @@ import { getCollection } from "astro:content";
 import siteConfig from "../../../../site.config.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import AskAiMenu from "../../../components/AskAiMenu.astro";
-import ForYou from "../../../components/ForYou.astro";
 import { colleges, collegeOf, departmentOf } from "../../../lib/catalog.ts";
 import { usd } from "../../../lib/format.ts";
 import { pagePath } from "../../../lib/urls.ts";
@@ -30,8 +29,6 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
     <p>Find a degree, minor, or certificate, or ask your AI assistant to help you choose.</p>
     <AskAiMenu prompt={prompt} label="Explore programs with AI" />
   </div>
-
-  <ForYou recommend />
 
   <form class="finder" data-filter-form="program-list" data-noun="program" role="search" aria-label="Filter programs">
     <div class="field search">

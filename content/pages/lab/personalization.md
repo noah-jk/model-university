@@ -6,10 +6,9 @@ description: The site adapts to what you look at in one browser tab, without coo
 
 ## What it does
 
-As you browse program, course, faculty, service, event, and news pages, the site keeps a short log of what you viewed and adds up a simple interest profile: which departments, colleges, program levels, and formats come up most. It uses that profile in three places:
+As you browse program, course, faculty, service, event, and news pages, the site keeps a short log of what you viewed and adds up a simple interest profile: which departments, colleges, program levels, and formats come up most. It uses that profile in two places:
 
-- **Recently viewed** on the home page and section overviews shows the last four pages you opened.
-- **Recommended for you** suggests three programs that match your most-viewed department, level, and format, leaving out programs you've already seen. It appears after three page views.
+- **Recents**, in the header, opens a panel with the last four pages you viewed and, once you've viewed three pages, three recommended programs that match your most-viewed department, level, and format. Programs you've already seen are left out, and the recommendations only appear when there's a match.
 - **The program list** puts programs from your most-viewed department first. It only reorders when the page loads, never while you're reading.
 
 Each of these has a "Why am I seeing this?" note that names the signal behind it, such as "4 of your 6 views were Nursing pages."

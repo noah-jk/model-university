@@ -2,7 +2,6 @@
 import { getCollection } from "astro:content";
 import siteConfig from "../../../site.config.ts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ForYou from "../../components/ForYou.astro";
 import AskAiMenu from "../../components/AskAiMenu.astro";
 import { pagePath } from "../../lib/urls.ts";
 import { SERVICE_CATEGORIES } from "../../lib/vocab.ts";
@@ -20,8 +19,6 @@ const prompt = `I'm a student at ${siteConfig.name}. Use {origin}/llms.txt to fi
     <p>Support for every part of student life, from tutoring to tuition.</p>
     <AskAiMenu prompt={prompt} label="Find a service with AI" />
   </div>
-
-  <ForYou />
 
   <nav class="jump" aria-label="Service categories">
     <ul>{categories.map((cat) => <li><a href={`#${headingId(cat)}`}>{cat}</a></li>)}</ul>

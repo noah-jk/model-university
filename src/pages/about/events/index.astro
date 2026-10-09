@@ -4,7 +4,6 @@
 import { getCollection } from "astro:content";
 import siteConfig from "../../../../site.config.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import ForYou from "../../../components/ForYou.astro";
 import AskAiMenu from "../../../components/AskAiMenu.astro";
 import EventList from "../../../components/EventList.astro";
 import { AUDIENCES, CAMPUSES, EVENT_CATEGORIES } from "../../../lib/vocab.ts";
@@ -27,8 +26,6 @@ const prompt = `Help me find events at ${siteConfig.name} using {origin}/about/e
     <p>Campus tours, public lectures, performances, workshops, and more. Everything is free unless noted.</p>
     <AskAiMenu prompt={prompt} label="Explore events with AI" />
   </div>
-
-  <ForYou />
 
   <form class="finder" data-filter-form="event-list" data-noun="event" role="search" aria-label="Filter events">
     <div class="field search">

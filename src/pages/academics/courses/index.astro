@@ -4,7 +4,6 @@
 import { getCollection } from "astro:content";
 import siteConfig from "../../../../site.config.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import ForYou from "../../../components/ForYou.astro";
 import AskAiMenu from "../../../components/AskAiMenu.astro";
 import { collegeOf, coursesInDepartment } from "../../../lib/catalog.ts";
 import { subjectPath } from "../../../lib/urls.ts";
@@ -22,8 +21,6 @@ const prompt = `Help me plan courses at ${siteConfig.name} using {origin}/llms.t
     <p>{courses.length.toLocaleString("en-US")} courses across {departments.length} subjects.</p>
     <AskAiMenu prompt={prompt} label="Explore courses with AI" />
   </div>
-
-  <ForYou />
 
   <form id="course-jump" class="finder needs-js" data-codes={codes.join(",")} aria-label="Go to a course">
     <div class="field">

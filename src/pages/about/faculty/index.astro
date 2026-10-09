@@ -3,7 +3,6 @@
 import { getCollection } from "astro:content";
 import siteConfig from "../../../../site.config.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import ForYou from "../../../components/ForYou.astro";
 import AskAiMenu from "../../../components/AskAiMenu.astro";
 import { departmentOf, departments } from "../../../lib/catalog.ts";
 import { pagePath } from "../../../lib/urls.ts";
@@ -22,8 +21,6 @@ const prompt = `Help me find faculty at ${siteConfig.name} using {origin}/about/
     <p>{people.length} faculty across {departments.length} departments. Search by name or research interest.</p>
     <AskAiMenu prompt={prompt} label="Find faculty with AI" />
   </div>
-
-  <ForYou />
 
   <form class="finder" data-filter-form="faculty-list" data-noun="person" data-plural="people" role="search" aria-label="Filter faculty">
     <div class="field search">

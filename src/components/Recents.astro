@@ -1,0 +1,67 @@
+---
+// "Recents": the personalization experiment's recently viewed pages and
+// recommended programs, in a band below the header. It opens from the
+// Recents button in the header's utility row (inside the Menu on small
+// screens) and is filled from this tab's session when it opens; see
+// src/scripts/recents.ts.
+---
+
+<section id="recents" class="recents" aria-labelledby="recents-title" hidden>
+  <div class="wrap">
+    <div class="intro">
+      <h2 id="recents-title" tabindex="-1">Recents</h2>
+      <p>Based on the pages you've viewed in this tab. <a href="/lab/personalization/">How this works</a></p>
+      <button type="button" class="button secondary close">Close</button>
+    </div>
+    <div class="modules">
+      <div class="module">
+        <h3>Recently viewed</h3>
+        <p class="empty">Pages you open in this tab will show up here.</p>
+        <ul class="rows recent-list"></ul>
+        <details>
+          <summary>Why am I seeing this?</summary>
+          <p>
+            These are the last pages you opened in this tab. They're kept in your browser's session storage, never sent to us, and cleared when you close the
+            tab.
+          </p>
+        </details>
+      </div>
+      <div class="module recommended" hidden>
+        <h3>Recommended for you</h3>
+        <ul class="rows recommended-list"></ul>
+        <details>
+          <summary>Why am I seeing this?</summary>
+          <p class="why"></p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import "../scripts/recents.ts";
+</script>
+
+<style>
+  .recents { background: var(--paper); color: var(--basalt); border-bottom: 1px solid var(--line); box-shadow: inset 0 6px 0 var(--fir); }
+  .wrap { padding-block: 1.5rem; }
+  .intro { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1rem; margin-bottom: 1rem; }
+  h2 { font-size: var(--step-2); margin: 0; }
+  h2:focus { outline: none; }
+  h2:focus-visible { outline: 3px solid var(--focus); }
+  .intro p { margin: 0; font-size: var(--step--1); color: var(--muted); flex: 1 1 16rem; }
+  .close { margin-left: auto; }
+  /* Small screens: heading and Close on one line, the note below */
+  @media (max-width: 47.99rem) { .intro p { order: 3; flex-basis: 100%; } }
+  .modules { display: grid; gap: 1.5rem 2.5rem; }
+  @media (min-width: 48rem) { .modules:has(.recommended:not([hidden])) { grid-template-columns: 1fr 1fr; } }
+  h3 { font-family: var(--sans); font-weight: 600; font-size: var(--step-0); margin: 0 0 0.25rem; }
+  .empty { color: var(--muted); margin: 0.25rem 0 0; }
+  .rows { list-style: none; padding: 0; margin: 0; }
+  .rows :global(li) { max-width: none; padding-block: 0.5rem; border-bottom: 1px solid var(--line); }
+  .rows :global(a) { line-height: 1.3; }
+  .rows :global(span) { display: block; font-size: var(--step--1); color: var(--muted); line-height: 1.3; }
+  details { margin-top: 0.6rem; font-size: var(--step--1); }
+  summary { cursor: pointer; color: var(--salmonberry); min-height: 24px; }
+  details p { margin: 0.4rem 0 0; color: var(--muted); }
+</style>
