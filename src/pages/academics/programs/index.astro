@@ -86,21 +86,25 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
         // and only on load, so the list never jumps while someone reads it.
         try {
           const profile = JSON.parse(sessionStorage.getItem(key) || "null")?.profile;
-          const [department, count] = Object.entries(profile?.department || {}).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0] || [];
+          // A department from the request-info form always wins; otherwise the most viewed (at least twice)
+          const stated = profile?.stated?.department;
+          const [viewed, viewCount] = Object.entries(profile?.department || {}).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0] || [];
+          const department = stated || (viewCount >= 2 ? viewed : undefined);
+          const count = profile?.department?.[department] || 0;
           const list = document.getElementById("program-list");
-          const matches = department && count >= 2 ? [...list.children].filter((li) => li.dataset.department === department) : [];
+          const matches = department ? [...list.children].filter((li) => li.dataset.department === department) : [];
           if (matches.length) {
             list.prepend(...matches);
             const n = matches.length;
             list.dataset.personalized = `Program list: moved ${n} ${department} ${n === 1 ? "program" : "programs"} to the top.`;
             const note = document.getElementById("program-order-note");
             const text = document.createElement("p");
-            text.textContent = `Showing ${department} programs first, based on the pages you've viewed.`;
+            text.textContent = stated ? `Showing ${department} programs first, based on your request-info form.` : `Showing ${department} programs first, based on the pages you've viewed.`;
             const details = document.createElement("details");
             const summary = document.createElement("summary");
             summary.textContent = "Why am I seeing this?";
             const why = document.createElement("p");
-            why.textContent = `${count} of your ${profile.views} views were ${department} pages. The rest of the list stays in A to Z order.`;
+            why.textContent = (stated ? `You chose ${profile.stated.program} in the request-info form, and what you tell us in a form comes before what you view. ` : `${count} of your ${profile.views} views were ${department} pages. `) + "The rest of the list stays in A to Z order.";
             details.append(summary, why);
             note.append(text, details);
             note.hidden = false;

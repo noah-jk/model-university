@@ -44,7 +44,19 @@ export type Profile = {
   // When each journey step was done, if it has been
   journey: Partial<Record<JourneyStep, string>>;
   // What the person told us in forms (the latest answer wins)
-  stated: { level?: string; program?: string; startTerm?: string; visitDate?: string; guests?: number };
+  // Form answers are canonical: where one exists, it overrides the page-view
+  // counts above (see preferred). department, college, and modality come from
+  // the program picked in the request-info form.
+  stated: {
+    level?: string;
+    program?: string;
+    department?: string;
+    college?: string;
+    modality?: string;
+    startTerm?: string;
+    visitDate?: string;
+    guests?: number;
+  };
   contact: { firstName?: string; lastName?: string; email?: string; phone?: string; dob?: string };
 };
 export type Session = { views: PageView[]; forms: Forms; applied?: string; profile: Profile };
@@ -107,7 +119,12 @@ export function deriveProfile(views: PageView[], forms: Forms, applied?: string)
   const { requestInfo: info, visit } = forms;
   profile.stated = {
     ...(info && { level: info.level, startTerm: info.startTerm }),
-    ...(info?.program && { program: info.program.name }),
+    ...(info?.program && {
+      program: info.program.name,
+      department: info.program.department,
+      college: info.program.college,
+      modality: info.program.modality,
+    }),
     ...(visit && { visitDate: visit.date, guests: visit.guests }),
   };
   // Contact details from whichever form was sent most recently
@@ -126,6 +143,13 @@ export const nextStep = (profile: Profile) => JOURNEY.find(({ step }) => !profil
 // The most common value for one signal, e.g. top(profile.department) → ["Nursing", 4]
 export function top(counts: Counts): [string, number] | undefined {
   return Object.entries(counts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0];
+}
+
+// What a visitor is most interested in, for one signal: what they said in a
+// form if they did (e.g. the college of the program they asked about),
+// otherwise the one they've viewed most. Views never outvote a form answer.
+export function preferred(profile: Profile, signal: "department" | "college" | "level" | "modality") {
+  return profile.stated[signal] ?? top(profile[signal])?.[0];
 }
 
 // Last few distinct pages, newest first

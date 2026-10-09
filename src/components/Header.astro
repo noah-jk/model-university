@@ -1,5 +1,6 @@
 ---
 import siteConfig from "../../site.config.ts";
+import { JOURNEY } from "../lib/personalization-settings.ts";
 import Recents from "./Recents.astro";
 
 // Main sections (some with a submenu), plus a smaller utility row.
@@ -33,6 +34,8 @@ const utilityNav = [
 // The personalization experiment's Recents panel opens from the utility row
 // (and from the Menu on small screens, where the utility row is hidden).
 const recents = siteConfig.features.personalization;
+// The header button starts at the first step (or just "Apply" without personalization); header-cta.ts keeps it on the visitor's next step.
+const cta = recents ? { href: JOURNEY[0].href, label: JOURNEY[0].label } : { href: "/admissions/apply/", label: "Apply" };
 const current = Astro.url.pathname;
 const ariaCurrent = (href: string) => (current.startsWith(href) ? "page" : undefined);
 // A parent is "current" only on its own page; its children are marked on theirs.
@@ -78,6 +81,7 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
             ),
           )
         }
+        <li class="cta-item"><a class="cta" href={cta.href} data-header-cta data-journey-apply={!recents || undefined}>{cta.label}</a></li>
         {recents && (
           <li class="small-screens">
             <button type="button" class="recents-toggle needs-js" data-recents-toggle aria-expanded="false">Recents</button>
@@ -91,6 +95,10 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
     <div class="wrap"><p>Demo site with fictional data, built to test connecting a university website to AI assistants.</p></div>
   </div>
 </header>
+
+<script>
+  import "../scripts/header-cta.ts";
+</script>
 
 <script>
   // Submenus work with CSS alone (hover and focus). With JavaScript, a button
@@ -194,7 +202,21 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
   .recents-toggle:hover, .recents-toggle[aria-expanded="true"] { border-bottom-color: #dce5c3; }
   .recents-toggle:focus-visible { outline: 2px solid #dce5c3; outline-offset: 2px; }
   .main .recents-toggle { font-weight: 600; }
+  /* In the utility row it's a pill just a shade lighter than the header */
+  .utility .recents-toggle { background: color-mix(in srgb, var(--fir-deep), white 12%); color: var(--on-dark); padding: 0.3rem 0.85rem; border: 0; border-radius: 999px; transition: background 0.15s; }
+  .utility .recents-toggle:hover, .utility .recents-toggle[aria-expanded="true"] { background: color-mix(in srgb, var(--fir-deep), white 22%); }
   @media (min-width: 48rem) { .small-screens { display: none; } }
+  /* The next-step button: high contrast, at the right end of the main nav row */
+  .main > ul { width: 100%; }
+  .main a.cta { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.25rem; border: 0; border-radius: 999px; background: #f08ea0; color: #142b26; font-weight: 700; text-decoration: none; white-space: nowrap; transition: background 0.15s, transform 0.15s; }
+  .main a.cta:hover { background: #f7b0bd; transform: translateY(-1px); }
+  .main a.cta:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+  .cta-item { margin-left: auto; align-self: center; }
+  @media (prefers-reduced-motion: reduce) { .main a.cta { transition: none; } .main a.cta:hover { transform: none; } }
+  @media (max-width: 47.99rem) {
+    .main > ul > li.cta-item { margin: 0.75rem 0 0.5rem; padding-top: 0.75rem; }
+    .main > ul > li > a.cta { flex: 1; justify-content: center; min-height: 52px; font-size: var(--step-0); }
+  }
   @media (max-width: 47.99rem) {
     .main .recents-toggle { width: 100%; text-align: left; min-height: 48px; border-bottom: 0; font-size: var(--step-0); }
     .main .recents-toggle[aria-expanded="true"] { text-decoration: underline; text-underline-offset: 0.35em; text-decoration-color: #dce5c3; }

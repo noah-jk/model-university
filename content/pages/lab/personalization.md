@@ -15,7 +15,7 @@ The site keeps track of where you are in the application journey that most stude
 
 **Recents**, in the header, shows the last four pages you viewed and your next step, with a button that takes you there. If you skip ahead, say by scheduling a visit first, the next step is the earliest one you haven't done.
 
-Along the way, the site adds up a simple interest profile: which departments, colleges, program levels, and formats come up most in what you view and in the program you name on the request-information form. The program list uses it to put your most-viewed department first, only as the page loads and never while you're reading. The forms use it too: after you've filled in one, the other fills in your name and email.
+Along the way, the site adds up a simple interest profile: which departments, colleges, program levels, and formats come up most in what you view and in the program you name on the request-information form. What you say in a form always comes before what you view: if you name a program on the request-information form, its college and department are your preference, however many pages you've viewed in other areas. Otherwise the most-viewed one is. The home page headline and photo follow your preferred college. The program list uses it to put your preferred department first, only as the page loads and never while you're reading. The forms use it too: after you've filled in one, the other fills in your name and email.
 
 Each of these has a "Why am I seeing this?" note that names the reason, such as "You've looked at 3 programs, mostly in Nursing."
 

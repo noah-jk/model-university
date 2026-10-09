@@ -122,8 +122,10 @@ function renderProfile(profile: Profile) {
     ...barGroup("Levels", profile.level),
     ...barGroup("Formats", profile.modality),
   ];
-  // The program chosen in the request-info form counts too, alongside page views
-  if (groups.length && profile.stated.program) groups.push(el("p", `Includes the program from your request-info form: ${profile.stated.program}.`));
+  // Form answers win over page views, however many views there are
+  if (groups.length && profile.stated.program) {
+    groups.push(el("p", `You chose ${profile.stated.program} in the request-info form, so ${profile.stated.college} is your preferred college, whatever the page-view counts say.`));
+  }
   panel.querySelector(".uth-bars")!.replaceChildren(...(groups.length ? groups : [el("p", "Nothing yet. Program, course, and faculty pages add to the profile.")]));
 }
 
