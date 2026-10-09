@@ -49,33 +49,40 @@ function explain(session: Session) {
   }
 }
 
-function renderJourney(session: Session) {
-  const { profile } = session;
-  const next = nextStep(profile);
-  const steps = JOURNEY.map(({ step, label }) => {
-    const li = document.createElement("li");
-    const done = profile.journey[step];
-    li.className = done ? "done" : "";
-    if (step === next?.step) li.setAttribute("aria-current", "step");
-    const state = document.createElement("span");
-    state.className = "state";
-    state.textContent = done ? ` Done ${day(done)}` : step === next?.step ? " Next" : " Not yet";
-    li.append(label, state);
-    return li;
-  });
-  panel.querySelector(".steps")!.replaceChildren(...steps);
+// One line under the title, specific to what the person has done
+function pitch(session: Session) {
+  const { forms, views } = session;
+  const lastProgram = views.filter((v) => v.type === "program").at(-1);
+  switch (nextStep(session.profile)?.step) {
+    case "explore":
+      return "Find a program that fits you, from nursing to data science.";
+    case "requestInfo":
+      return `Get details about ${lastProgram?.name ?? "the programs you like"}: costs, deadlines, and what to expect.`;
+    case "visit":
+      return "Tour campus with a current student and meet an admissions counselor.";
+    case "apply":
+      return forms.visit ? `You're visiting on ${day(forms.visit.date)}. When you're ready, start your application.` : "You're ready. Start your application to Cascadia State.";
+    default:
+      return "You've done every step. Next, plan how to pay for it.";
+  }
+}
 
-  const link = panel.querySelector<HTMLAnchorElement>(".next-link")!;
+function renderNext(session: Session) {
+  const next = nextStep(session.profile);
   const lastProgram = session.views.filter((v) => v.type === "program").at(-1);
-  link.textContent = next ? next.label : "Tuition and financial aid";
-  link.href = !next ? "/admissions/tuition-and-aid/" : next.step === "requestInfo" && lastProgram ? `${next.href}?program=${encodeURIComponent(lastProgram.id)}` : next.href;
-  link.toggleAttribute("data-journey-apply", next?.step === "apply");
+  const tile = panel.querySelector<HTMLAnchorElement>(".next-tile")!;
+  tile.href = !next ? "/admissions/tuition-and-aid/" : next.step === "requestInfo" && lastProgram ? `${next.href}?program=${encodeURIComponent(lastProgram.id)}` : next.href;
+  tile.toggleAttribute("data-journey-apply", next?.step === "apply");
+  tile.querySelector(".title")!.textContent = next ? next.label : "Tuition and financial aid";
+  tile.querySelector(".pitch")!.textContent = pitch(session);
+  tile.querySelector(".count")!.textContent = next ? `Step ${JOURNEY.indexOf(next) + 1} of ${JOURNEY.length}` : "";
+  tile.querySelectorAll<SVGElement>(".icon svg").forEach((icon) => icon.classList.toggle("shown", icon.dataset.icon === (next?.step ?? "done")));
   panel.querySelector(".why")!.textContent = explain(session);
 }
 
 function render(session: Session) {
   renderRecent(session);
-  renderJourney(session);
+  renderNext(session);
 }
 
 function setOpen(open: boolean) {
@@ -103,7 +110,10 @@ panel.addEventListener("keydown", (e) => {
   setOpen(false);
 });
 
-// A form sent, Reset session, or any other change: refresh
+// A form sent, Reset session, or any other change: refresh. Wait until the
+// current click is over: clicking the Apply tile changes the next step, and
+// re-rendering right away would swap the tile's link before the browser
+// follows it.
 window.addEventListener("personalization:change", (e) => {
-  if (isOpen()) render((e as CustomEvent<Session>).detail);
+  if (isOpen()) setTimeout(() => render((e as CustomEvent<Session>).detail));
 });
