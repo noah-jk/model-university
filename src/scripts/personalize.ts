@@ -29,7 +29,6 @@ export type VisitAnswers = {
   lastName: string;
   email: string;
   phone?: string;
-  dob?: string;
   at: string;
 };
 export type Forms = { requestInfo?: RequestInfoAnswers; visit?: VisitAnswers };
@@ -57,7 +56,7 @@ export type Profile = {
     visitDate?: string;
     guests?: number;
   };
-  contact: { firstName?: string; lastName?: string; email?: string; phone?: string; dob?: string };
+  contact: { firstName?: string; lastName?: string; email?: string; phone?: string };
 };
 export type Session = { views: PageView[]; forms: Forms; applied?: string; profile: Profile };
 
@@ -69,7 +68,9 @@ export function loadSession(): Session {
   try {
     const saved = JSON.parse(sessionStorage.getItem(PROFILE_KEY) ?? "null");
     if (!saved?.views) return emptySession();
-    const forms = saved.forms ?? {};
+    const forms: Forms = saved.forms ?? {};
+    // The visit form used to ask for a date of birth; drop any saved before it was removed
+    if (forms.visit) delete (forms.visit as Record<string, unknown>).dob;
     return { views: saved.views, forms, applied: saved.applied, profile: deriveProfile(saved.views, forms, saved.applied) };
   } catch {
     return emptySession();
@@ -132,7 +133,6 @@ export function deriveProfile(views: PageView[], forms: Forms, applied?: string)
   if (latest) {
     profile.contact = { firstName: latest.firstName, lastName: latest.lastName, email: latest.email };
     if (visit?.phone) profile.contact.phone = visit.phone;
-    if (visit?.dob) profile.contact.dob = visit.dob;
   }
   return profile;
 }
@@ -150,6 +150,38 @@ export function top(counts: Counts): [string, number] | undefined {
 // otherwise the one they've viewed most. Views never outvote a form answer.
 export function preferred(profile: Profile, signal: "department" | "college" | "level" | "modality") {
   return profile.stated[signal] ?? top(profile[signal])?.[0];
+}
+
+// The program to point someone toward: the one they named in a form, else
+// the one they viewed last in their top-interest department, else the last
+// program they viewed at all.
+export function focusProgram(session: Session): { id: string; name: string } | undefined {
+  const named = session.forms.requestInfo?.program;
+  if (named) return named;
+  const programViews = session.views.filter((v) => v.type === "program");
+  const department = preferred(session.profile, "department");
+  return programViews.filter((v) => v.department === department).at(-1) ?? programViews.at(-1);
+}
+
+// Plain-language reasons for picks based on a department or college, for
+// "Why" notes and the Under the hood panel's "What changed on this page"
+export function interestReason(session: Session, signal: "department" | "college") {
+  const { profile } = session;
+  const value = preferred(profile, signal);
+  if (!value) return undefined;
+  if (profile.stated[signal]) return `because you asked about ${profile.stated.program} in the request-info form`;
+  const count = profile[signal][value] ?? 0;
+  return `because ${value} is the ${signal} you've looked at most (${count} of ${profile.views} page views)`;
+}
+
+// Mark an element as personalized, with a plain-language reason, or clear the
+// mark (no reason). The Under the hood panel lists every marked element that's
+// visible on the page, and refreshes when this fires the "personalized" event.
+export function markPersonalized(element: Element | null | undefined, reason?: string) {
+  if (!element) return;
+  if (reason) element.setAttribute("data-personalized", reason);
+  else element.removeAttribute("data-personalized");
+  window.dispatchEvent(new Event("personalized"));
 }
 
 // Last few distinct pages, newest first

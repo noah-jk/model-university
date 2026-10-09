@@ -9,7 +9,7 @@ const buttons = document.querySelectorAll<HTMLAnchorElement>("[data-header-cta]"
 
 if (buttons.length) {
   // Loaded only when the button is there, because personalize.ts records page views
-  const [{ loadSession }, { nextAction }] = await Promise.all([import("./personalize.ts"), import("./next-step.ts")]);
+  const [{ loadSession, markPersonalized }, { nextAction, nextStepReason }] = await Promise.all([import("./personalize.ts"), import("./next-step.ts")]);
   type Session = ReturnType<typeof loadSession>;
 
   const render = (session: Session) => {
@@ -18,6 +18,8 @@ if (buttons.length) {
       button.href = href;
       button.textContent = next ? next.label : "Tuition and aid";
       button.toggleAttribute("data-journey-apply", isApply);
+      const reason = nextStepReason(session);
+      markPersonalized(button, reason && `Header button: “${button.textContent}”, because ${reason}.`);
     });
   };
   render(loadSession());

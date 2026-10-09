@@ -2,7 +2,7 @@
 // the application journey, worded from this tab's session.
 
 import { JOURNEY } from "../lib/personalization-settings.ts";
-import { nextStep, preferred, type Session } from "./personalize.ts";
+import { focusProgram, interestReason, markPersonalized, nextStep, preferred, type Session } from "./personalize.ts";
 
 const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
 const day = (iso: string) => new Date(iso.length === 10 ? `${iso}T12:00:00` : iso).toLocaleDateString("en-US", { month: "long", day: "numeric" });
@@ -16,7 +16,7 @@ function explain(session: Session) {
     case "explore":
       return "Most students start by exploring programs. Viewing any program page completes this step.";
     case "requestInfo":
-      return `You've looked at ${plural(programViews.length, "program")}${field ? `, mostly in ${field}` : ""}. Requesting information is the usual next step, and the form starts with ${programViews.at(-1)!.name} chosen.`;
+      return `You've looked at ${plural(programViews.length, "program")}${field ? `, mostly in ${field}` : ""}. Requesting information is the usual next step, and the form starts with ${focusProgram(session)!.name} chosen.`;
     case "visit":
       return `${forms.requestInfo ? `You requested information about ${forms.requestInfo.program?.name ?? `${forms.requestInfo.level} programs`}. ` : ""}Seeing campus in person is the usual next step before applying.`;
     case "apply":
@@ -28,13 +28,13 @@ function explain(session: Session) {
 
 // One line under the title, specific to what the person has done
 function pitch(session: Session) {
-  const { forms, views } = session;
-  const lastProgram = views.filter((v) => v.type === "program").at(-1);
+  const { forms } = session;
+  const program = focusProgram(session);
   switch (nextStep(session.profile)?.step) {
     case "explore":
       return "Find a program that fits you, from nursing to data science.";
     case "requestInfo":
-      return `Get details about ${lastProgram?.name ?? "the programs you like"}: costs, deadlines, and what to expect.`;
+      return `Get details about ${program?.name ?? "the programs you like"}: costs, deadlines, and what to expect.`;
     case "visit":
       return "Tour campus with a current student and meet an admissions counselor.";
     case "apply":
@@ -45,16 +45,32 @@ function pitch(session: Session) {
 }
 
 // Where the next step goes. Used by the tile below and the header button.
-// Request information starts with the program viewed last chosen.
+// Request information starts with the program in the person's top-interest
+// department chosen (see focusProgram).
 export function nextAction(session: Session) {
   const next = nextStep(session.profile);
-  const lastProgram = session.views.filter((v) => v.type === "program").at(-1);
-  const href = !next ? "/admissions/tuition-and-aid/" : next.step === "requestInfo" && lastProgram ? `${next.href}?program=${encodeURIComponent(lastProgram.id)}` : next.href;
+  const program = focusProgram(session);
+  const href = !next ? "/admissions/tuition-and-aid/" : next.step === "requestInfo" && program ? `${next.href}?program=${encodeURIComponent(program.id)}` : next.href;
   return { next, href, isApply: next?.step === "apply" };
 }
 
-// Fill the next-step tile inside root (the Recents panel or the home page)
-export function renderNext(root: ParentNode, session: Session) {
+// Why the next step is what it is, in a few words, for "What changed on this
+// page". Undefined while it's still the default first step.
+export function nextStepReason(session: Session) {
+  const { next } = nextAction(session);
+  if (next?.step === "explore") return undefined;
+  if (!next) return "you've done every step of the application journey";
+  const done = Object.keys(session.profile.journey).length;
+  const program = next.step === "requestInfo" ? focusProgram(session) : undefined;
+  // Say why that program: it's in their top department, or it's simply the last one they viewed
+  const inTopDepartment = program && "department" in program && program.department === preferred(session.profile, "department");
+  const pick = program ? `, starting with ${program.name}, ${inTopDepartment ? interestReason(session, "department") : "the last program you viewed"}` : "";
+  return `you've done ${plural(done, "step")} of the application journey and this is the next one${pick}`;
+}
+
+// Fill the next-step tile inside root (the Recents panel or the home page).
+// `where` names it in the Under the hood panel's list of changes.
+export function renderNext(root: ParentNode, session: Session, where = "Next-step tile") {
   const { next, href, isApply } = nextAction(session);
   const tile = root.querySelector<HTMLAnchorElement>(".next-tile")!;
   tile.href = href;
@@ -64,5 +80,7 @@ export function renderNext(root: ParentNode, session: Session) {
   tile.querySelector(".count")!.textContent = next ? `Step ${JOURNEY.indexOf(next) + 1} of ${JOURNEY.length}` : "";
   tile.querySelectorAll<SVGElement>(".icon svg").forEach((icon) => icon.classList.toggle("shown", icon.dataset.icon === (next?.step ?? "done")));
   root.querySelector(".why")!.textContent = explain(session);
+  const reason = nextStepReason(session);
+  markPersonalized(tile, reason && `${where}: “${tile.querySelector(".title")!.textContent}”, because ${reason}.`);
 }
 

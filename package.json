@@ -6,12 +6,13 @@
   "description": "Cascadia State University: a model university website for demonstrating AI-ready features",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run check:content && astro build",
+    "build": "npm run index:news && npm run check:content && astro build",
     "preview": "astro preview",
     "check": "astro check",
     "generate": "node scripts/generate-data.mjs",
     "check:content": "node scripts/check-content.ts",
-    "test": "node scripts/test-mcp.ts && npm run check:content"
+    "test": "node scripts/test-mcp.ts && npm run check:content",
+    "index:news": "node scripts/index-news.ts"
   },
   "engines": {
     "node": ">=22.18"
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@types/node": "^22.20.5",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "yaml": "^2.9.1"
   }
 }

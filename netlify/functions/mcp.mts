@@ -1,13 +1,14 @@
 // The MCP endpoint, served at /mcp by Netlify Functions.
 // Stateless Streamable HTTP: each request gets a fresh server, which suits
-// serverless. Read-only tools over the generated content in content/generated/.
+// serverless. Read-only tools over the generated content in content/generated/:
+// programs, courses, student services, faculty, events, and news.
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
 import { z } from "zod";
 import siteConfig from "../../site.config.ts";
 import * as catalog from "../../src/lib/catalog.ts";
-import { COURSE_LEVELS, MODALITIES, PROGRAM_LEVELS, SERVICE_CATEGORIES, TERMS } from "../../src/lib/vocab.ts";
+import { AUDIENCES, CAMPUSES, COURSE_LEVELS, EVENT_CATEGORIES, MODALITIES, PROGRAM_LEVELS, SERVICE_CATEGORIES, TERMS } from "../../src/lib/vocab.ts";
 
 const UNIVERSITY = siteConfig.name;
 
@@ -34,7 +35,7 @@ function buildServer(base: string) {
   const server = new McpServer(
     { name: "cascadia-state-catalog", version: "1.0.0" },
     {
-      instructions: `Official academic program, course, and student services information for ${UNIVERSITY}, a fictional university used for demos. Use search tools to find ids, then get_* tools for details. When the person states preferences (field, level, format, start term, budget), apply them as search filters and recommend the 1–3 best matches, each with a one-line reason. Don't re-list options they've ruled out. If the person hasn't stated any preference, ask one short clarifying question. Once they've stated any preference, stop asking and recommend, even if details are missing; offer to refine afterward. Always include the page url for every program, course, or service you mention, as a link. Tuition and deadlines are estimates; suggest confirming on the linked page.`,
+      instructions: `Official academic program, course, student services, faculty, event, and news information for ${UNIVERSITY}, a fictional university used for demos. Use search tools to find ids, then get_* tools for details. When the person states preferences (field, level, format, start term, budget), apply them as search filters and recommend the 1–3 best matches, each with a one-line reason. Don't re-list options they've ruled out. If the person hasn't stated any preference, ask one short clarifying question. Once they've stated any preference, stop asking and recommend, even if details are missing; offer to refine afterward. Always include the page url for every program, course, service, faculty member, event, or news story you mention, as a link. Event times are in campus local time (Pacific). Tuition and deadlines are estimates; suggest confirming on the linked page.`,
     }
   );
 
@@ -162,6 +163,73 @@ function buildServer(base: string) {
       annotations: readOnly,
     },
     async ({ at }) => json(catalog.servicesOpenAt(at, base))
+  );
+
+  const isoDay = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD");
+
+  server.registerTool(
+    "search_faculty",
+    {
+      title: "Search faculty",
+      description: "Find faculty by name, department, or expertise (research interests), e.g. 'machine learning' or 'Nguyen'. Returns titles, departments, interests, and page urls.",
+      inputSchema: {
+        query: z.string().optional().describe("Name or area of expertise, e.g. 'salmon' or 'Ana Quintero'"),
+        department: z.string().optional().describe("Department or field, e.g. 'Nursing'"),
+        limit: z.number().int().min(1).max(50).optional(),
+      },
+      annotations: readOnly,
+    },
+    async (args) => json(catalog.searchFaculty(args, base))
+  );
+
+  server.registerTool(
+    "get_faculty",
+    {
+      title: "Get faculty details",
+      description: "One faculty member's bio, contact details, courses they teach, and upcoming events. Cite the url in your answer.",
+      inputSchema: { id: z.string().describe("Faculty id from search_faculty, e.g. 'ingrid-duarte', or a full name") },
+      annotations: readOnly,
+    },
+    async ({ id }) => {
+      const f = catalog.getFaculty(id, base);
+      return f ? json(f) : notFound("faculty member with that id or name", "Use search_faculty to find valid ids.");
+    }
+  );
+
+  server.registerTool(
+    "search_events",
+    {
+      title: "Search events",
+      description: "Find campus events: tours, open houses, information sessions, lectures, concerts, and workshops. By default only upcoming events; give from and to (campus dates) for a date range. Filter by category, campus, or audience.",
+      inputSchema: {
+        query: z.string().optional().describe("Keyword, e.g. 'tour' or 'financial aid'"),
+        from: isoDay.optional().describe("Earliest date, YYYY-MM-DD"),
+        to: isoDay.optional().describe("Latest date, YYYY-MM-DD"),
+        category: z.enum(EVENT_CATEGORIES).optional(),
+        campus: z.enum(CAMPUSES).optional(),
+        audience: z.enum(AUDIENCES).optional(),
+        upcoming: z.boolean().optional().describe("Without a date range: only events that haven't ended (default true)"),
+        limit: z.number().int().min(1).max(50).optional(),
+      },
+      annotations: readOnly,
+    },
+    async (args) => json(catalog.searchEvents(args, base))
+  );
+
+  server.registerTool(
+    "list_news",
+    {
+      title: "List news",
+      description: "News stories, newest first, optionally by keyword, tag, or department. Returns summaries and page urls.",
+      inputSchema: {
+        query: z.string().optional().describe("Keyword, e.g. 'grant'"),
+        tag: z.string().optional().describe("Tag, e.g. 'research' or 'students'"),
+        department: z.string().optional().describe("Department or field, e.g. 'Marine Biology'"),
+        limit: z.number().int().min(1).max(50).optional(),
+      },
+      annotations: readOnly,
+    },
+    async (args) => json(catalog.listNews(args, base))
   );
 
   const userText = (text: string) => ({ messages: [{ role: "user" as const, content: { type: "text" as const, text } }] });

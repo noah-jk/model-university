@@ -128,6 +128,13 @@ export const newsStory = z.object({
   related: related.default({}),
 });
 
+// One entry in content/generated/news.json, the index of content/news/ that
+// scripts/index-news.ts builds for the MCP server (which can't read Markdown)
+export const newsIndexEntry = newsStory.extend({
+  id,
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+});
+
 export const page = z.object({
   // The page's id, e.g. "admissions/visit". Set explicitly so it doesn't
   // depend on how the files are arranged in folders.
@@ -145,6 +152,7 @@ export const generatedSchemas = {
   services: service,
   faculty: facultyMember,
   events: event,
+  news: newsIndexEntry,
 };
 
 // Fields that hold the ids of entries in another collection.
@@ -155,6 +163,7 @@ export const references: Record<string, Record<string, keyof typeof generatedSch
   courses: { department: "departments", prerequisites: "courses", instructor: "faculty" },
   faculty: { department: "departments" },
   events: { "related.programs": "programs", "related.departments": "departments", "related.services": "services", "related.faculty": "faculty" },
+  news: { "related.programs": "programs", "related.departments": "departments", "related.services": "services", "related.faculty": "faculty" },
 };
 
 export type College = z.infer<typeof college>;
@@ -165,3 +174,4 @@ export type Service = z.infer<typeof service>;
 export type FacultyMember = z.infer<typeof facultyMember>;
 export type Event = z.infer<typeof event>;
 export type Related = z.infer<typeof related>;
+export type NewsIndexEntry = z.infer<typeof newsIndexEntry>;

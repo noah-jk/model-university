@@ -30,7 +30,7 @@ function renderRecent(session: Session) {
 
 function render(session: Session) {
   renderRecent(session);
-  renderNext(panel, session);
+  renderNext(panel, session, "Next-step tile in Recents");
 }
 
 function setOpen(open: boolean) {
@@ -41,6 +41,8 @@ function setOpen(open: boolean) {
     heading.focus();
   } else {
     (opener ?? toggles.find((t) => t.offsetParent !== null))?.focus();
+    // Its tile is no longer on screen, so it drops out of "What changed on this page"
+    window.dispatchEvent(new Event("personalized"));
   }
 }
 

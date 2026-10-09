@@ -10,8 +10,10 @@ import coursesData from "../../content/generated/courses.json" with { type: "jso
 import servicesData from "../../content/generated/services.json" with { type: "json" };
 import facultyData from "../../content/generated/faculty.json" with { type: "json" };
 import eventsData from "../../content/generated/events.json" with { type: "json" };
+import newsData from "../../content/generated/news.json" with { type: "json" };
 import siteConfig from "../../site.config.ts";
-import type { College, Course, Department, Event, FacultyMember, Program, Related, Service } from "./schemas.ts";
+import type { College, Course, Department, Event, FacultyMember, NewsIndexEntry, Program, Related, Service } from "./schemas.ts";
+import { eventWhen } from "./dates.ts";
 import { campusTime, isOpen } from "./hours.ts";
 import { absoluteUrl, pagePath } from "./urls.ts";
 
@@ -22,6 +24,8 @@ export const courses = coursesData as Course[];
 export const services = servicesData as Service[];
 export const faculty = facultyData as FacultyMember[];
 export const events = eventsData as Event[];
+// News stories, newest first (an index of content/news/; see scripts/index-news.ts)
+export const news = newsData as NewsIndexEntry[];
 
 type Base = string | URL;
 
@@ -89,6 +93,18 @@ export const eventsForProgram = (program: Program) =>
   events.filter((e) => e.related.programs?.includes(program.id) || e.related.departments?.includes(program.department));
 
 export const hasEnded = (event: Event, now = new Date()) => new Date(event.end) < now;
+
+// Department names (e.g. "Nursing") an event or story is about: its related
+// departments, plus the departments of related programs and faculty. Used to
+// prefer items in someone's top-interest department.
+export function relatedDepartmentNames(related: Related) {
+  const ids = new Set([
+    ...(related.departments ?? []),
+    ...(related.programs ?? []).map((id) => programs.find((p) => p.id === id)?.department),
+    ...(related.faculty ?? []).map((id) => facultyById.get(id)?.department),
+  ]);
+  return [...ids].filter((id): id is string => Boolean(id)).map((id) => departmentById.get(id)!.field);
+}
 
 // Search ---------------------------------------------------------------------
 
@@ -269,5 +285,109 @@ export function servicesOpenAt(at: string | undefined, base: Base) {
   return {
     checked_at_campus_time: `${day} ${time} (${siteConfig.timezone})`,
     open: services.filter((s) => isOpen(s, date)).map((s) => ({ ...serviceSummary(s, base), closes_at: s.hours[day]![1] })),
+  };
+}
+
+// Faculty --------------------------------------------------------------------
+
+const facultySummary = (f: FacultyMember, base: Base) => ({
+  id: f.id,
+  name: f.name,
+  title: f.title,
+  ...(f.role && { role: f.role }),
+  department: departmentOf(f).field,
+  research_interests: f.research_interests,
+  url: absoluteUrl(pagePath("faculty", f.id), base),
+});
+
+type FacultyQuery = { query?: string; department?: string; limit?: number };
+
+// By name or expertise (research interests), optionally within a department
+export function searchFaculty({ query, department, limit = 10 }: FacultyQuery, base: Base) {
+  const results = faculty
+    .filter((f) => !department || norm(departmentOf(f).field).includes(norm(department)) || f.department === norm(department))
+    .map((f) => ({ f, s: score(query, [[f.name, 6], [f.research_interests.join(" "), 5], [departmentOf(f).field, 3], [f.title, 2], [f.bio, 1]]) }))
+    .filter((r) => r.s > 0)
+    .sort((a, b) => b.s - a.s || a.f.name.localeCompare(b.f.name));
+  const shown = results.slice(0, limit);
+  return {
+    total_matches: results.length,
+    results: shown.map((r) => facultySummary(r.f, base)),
+    ...(results.length > shown.length && { note: `Showing ${shown.length} of ${results.length} matches. Narrow by department or expertise.` }),
+  };
+}
+
+export function getFaculty(id: string, base: Base) {
+  const f = faculty.find((x) => x.id === id) ?? faculty.find((x) => norm(x.name) === norm(id));
+  if (!f) return null;
+  return {
+    ...facultySummary(f, base),
+    college: collegeOf(f).name,
+    email: f.email,
+    office: f.office,
+    bio: f.bio,
+    courses: coursesTaughtBy(f.id).map((c) => ({ code: c.code, title: c.title, url: absoluteUrl(pagePath("courses", c.id), base) })),
+    upcoming_events: eventsAbout("faculty", f.id)
+      .filter((e) => !hasEnded(e))
+      .map((e) => ({ title: e.title, when: eventWhen(e), url: absoluteUrl(pagePath("events", e.id), base) })),
+  };
+}
+
+// Events ---------------------------------------------------------------------
+
+type EventQuery = { query?: string; from?: string; to?: string; category?: string; campus?: string; audience?: string; upcoming?: boolean; limit?: number };
+
+// Events by date range (YYYY-MM-DD, campus time), category, campus, or
+// audience. With no date range, only events that haven't ended yet, unless
+// upcoming is false.
+export function searchEvents({ query, from, to, category, campus, audience, upcoming = true, limit = 10 }: EventQuery, base: Base) {
+  const day = (iso: string) => new Date(iso).toLocaleDateString("en-CA", { timeZone: siteConfig.timezone });
+  const now = new Date();
+  const results = events
+    .filter((e) => (from || to ? (!from || day(e.end) >= from) && (!to || day(e.start) <= to) : !upcoming || !hasEnded(e, now)))
+    .filter((e) => eq(e.category, category) && eq(e.campus, campus) && has(e.audience, audience))
+    .filter((e) => score(query, [[e.title, 5], [e.description, 2], [e.location, 2]]) > 0)
+    .sort((a, b) => a.start.localeCompare(b.start));
+  const shown = results.slice(0, limit);
+  return {
+    total_matches: results.length,
+    results: shown.map((e) => ({
+      id: e.id,
+      title: e.title,
+      when: eventWhen(e),
+      start: e.start,
+      end: e.end,
+      category: e.category,
+      campus: e.campus,
+      location: e.location,
+      audience: e.audience,
+      registration_required: e.registration_required,
+      url: absoluteUrl(pagePath("events", e.id), base),
+    })),
+    ...(results.length > shown.length && { note: `Showing the first ${shown.length} of ${results.length} events by date.` }),
+  };
+}
+
+// News -----------------------------------------------------------------------
+
+type NewsQuery = { query?: string; tag?: string; department?: string; limit?: number };
+
+// Stories, newest first, optionally by keyword, tag, or department
+export function listNews({ query, tag, department, limit = 10 }: NewsQuery, base: Base) {
+  const results = news
+    .filter((n) => has(n.tags, tag))
+    .filter((n) => !department || relatedDepartmentNames(n.related).some((d) => norm(d).includes(norm(department))))
+    .filter((n) => score(query, [[n.title, 5], [n.summary, 3], [n.tags.join(" "), 3]]) > 0);
+  return {
+    total_matches: results.length,
+    results: results.slice(0, limit).map((n) => ({
+      title: n.title,
+      date: n.date,
+      summary: n.summary,
+      author: n.author,
+      tags: n.tags,
+      departments: relatedDepartmentNames(n.related),
+      url: absoluteUrl(pagePath("news", n.id), base),
+    })),
   };
 }

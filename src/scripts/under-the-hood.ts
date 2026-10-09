@@ -97,7 +97,6 @@ function renderAnswers(profile: Profile) {
     ["Name", [contact.firstName, contact.lastName].filter(Boolean).join(" ") || undefined],
     ["Email", contact.email],
     ["Phone", contact.phone],
-    ["Date of birth", contact.dob && shortDate(contact.dob)],
     ["Degree level", stated.level],
     ["Program", stated.program],
     ["Start term", stated.startTerm],
@@ -129,8 +128,14 @@ function renderProfile(profile: Profile) {
   panel.querySelector(".uth-bars")!.replaceChildren(...(groups.length ? groups : [el("p", "Nothing yet. Program, course, and faculty pages add to the profile.")]));
 }
 
+// Everything marked with data-personalized anywhere on the page (header,
+// main content, Recents), as long as it's showing. Scripts mark elements with
+// markPersonalized() in personalize.ts, which fires "personalized".
+const showing = (node: HTMLElement) => (node.checkVisibility ? node.checkVisibility() : !node.closest("[hidden]"));
+
 function renderChanges() {
-  const changes = [...document.querySelectorAll<HTMLElement>("main [data-personalized]")].map((node) => node.dataset.personalized!);
+  const marked = [...document.querySelectorAll<HTMLElement>("[data-personalized]")].filter((node) => !panel.contains(node) && showing(node));
+  const changes = [...new Set(marked.map((node) => node.dataset.personalized!))];
   if (document.querySelector("main[data-page-type]")) changes.push("This page was added to your visit log.");
   const list = panel.querySelector(".uth-changes")!;
   list.replaceChildren(...(changes.length ? changes : ["Nothing on this page is personalized."]).map((text) => el("li", text)));
@@ -150,7 +155,7 @@ function renderVisits(session: Session) {
     li.append(time, what);
     return li;
   });
-  panel.querySelector(".uth-visits")!.replaceChildren(...(items.length ? items : [el("li", "No pages yet. Open a program, course, or faculty page to start.")]));
+  panel.querySelector(".uth-visits")!.replaceChildren(...(items.length ? items : [el("li", "No pages yet. Open a program, course, or faculty page to start.", "empty")]));
 }
 
 function render(session: Session) {
@@ -173,7 +178,7 @@ window.addEventListener("personalization:change", (e) => {
   render(session);
   live.textContent = session.views.length ? `Profile updated: ${session.views.length} views` : "Session reset: 0 views";
 });
-window.addEventListener("personalization:rendered", () => isOpen() && renderChanges());
+window.addEventListener("personalized", () => isOpen() && renderChanges());
 
 // Opened on load (?demo, or left open on the last page): sync state without
 // moving focus away from where the page put it.

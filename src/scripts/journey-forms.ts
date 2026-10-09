@@ -6,12 +6,11 @@
 // Errors follow a common accessible pattern: a summary at the top that links
 // to each problem and gets focus, plus a message next to each field.
 
-import { loadSession, nextStep, recordForm, type Forms, type Session } from "./personalize.ts";
+import { loadSession, markPersonalized, nextStep, recordForm, type Forms, type Session } from "./personalize.ts";
 
 type Kind = keyof Forms;
 type Field = HTMLInputElement | HTMLSelectElement;
 
-const today = () => new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD, local time
 const errorFor = (field: Field) => document.getElementById(`${field.id}-error`)!;
 const labelFor = (field: Field) => field.labels?.[0]?.firstChild?.textContent?.trim() ?? field.name;
 
@@ -66,13 +65,12 @@ function prefill(form: HTMLFormElement, session: Session) {
   const filled: string[] = [];
   for (const [name, value] of Object.entries(session.profile.contact)) {
     const field = form.elements.namedItem(name) as HTMLInputElement | null;
-    if (!value || !field || field.value || name === "dob") continue;
+    if (!value || !field || field.value) continue;
     field.value = value;
     filled.push(labelFor(field).toLowerCase());
   }
   if (filled.length) {
-    form.dataset.personalized = `${form.querySelector("h2, h3")?.textContent} form: filled in your ${filled.join(", ")} from an earlier form.`;
-    window.dispatchEvent(new Event("personalization:rendered"));
+    markPersonalized(form, `${form.querySelector("h2, h3")?.textContent} form: filled in your ${filled.join(", ")}, because you gave them in an earlier form.`);
   }
 }
 
@@ -81,7 +79,7 @@ function answersFrom(form: HTMLFormElement, kind: Kind): Forms[Kind] {
   const at = new Date().toISOString();
   const contact = { firstName: data.firstName, lastName: data.lastName, email: data.email };
   if (kind === "visit") {
-    return { ...contact, date: data.date, guests: Number(data.guests), ...(data.phone && { phone: data.phone }), ...(data.dob && { dob: data.dob }), at };
+    return { ...contact, date: data.date, guests: Number(data.guests), ...(data.phone && { phone: data.phone }), at };
   }
   const option = (form.elements.namedItem("program") as HTMLSelectElement).selectedOptions[0];
   const program = option?.value
@@ -121,11 +119,9 @@ document.querySelectorAll<HTMLFormElement>("form[data-journey-form]").forEach((f
   const summary = form.querySelector<HTMLElement>(".error-summary")!;
   const fields = [...form.querySelectorAll<Field>("input, select")];
 
-  // Dates: no visits in the past, no birthdays in the future (by local time)
+  // No visits in the past (by local time)
   const visitDate = form.elements.namedItem("date") as HTMLInputElement | null;
   if (visitDate) visitDate.min = new Date(Date.now() + 86_400_000).toLocaleDateString("en-CA");
-  const dob = form.elements.namedItem("dob") as HTMLInputElement | null;
-  if (dob) dob.max = today();
 
   linkLevelAndProgram(form);
   prefill(form, loadSession());

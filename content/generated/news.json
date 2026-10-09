@@ -1,0 +1,267 @@
+[
+  {
+    "title": "Cascadia State opens its catalog to AI assistants",
+    "date": "2026-10-05",
+    "summary": "Students and families can now connect Claude, ChatGPT, and other assistants directly to official program, course, and service information.",
+    "author": "Office of University Communications",
+    "tags": [
+      "technology",
+      "admissions"
+    ],
+    "related": {
+      "services": [
+        "admissions",
+        "it-help-desk"
+      ]
+    },
+    "id": "catalog-opens-to-ai-assistants"
+  },
+  {
+    "title": "Fall enrollment includes record number of first-generation students",
+    "date": "2026-10-01",
+    "summary": "More than four in ten new students are the first in their families to attend college, the highest share in the university's history.",
+    "author": "Office of University Communications",
+    "tags": [
+      "students",
+      "admissions"
+    ],
+    "related": {
+      "services": [
+        "first-generation-student-center",
+        "admissions",
+        "financial-aid-and-scholarships"
+      ]
+    },
+    "id": "record-first-generation-enrollment"
+  },
+  {
+    "title": "Marine biologists win grant to track orca prey in the Salish Sea",
+    "date": "2026-09-28",
+    "summary": "A three-year federal grant funds research on how changing salmon runs affect the region's endangered resident orcas, with paid roles for students.",
+    "author": "Office of University Communications",
+    "tags": [
+      "research",
+      "science",
+      "students"
+    ],
+    "related": {
+      "programs": [
+        "marine-biology-bs",
+        "marine-biology-ms",
+        "marine-biology-phd"
+      ],
+      "departments": [
+        "marine-biology"
+      ],
+      "faculty": [
+        "hana-brennan",
+        "tomas-fong"
+      ]
+    },
+    "id": "salish-sea-orca-grant"
+  },
+  {
+    "title": "Data science students help the city rethink bus routes",
+    "date": "2026-09-23",
+    "summary": "A capstone team analyzed three years of ridership data to recommend changes to routes serving students and shift workers.",
+    "author": "College of Engineering & Computing",
+    "tags": [
+      "students",
+      "community",
+      "research"
+    ],
+    "related": {
+      "programs": [
+        "data-science-bs",
+        "data-science-ms"
+      ],
+      "departments": [
+        "data-science"
+      ],
+      "faculty": [
+        "hana-duarte",
+        "ana-quintero"
+      ]
+    },
+    "id": "data-science-transit-study"
+  },
+  {
+    "title": "Nursing students staff new mobile clinic in rural Pierce County",
+    "date": "2026-09-17",
+    "summary": "A partnership with a regional health system puts senior nursing students on a mobile clinic serving communities without a nearby hospital.",
+    "author": "College of Health & Human Services",
+    "tags": [
+      "health",
+      "community",
+      "students"
+    ],
+    "related": {
+      "programs": [
+        "nursing-bs",
+        "nursing-msn"
+      ],
+      "departments": [
+        "nursing"
+      ],
+      "faculty": [
+        "joaquin-fernandes",
+        "nikhil-fong"
+      ]
+    },
+    "id": "nursing-mobile-clinic"
+  },
+  {
+    "title": "New field course follows a river's recovery after dam removal",
+    "date": "2026-09-14",
+    "summary": "Environmental science students will spend weekends on the Nisqually watershed, measuring how fish and sediment return after restoration.",
+    "author": "College of Science",
+    "tags": [
+      "science",
+      "students",
+      "research"
+    ],
+    "related": {
+      "programs": [
+        "environmental-science-bs",
+        "environmental-science-minor"
+      ],
+      "departments": [
+        "environmental-science"
+      ],
+      "faculty": [
+        "eli-brennan",
+        "sam-uribe"
+      ]
+    },
+    "id": "river-restoration-field-course"
+  },
+  {
+    "title": "Basic Needs Center expands pantry hours and adds evening pickup",
+    "date": "2026-09-09",
+    "summary": "The campus food pantry is now open four afternoons a week, with evening pickup for students who work during the day.",
+    "author": "Division of Student Affairs",
+    "tags": [
+      "student life",
+      "wellbeing"
+    ],
+    "related": {
+      "services": [
+        "basic-needs-center-and-food-pantry",
+        "financial-aid-and-scholarships"
+      ]
+    },
+    "id": "food-pantry-expands-hours"
+  },
+  {
+    "title": "New paid residency puts teacher candidates in classrooms for a full year",
+    "date": "2026-09-02",
+    "summary": "Partner school districts will pay a stipend to teacher candidates who spend a full school year co-teaching alongside a mentor.",
+    "author": "College of Education",
+    "tags": [
+      "education",
+      "community"
+    ],
+    "related": {
+      "programs": [
+        "elementary-education-bs",
+        "elementary-education-med"
+      ],
+      "departments": [
+        "elementary-education",
+        "special-education"
+      ],
+      "faculty": [
+        "reuben-wallace"
+      ]
+    },
+    "id": "paid-teacher-residency"
+  },
+  {
+    "title": "Geology students install earthquake sensors across both campuses",
+    "date": "2026-08-26",
+    "summary": "A network of student-built seismometers now feeds live data to a regional earthquake monitoring network.",
+    "author": "College of Science",
+    "tags": [
+      "research",
+      "science",
+      "students"
+    ],
+    "related": {
+      "departments": [
+        "geology"
+      ],
+      "faculty": [
+        "vikram-silva",
+        "adebayo-reyes"
+      ]
+    },
+    "id": "seismic-sensors-on-campus"
+  },
+  {
+    "title": "Cybersecurity team places second in regional defense competition",
+    "date": "2026-08-19",
+    "summary": "Eight students defended a simulated hospital network for 36 hours against professional attackers.",
+    "author": "College of Engineering & Computing",
+    "tags": [
+      "students",
+      "technology"
+    ],
+    "related": {
+      "programs": [
+        "cybersecurity-bs",
+        "cybersecurity-ms"
+      ],
+      "departments": [
+        "cybersecurity"
+      ],
+      "faculty": [
+        "quinn-ibarra"
+      ]
+    },
+    "id": "cyber-defense-competition"
+  },
+  {
+    "title": "Jazz Orchestra releases its first studio recording",
+    "date": "2026-08-12",
+    "summary": "The student ensemble recorded an album of standards and original compositions, including three pieces by current music majors.",
+    "author": "College of Arts & Letters",
+    "tags": [
+      "arts",
+      "students"
+    ],
+    "related": {
+      "departments": [
+        "music"
+      ],
+      "faculty": [
+        "tuan-olsen",
+        "felipe-castillo"
+      ]
+    },
+    "id": "jazz-orchestra-recording"
+  },
+  {
+    "title": "Study finds clean-air rooms cut smoke-related clinic visits",
+    "date": "2026-08-05",
+    "summary": "Public health researchers found fewer smoke-related clinic visits in neighborhoods with community clean-air rooms during last summer's wildfire season.",
+    "author": "College of Health & Human Services",
+    "tags": [
+      "research",
+      "health"
+    ],
+    "related": {
+      "programs": [
+        "public-health-mph",
+        "public-health-bs"
+      ],
+      "departments": [
+        "public-health"
+      ],
+      "faculty": [
+        "chen-abebe",
+        "bao-fernandes"
+      ]
+    },
+    "id": "wildfire-smoke-health-study"
+  }
+]

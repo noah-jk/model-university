@@ -22,7 +22,7 @@ Each of these has a "Why am I seeing this?" note that names the reason, such as 
 ## What's stored
 
 - **Pages you view**: for each program, course, faculty, service, event, and news page, its type, name, address, and time, plus its department, college, level, and format when it has them.
-- **Your form answers**: name and email from both forms; degree level, program of interest, and start term from the request-information form; and visit date, number of guests, phone number, and date of birth from the visit form, if you give them.
+- **Your form answers**: name and email from both forms; degree level, program of interest, and start term from the request-information form; and visit date, number of guests, and phone number (if you give one) from the visit form.
 - **When you clicked Apply**, if you did.
 
 There's no tracking of searches, scrolling, or anything else.
