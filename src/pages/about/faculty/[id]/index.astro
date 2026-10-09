@@ -3,6 +3,7 @@ import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
 import siteConfig from "../../../../../site.config.ts";
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import { pageMeta } from "../../../../lib/personalization.ts";
 import AtAGlance from "../../../../components/AtAGlance.astro";
 import Breadcrumb from "../../../../components/Breadcrumb.astro";
 import EventList from "../../../../components/EventList.astro";
@@ -23,7 +24,7 @@ const courses = coursesTaughtBy(f.id).sort((a, b) => a.code.localeCompare(b.code
 const upcoming = eventsAbout("faculty", f.id).filter((e) => !hasEnded(e));
 ---
 
-<BaseLayout title={f.name} description={`${f.name}, ${f.title} of ${department.field} at ${siteConfig.name}.`}>
+<BaseLayout title={f.name} description={`${f.name}, ${f.title} of ${department.field} at ${siteConfig.name}.`} page={pageMeta.faculty(f)}>
   <Breadcrumb items={[{ label: "Faculty", href: "/about/faculty/" }, { label: f.name, href: path }]} />
   <div class="detail">
     <article>

@@ -9,6 +9,7 @@ import { colleges, collegeOf, departmentOf } from "../../../lib/catalog.ts";
 import { usd } from "../../../lib/format.ts";
 import { pagePath } from "../../../lib/urls.ts";
 import { MODALITIES, PROGRAM_LEVELS, TERMS } from "../../../lib/vocab.ts";
+import { PROFILE_KEY } from "../../../lib/personalization-settings.ts";
 
 const programs = (await getCollection("programs")).map((p) => p.data).sort((a, b) => a.name.localeCompare(b.name));
 
@@ -48,6 +49,7 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
   </form>
 
   <p id="program-list-count" class="results-count" aria-live="polite">{programs.length} programs</p>
+  {siteConfig.features.personalization && <div class="order-note" id="program-order-note" hidden />}
   <ul id="program-list" class="entry-list">
     {
       programs.map((p) => {
@@ -60,9 +62,10 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
             data-modality={p.modality}
             data-term={p.start_terms.join(",")}
             data-college={college.id}
+            data-department={department.field}
           >
             <div>
-              <h3><a href={pagePath("programs", p.id)}>{p.name}</a></h3>
+              <h2><a href={pagePath("programs", p.id)}>{p.name}</a></h2>
               <p>{college.name}</p>
             </div>
             <p class="facts">
@@ -75,6 +78,37 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
       })
     }
   </ul>
+  {
+    siteConfig.features.personalization && (
+      <script is:inline define:vars={{ key: PROFILE_KEY }}>
+        // Personalization: list programs in the department this tab has viewed
+        // most first. It runs right after the list, before the page is drawn,
+        // and only on load, so the list never jumps while someone reads it.
+        try {
+          const profile = JSON.parse(sessionStorage.getItem(key) || "null")?.profile;
+          const [department, count] = Object.entries(profile?.department || {}).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0] || [];
+          const list = document.getElementById("program-list");
+          const matches = department && count >= 2 ? [...list.children].filter((li) => li.dataset.department === department) : [];
+          if (matches.length) {
+            list.prepend(...matches);
+            const n = matches.length;
+            list.dataset.personalized = `Program list: moved ${n} ${department} ${n === 1 ? "program" : "programs"} to the top.`;
+            const note = document.getElementById("program-order-note");
+            const text = document.createElement("p");
+            text.textContent = `Showing ${department} programs first, based on the pages you've viewed.`;
+            const details = document.createElement("details");
+            const summary = document.createElement("summary");
+            summary.textContent = "Why am I seeing this?";
+            const why = document.createElement("p");
+            why.textContent = `${count} of your ${profile.views} views were ${department} pages. The rest of the list stays in A to Z order.`;
+            details.append(summary, why);
+            note.append(text, details);
+            note.hidden = false;
+          }
+        } catch {}
+      </script>
+    )
+  }
 </BaseLayout>
 
 <script>
@@ -83,4 +117,8 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
 
 <style>
   @media (min-width: 720px) { .entry-list > li { grid-template-columns: 1fr 14rem; } }
+  .order-note { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem; margin-bottom: 0.5rem; font-size: var(--step--1); }
+  .order-note :global(p) { margin: 0; }
+  .order-note :global(summary) { cursor: pointer; color: var(--salmonberry); }
+  .order-note :global(details p) { margin-top: 0.25rem; color: var(--muted); }
 </style>

@@ -5,13 +5,19 @@ import siteConfig from "../../site.config.ts";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import TabBar from "../components/TabBar.astro";
+import UnderTheHood from "../components/UnderTheHood.astro";
+import { PANEL_KEY, type PageMeta } from "../lib/personalization-settings.ts";
+import { pageDataAttributes } from "../lib/personalization.ts";
 
 interface Props {
   title: string;
   description: string;
+  // Detail pages describe themselves for the personalization experiment
+  page?: PageMeta;
 }
 
-const { title, description } = Astro.props;
+const { title, description, page } = Astro.props;
+const personalization = siteConfig.features.personalization;
 const isHome = Astro.url.pathname === "/";
 const pageTitle = isHome ? siteConfig.name : `${title} | ${siteConfig.name}`;
 ---
@@ -21,6 +27,11 @@ const pageTitle = isHome ? siteConfig.name : `${title} | ${siteConfig.name}`;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      // Mark JavaScript as available before the page is drawn, so controls that
+      // need it (.needs-js) show from the start instead of popping in and shifting content.
+      document.documentElement.classList.add("js");
+    </script>
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     {!siteConfig.indexing && <meta name="robots" content="noindex" />}
@@ -31,15 +42,28 @@ const pageTitle = isHome ? siteConfig.name : `${title} | ${siteConfig.name}`;
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;1,400&family=Young+Serif&display=swap" />
     {siteConfig.features.llmsTxt && <link rel="alternate" type="text/plain" title="LLM-friendly site guide" href="/llms.txt" />}
     <slot name="head" />
+    {
+      personalization && (
+        <script is:inline define:vars={{ panelKey: PANEL_KEY }}>
+          // Open the "Under the hood" panel before the page is drawn if ?demo is in
+          // the address or it was open on the last page, so it doesn't shift content.
+          try {
+            if (new URLSearchParams(location.search).has("demo")) sessionStorage.setItem(panelKey, "open");
+            if (sessionStorage.getItem(panelKey) === "open") document.documentElement.dataset.underTheHood = "open";
+          } catch {}
+        </script>
+      )
+    }
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>
     <Header />
-    <main id="main" class="wrap" tabindex="-1">
+    <main id="main" class="wrap" tabindex="-1" {...(personalization ? pageDataAttributes(page) : {})}>
       <slot />
     </main>
     <Footer />
     <TabBar />
+    {personalization && <UnderTheHood />}
     <div id="announcer" class="visually-hidden" aria-live="polite"></div>
     <script>
       import "../scripts/enhance.ts";

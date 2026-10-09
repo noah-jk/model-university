@@ -2,6 +2,7 @@
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import { pageMeta } from "../../../../lib/personalization.ts";
 import Breadcrumb from "../../../../components/Breadcrumb.astro";
 import RelatedLinks from "../../../../components/RelatedLinks.astro";
 import { storyDate } from "../../../../lib/dates.ts";
@@ -21,7 +22,7 @@ const path = pagePath("news", story.id);
 const hasRelated = Object.values(related).some((ids) => ids.length > 0);
 ---
 
-<BaseLayout title={title} description={summary}>
+<BaseLayout title={title} description={summary} page={pageMeta.news(story.id, title, related)}>
   <Breadcrumb items={[{ label: "News", href: "/about/news/" }, { label: title, href: path }]} />
   <div class="detail">
     <article class="prose">

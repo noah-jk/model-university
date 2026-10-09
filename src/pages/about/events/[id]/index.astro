@@ -2,6 +2,7 @@
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import { pageMeta } from "../../../../lib/personalization.ts";
 import AtAGlance from "../../../../components/AtAGlance.astro";
 import Breadcrumb from "../../../../components/Breadcrumb.astro";
 import RelatedLinks from "../../../../components/RelatedLinks.astro";
@@ -22,7 +23,7 @@ const when = eventWhen(e);
 const where = e.campus === "Online" ? "Online" : `${e.location}, ${e.campus}`;
 ---
 
-<BaseLayout title={e.title} description={`${when}. ${e.description}`}>
+<BaseLayout title={e.title} description={`${when}. ${e.description}`} page={pageMeta.event(e)}>
   <Breadcrumb items={[{ label: "Events", href: "/about/events/" }, { label: e.title, href: path }]} />
   <div class="detail">
     <article>

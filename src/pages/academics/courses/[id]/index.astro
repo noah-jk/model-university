@@ -2,6 +2,7 @@
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import { pageMeta } from "../../../../lib/personalization.ts";
 import AtAGlance from "../../../../components/AtAGlance.astro";
 import Breadcrumb from "../../../../components/Breadcrumb.astro";
 import { courses, departmentOf, instructorOf, prerequisitesOf, programsInDepartment } from "../../../../lib/catalog.ts";
@@ -24,7 +25,7 @@ const title = `${c.code}: ${c.title}`;
 const instructor = instructorOf(c);
 ---
 
-<BaseLayout title={title} description={c.description}>
+<BaseLayout title={title} description={c.description} page={pageMeta.course(c)}>
   <Breadcrumb
     items={[
       { label: "Courses", href: "/academics/courses/" },

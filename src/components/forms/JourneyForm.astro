@@ -1,0 +1,73 @@
+---
+// Shell for the application-journey forms (request info, schedule a visit):
+// heading, error summary, the fields passed in the slot, a privacy note, and
+// a success panel with the next step. Self-contained so a form can be placed
+// on any page; give each copy on a page its own `id`.
+//
+// Nothing is sent anywhere. On submit, src/scripts/journey-forms.ts checks the
+// fields, saves the answers to this tab's session, and shows the next step.
+import type { JourneyStep } from "../../lib/personalization-settings.ts";
+
+interface Props {
+  id: string;
+  kind: Extract<JourneyStep, "requestInfo" | "visit">;
+  heading: string;
+  submitLabel: string;
+  headingLevel?: 2 | 3;
+}
+
+const { id, kind, heading, submitLabel, headingLevel = 2 } = Astro.props;
+const Heading = `h${headingLevel}` as "h2" | "h3";
+---
+
+<div class="journey-form" id={id}>
+  <form class="needs-js" data-journey-form={kind} novalidate aria-labelledby={`${id}-title`}>
+    <Heading id={`${id}-title`}>{heading}</Heading>
+    <div class="error-summary" tabindex="-1" aria-labelledby={`${id}-summary-title`} hidden>
+      <p id={`${id}-summary-title`} class="summary-title">Please fix the following:</p>
+      <ul></ul>
+    </div>
+    <slot />
+    <p class="privacy">
+      This is a demo: your answers stay in this browser tab and aren't sent anywhere. <a href="/lab/personalization/">How this works</a>
+    </p>
+    <button class="button" type="submit">{submitLabel}</button>
+  </form>
+  <div class="success" hidden>
+    <Heading class="success-title" tabindex="-1"></Heading>
+    <p class="success-text"></p>
+    <p><a class="button next-step" href="/admissions/"></a></p>
+  </div>
+  <noscript>
+    <p class="panel">This form needs JavaScript. You can also reach Admissions by email at <a href="mailto:admissions@cascadiastate.example">admissions@cascadiastate.example</a>.</p>
+  </noscript>
+</div>
+
+<script>
+  import "../../scripts/journey-forms.ts";
+</script>
+
+<style>
+  .journey-form { max-width: 40rem; }
+  form, .success { background: var(--paper); border: 1px solid var(--line); border-left: 6px solid var(--fir); border-radius: var(--radius-s); padding: clamp(1.25rem, 3vw, 2rem); }
+  h2, h3 { font-size: var(--step-2); margin-top: 0; }
+  h2:focus, h3:focus { outline: none; }
+  form :global(.field) { margin-bottom: 1.1rem; }
+  form :global(.field label) { display: block; font-weight: 600; margin-bottom: 0.3rem; }
+  form :global(.optional) { font-weight: 400; color: var(--muted); }
+  form :global(.hint) { margin: -0.1rem 0 0.35rem; font-size: var(--step--1); color: var(--muted); }
+  form :global(.error) { margin: 0 0 0.35rem; font-weight: 600; color: var(--salmonberry); }
+  form :global(input), form :global(select) { width: 100%; max-width: 28rem; font: inherit; padding: 0.6rem 0.7rem; border: 1.5px solid var(--muted); border-radius: var(--radius-s); background: var(--fog); color: var(--basalt); min-height: 44px; }
+  form :global(input[type="number"]) { max-width: 8rem; }
+  form :global([aria-invalid="true"]) { border-color: var(--salmonberry); border-width: 2px; }
+  form :global(fieldset) { border: 0; padding: 0; margin: 0 0 0.5rem; }
+  form :global(legend) { font-family: var(--serif); font-size: var(--step-1); padding: 0; margin-bottom: 0.75rem; }
+  /* Two fields side by side on wider screens, e.g. first and last name */
+  @media (min-width: 36rem) { form :global(.row) { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; } }
+  .error-summary { border: 2px solid var(--salmonberry); border-radius: var(--radius-s); padding: 0.75rem 1rem; margin-bottom: 1.25rem; }
+  .error-summary:focus { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .summary-title { font-weight: 600; margin: 0 0 0.25rem; }
+  .error-summary ul { margin: 0; padding-left: 1.1rem; }
+  .privacy { font-size: var(--step--1); color: var(--muted); }
+  .success-text { max-width: var(--measure); }
+</style>

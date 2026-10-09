@@ -1,0 +1,26 @@
+---
+// Calls to action for the application journey: request information, visit,
+// and apply. Every apply link carries data-journey-apply, which marks the
+// "apply" step when clicked (see src/scripts/personalize.ts).
+import { JOURNEY } from "../lib/personalization-settings.ts";
+
+interface Props {
+  // On a program page: preselect this program in the request-info form
+  programId?: string;
+}
+const { programId } = Astro.props;
+const href = (step: string) => {
+  const base = JOURNEY.find((j) => j.step === step)!.href;
+  return step === "requestInfo" && programId ? `${base}?program=${encodeURIComponent(programId)}` : base;
+};
+---
+
+<div class="journey-actions">
+  <a class="button" href={href("requestInfo")}>Request information</a>
+  <a class="button secondary" href={href("visit")}>Schedule a visit</a>
+  <a class="button secondary" href={href("apply")} data-journey-apply>Apply</a>
+</div>
+
+<style>
+  .journey-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-block: 1.25rem 0.5rem; }
+</style>

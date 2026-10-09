@@ -9,6 +9,7 @@ const sections = [
   { href: "/academics/courses/", label: "Courses" },
   { href: "/admissions/", label: "Admissions" },
   { href: "/admissions/tuition-and-aid/", label: "Tuition and aid" },
+  { href: "/admissions/request-info/", label: "Request information" },
   { href: "/admissions/visit/", label: "Visit" },
   { href: "/services/", label: "Student Services" },
   { href: "/about/", label: "About" },
@@ -16,6 +17,7 @@ const sections = [
   { href: "/about/news/", label: "News" },
   { href: "/about/events/", label: "Events" },
   { href: "/connect/", label: "Connect your AI" },
+  { href: "/lab/", label: "Lab" },
 ];
 const links = [
   ...(features.llmsTxt ? [{ href: "/llms.txt", label: "llms.txt" }] : []),
@@ -31,6 +33,15 @@ const links = [
       </ul>
     </nav>
     <p>{siteConfig.name} is fictional. All programs, courses, and services are synthetic demo data.</p>
+    {
+      features.personalization && (
+        <p>
+          <button type="button" class="link-button needs-js" data-under-the-hood-toggle aria-expanded="false">
+            Under the hood
+          </button>
+        </p>
+      )
+    }
     {
       (links.length > 0 || features.mcp) && (
         <p>

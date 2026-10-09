@@ -1,0 +1,70 @@
+---
+// Request information: a step in the application journey. Place it on any
+// page; pass a different `id` if a page has more than one. A ?program=<id>
+// in the page address picks that program (and its level) in advance.
+import JourneyForm from "./JourneyForm.astro";
+import Field from "./Field.astro";
+import { collegeOf, departmentOf, programs } from "../../lib/catalog.ts";
+import { upcomingTerms } from "../../lib/terms.ts";
+
+interface Props {
+  id?: string;
+  heading?: string;
+  headingLevel?: 2 | 3;
+}
+const { id = "request-info", heading = "Request information", headingLevel = 2 } = Astro.props;
+
+// Levels you can apply to (minors are added after enrolling)
+const levels = ["Bachelor's", "Master's", "Doctorate", "Certificate"];
+const programsByLevel = levels.map((level) => ({
+  level,
+  programs: programs.filter((p) => p.level === level).sort((a, b) => a.name.localeCompare(b.name)),
+}));
+---
+
+<JourneyForm id={id} kind="requestInfo" heading={heading} headingLevel={headingLevel} submitLabel="Request information">
+  <div class="row">
+    <Field formId={id} name="firstName" label="First name" autocomplete="given-name" required missing="Enter your first name" />
+    <Field formId={id} name="lastName" label="Last name" autocomplete="family-name" required missing="Enter your last name" />
+  </div>
+  <Field
+    formId={id}
+    name="email"
+    label="Email"
+    type="email"
+    autocomplete="email"
+    spellcheck="false"
+    required
+    missing="Enter your email address"
+    invalid="Enter an email address like name@example.com"
+    pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+  />
+  <Field formId={id} name="level" label="Degree level" select required missing="Choose a degree level">
+    <option value="">Choose a level</option>
+    {levels.map((level) => <option value={level}>{level}</option>)}
+  </Field>
+  <Field formId={id} name="program" label="Program of interest" hint="Choose a degree level first to narrow the list." select>
+    <option value="">No preference yet</option>
+    {
+      programsByLevel.map(({ level, programs }) => (
+        <optgroup label={level}>
+          {programs.map((p) => (
+            <option
+              value={p.id}
+              data-level={p.level}
+              data-department={departmentOf(p).field}
+              data-college={collegeOf(p).name}
+              data-modality={p.modality}
+            >
+              {p.name}
+            </option>
+          ))}
+        </optgroup>
+      ))
+    }
+  </Field>
+  <Field formId={id} name="startTerm" label="When would you like to start?" select required missing="Choose a start term">
+    <option value="">Choose a term</option>
+    {upcomingTerms().map((term) => <option value={term}>{term}</option>)}
+  </Field>
+</JourneyForm>

@@ -1,0 +1,192 @@
+// Personalization experiment: records page views, form answers, and the
+// application journey in sessionStorage, and derives an interest profile from
+// them. Nothing is sent anywhere; closing the tab clears it.
+//
+// Importing this module records the current page view (once per page load,
+// because modules run once), so anything that imports it sees an up-to-date
+// profile. It also marks the "apply" step when any [data-journey-apply]
+// button or link is clicked.
+
+import { JOURNEY, MAX_VIEWS, PROFILE_KEY, type JourneyStep, type PageMeta } from "../lib/personalization-settings.ts";
+
+export type PageView = PageMeta & { url: string; at: string };
+
+// What each form stores. Program details come along with the program so the
+// profile can count its department, level, and format.
+export type RequestInfoAnswers = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  level: string;
+  program?: { id: string; name: string; department: string; college: string; level: string; modality: string };
+  startTerm: string;
+  at: string;
+};
+export type VisitAnswers = {
+  date: string;
+  guests: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  dob?: string;
+  at: string;
+};
+export type Forms = { requestInfo?: RequestInfoAnswers; visit?: VisitAnswers };
+
+type Counts = Record<string, number>;
+export type Profile = {
+  views: number;
+  department: Counts;
+  college: Counts;
+  level: Counts;
+  modality: Counts;
+  // When each journey step was done, if it has been
+  journey: Partial<Record<JourneyStep, string>>;
+  // What the person told us in forms (the latest answer wins)
+  stated: { level?: string; program?: string; startTerm?: string; visitDate?: string; guests?: number };
+  contact: { firstName?: string; lastName?: string; email?: string; phone?: string; dob?: string };
+};
+export type Session = { views: PageView[]; forms: Forms; applied?: string; profile: Profile };
+
+const emptySession = (): Session => ({ views: [], forms: {}, profile: deriveProfile([], {}) });
+
+// sessionStorage can be missing or blocked (some private modes), so every
+// access is guarded. Without it the experiment simply does nothing.
+export function loadSession(): Session {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(PROFILE_KEY) ?? "null");
+    if (!saved?.views) return emptySession();
+    const forms = saved.forms ?? {};
+    return { views: saved.views, forms, applied: saved.applied, profile: deriveProfile(saved.views, forms, saved.applied) };
+  } catch {
+    return emptySession();
+  }
+}
+
+export const storageAvailable = (() => {
+  try {
+    sessionStorage.setItem(`${PROFILE_KEY}:test`, "1");
+    sessionStorage.removeItem(`${PROFILE_KEY}:test`);
+    return true;
+  } catch {
+    return false;
+  }
+})();
+
+function save(views: PageView[], forms: Forms, applied?: string) {
+  const session: Session = { views, forms, applied, profile: deriveProfile(views, forms, applied) };
+  try {
+    sessionStorage.setItem(PROFILE_KEY, JSON.stringify(session));
+  } catch {
+    // Storage full or blocked: keep going without saving
+  }
+  window.dispatchEvent(new CustomEvent("personalization:change", { detail: session }));
+  return session;
+}
+
+// Counts by department, college, level, and format across page views, plus
+// the program named in the request-info form; the journey; and form answers.
+export function deriveProfile(views: PageView[], forms: Forms, applied?: string): Profile {
+  const profile: Profile = { views: views.length, department: {}, college: {}, level: {}, modality: {}, journey: {}, stated: {}, contact: {} };
+  const signals: Partial<Record<"department" | "college" | "level" | "modality", string>>[] = [...views];
+  if (forms.requestInfo?.program) signals.push(forms.requestInfo.program);
+  for (const signal of signals) {
+    for (const key of ["department", "college", "level", "modality"] as const) {
+      const value = signal[key];
+      if (value) profile[key][value] = (profile[key][value] ?? 0) + 1;
+    }
+  }
+
+  const firstProgramView = views.find((v) => v.type === "program");
+  if (firstProgramView) profile.journey.explore = firstProgramView.at;
+  if (forms.requestInfo) profile.journey.requestInfo = forms.requestInfo.at;
+  if (forms.visit) profile.journey.visit = forms.visit.at;
+  if (applied) profile.journey.apply = applied;
+
+  const { requestInfo: info, visit } = forms;
+  profile.stated = {
+    ...(info && { level: info.level, startTerm: info.startTerm }),
+    ...(info?.program && { program: info.program.name }),
+    ...(visit && { visitDate: visit.date, guests: visit.guests }),
+  };
+  // Contact details from whichever form was sent most recently
+  const latest = [info, visit].filter(Boolean).sort((a, b) => a!.at.localeCompare(b!.at)).at(-1);
+  if (latest) {
+    profile.contact = { firstName: latest.firstName, lastName: latest.lastName, email: latest.email };
+    if (visit?.phone) profile.contact.phone = visit.phone;
+    if (visit?.dob) profile.contact.dob = visit.dob;
+  }
+  return profile;
+}
+
+// The first journey step not done yet, or undefined when all are done
+export const nextStep = (profile: Profile) => JOURNEY.find(({ step }) => !profile.journey[step]);
+
+// The most common value for one signal, e.g. top(profile.department) → ["Nursing", 4]
+export function top(counts: Counts): [string, number] | undefined {
+  return Object.entries(counts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0];
+}
+
+// Last few distinct pages, newest first
+export function recentPages(session: Session, count: number) {
+  const seen = new Set<string>();
+  const recent: PageView[] = [];
+  for (const view of [...session.views].reverse()) {
+    const key = `${view.type}:${view.id}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    recent.push(view);
+    if (recent.length === count) break;
+  }
+  return recent;
+}
+
+export function recordForm<K extends keyof Forms>(kind: K, answers: Forms[K]) {
+  const session = loadSession();
+  return save(session.views, { ...session.forms, [kind]: answers }, session.applied);
+}
+
+export function recordApply() {
+  const session = loadSession();
+  if (!session.applied) save(session.views, session.forms, new Date().toISOString());
+}
+
+export function resetSession() {
+  try {
+    sessionStorage.removeItem(PROFILE_KEY);
+  } catch {
+    // Nothing to clear
+  }
+  save([], {});
+}
+
+// Read this page's metadata from <main data-page-*> and add it to the log.
+// A reload of the same page isn't counted twice in a row.
+function recordPageView() {
+  const main = document.querySelector<HTMLElement>("main[data-page-type]");
+  if (!main || !storageAvailable) return;
+  const d = main.dataset;
+  const view: PageView = {
+    type: d.pageType as PageView["type"],
+    id: d.pageId!,
+    name: d.pageName!,
+    url: window.location.pathname,
+    ...(d.department && { department: d.department }),
+    ...(d.college && { college: d.college }),
+    ...(d.level && { level: d.level }),
+    ...(d.modality && { modality: d.modality }),
+    at: new Date().toISOString(),
+  };
+  const session = loadSession();
+  const last = session.views.at(-1);
+  if (last && last.type === view.type && last.id === view.id) return;
+  save([...session.views, view].slice(-MAX_VIEWS), session.forms, session.applied);
+}
+
+recordPageView();
+
+// Any apply button or link, anywhere on the site, completes the "apply" step
+document.addEventListener("click", (e) => {
+  if ((e.target as Element).closest?.("[data-journey-apply]")) recordApply();
+});

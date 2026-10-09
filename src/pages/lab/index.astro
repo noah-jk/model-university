@@ -1,0 +1,50 @@
+---
+import siteConfig from "../../../site.config.ts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPage } from "../../lib/pages.ts";
+
+const page = await getPage("lab");
+const { Content } = page;
+
+const experiments = [
+  {
+    href: "/lab/personalization/",
+    title: "Session-based personalization",
+    text: "The site adapts to what you view in one tab, with nothing sent to a server. Watch it work in the Under the hood panel.",
+    on: siteConfig.features.personalization,
+  },
+  {
+    href: "/connect/",
+    title: "Connect your AI (MCP)",
+    text: "Connect the whole catalog to Claude, ChatGPT, or any app that supports the Model Context Protocol.",
+    on: siteConfig.features.mcp,
+  },
+];
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <article class="prose">
+    <h1>{page.title}</h1>
+    <p class="lede">{page.description}</p>
+    <Content />
+  </article>
+  <ul class="experiments">
+    {
+      experiments.map((x) => (
+        <li>
+          <h2><a href={x.href}>{x.title}</a></h2>
+          <p>{x.text}</p>
+          {!x.on && <p class="off">Switched off on this site.</p>}
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
+
+<style>
+  .experiments { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  li { max-width: none; border-top: 3px solid var(--fir); padding-top: 0.75rem; }
+  h2 { font-size: var(--step-1); margin-bottom: 0.25rem; }
+  p { color: var(--muted); margin: 0; }
+  .off { margin-top: 0.5rem; font-weight: 600; color: var(--basalt); }
+</style>

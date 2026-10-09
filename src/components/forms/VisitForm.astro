@@ -1,0 +1,65 @@
+---
+// Schedule a campus visit: a step in the application journey. Place it on any
+// page; pass a different `id` if a page has more than one.
+import JourneyForm from "./JourneyForm.astro";
+import Field from "./Field.astro";
+import { tomorrow } from "../../lib/terms.ts";
+
+interface Props {
+  id?: string;
+  heading?: string;
+  headingLevel?: 2 | 3;
+}
+const { id = "schedule-visit", heading = "Schedule a visit", headingLevel = 2 } = Astro.props;
+const today = new Date().toISOString().slice(0, 10);
+---
+
+<JourneyForm id={id} kind="visit" heading={heading} headingLevel={headingLevel} submitLabel="Schedule my visit">
+  <Field
+    formId={id}
+    name="date"
+    label="Visit date"
+    type="date"
+    min={tomorrow()}
+    hint="Tours run on weekdays. We'll confirm a time by email."
+    required
+    missing="Choose a date for your visit"
+    invalid="Choose a date after today"
+  />
+  <Field
+    formId={id}
+    name="guests"
+    label="Number of guests"
+    type="number"
+    inputmode="numeric"
+    min="0"
+    max="6"
+    step="1"
+    value="0"
+    hint="People coming with you, not counting yourself. Up to 6."
+    required
+    missing="Enter the number of guests, or 0"
+    invalid="Enter a number of guests from 0 to 6"
+  />
+  <fieldset>
+    <legend>About you</legend>
+    <div class="row">
+      <Field formId={id} name="firstName" label="First name" autocomplete="given-name" required missing="Enter your first name" />
+      <Field formId={id} name="lastName" label="Last name" autocomplete="family-name" required missing="Enter your last name" />
+    </div>
+    <Field
+      formId={id}
+      name="email"
+      label="Email"
+      type="email"
+      autocomplete="email"
+      spellcheck="false"
+      required
+      missing="Enter your email address"
+      invalid="Enter an email address like name@example.com"
+    pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+    />
+    <Field formId={id} name="phone" label="Phone" type="tel" autocomplete="tel" invalid="Enter a phone number, like 253-555-0100" pattern="[0-9+\(\)\-. ]{7,}" />
+    <Field formId={id} name="dob" label="Date of birth" type="date" autocomplete="bday" max={today} invalid="Enter a date of birth in the past" />
+  </fieldset>
+</JourneyForm>

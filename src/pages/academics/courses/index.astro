@@ -22,7 +22,7 @@ const prompt = `Help me plan courses at ${siteConfig.name} using {origin}/llms.t
     <AskAiMenu prompt={prompt} label="Explore courses with AI" />
   </div>
 
-  <form id="course-jump" class="finder" data-codes={codes.join(",")} aria-label="Go to a course" hidden>
+  <form id="course-jump" class="finder needs-js" data-codes={codes.join(",")} aria-label="Go to a course">
     <div class="field">
       <label for="course-code">Go to a course by code</label>
       <input id="course-code" name="code" type="text" placeholder="For example, CS 144" aria-describedby="course-jump-error" autocomplete="off" />
@@ -46,7 +46,7 @@ const prompt = `Help me plan courses at ${siteConfig.name} using {origin}/llms.t
       departments.map((d) => (
         <li data-search={[d.field, d.course_prefix, collegeOf(d).name].join(" ").toLowerCase()}>
           <div>
-            <h3><a href={subjectPath(d.id)}>{d.field}</a></h3>
+            <h2><a href={subjectPath(d.id)}>{d.field}</a></h2>
             <p>{collegeOf(d).name}</p>
           </div>
           <p class="facts">
@@ -67,7 +67,6 @@ const prompt = `Help me plan courses at ${siteConfig.name} using {origin}/llms.t
   const input = form.querySelector("input")!;
   const error = document.getElementById("course-jump-error")!;
   const codes = new Set(form.dataset.codes!.split(","));
-  form.hidden = false;
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     const match = input.value.trim().toUpperCase().match(/^([A-Z]{2,5})\s*(\d{3})$/);

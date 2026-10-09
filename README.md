@@ -7,6 +7,7 @@ What's included today:
 - **The site**: programs (a single filterable list, plus a page for each program), a course catalog (a page for every subject and every course), admissions (apply, tuition and aid, visit), student services, a faculty directory, events, news, about, and a "Connect your AI" page
 - **An MCP server** at `/mcp` with read-only tools: `search_programs`, `get_program`, `compare_programs`, `list_colleges`, `search_courses`, `get_course`, `find_services`, `get_service`, `services_open_now`, plus the prompts `recommend-program` and `find-help`. Every result carries an absolute page url.
 - **AI-readable files**: `/llms.txt`, JSON feeds at `/data/*.json`, and a Markdown copy of every detail page at `…/index.md`
+- **Lab** at `/lab/`: experiments, each with a page explaining it. The first is session-based personalization with an "Under the hood" panel (`/lab/personalization/`).
 
 Search engines are asked not to index the site (`X-Robots-Tag: noindex`) until `indexing` is switched on in `site.config.ts`.
 
@@ -68,6 +69,20 @@ Each feature is a switch in `site.config.ts`. When a switch is off, its routes a
 | `jsonFeeds` | `/data/programs.json`, `/data/courses.json`, `/data/services.json` |
 | `markdownPages` | `…/index.md` copies of program, course, and service pages |
 | `askAi` | "Ask AI" menus on the home page and section overview pages (academics, programs, courses, admissions, services, faculty, events, news) |
+| `personalization` | Session-based personalization: the application journey and Recents panel in the header, the program list's order, the journey forms' prefilling, and the "Under the hood" panel. Uses sessionStorage only. |
+
+### Personalization (Lab)
+
+Detail pages describe themselves with `data-page-*` attributes on `<main>` (built in `src/lib/personalization.ts`). `src/scripts/personalize.ts` records each view in sessionStorage (the last 50) and derives an interest profile; nothing leaves the browser.
+
+- Application journey: explore programs (any program page view) → request information (form sent) → schedule a visit (form sent) → apply (any `[data-journey-apply]` click). Steps are defined in `src/lib/personalization-settings.ts`.
+- `src/components/forms/`: `RequestInfoForm.astro` and `VisitForm.astro`, portable forms that can go on any page (give each copy its own `id`). They aren't connected to anything; answers are saved to the session and shown in Under the hood. Pages: `/admissions/request-info/` and `/admissions/visit/schedule/`.
+- `src/components/JourneyActions.astro`: Request information, Schedule a visit, and Apply buttons (on program pages and the admissions overview)
+- `src/components/Recents.astro`: the Recents panel, opened from the header's utility row (or the Menu on small screens), with "Recently viewed" and "Your next step"
+- `src/pages/academics/programs/index.astro`: lists the most-viewed department's programs first
+- `src/components/UnderTheHood.astro`: the panel, opened from the footer or with `?demo` in the address
+
+To avoid layout shift, the program list is reordered by a small inline script before the page is first painted, and Recents only appears when someone opens it. Controls that need JavaScript use the `needs-js` class, which works because BaseLayout adds `.js` to `<html>` before first paint.
 
 ## Working on it
 

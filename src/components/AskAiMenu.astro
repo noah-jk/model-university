@@ -33,7 +33,7 @@ const listId = `ai-menu-${hash.toString(36)}`;
 {
   features.askAi && (
     <div class="ai-menu">
-      <button type="button" class="button ai-menu-toggle" aria-expanded="false" aria-controls={listId} hidden>
+      <button type="button" class="button ai-menu-toggle needs-js" aria-expanded="false" aria-controls={listId}>
         <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0l1.8 5.2L15 7l-5.2 1.8L8 14l-1.8-5.2L1 7l5.2-1.8z" /></svg>
         {label}
       </button>
@@ -48,7 +48,7 @@ const listId = `ai-menu-${hash.toString(36)}`;
         ))}
         {features.mcp && (
           <li>
-            <button type="button" data-copy="{origin}/mcp" data-copied="MCP server address copied." hidden>
+            <button type="button" class="needs-js" data-copy="{origin}/mcp" data-copied="MCP server address copied.">
               Copy MCP server address<span class="hint">Connect the whole catalog to your AI</span>
             </button>
           </li>
@@ -64,7 +64,9 @@ const listId = `ai-menu-${hash.toString(36)}`;
 <style>
   .ai-menu { position: relative; display: inline-block; }
   .ai-menu-list { list-style: none; margin: 0.5rem 0 0; padding: 0.4rem; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 10px 30px rgb(20 43 38 / 0.18); min-width: 16rem; z-index: 5; }
+  /* With JavaScript the list is a dropdown, closed until the button opens it */
   :global(.js) .ai-menu-list { position: absolute; left: 0; }
+  :global(.js) .ai-menu:not(.open) .ai-menu-list { display: none; }
   li { max-width: none; }
   a, button:not(.ai-menu-toggle) { display: block; width: 100%; text-align: left; padding: 0.65rem 0.8rem; border-radius: 6px; color: var(--basalt); text-decoration: none; background: none; border: 0; font: inherit; font-size: var(--step--1); cursor: pointer; min-height: 44px; }
   a:hover, button:not(.ai-menu-toggle):hover { background: var(--lichen); }
