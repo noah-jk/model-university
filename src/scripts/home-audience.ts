@@ -13,7 +13,7 @@
 // Apply), news is replaced by a full-width list of admissions events.
 
 import { COLLEGE_HEADLINES } from "../lib/personalization-settings.ts";
-import { loadSession, top, type Session } from "./personalize.ts";
+import { loadSession, preferred, type Session } from "./personalize.ts";
 
 const standard = document.getElementById("home-news-events");
 const admissions = document.getElementById("home-admissions-events");
@@ -82,7 +82,7 @@ function renderHero(college?: string) {
 const onApplicationTrack = (session: Session) => Object.keys(session.profile.journey).length > 0;
 
 function renderHeadline(session: Session) {
-  const college = top(session.profile.college)?.[0];
+  const college = preferred(session.profile, "college");
   headline!.textContent = (college && COLLEGE_HEADLINES[college]) || defaultHeadline;
   renderHero(college);
 }

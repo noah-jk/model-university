@@ -2,7 +2,7 @@
 // the application journey, worded from this tab's session.
 
 import { JOURNEY } from "../lib/personalization-settings.ts";
-import { nextStep, top, type Session } from "./personalize.ts";
+import { nextStep, preferred, type Session } from "./personalize.ts";
 
 const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
 const day = (iso: string) => new Date(iso.length === 10 ? `${iso}T12:00:00` : iso).toLocaleDateString("en-US", { month: "long", day: "numeric" });
@@ -11,7 +11,7 @@ const day = (iso: string) => new Date(iso.length === 10 ? `${iso}T12:00:00` : is
 function explain(session: Session) {
   const { profile, forms, views } = session;
   const programViews = views.filter((v) => v.type === "program");
-  const field = top(profile.department)?.[0];
+  const field = preferred(profile, "department");
   switch (nextStep(profile)?.step) {
     case "explore":
       return "Most students start by exploring programs. Viewing any program page completes this step.";
