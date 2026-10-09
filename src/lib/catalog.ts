@@ -51,8 +51,17 @@ export function relatedCourses(program: Program) {
   );
 }
 
-export const relatedPrograms = (program: Program) =>
-  programs.filter((p) => p.department === program.department && p.id !== program.id);
+// Other programs in the same college at the same degree level, so a bachelor's
+// suggests bachelor's programs and never the same subject at another level.
+// Each department has one program per level, so related programs come from the
+// college's other departments. They start with the program after this one in
+// the catalog, and wrap around, so neighboring pages suggest different programs.
+export function relatedPrograms(program: Program, limit = 5) {
+  const college = collegeOf(program).id;
+  const peers = programs.filter((p) => p.level === program.level && collegeOf(p).id === college);
+  const at = peers.findIndex((p) => p.id === program.id);
+  return [...peers.slice(at + 1), ...peers.slice(0, at)].slice(0, limit);
+}
 
 export const programsInDepartment = (departmentId: string) => programs.filter((p) => p.department === departmentId);
 export const coursesInDepartment = (departmentId: string) => courses.filter((c) => c.department === departmentId);

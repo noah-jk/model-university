@@ -40,3 +40,16 @@ export const JOURNEY: { step: JourneyStep; label: string; href: string }[] = [
   { step: "visit", label: "Schedule a visit", href: "/admissions/visit/schedule/" },
   { step: "apply", label: "Apply", href: "/admissions/apply/" },
 ];
+
+// Home page headline for the college a visitor has looked at most, keyed by
+// college name (as counted in the profile). Anyone else sees the default
+// headline written in the page.
+export const COLLEGE_HEADLINES: Record<string, string> = {
+  "College of Science": "Build a Future in Science",
+  "Carver College of Business": "Build a Future as an Entrepreneur",
+  "College of Social & Behavioral Sciences": "Build a Future Helping People",
+  "College of Engineering & Computing": "Build a Future in Technology",
+  "College of Education": "Build a Future Educating",
+  "College of Arts & Letters": "Build a Future in the Arts",
+  "College of Health & Human Services": "Build a Future in Healthcare",
+};
