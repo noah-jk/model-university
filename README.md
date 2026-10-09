@@ -5,7 +5,7 @@ A model university website for showing what an AI-ready higher-ed site looks lik
 What's included today:
 
 - **The site**: programs (a single filterable list, plus a page for each program), a course catalog (a page for every subject and every course), admissions (apply, tuition and aid, visit), student services, a faculty directory, events, news, about, and a "Connect your AI" page
-- **An MCP server** at `/mcp` with read-only tools: `search_programs`, `get_program`, `compare_programs`, `list_colleges`, `search_courses`, `get_course`, `find_services`, `get_service`, `services_open_now`, plus the prompts `recommend-program` and `find-help`. Every result carries an absolute page url.
+- **An MCP server** at `/mcp` with read-only tools: `search_programs`, `get_program`, `compare_programs`, `list_colleges`, `search_courses`, `get_course`, `find_services`, `get_service`, `services_open_now`, `search_faculty`, `get_faculty`, `search_events` (upcoming by default, or a date range), and `list_news`, plus the prompts `recommend-program` and `find-help`. Every result carries an absolute page url.
 - **AI-readable files**: `/llms.txt`, JSON feeds at `/data/*.json`, and a Markdown copy of every detail page at `…/index.md`
 - **Lab** at `/lab/`: experiments, each with a page explaining it. The first is session-based personalization with an "Under the hood" panel (`/lab/personalization/`).
 
@@ -54,6 +54,8 @@ scripts/
 
 Courses also point to their `instructor` (a faculty id).
 
+News stories are Markdown, which the MCP function can't read, so `scripts/index-news.ts` writes an index of them to `content/generated/news.json`. The build regenerates it, and the content check fails if the committed copy is out of date.
+
 Content is checked twice: `npm run check:content` validates every generated entry and reference before each build, and Astro validates every collection again during the build, including the related links in news stories. Either failure stops the deploy.
 
 Pages are built ahead of time, so event lists decide in the browser which events have already happened (`src/scripts/past-events.ts`). Without JavaScript, lists show what was upcoming when the site was built.
@@ -82,6 +84,12 @@ Detail pages describe themselves with `data-page-*` attributes on `<main>` (buil
 - `src/pages/academics/programs/index.astro`: lists the most-viewed department's programs first
 - `src/components/UnderTheHood.astro`: the panel, opened from the footer or with `?demo` in the address
 
+Picks based on interest use `preferred()` in `personalize.ts`: a form answer wins, otherwise the most-viewed department or college. That covers the home page hero, the events and news shown on the home page, the program the next step points to, and the program list's order.
+
+Anything a script personalizes is marked with `markPersonalized(element, reason)`, which sets `data-personalized` to a plain-language reason and fires a `personalized` event. Under the hood's "What changed on this page" lists every marked element that's showing, anywhere in the document, and refreshes on that event.
+
+Full-bleed sections (like the home page hero) size from `--page-width` rather than `100vw`; the panel narrows it while it's docked open.
+
 To avoid layout shift, the program list is reordered by a small inline script before the page is first painted, and Recents only appears when someone opens it. Controls that need JavaScript use the `needs-js` class, which works because BaseLayout adds `.js` to `<html>` before first paint.
 
 ## Working on it
@@ -93,7 +101,8 @@ npm install
 npm run dev            # local site at http://localhost:4321
 npm test               # MCP smoke test and content check
 npm run check          # type check
-npm run build          # content check, then build into dist/
+npm run build          # news index, content check, then build into dist/
+npm run index:news     # rebuild content/generated/news.json from content/news/
 npm run generate       # regenerate content/generated/ from the seed
 ```
 

@@ -6,7 +6,7 @@ import { renderNext } from "./next-step.ts";
 
 const section = document.getElementById("home-next-step");
 if (section) {
-  renderNext(section, loadSession());
+  renderNext(section, loadSession(), "Next-step tile on the home page");
   // Wait until the current click is over, so a clicked tile's link isn't swapped before the browser follows it.
-  window.addEventListener("personalization:change", (e) => setTimeout(() => renderNext(section, (e as CustomEvent<Session>).detail)));
+  window.addEventListener("personalization:change", (e) => setTimeout(() => renderNext(section, (e as CustomEvent<Session>).detail, "Next-step tile on the home page")));
 }

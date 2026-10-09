@@ -4,6 +4,7 @@
 
 import { readFileSync } from "node:fs";
 import { generatedSchemas, references } from "../src/lib/schemas.ts";
+import { buildNewsIndex, indexFile, serialize } from "./index-news.ts";
 
 type Name = keyof typeof generatedSchemas;
 const names = Object.keys(generatedSchemas) as Name[];
@@ -29,6 +30,11 @@ for (const name of names) {
     }
   }
   if (ids[name].size !== data[name].length) errors.push(`${name}: duplicate ids`);
+}
+
+// The news index must match content/news/
+if (readFileSync(indexFile, "utf8") !== serialize(buildNewsIndex())) {
+  errors.push("news: content/generated/news.json is out of date with content/news/. Run npm run index:news.");
 }
 
 if (errors.length) {

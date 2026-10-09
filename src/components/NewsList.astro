@@ -2,19 +2,23 @@
 import type { CollectionEntry } from "astro:content";
 import { storyDate } from "../lib/dates.ts";
 import { pagePath } from "../lib/urls.ts";
+import { relatedDepartmentNames } from "../lib/catalog.ts";
 
 interface Props {
   stories: CollectionEntry<"news">[];
   headingLevel?: 2 | 3;
+  // Show this many; the rest are in the page, hidden, so a script can pick
+  // different ones (the home page prefers someone's top-interest department)
+  limit?: number;
 }
-const { stories, headingLevel = 3 } = Astro.props;
+const { stories, headingLevel = 3, limit } = Astro.props;
 const Heading = `h${headingLevel}` as "h2" | "h3";
 ---
 
-<ul class="news-list">
+<ul class="news-list" data-limit={limit}>
   {
-    stories.map(({ id, data }) => (
-      <li>
+    stories.map(({ id, data }, i) => (
+      <li data-departments={relatedDepartmentNames(data.related).join("|")} hidden={limit !== undefined && i >= limit ? true : undefined}>
         <Heading><a href={pagePath("news", id)}>{data.title}</a></Heading>
         <p class="date"><time datetime={data.date.toISOString().slice(0, 10)}>{storyDate(data.date)}</time></p>
         <p>{data.summary}</p>

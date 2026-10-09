@@ -6,7 +6,7 @@
 // site isn't rebuilt for a while; `limit` decides how many show.
 import type { Event } from "../lib/schemas.ts";
 import { eventBadge, eventWhen } from "../lib/dates.ts";
-import { hasEnded } from "../lib/catalog.ts";
+import { hasEnded, relatedDepartmentNames } from "../lib/catalog.ts";
 import { pagePath } from "../lib/urls.ts";
 
 interface Props {
@@ -37,6 +37,7 @@ const buildTime = new Date();
           data-category={e.category}
           data-audience={e.audience.join(",")}
           data-campus={e.campus}
+          data-departments={relatedDepartmentNames(e.related).join("|")}
           hidden={upcomingOnly && (past || (limit !== undefined && i >= limit)) ? true : undefined}
         >
           <p class="badge" aria-hidden="true">

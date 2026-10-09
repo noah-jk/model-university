@@ -11,9 +11,15 @@
 // upcoming events and news. Once someone is on the
 // application track (they've viewed a program, sent a form, or clicked
 // Apply), news is replaced by a full-width list of admissions events.
+// Either way, items about the person's top-interest department come first
+// (a form answer beats page views; see preferred in personalize.ts).
+//
+// Everything personalized here is marked for the Under the hood panel.
 
+// past-events.ts marks events as past or upcoming; it has to run first
+import "./past-events.ts";
 import { COLLEGE_HEADLINES } from "../lib/personalization-settings.ts";
-import { loadSession, preferred, type Session } from "./personalize.ts";
+import { interestReason, loadSession, markPersonalized, preferred, type Session } from "./personalize.ts";
 
 const standard = document.getElementById("home-news-events");
 const admissions = document.getElementById("home-admissions-events");
@@ -83,8 +89,43 @@ const onApplicationTrack = (session: Session) => Object.keys(session.profile.jou
 
 function renderHeadline(session: Session) {
   const college = preferred(session.profile, "college");
-  headline!.textContent = (college && COLLEGE_HEADLINES[college]) || defaultHeadline;
+  const personal = college && COLLEGE_HEADLINES[college];
+  headline!.textContent = personal || defaultHeadline;
   renderHero(college);
+  const reason = interestReason(session, "college");
+  markPersonalized(headline, personal ? `Hero headline: “${personal}”, ${reason}.` : undefined);
+  markPersonalized(
+    headline!.closest(".hero"),
+    college && heroImages[college] ? `Hero photo: a ${college} photo, ${reason}.` : undefined
+  );
+}
+
+// Show `limit` items from a list, preferring ones about `department`, and
+// keep them in their original (date) order. Past events never count.
+// Returns how many of the shown items are about the department.
+function pickForDepartment(list: HTMLElement | null, department: string | undefined, limit: number) {
+  if (!list) return 0;
+  const items = [...list.querySelectorAll<HTMLElement>(":scope > li")].filter((li) => li.dataset.when !== "past");
+  const about = (li: HTMLElement) => Boolean(department) && (li.dataset.departments ?? "").split("|").includes(department!);
+  const chosen = new Set([...items.filter(about), ...items.filter((li) => !about(li))].slice(0, limit));
+  list.querySelectorAll<HTMLElement>(":scope > li").forEach((li) => (li.hidden = !chosen.has(li)));
+  return [...chosen].filter(about).length;
+}
+
+function renderSelection(session: Session, track: boolean) {
+  const department = preferred(session.profile, "department");
+  const reason = interestReason(session, "department");
+  const lists = track
+    ? [{ list: admissions!.querySelector<HTMLElement>(".event-list"), label: "Admissions events", noun: "event" }]
+    : [
+        { list: standard!.querySelector<HTMLElement>(".event-list"), label: "Upcoming events", noun: "event" },
+        { list: standard!.querySelector<HTMLElement>(".news-list"), label: "News", noun: "story" },
+      ];
+  for (const { list, label, noun } of lists) {
+    const matched = pickForDepartment(list, department, 3);
+    const nouns = matched === 1 ? noun : noun === "story" ? "stories" : `${noun}s`;
+    markPersonalized(list, matched ? `${label}: ${matched} ${department} ${nouns} picked first, ${reason}.` : undefined);
+  }
 }
 
 function render(session: Session) {
@@ -93,6 +134,8 @@ function render(session: Session) {
   const track = onApplicationTrack(session);
   standard.hidden = track;
   admissions.hidden = !track;
+  markPersonalized(admissions, track ? "News and events: admissions events instead of news, because you've started the application journey." : undefined);
+  renderSelection(session, track);
 }
 
 render(loadSession());

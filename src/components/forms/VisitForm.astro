@@ -11,7 +11,6 @@ interface Props {
   headingLevel?: 2 | 3;
 }
 const { id = "schedule-visit", heading = "Schedule a visit", headingLevel = 2 } = Astro.props;
-const today = new Date().toISOString().slice(0, 10);
 ---
 
 <JourneyForm id={id} kind="visit" heading={heading} headingLevel={headingLevel} submitLabel="Schedule my visit">
@@ -60,6 +59,5 @@ const today = new Date().toISOString().slice(0, 10);
     pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
     />
     <Field formId={id} name="phone" label="Phone" type="tel" autocomplete="tel" invalid="Enter a phone number, like 253-555-0100" pattern="[0-9+\(\)\-. ]{7,}" />
-    <Field formId={id} name="dob" label="Date of birth" type="date" autocomplete="bday" max={today} invalid="Enter a date of birth in the past" />
   </fieldset>
 </JourneyForm>

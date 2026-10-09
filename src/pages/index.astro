@@ -24,7 +24,8 @@ const [programs, courses, colleges] = await Promise.all([
   getCollection("courses"),
   getCollection("colleges"),
 ]);
-const latestNews = (await getCollection("news")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 3);
+// All stories, newest first; three show, and home-audience.ts may pick others
+const latestNews = (await getCollection("news")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const faculty = await getCollection("faculty");
 const stats: [string, string][] = [
   [String(programs.length), "Degrees, minors, and certificates"],
@@ -118,7 +119,7 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
     </section>
     <section aria-labelledby="news-title">
       <h2 id="news-title">News</h2>
-      <NewsList stories={latestNews} />
+      <NewsList stories={latestNews} limit={3} />
       <p><a href="/about/news/">All news</a></p>
     </section>
   </div>
@@ -151,7 +152,7 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
   :global(body) { overflow-x: clip; }
   .hero {
     position: relative; isolation: isolate; display: flex; align-items: flex-end;
-    width: 100vw; margin: calc(-1 * clamp(2rem, 6vw, 4rem)) calc(50% - 50vw) 4rem;
+    width: var(--page-width); margin: calc(-1 * clamp(2rem, 6vw, 4rem)) calc(50% - var(--page-width) / 2) 4rem;
     min-height: clamp(26rem, 62vh, 40rem); color: #fff; background: var(--fir-deep);
   }
   .hero :global(img) { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: center 35%; }
