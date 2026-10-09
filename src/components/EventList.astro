@@ -15,14 +15,16 @@ interface Props {
   upcomingOnly?: boolean;
   limit?: number;
   headingLevel?: 2 | 3;
+  // On wide screens, lay the events out in columns across the page
+  columns?: boolean;
 }
 
-const { events, id, upcomingOnly = false, limit, headingLevel = 3 } = Astro.props;
+const { events, id, upcomingOnly = false, limit, headingLevel = 3, columns = false } = Astro.props;
 const Heading = `h${headingLevel}` as "h2" | "h3";
 const buildTime = new Date();
 ---
 
-<ul class="event-list" id={id} data-upcoming-only={upcomingOnly ? "" : undefined} data-limit={limit}>
+<ul class:list={["event-list", { columns }]} id={id} data-upcoming-only={upcomingOnly ? "" : undefined} data-limit={limit}>
   {
     events.map((e, i) => {
       const badge = eventBadge(e);
@@ -55,6 +57,9 @@ const buildTime = new Date();
 
 <style>
   .event-list { list-style: none; padding: 0; margin: 0; }
+  @media (min-width: 48rem) {
+    .columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0 2.5rem; }
+  }
   li { max-width: none; display: grid; grid-template-columns: 3.5rem 1fr; gap: 1rem; align-items: start; padding-block: 1rem; border-bottom: 1px solid var(--line); }
   .badge { margin: 0; display: grid; text-align: center; border: 1.5px solid var(--fir); border-radius: var(--radius-s); line-height: 1.1; padding-block: 0.35rem; }
   .month { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--fir); }
