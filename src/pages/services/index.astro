@@ -3,6 +3,8 @@ import { getCollection } from "astro:content";
 import siteConfig from "../../../site.config.ts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import AskAiMenu from "../../components/AskAiMenu.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import introImage from "../../assets/images/students-campus-3.jpg";
 import { pagePath } from "../../lib/urls.ts";
 import { SERVICE_CATEGORIES } from "../../lib/vocab.ts";
 
@@ -14,11 +16,11 @@ const prompt = `I'm a student at ${siteConfig.name}. Use {origin}/llms.txt to fi
 ---
 
 <BaseLayout title="Student services" description={`Student services and support offices at ${siteConfig.name}.`}>
-  <div class="page-intro">
+  <PageIntro image={introImage}>
     <h1>Student services</h1>
     <p>Support for every part of student life, from tutoring to tuition.</p>
     <AskAiMenu prompt={prompt} label="Find a service with AI" />
-  </div>
+  </PageIntro>
 
   <nav class="jump" aria-label="Service categories">
     <ul>{categories.map((cat) => <li><a href={`#${headingId(cat)}`}>{cat}</a></li>)}</ul>

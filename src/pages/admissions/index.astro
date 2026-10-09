@@ -4,6 +4,8 @@ import { getPage } from "../../lib/pages.ts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import JourneyActions from "../../components/JourneyActions.astro";
 import AskAiMenu from "../../components/AskAiMenu.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import introImage from "../../assets/images/students-campus-2.jpg";
 import EventList from "../../components/EventList.astro";
 import { events, hasEnded } from "../../lib/catalog.ts";
 
@@ -27,11 +29,11 @@ const prompt = `I'm thinking about applying to ${siteConfig.name}. Use {origin}/
 ---
 
 <BaseLayout title={page.title} description={page.description}>
-  <div class="page-intro">
+  <PageIntro image={introImage}>
     <h1>{page.title}</h1>
     <AskAiMenu prompt={prompt} label="Ask AI about applying" />
     <JourneyActions />
-  </div>
+  </PageIntro>
 
   <div class="detail">
     <article>

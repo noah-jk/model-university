@@ -3,6 +3,8 @@ import siteConfig from "../../../site.config.ts";
 import { getPage } from "../../lib/pages.ts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import AskAiMenu from "../../components/AskAiMenu.astro";
+import PageIntro from "../../components/PageIntro.astro";
+import introImage from "../../assets/images/students-class-1.jpg";
 import AtAGlance from "../../components/AtAGlance.astro";
 import { colleges, courses, departments, programs } from "../../lib/catalog.ts";
 import { PROGRAM_LEVELS } from "../../lib/vocab.ts";
@@ -30,10 +32,10 @@ const prompt = `Help me explore academics at ${siteConfig.name}. Use {origin}/ac
 ---
 
 <BaseLayout title={page.title} description={page.description}>
-  <div class="page-intro">
+  <PageIntro image={introImage}>
     <h1>{page.title}</h1>
     <AskAiMenu prompt={prompt} label="Ask AI about academics" />
-  </div>
+  </PageIntro>
 
   <div class="detail">
     <article>
