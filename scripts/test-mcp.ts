@@ -3,6 +3,7 @@
 
 import handler from "../netlify/functions/mcp.mts";
 import siteConfig from "../site.config.ts";
+import { tools as sharedTools } from "../src/lib/tools.ts";
 
 let id = 0;
 async function call(method: string, params: Record<string, unknown>): Promise<any> {
@@ -22,6 +23,13 @@ console.log(`✓ initialize: ${init.serverInfo.name}`);
 
 const { tools } = await call("tools/list", {});
 console.log(`✓ tools/list: ${tools.map((t: { name: string }) => t.name).join(", ")}`);
+// Every tool in src/lib/tools.ts is registered, with its shared description
+for (const shared of sharedTools) {
+  const listed = tools.find((t: { name: string }) => t.name === shared.name);
+  if (listed?.description !== shared.description) throw new Error(`tools/list: ${shared.name} missing or out of date`);
+}
+if (tools.length !== sharedTools.length) throw new Error(`tools/list: ${tools.length} tools, expected ${sharedTools.length}`);
+console.log(`✓ tools/list matches src/lib/tools.ts (${tools.length} tools)`);
 
 const checks: [string, Record<string, unknown>][] = [
   ["search_programs", { query: "health", level: "Master's" }],

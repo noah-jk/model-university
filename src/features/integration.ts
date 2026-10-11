@@ -1,7 +1,7 @@
 // Turns the feature switches in site.config.ts into routes.
 // Each AI feature that publishes files lives in this folder, and its routes
 // only exist in the build when the feature is switched on.
-// The MCP endpoint is a Netlify Function and checks its own switch.
+// The MCP and search endpoints are Netlify Functions and check their own switches.
 
 import { writeFileSync } from "node:fs";
 import type { AstroIntegration } from "astro";
@@ -11,6 +11,8 @@ const routes: Partial<Record<Feature, { pattern: string; entrypoint: string }[]>
   llmsTxt: [{ pattern: "/llms.txt", entrypoint: "./src/features/llms-txt.ts" }],
   jsonFeeds: [{ pattern: "/data/[feed].json", entrypoint: "./src/features/json-feeds.ts" }],
   markdownPages: [{ pattern: "/[...path]/index.md", entrypoint: "./src/features/markdown-pages.ts" }],
+  // Rendered on demand (it sets prerender = false); the API is netlify/functions/search.mts
+  aiSearch: [{ pattern: "/search", entrypoint: "./src/features/search/index.astro" }],
 };
 
 export default function aiFeatures(): AstroIntegration {

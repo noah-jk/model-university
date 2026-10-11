@@ -25,6 +25,17 @@ const siteConfig = {
     // Lab experiment: session-based personalization and the "Under the hood"
     // panel. Uses sessionStorage only; nothing leaves the browser.
     personalization: true,
+    // Lab experiment: natural-language search at /search/. A Gemini model turns
+    // the question into catalog searches; without a key it uses keyword search.
+    aiSearch: true,
+  },
+
+  // Settings for the aiSearch feature. The tier is shown on /lab/search/: on
+  // the free tier, Google may use requests to improve its products. The key
+  // is GEMINI_API_KEY in Netlify's environment variables, never in a file.
+  aiSearch: {
+    tier: "free" as "free" | "paid",
+    model: "gemini-3.8-flash",
   },
 } as const;
 

@@ -1,0 +1,77 @@
+---
+import siteConfig from "../../../../site.config.ts";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import { getPage } from "../../../lib/pages.ts";
+import { EXAMPLES, searchHref } from "../../../lib/search/render.ts";
+import { systemPrompt, toolSpecs } from "../../../lib/search/prompt.ts";
+
+const page = await getPage("lab/search");
+const { Content } = page;
+const path = "/lab/search/";
+const enabled = siteConfig.features.aiSearch;
+const { tier, model } = siteConfig.aiSearch;
+// Roughly what each search sends: the instructions and tools, at about four characters a token
+const inputTokens = Math.round((systemPrompt().length + JSON.stringify(toolSpecs).length) / 4 / 100) * 100;
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <Breadcrumb items={[{ label: "Lab", href: "/lab/" }, { label: page.title, href: path }]} />
+  <article class="prose">
+    <h1>{page.title}</h1>
+    <p class="lede">{page.description}</p>
+
+    {
+      enabled ? (
+        <section class="panel try" aria-labelledby="try-title">
+          <h2 id="try-title">Try it</h2>
+          <ul>
+            {EXAMPLES.map((q) => (
+              <li>
+                <a href={searchHref(q)}>{q}</a>
+              </li>
+            ))}
+          </ul>
+          <p class="hint">Or use <strong>Search</strong> in the header, on any page.</p>
+        </section>
+      ) : (
+        <p class="panel">
+          <strong>This experiment is switched off on this site.</strong> Set <code>aiSearch: true</code> in <code>site.config.ts</code> to turn it on.
+        </p>
+      )
+    }
+
+    <Content />
+
+    <h2>This site's model and tier</h2>
+    <p>
+      This site uses <code>{model}</code> on Gemini's <strong>{tier} tier</strong>.{" "}
+      {
+        tier === "free"
+          ? "On the free tier, Google may use what's sent to improve its products, so don't search for anything private. The free tier also has low daily limits; past them, search uses keywords until the limit resets."
+          : "On the paid tier, Google doesn't use what's sent to improve its products."
+      }
+    </p>
+
+    <h2>What it costs</h2>
+    <p>
+      Each search is one request to the model: about {inputTokens.toLocaleString("en-US")} tokens in (mostly the instructions and tools) and under 200 tokens out. On
+      the free tier that costs nothing. At Gemini 3.8 Flash's paid rates as of October 2026 ($0.75 per million tokens in, $3.75 per million out), it's about
+      $0.002 a search, or $2 for every 1,000. Google's price list shows those rates doubling on January 1, 2027. Removing a chip and keyword searches don't use
+      the model, so they cost nothing.
+    </p>
+
+    <p class="hint">
+      The code is in <code>src/lib/search/</code> (planning, results, and the results HTML), <code>src/lib/tools.ts</code> (the tools shared with the MCP server),
+      <code>src/lib/llm/</code> (the model, behind a small interface so another can be swapped in), and <code>netlify/functions/search.mts</code>.
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .try { margin-block: 1.5rem 2rem; border-left: 6px solid var(--fir); }
+  .try h2 { margin-top: 0; }
+  .try ul { padding-left: 1.25rem; }
+  .try li { margin-bottom: 0.4rem; }
+  .hint { font-size: var(--step--1); color: var(--muted); }
+</style>

@@ -1,14 +1,14 @@
 // The MCP endpoint, served at /mcp by Netlify Functions.
 // Stateless Streamable HTTP: each request gets a fresh server, which suits
 // serverless. Read-only tools over the generated content in content/generated/:
-// programs, courses, student services, faculty, events, and news.
+// programs, courses, student services, faculty, events, and news. The tools
+// themselves are defined in src/lib/tools.ts, shared with on-site search.
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
 import { z } from "zod";
 import siteConfig from "../../site.config.ts";
-import * as catalog from "../../src/lib/catalog.ts";
-import { AUDIENCES, CAMPUSES, COURSE_LEVELS, EVENT_CATEGORIES, MODALITIES, PROGRAM_LEVELS, SERVICE_CATEGORIES, TERMS } from "../../src/lib/vocab.ts";
+import { tools } from "../../src/lib/tools.ts";
 
 const UNIVERSITY = siteConfig.name;
 
@@ -24,12 +24,8 @@ const CORS: Record<string, string> = {
 const BASE_HEADERS = siteConfig.indexing ? CORS : { ...CORS, "X-Robots-Tag": "noindex" };
 
 const json = (data: unknown) => ({ content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }] });
-const notFound = (what: string, hint: string) => ({ content: [{ type: "text" as const, text: `No ${what} found. ${hint}` }], isError: true });
+const notFound = (text: string) => ({ content: [{ type: "text" as const, text }], isError: true });
 const readOnly = { readOnlyHint: true, openWorldHint: false };
-
-const level = z.enum(PROGRAM_LEVELS);
-const modality = z.enum(MODALITIES);
-const term = z.enum(TERMS);
 
 function buildServer(base: string) {
   const server = new McpServer(
@@ -39,198 +35,16 @@ function buildServer(base: string) {
     }
   );
 
-  server.registerTool(
-    "search_programs",
-    {
-      title: "Search academic programs",
-      description: "Find degree programs, minors, and certificates by topic, career interest, level, format, college, start term, or budget. Apply every preference the person has stated as a filter. Returns ranked matches with page urls.",
-      inputSchema: {
-        query: z.string().optional().describe("Topic, field, or career, e.g. 'nursing', 'data', 'become a teacher'"),
-        level: level.optional(),
-        modality: modality.optional(),
-        college: z.string().optional().describe("Full or partial college name, e.g. 'Business'"),
-        start_term: term.optional(),
-        max_total_tuition_usd: z.number().optional().describe("Upper limit on estimated total tuition"),
-        limit: z.number().int().min(1).max(50).optional(),
-      },
-      annotations: readOnly,
-    },
-    async (args) => json(catalog.searchPrograms(args, base))
-  );
-
-  server.registerTool(
-    "get_program",
-    {
-      title: "Get program details",
-      description: "Full details for one program: description, requirements, deadlines, tuition, outcomes, careers, sample courses, and related programs. Cite the url in your answer.",
-      inputSchema: { id: z.string().describe("Program id from search_programs, e.g. 'nursing-bs'") },
-      annotations: readOnly,
-    },
-    async ({ id }) => {
-      const p = catalog.getProgram(id, base);
-      return p ? json(p) : notFound("program with that id", "Use search_programs to find valid ids.");
-    }
-  );
-
-  server.registerTool(
-    "compare_programs",
-    {
-      title: "Compare programs",
-      description: "Side-by-side comparison of 2–5 programs: cost, length, format, start terms, requirements, and careers.",
-      inputSchema: { ids: z.array(z.string()).min(2).max(5) },
-      annotations: readOnly,
-    },
-    async ({ ids }) => json(catalog.comparePrograms(ids, base))
-  );
-
-  server.registerTool(
-    "list_colleges",
-    {
-      title: "List colleges and departments",
-      description: "All colleges, their departments, and how many programs each offers.",
-      inputSchema: {},
-      annotations: readOnly,
-    },
-    async () => json(catalog.listColleges())
-  );
-
-  server.registerTool(
-    "search_courses",
-    {
-      title: "Search courses",
-      description: "Search the course catalog by keyword, course code, field, level, term offered, or format.",
-      inputSchema: {
-        query: z.string().optional().describe("Keyword or course code, e.g. 'ethics' or 'CS 248'"),
-        field: z.string().optional().describe("Field of study, e.g. 'Biology'"),
-        level: z.enum(COURSE_LEVELS).optional(),
-        term: term.optional(),
-        modality: modality.optional(),
-        limit: z.number().int().min(1).max(50).optional(),
-      },
-      annotations: readOnly,
-    },
-    async (args) => json(catalog.searchCourses(args, base))
-  );
-
-  server.registerTool(
-    "get_course",
-    {
-      title: "Get course details",
-      description: "Full details for one course, including prerequisites, instructor, and terms offered. Cite the url in your answer.",
-      inputSchema: { code: z.string().describe("Course code, e.g. 'CS 248'") },
-      annotations: readOnly,
-    },
-    async ({ code }) => {
-      const c = catalog.getCourse(code, base);
-      return c ? json(c) : notFound("course with that code", "Use search_courses to find valid codes.");
-    }
-  );
-
-  server.registerTool(
-    "find_services",
-    {
-      title: "Find student services",
-      description: "Find campus offices and support services by need, e.g. 'tutoring', 'pay my bill', 'food', 'accommodations'. Cite the url in your answer.",
-      inputSchema: {
-        query: z.string().optional(),
-        category: z.enum(SERVICE_CATEGORIES).optional(),
-      },
-      annotations: readOnly,
-    },
-    async (args) => json(catalog.findServices(args, base))
-  );
-
-  server.registerTool(
-    "get_service",
-    {
-      title: "Get service details",
-      description: "Hours, location, contact info, eligibility, and whether a service is open right now. Cite the url in your answer.",
-      inputSchema: { id: z.string().describe("Service id from find_services, e.g. 'writing-center'") },
-      annotations: readOnly,
-    },
-    async ({ id }) => {
-      const s = catalog.getService(id, base);
-      return s ? json(s) : notFound("service with that id", "Use find_services to find valid ids.");
-    }
-  );
-
-  server.registerTool(
-    "services_open_now",
-    {
-      title: "Services open now",
-      description: "Which student services are open right now, or at a given time, in campus local time.",
-      inputSchema: { at: z.string().optional().describe("Optional ISO 8601 date and time; defaults to now") },
-      annotations: readOnly,
-    },
-    async ({ at }) => json(catalog.servicesOpenAt(at, base))
-  );
-
-  const isoDay = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD");
-
-  server.registerTool(
-    "search_faculty",
-    {
-      title: "Search faculty",
-      description: "Find faculty by name, department, or expertise (research interests), e.g. 'machine learning' or 'Nguyen'. Returns titles, departments, interests, and page urls.",
-      inputSchema: {
-        query: z.string().optional().describe("Name or area of expertise, e.g. 'salmon' or 'Ana Quintero'"),
-        department: z.string().optional().describe("Department or field, e.g. 'Nursing'"),
-        limit: z.number().int().min(1).max(50).optional(),
-      },
-      annotations: readOnly,
-    },
-    async (args) => json(catalog.searchFaculty(args, base))
-  );
-
-  server.registerTool(
-    "get_faculty",
-    {
-      title: "Get faculty details",
-      description: "One faculty member's bio, contact details, courses they teach, and upcoming events. Cite the url in your answer.",
-      inputSchema: { id: z.string().describe("Faculty id from search_faculty, e.g. 'ingrid-duarte', or a full name") },
-      annotations: readOnly,
-    },
-    async ({ id }) => {
-      const f = catalog.getFaculty(id, base);
-      return f ? json(f) : notFound("faculty member with that id or name", "Use search_faculty to find valid ids.");
-    }
-  );
-
-  server.registerTool(
-    "search_events",
-    {
-      title: "Search events",
-      description: "Find campus events: tours, open houses, information sessions, lectures, concerts, and workshops. By default only upcoming events; give from and to (campus dates) for a date range. Filter by category, campus, or audience.",
-      inputSchema: {
-        query: z.string().optional().describe("Keyword, e.g. 'tour' or 'financial aid'"),
-        from: isoDay.optional().describe("Earliest date, YYYY-MM-DD"),
-        to: isoDay.optional().describe("Latest date, YYYY-MM-DD"),
-        category: z.enum(EVENT_CATEGORIES).optional(),
-        campus: z.enum(CAMPUSES).optional(),
-        audience: z.enum(AUDIENCES).optional(),
-        upcoming: z.boolean().optional().describe("Without a date range: only events that haven't ended (default true)"),
-        limit: z.number().int().min(1).max(50).optional(),
-      },
-      annotations: readOnly,
-    },
-    async (args) => json(catalog.searchEvents(args, base))
-  );
-
-  server.registerTool(
-    "list_news",
-    {
-      title: "List news",
-      description: "News stories, newest first, optionally by keyword, tag, or department. Returns summaries and page urls.",
-      inputSchema: {
-        query: z.string().optional().describe("Keyword, e.g. 'grant'"),
-        tag: z.string().optional().describe("Tag, e.g. 'research' or 'students'"),
-        department: z.string().optional().describe("Department or field, e.g. 'Marine Biology'"),
-        limit: z.number().int().min(1).max(50).optional(),
-      },
-      annotations: readOnly,
-    },
-    async (args) => json(catalog.listNews(args, base))
-  );
+  for (const tool of tools) {
+    server.registerTool(
+      tool.name,
+      { title: tool.title, description: tool.description, inputSchema: tool.input, annotations: readOnly },
+      async (args) => {
+        const result = tool.run(args, base);
+        return result == null ? notFound(tool.notFound!) : json(result);
+      }
+    );
+  }
 
   const userText = (text: string) => ({ messages: [{ role: "user" as const, content: { type: "text" as const, text } }] });
 
