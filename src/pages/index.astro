@@ -168,8 +168,9 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
   .hero :global(picture.incoming.in img) { opacity: 1; }
   @media (prefers-reduced-motion: reduce) { .hero :global(picture.incoming img) { transition: none; } }
   .hero .lede { color: #fff; max-width: 40rem; }
-  .hero .button.primary { background: #fff; border-color: #fff; color: var(--basalt); }
-  .hero .button.primary:hover { background: var(--lichen); border-color: var(--lichen); }
+  /* The banner is dark in both color schemes, so these are fixed colors, not theme tokens */
+  .hero .button.primary { background: #fff; border-color: #fff; color: #142b26; }
+  .hero .button.primary:hover { background: #dce5c3; border-color: #dce5c3; color: #142b26; }
   .hero :global(.ai-menu-toggle) { background: transparent; border-color: #fff; color: #fff; }
   .hero :global(.ai-menu-toggle:hover) { background: rgb(255 255 255 / 0.16); border-color: #fff; color: #fff; }
   .hero :global(a:focus-visible), .hero :global(button:focus-visible) { outline-color: #fff; }
