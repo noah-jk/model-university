@@ -1,0 +1,165 @@
+---
+// /search/: natural-language search, a Lab experiment (see /lab/search/).
+// This page is rendered on demand. On its own (without JavaScript) it shows
+// keyword results for ?q=, with chips that can be removed (?drop=). With
+// JavaScript, src/scripts/search.ts asks /api/search, where the model plans
+// the search, and replaces the keyword results with its own.
+export const prerender = false;
+
+import siteConfig from "../../../site.config.ts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { PROFILE_KEY } from "../../lib/personalization-settings.ts";
+import { EXAMPLES, renderResults, searchHref, statusText } from "../../lib/search/render.ts";
+import { MAX_QUERY, search } from "../../lib/search/search.ts";
+
+if (!siteConfig.indexing) Astro.response.headers.set("X-Robots-Tag", "noindex");
+
+const params = Astro.url.searchParams;
+const typed = (params.get("q") ?? "").trim();
+const query = typed.slice(0, MAX_QUERY);
+const drop = params.getAll("drop").slice(0, 30);
+const result = query ? (await search({ query, drop }, { base: Astro.url.origin })).response : undefined;
+const personalization = siteConfig.features.personalization;
+// Safe inside <script>: no "</script>" can end it early
+const data = JSON.stringify(result ?? null).replace(/</g, "\\u003c");
+---
+
+<BaseLayout title={query ? `Search: ${query}` : "Search"} description={`Search programs, courses, faculty, events, student services, and news at ${siteConfig.name}, in your own words.`}>
+  <div class="search-page">
+    <h1>Search</h1>
+    <form class="search-form panel" method="get" action="/search/" role="search" data-search-form>
+      <label for="search-q">Search programs, courses, people, events, services, and news</label>
+      <div class="field-row">
+        <input id="search-q" name="q" type="search" value={query} maxlength={MAX_QUERY} autocomplete="off" aria-describedby="search-hint" />
+        <button class="button" type="submit">Search</button>
+      </div>
+      <p id="search-hint" class="hint">Ask the way you'd ask a person, like “online master's programs that start in spring”.</p>
+      {typed.length > MAX_QUERY && <p class="hint">Your search was shortened to {MAX_QUERY} characters.</p>}
+      {
+        personalization && (
+          <div class="use-profile" data-use-profile hidden>
+            <input type="checkbox" id="use-profile" aria-describedby="use-profile-hint" />
+            <label for="use-profile">Use what I've browsed</label>
+            <p id="use-profile-hint" class="hint" />
+          </div>
+        )
+      }
+      {
+        personalization && (
+          <script is:inline define:vars={{ profileKey: PROFILE_KEY }}>
+            // Offer "Use what I've browsed" only once this tab has browsing to use. Shown before the page is drawn, so nothing shifts.
+            try {
+              if (JSON.parse(sessionStorage.getItem(profileKey) ?? "null")?.views?.length) document.querySelector("[data-use-profile]").hidden = false;
+            } catch {}
+          </script>
+        )
+      }
+    </form>
+
+    <p class="search-status" role="status" data-search-status>{result ? statusText(result) : ""}</p>
+    {
+      result && (
+        <script is:inline>
+          // With JavaScript, the model's results replace the keyword ones, so say so from the start
+          document.querySelector("[data-search-status]").textContent = "Searching…";
+        </script>
+      )
+    }
+
+    <div class="search-results" data-search-results data-pending={result ? "" : undefined}>
+      <div class="loading" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="search-output" data-search-output set:html={result ? renderResults(result) : ""} />
+    </div>
+
+    {
+      !query && (
+        <section class="examples" aria-labelledby="examples-title">
+          <h2 id="examples-title">Try one of these</h2>
+          <ul>
+            {EXAMPLES.map((q) => (
+              <li>
+                <a href={searchHref(q)}>{q}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <p class="lab-note">Search that understands plain language is a Lab experiment. <a href="/lab/search/">How it works</a></p>
+  </div>
+  <script is:inline type="application/json" id="search-data" set:html={data} />
+</BaseLayout>
+
+<script>
+  import "../../scripts/search.ts";
+</script>
+
+<style>
+  .search-page { max-width: 52rem; }
+  .search-form { display: grid; gap: 0.5rem; }
+  .search-form label[for="search-q"] { font-weight: 600; }
+  .field-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  input[type="search"] {
+    flex: 1 1 16rem; min-width: 0; min-height: 48px; padding: 0.5rem 0.85rem;
+    font: inherit; color: var(--basalt); background: var(--paper);
+    border: 1.5px solid var(--muted); border-radius: var(--radius-s);
+  }
+  input[type="search"]:focus-visible { outline-offset: 1px; }
+  .field-row .button { min-height: 48px; padding-inline: 1.4rem; }
+  .hint { margin: 0; font-size: var(--step--1); color: var(--muted); }
+  .use-profile { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 0.15rem 0.5rem; margin-top: 0.25rem; }
+  .use-profile input { width: 1.2rem; height: 1.2rem; margin: 0; accent-color: var(--fir); }
+  .use-profile .hint { grid-column: 2; }
+
+  .search-status { margin: 1.5rem 0 0.75rem; font-weight: 600; min-height: 1.6em; }
+
+  /* While the model's results are on their way, a placeholder stands in for the keyword ones */
+  .loading { display: none; }
+  :global(html.js) .search-results[data-pending] .loading { display: grid; gap: 1rem; padding-block: 0.5rem; }
+  :global(html.js) .search-results[data-pending] .search-output { display: none; }
+  .loading span { display: block; height: 3.25rem; border-radius: var(--radius-s); background: var(--lichen); }
+  .loading span:nth-child(2) { width: 85%; }
+  .loading span:nth-child(3) { width: 70%; }
+  @media (prefers-reduced-motion: no-preference) {
+    .loading span { animation: pulse 1.2s ease-in-out infinite alternate; }
+    .loading span:nth-child(2) { animation-delay: 0.2s; }
+    .loading span:nth-child(3) { animation-delay: 0.4s; }
+  }
+  @keyframes pulse { to { opacity: 0.45; } }
+
+  /* Results area (rendered by src/lib/search/render.ts) */
+  .search-output :global(.search-note) { margin: 0 0 0.75rem; font-size: var(--step--1); color: var(--muted); }
+  .search-output :global(.chips) { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; margin-bottom: 1.5rem; }
+  .search-output :global(.chips-label) { margin: 0; font-size: var(--step--1); color: var(--muted); }
+  .search-output :global(.chips ul) { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; }
+  .search-output :global(.chip) {
+    display: inline-flex; align-items: center; gap: 0.35rem; min-height: 36px; padding: 0.25rem 0.6rem 0.25rem 0.85rem;
+    font: 600 var(--step--1) / 1.2 var(--sans); color: var(--basalt); background: var(--lichen);
+    border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
+  }
+  .search-output :global(.chip svg) { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+  .search-output :global(.chip:hover) { border-color: var(--fir); }
+  .search-output :global(.answer) { margin-bottom: 2rem; padding: 1rem 1.25rem; background: var(--paper); border: 1px solid var(--line); border-left: 6px solid var(--fir); border-radius: var(--radius-s); }
+  .search-output :global(.answer h2) { font: 600 var(--step--1) / 1.3 var(--sans); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 0.35rem; }
+  .search-output :global(.answer p) { margin: 0; font-size: var(--step-1); }
+  .search-output :global(.answer .answer-source) { margin-top: 0.5rem; font-size: var(--step--1); color: var(--muted); }
+  .search-output :global(.result-group) { margin-bottom: 2rem; }
+  .search-output :global(.result-group h2) { font-size: var(--step-2); margin-bottom: 0.25rem; }
+  .search-output :global(h2:focus) { outline: none; }
+  .search-output :global(h2:focus-visible) { outline: 3px solid var(--focus); }
+  .search-output :global(.count) { font: 400 var(--step-0) var(--sans); color: var(--muted); }
+  .search-output :global(.results) { list-style: none; margin: 0; padding: 0; }
+  .search-output :global(.result) { max-width: none; padding-block: 0.8rem; border-bottom: 1px solid var(--line); }
+  .search-output :global(.result a) { font-weight: 600; font-size: var(--step-0); }
+  .search-output :global(.result p) { margin: 0.15rem 0 0; font-size: var(--step--1); color: var(--muted); }
+  .search-output :global(.empty h2) { font-size: var(--step-2); }
+
+  .examples { margin-top: 2rem; }
+  .examples h2 { font-size: var(--step-1); }
+  .examples ul { padding-left: 1.1rem; }
+  .examples li { margin-bottom: 0.35rem; }
+  .lab-note { margin-top: 2.5rem; font-size: var(--step--1); color: var(--muted); }
+</style>

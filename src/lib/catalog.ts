@@ -226,6 +226,7 @@ export function searchCourses({ query, field, level, term, modality, limit = 20 
   return {
     total_matches: results.length,
     results: results.slice(0, limit).map(({ c }) => ({
+      id: c.id,
       code: c.code,
       title: c.title,
       credits: c.credits,
@@ -381,6 +382,7 @@ export function listNews({ query, tag, department, limit = 10 }: NewsQuery, base
   return {
     total_matches: results.length,
     results: results.slice(0, limit).map((n) => ({
+      id: n.id,
       title: n.title,
       date: n.date,
       summary: n.summary,

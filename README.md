@@ -7,7 +7,7 @@ What's included today:
 - **The site**: programs (a single filterable list, plus a page for each program), a course catalog (a page for every subject and every course), admissions (apply, tuition and aid, visit), student services, a faculty directory, events, news, about, and a "Connect your AI" page
 - **An MCP server** at `/mcp` with read-only tools: `search_programs`, `get_program`, `compare_programs`, `list_colleges`, `search_courses`, `get_course`, `find_services`, `get_service`, `services_open_now`, `search_faculty`, `get_faculty`, `search_events` (upcoming by default, or a date range), and `list_news`, plus the prompts `recommend-program` and `find-help`. Every result carries an absolute page url.
 - **AI-readable files**: `/llms.txt`, JSON feeds at `/data/*.json`, and a Markdown copy of every detail page at `…/index.md`
-- **Lab** at `/lab/`: experiments, each with a page explaining it. The first is session-based personalization with an "Under the hood" panel (`/lab/personalization/`).
+- **Lab** at `/lab/`: experiments, each with a page explaining it: session-based personalization with an "Under the hood" panel (`/lab/personalization/`), and natural-language search (`/search/`, explained at `/lab/search/`).
 
 Search engines are asked not to index the site (`X-Robots-Tag: noindex`) until `indexing` is switched on in `site.config.ts`.
 
@@ -29,13 +29,18 @@ src/
     catalog.ts              Lookups and search, used by pages and the MCP server
     urls.ts                 The one place page URLs are built
     hours.ts, format.ts, markdown.ts
-  features/                 AI features that publish files (llms.txt, JSON feeds, Markdown pages)
+    tools.ts                The catalog tools (names, descriptions, schemas), shared by the MCP server and search
+    search/                 Natural-language search: plans, results, and the results HTML
+    llm/                    The model behind search, behind a small interface
+  features/                 AI features with their own routes (llms.txt, JSON feeds, Markdown pages, /search/)
   layouts/, components/, pages/, scripts/, styles/
 netlify/functions/mcp.mts   The MCP endpoint
+netlify/functions/search.mts  The search endpoint, /api/search (the only code that reads the Gemini key)
 scripts/
   generate-data.mjs         Deterministic synthetic data (same seed, same data)
   check-content.ts          Validates content against the schemas and checks cross-references
   test-mcp.ts               Calls every MCP tool and prompt without Netlify
+  test-search.ts            Runs /api/search with a fake model
 ```
 
 ### Content model
@@ -72,6 +77,7 @@ Each feature is a switch in `site.config.ts`. When a switch is off, its routes a
 | `markdownPages` | `…/index.md` copies of program, course, and service pages |
 | `askAi` | "Ask AI" menus on the home page and section overview pages (academics, programs, courses, admissions, services, faculty, events, news) |
 | `personalization` | Session-based personalization: the application journey and Recents panel in the header, the program list's order, the journey forms' prefilling, and the "Under the hood" panel. Uses sessionStorage only. |
+| `aiSearch` | Natural-language search: `/search/`, `/api/search`, and Search in the header. The model and tier are set under `aiSearch` in `site.config.ts`. |
 
 ### Personalization (Lab)
 
@@ -92,6 +98,17 @@ Full-bleed sections (like the home page hero) size from `--page-width` rather th
 
 To avoid layout shift, the program list is reordered by a small inline script before the page is first painted, and Recents only appears when someone opens it. Controls that need JavaScript use the `needs-js` class, which works because BaseLayout adds `.js` to `<html>` before first paint.
 
+### Natural-language search (Lab)
+
+`/search/` is the one page built on demand (by the Netlify adapter); every other page is static. On its own it shows keyword results for `?q=`, so search works without JavaScript. With JavaScript, `src/scripts/search.ts` asks `/api/search` and shows its results instead.
+
+- One model call per search. The model (Gemini, set in `site.config.ts`) is offered the search tools from `src/lib/tools.ts` and answers only with calls to them: the plan. It never writes results.
+- `src/lib/search/plan.ts` checks the plan against the tools' schemas (at most 4 calls), runs it, and turns its filters into chips. Removing a chip sends the plan back with `drop`, and it runs again without the model.
+- Every result is built from the catalog record by `resultFor(kind, ref)` in `results.ts`. `kind` (program, course, faculty, event, service, news) and `ref` (the catalog id) match the planned Workbench's items.
+- `src/lib/search/render.ts` renders results for both the server and the browser. The Workbench's Save button will go in its `renderResult`.
+- Keyword search (`keywordPlan`) takes over when there's no key, the visitor is over 10 searches a minute, the model takes over 8 seconds or fails, or plans nothing usable. The response then has `fallback: true`.
+- The key is `GEMINI_API_KEY` in Netlify's environment variables, read only in `netlify/functions/search.mts`. See `CLAUDE.md`.
+
 ## Working on it
 
 Needs Node 22.18 or newer.
@@ -99,14 +116,14 @@ Needs Node 22.18 or newer.
 ```sh
 npm install
 npm run dev            # local site at http://localhost:4321
-npm test               # MCP smoke test and content check
+npm test               # MCP and search smoke tests, and content check
 npm run check          # type check
 npm run build          # news index, content check, then build into dist/
 npm run index:news     # rebuild content/generated/news.json from content/news/
 npm run generate       # regenerate content/generated/ from the seed
 ```
 
-To run the site and the MCP function together locally, use the Netlify CLI: `netlify dev`.
+To run the site and the functions (MCP and search) together locally, use the Netlify CLI: `netlify dev`. Search needs `GEMINI_API_KEY` set in Netlify (`netlify env:set` or the dashboard), never in a file; without it, search uses keywords.
 
 - **More data:** in `scripts/generate-data.mjs`, add fields of study to `colleges`, raise the `p` probabilities in `levelTemplates`, or add course templates. Run `npm run generate` and commit the JSON.
 - **New MCP tools:** add a function in `src/lib/catalog.ts` and register it in `netlify/functions/mcp.mts` with `server.registerTool`.
@@ -114,7 +131,7 @@ To run the site and the MCP function together locally, use the Netlify CLI: `net
 
 ## Deploy
 
-Netlify builds from `netlify.toml`: `npm run build`, publishing `dist/`, with functions from `netlify/functions/`. Netlify's `URL` variable sets the address used in absolute links. Without it, the build falls back to `url` in `site.config.ts`.
+Netlify builds from `netlify.toml`: `npm run build`, publishing `dist/`, with functions from `netlify/functions/` and the on-demand `/search/` page from the Astro Netlify adapter. For natural-language search, add `GEMINI_API_KEY` in Netlify's environment variables, scoped to Functions. Netlify's `URL` variable sets the address used in absolute links. Without it, the build falls back to `url` in `site.config.ts`.
 
 ## Connect an AI
 

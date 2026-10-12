@@ -11,14 +11,17 @@
     "check": "astro check",
     "generate": "node scripts/generate-data.mjs",
     "check:content": "node scripts/check-content.ts",
-    "test": "node scripts/test-mcp.ts && npm run check:content",
+    "test": "node scripts/test-mcp.ts && node scripts/test-search.ts && npm run check:content",
     "index:news": "node scripts/index-news.ts"
   },
   "engines": {
     "node": ">=22.18"
   },
   "dependencies": {
+    "@astrojs/netlify": "^8.2.9",
+    "@google/genai": "^2.28.0",
     "@modelcontextprotocol/sdk": "^1.32.1",
+    "@netlify/blobs": "^11.1.4",
     "astro": "^7.3.6",
     "cookie": "^2.0.1",
     "zod": "^4.6.5"
