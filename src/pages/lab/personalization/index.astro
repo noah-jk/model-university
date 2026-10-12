@@ -35,7 +35,7 @@ const step = (name: string) => JOURNEY.find((j) => j.step === name)!;
                   <a href={pagePath("programs", p.id)}>{p.name}</a>
                 </>
               ))}
-              . Open <strong>Recents</strong> in the header: your next step is requesting information.
+              . Open <strong>For me</strong> in the header: your next step is requesting information.
             </li>
             <li>
               Fill in the <a href={step("requestInfo").href}>request information</a> form, then the <a href={step("visit").href}>visit</a> form. Each one moves

@@ -30,7 +30,7 @@ function renderRecent(session: Session) {
 
 function render(session: Session) {
   renderRecent(session);
-  renderNext(panel, session, "Next-step tile in Recents");
+  renderNext(panel, session, "Next-step tile in For me");
 }
 
 function setOpen(open: boolean) {

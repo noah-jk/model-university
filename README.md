@@ -76,7 +76,7 @@ Each feature is a switch in `site.config.ts`. When a switch is off, its routes a
 | `jsonFeeds` | `/data/programs.json`, `/data/courses.json`, `/data/services.json` |
 | `markdownPages` | `…/index.md` copies of program, course, and service pages |
 | `askAi` | "Ask AI" menus on the home page and section overview pages (academics, programs, courses, admissions, services, faculty, events, news) |
-| `personalization` | Session-based personalization: the application journey and Recents panel in the header, the program list's order, the journey forms' prefilling, and the "Under the hood" panel. Uses sessionStorage only. |
+| `personalization` | Session-based personalization: the application journey and the "For me" panel in the header, the program list's order, the journey forms' prefilling, and the "Under the hood" panel. Uses sessionStorage only. |
 | `aiSearch` | Natural-language search: `/search/`, `/api/search`, and Search in the header. The model and tier are set under `aiSearch` in `site.config.ts`. |
 
 ### Personalization (Lab)
@@ -96,7 +96,7 @@ Anything a script personalizes is marked with `markPersonalized(element, reason)
 
 Full-bleed sections (like the home page hero) size from `--page-width` rather than `100vw`; the panel narrows it while it's docked open.
 
-To avoid layout shift, the program list is reordered by a small inline script before the page is first painted, and Recents only appears when someone opens it. Controls that need JavaScript use the `needs-js` class, which works because BaseLayout adds `.js` to `<html>` before first paint.
+To avoid layout shift, the program list is reordered by a small inline script before the page is first painted, and the "For me" panel only appears when someone opens it. Controls that need JavaScript use the `needs-js` class, which works because BaseLayout adds `.js` to `<html>` before first paint.
 
 ### Natural-language search (Lab)
 
