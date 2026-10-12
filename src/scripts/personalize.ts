@@ -198,6 +198,18 @@ export function recentPages(session: Session, count: number) {
   return recent;
 }
 
+// The pages opened most often, most first. Pages with the same count go in
+// order of when they were last opened. Each comes with its view count.
+export function mostViewedPages(session: Session, count: number) {
+  const pages = new Map<string, { view: PageView; views: number }>();
+  for (const view of session.views) {
+    const key = `${view.type}:${view.id}`;
+    const entry = pages.get(key);
+    pages.set(key, { view, views: (entry?.views ?? 0) + 1 }); // views are in time order, so the last one wins
+  }
+  return [...pages.values()].sort((a, b) => b.views - a.views || b.view.at.localeCompare(a.view.at)).slice(0, count);
+}
+
 export function recordForm<K extends keyof Forms>(kind: K, answers: Forms[K]) {
   const session = loadSession();
   return save(session.views, { ...session.forms, [kind]: answers }, session.applied);
