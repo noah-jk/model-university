@@ -49,6 +49,16 @@ check(empty.body.fallback && empty.body.results.length > 0, "empty plan: keyword
 const noKey = await post({ query: "is the writing center open right now?" });
 check(noKey.body.fallback && noKey.body.answer?.text.includes("Writing Center"), "no key: keyword results and the hours answer");
 
+// Everyday questions work with keyword search too
+const science = await post({ query: "what science programs do you offer" });
+check(science.body.results.some((r) => r.kind === "program" && /Science/.test(r.title)), "keywords: “what science programs do you offer” finds science programs");
+const parents = await post({ query: "what services are offered for student parents" });
+check(parents.body.results.some((r) => r.ref === "child-care-center"), "keywords: “services for student parents” finds the child care center");
+
+// A model plan that finds nothing gives way to keyword search
+const overSpecific = await post({ query: "what services are offered for student parents" }, fake(async () => [{ tool: "find_services", args: { query: "parents", category: "Money" } }]));
+check(overSpecific.body.fallback && overSpecific.body.results.some((r) => r.ref === "child-care-center"), "model plan with no results: keyword results instead");
+
 // Removing a chip reruns the returned plan without asking the model
 const dropped = await post(
   { query, plan: good.body.plan, drop: ["start_term:Spring"] },

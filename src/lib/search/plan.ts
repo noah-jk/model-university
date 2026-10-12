@@ -8,6 +8,7 @@
 import { z } from "zod";
 import { usd } from "../format.ts";
 import { toolNamed } from "../tools.ts";
+import { STOP_WORDS } from "../words.ts";
 import { hoursAnswer, resultFor } from "./results.ts";
 import type { Chip, Kind, PlannedCall, SearchResponse, SearchResult } from "./types.ts";
 
@@ -162,15 +163,16 @@ const KIND_WORDS: [RegExp, string, "remove" | "keep"][] = [
   [/\b(tours?|open house|workshops?|lectures?|concerts?)\b/, "search_events", "keep"],
   [/\b(news|stories|story)\b/, "list_news", "remove"],
   [/\b(programs?|degrees?|majors?)\b/, "search_programs", "remove"],
+  [/\b(services?|offices?|resources?|support for)\b/, "find_services", "remove"],
 ];
 const ALL_KINDS = ["search_programs", "search_courses", "search_faculty", "find_services", "search_events", "list_news"];
 // "is the writing center open?", "when does the library open"
 const OPEN_QUESTION = /\bopen\b/;
-const FILLER = new Set(
-  ("a an and any are at about can cascadia do does find for from how i in is it me my near need now of on or right show start starts " +
-    "starting state that the there to today university want what when where which who with open please list next this week month")
-    .split(" ")
-);
+// Filler beyond the catalog's stop words (src/lib/words.ts)
+const FILLER = new Set([
+  ...STOP_WORDS,
+  ..."cascadia state university near need now open please list right start starts starting today next this week month want".split(" "),
+]);
 
 export function keywordPlan(query: string): PlannedCall[] {
   let text = ` ${query.toLowerCase()} `;
@@ -192,11 +194,8 @@ export function keywordPlan(query: string): PlannedCall[] {
     if (words === "remove") text = text.replace(pattern, " ");
     if (!kinds.includes(tool)) kinds.push(tool);
   }
-  // Drop filler words, and a plural "s" so "tours" also finds "tour"
-  const words = text
-    .split(/[^a-z0-9'&-]+/)
-    .filter((w) => w.length > 1 && !FILLER.has(w))
-    .map((w) => (w.length > 4 && /[^su]s$/.test(w) ? w.slice(0, -1) : w));
+  // Drop filler words (the catalog matches plurals and other word endings itself)
+  const words = text.split(/[^a-z0-9'&-]+/).filter((w) => w.length > 1 && !FILLER.has(w));
   const rest = words.join(" ");
   const q = rest ? { query: rest } : {};
 

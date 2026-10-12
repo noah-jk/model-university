@@ -16,6 +16,7 @@ import type { College, Course, Department, Event, FacultyMember, NewsIndexEntry,
 import { eventWhen } from "./dates.ts";
 import { campusTime, isOpen } from "./hours.ts";
 import { absoluteUrl, pagePath } from "./urls.ts";
+import { STOP_WORDS, stem } from "./words.ts";
 
 export const colleges = collegesData as College[];
 export const departments = departmentsData as Department[];
@@ -109,21 +110,32 @@ export function relatedDepartmentNames(related: Related) {
 // Search ---------------------------------------------------------------------
 
 const norm = (s: unknown) => String(s ?? "").toLowerCase();
-const tokens = (q?: string) => norm(q).split(/[^a-z0-9']+/).filter((t) => t.length > 1);
+// The words of a query worth matching, as stems
+const tokens = (q?: string) => [...new Set(norm(q).split(/[^a-z0-9']+/).filter((t) => t.length > 1 && !STOP_WORDS.has(t)).map(stem))];
 
-// Simple weighted keyword scoring: every word must match somewhere, and
-// matches in more important fields score higher. Good enough for a demo.
-function score(query: string | undefined, fields: [string, number][]) {
+// Simple weighted keyword search. Each word is matched against an entry's
+// fields, and matches in more important fields score higher. Entries that
+// match every word come back. If none does, entries that match at least half
+// the words, including a distinctive one (a word found in no more than a
+// quarter of the entries), come back instead, ranked by how many they match.
+// So "services for student parents" still finds child care, through
+// "parents". Good enough for a demo.
+function ranked<T>(items: T[], query: string | undefined, fields: (item: T) => [string, number][]) {
   const words = tokens(query);
-  if (!words.length) return 1;
-  let total = 0;
-  for (const word of words) {
-    let hit = 0;
-    for (const [text, weight] of fields) if (norm(text).includes(word)) hit = Math.max(hit, weight);
-    if (!hit) return 0;
-    total += hit;
-  }
-  return total;
+  if (!words.length) return items.map((item) => ({ item, s: 1 }));
+  const rows = items.map((item) => {
+    const texts = fields(item).map(([text, weight]) => [norm(text), weight] as const);
+    return { item, hits: words.map((w) => Math.max(0, ...texts.map(([text, weight]) => (text.includes(w) ? weight : 0)))) };
+  });
+  const sum = (hits: number[]) => hits.reduce((a, b) => a + b, 0);
+  const all = rows.filter((r) => r.hits.every(Boolean));
+  if (all.length || words.length === 1) return all.map((r) => ({ item: r.item, s: sum(r.hits) }));
+
+  const distinctive = words.map((_, i) => rows.filter((r) => r.hits[i]).length <= Math.max(3, rows.length / 4));
+  const enough = Math.ceil(words.length / 2);
+  return rows
+    .filter((r) => r.hits.some((h, i) => h && distinctive[i]) && r.hits.filter(Boolean).length >= enough)
+    .map((r) => ({ item: r.item, s: r.hits.filter(Boolean).length * 100 + sum(r.hits) }));
 }
 
 const eq = (a: string, b?: string) => !b || norm(a) === norm(b);
@@ -153,16 +165,12 @@ type ProgramQuery = {
 };
 
 export function searchPrograms({ query, level, modality, college, start_term, max_total_tuition_usd, limit = 5 }: ProgramQuery, base: Base) {
-  const results = programs
+  const matching = programs
     .filter((p) => eq(p.level, level) && eq(p.modality, modality) && has(p.start_terms, start_term))
     .filter((p) => !college || norm(collegeOf(p).name).includes(norm(college)))
-    .filter((p) => !max_total_tuition_usd || p.estimated_total_tuition_usd <= max_total_tuition_usd)
-    .map((p) => {
-      const field = departmentOf(p).field;
-      const s = score(query, [[p.name, 5], [field, 5], [p.keywords.join(" "), 3], [p.careers.join(" "), 3], [collegeOf(p).name, 2], [p.description, 1]]);
-      return { p, s };
-    })
-    .filter((r) => r.s > 0)
+    .filter((p) => !max_total_tuition_usd || p.estimated_total_tuition_usd <= max_total_tuition_usd);
+  const results = ranked(matching, query, (p) => [[p.name, 5], [departmentOf(p).field, 5], [p.keywords.join(" "), 3], [p.careers.join(" "), 3], [collegeOf(p).name, 2], [p.description, 1]])
+    .map(({ item: p, s }) => ({ p, s }))
     .sort((a, b) => b.s - a.s || a.p.name.localeCompare(b.p.name));
   const shown = results.slice(0, limit);
   return {
@@ -217,11 +225,11 @@ export function listColleges() {
 type CourseQuery = { query?: string; field?: string; level?: string; term?: string; modality?: string; limit?: number };
 
 export function searchCourses({ query, field, level, term, modality, limit = 20 }: CourseQuery, base: Base) {
-  const results = courses
+  const matching = courses
     .filter((c) => !field || norm(departmentOf(c).field).includes(norm(field)))
-    .filter((c) => eq(c.level, level) && has(c.terms_offered, term) && eq(c.modality, modality))
-    .map((c) => ({ c, s: score(query, [[c.code, 6], [c.title, 5], [departmentOf(c).field, 3], [c.description, 1], [instructorOf(c).name, 2]]) }))
-    .filter((r) => r.s > 0)
+    .filter((c) => eq(c.level, level) && has(c.terms_offered, term) && eq(c.modality, modality));
+  const results = ranked(matching, query, (c) => [[c.code, 6], [c.title, 5], [departmentOf(c).field, 3], [c.description, 1], [instructorOf(c).name, 2]])
+    .map(({ item: c, s }) => ({ c, s }))
     .sort((a, b) => b.s - a.s || a.c.code.localeCompare(b.c.code, undefined, { numeric: true }));
   return {
     total_matches: results.length,
@@ -266,10 +274,9 @@ const serviceSummary = (s: Service, base: Base) => ({
 });
 
 export function findServices({ query, category }: { query?: string; category?: string }, base: Base) {
-  const results = services
-    .filter((s) => eq(s.category, category))
-    .map((s) => ({ s, sc: score(query, [[s.name, 5], [s.tags.join(" "), 4], [s.description, 2], [s.category, 2]]) }))
-    .filter((r) => r.sc > 0)
+  const matching = services.filter((s) => eq(s.category, category));
+  const results = ranked(matching, query, (s) => [[s.name, 5], [s.tags.join(" "), 4], [s.description, 2], [s.category, 2]])
+    .map(({ item: s, s: sc }) => ({ s, sc }))
     .sort((a, b) => b.sc - a.sc || a.s.name.localeCompare(b.s.name));
   return { total_matches: results.length, results: results.map((r) => serviceSummary(r.s, base)) };
 }
@@ -305,10 +312,9 @@ type FacultyQuery = { query?: string; department?: string; limit?: number };
 
 // By name or expertise (research interests), optionally within a department
 export function searchFaculty({ query, department, limit = 10 }: FacultyQuery, base: Base) {
-  const results = faculty
-    .filter((f) => !department || norm(departmentOf(f).field).includes(norm(department)) || f.department === norm(department))
-    .map((f) => ({ f, s: score(query, [[f.name, 6], [f.research_interests.join(" "), 5], [departmentOf(f).field, 3], [f.title, 2], [f.bio, 1]]) }))
-    .filter((r) => r.s > 0)
+  const matching = faculty.filter((f) => !department || norm(departmentOf(f).field).includes(norm(department)) || f.department === norm(department));
+  const results = ranked(matching, query, (f) => [[f.name, 6], [f.research_interests.join(" "), 5], [departmentOf(f).field, 3], [f.title, 2], [f.bio, 1]])
+    .map(({ item: f, s }) => ({ f, s }))
     .sort((a, b) => b.s - a.s || a.f.name.localeCompare(b.f.name));
   const shown = results.slice(0, limit);
   return {
@@ -344,10 +350,11 @@ type EventQuery = { query?: string; from?: string; to?: string; category?: strin
 export function searchEvents({ query, from, to, category, campus, audience, upcoming = true, limit = 10 }: EventQuery, base: Base) {
   const day = (iso: string) => new Date(iso).toLocaleDateString("en-CA", { timeZone: siteConfig.timezone });
   const now = new Date();
-  const results = events
+  const matching = events
     .filter((e) => (from || to ? (!from || day(e.end) >= from) && (!to || day(e.start) <= to) : !upcoming || !hasEnded(e, now)))
-    .filter((e) => eq(e.category, category) && eq(e.campus, campus) && has(e.audience, audience))
-    .filter((e) => score(query, [[e.title, 5], [e.description, 2], [e.location, 2]]) > 0)
+    .filter((e) => eq(e.category, category) && eq(e.campus, campus) && has(e.audience, audience));
+  const results = ranked(matching, query, (e) => [[e.title, 5], [e.description, 2], [e.location, 2]])
+    .map(({ item }) => item)
     .sort((a, b) => a.start.localeCompare(b.start));
   const shown = results.slice(0, limit);
   return {
@@ -375,10 +382,11 @@ type NewsQuery = { query?: string; tag?: string; department?: string; limit?: nu
 
 // Stories, newest first, optionally by keyword, tag, or department
 export function listNews({ query, tag, department, limit = 10 }: NewsQuery, base: Base) {
-  const results = news
+  const matching = news
     .filter((n) => has(n.tags, tag))
-    .filter((n) => !department || relatedDepartmentNames(n.related).some((d) => norm(d).includes(norm(department))))
-    .filter((n) => score(query, [[n.title, 5], [n.summary, 3], [n.tags.join(" "), 3]]) > 0);
+    .filter((n) => !department || relatedDepartmentNames(n.related).some((d) => norm(d).includes(norm(department))));
+  // Newest first, as in the index
+  const results = ranked(matching, query, (n) => [[n.title, 5], [n.summary, 3], [n.tags.join(" "), 3]]).map(({ item }) => item);
   return {
     total_matches: results.length,
     results: results.slice(0, limit).map((n) => ({

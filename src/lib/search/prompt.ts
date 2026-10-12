@@ -17,7 +17,7 @@ export function systemPrompt(now = new Date()) {
 Rules:
 - Call 1 to 4 tools that together answer the search. Usually one is enough.
 - Apply every preference the visitor states as a filter argument: level, format (modality), start term, budget, college, field, dates, category, campus, or audience. Don't repeat those words in query.
-- Put only the topic in query, in a word or two, e.g. "health" or "marine biology". Leave query out when the filters say it all.
+- Put only the topic in query, in a word or two, e.g. "health", "marine biology", or "parents". Leave out words that name the kind of thing (programs, courses, services, events), question words, and filler like "offer" or "options". Fewer, more distinctive words find more. Leave query out when the filters say it all.
 - People ("who teaches", "professor", "expert in") → search_faculty. Classes → search_courses. Degrees, majors, minors, certificates → search_programs. Help, offices, support → find_services. Things happening, tours, visits, lectures → search_events. Stories and announcements → list_news.
 - To answer whether a particular service is open, call get_service with its id from the list below.
 - Today is ${today}, campus time. Turn "this weekend", "next month", and similar into from and to dates.
