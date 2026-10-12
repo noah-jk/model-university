@@ -2,8 +2,9 @@
 //   1. One model call turns the query into a plan of catalog searches.
 //   2. The plan is checked against the tools' schemas, and runs here.
 //   3. Results are built from the catalog records the searches found.
-// If the model isn't available, fails, is slow, or plans nothing usable,
-// keyword search makes the plan instead (fallback: true). Search never fails
+// If the model isn't available, fails, is slow, plans nothing usable, or its
+// plan finds nothing that keyword search can find, keyword search makes the
+// plan instead (fallback: true). Search never fails
 // because of the model.
 
 import type { Planner } from "../llm/types.ts";
@@ -34,7 +35,7 @@ type Options = {
 
 // How the plan was made, for logs: "model", "returned" (sent back by the
 // page), or why keyword search was used
-export type Outcome = "model" | "returned" | "no-model" | "timeout" | "error" | "empty-plan";
+export type Outcome = "model" | "returned" | "no-model" | "timeout" | "error" | "empty-plan" | "no-results";
 
 async function modelPlan(query: string, profile: InterestProfile | undefined, planner: Planner, now: Date, timeoutMs: number) {
   const controller = new AbortController();
@@ -72,14 +73,25 @@ export async function search(request: SearchRequest, { base, planner, now = new 
       outcome = (error as Error).message === "timeout" ? "timeout" : "error";
     }
   }
-  const fallback = outcome === "returned" ? Boolean(request.fallback) : outcome !== "model";
   if (outcome !== "model" && outcome !== "returned") plan = keywordPlan(query);
 
-  const effective = applyDrops(plan, drop);
+  let effective = applyDrops(plan, drop);
+  let results = runPlan(effective, base, now);
+  // The model's searches found nothing: see whether keyword search does better
+  if (outcome === "model" && !results.length) {
+    const keywords = applyDrops(keywordPlan(query), drop);
+    const keywordResults = runPlan(keywords, base, now);
+    if (keywordResults.length) {
+      outcome = "no-results";
+      [effective, results] = [keywords, keywordResults];
+    }
+  }
+  const fallback = outcome === "returned" ? Boolean(request.fallback) : outcome !== "model";
+
   const response: SearchResponse = {
     query,
     interpreted: chipsFor(effective),
-    results: runPlan(effective, base, now),
+    results,
     answer: answerFor(effective, base, now),
     fallback,
     plan: effective,

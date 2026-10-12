@@ -106,7 +106,7 @@ To avoid layout shift, the program list is reordered by a small inline script be
 - `src/lib/search/plan.ts` checks the plan against the tools' schemas (at most 4 calls), runs it, and turns its filters into chips. Removing a chip sends the plan back with `drop`, and it runs again without the model.
 - Every result is built from the catalog record by `resultFor(kind, ref)` in `results.ts`. `kind` (program, course, faculty, event, service, news) and `ref` (the catalog id) match the planned Workbench's items.
 - `src/lib/search/render.ts` renders results for both the server and the browser. The Workbench's Save button will go in its `renderResult`.
-- Keyword search (`keywordPlan`) takes over when there's no key, the visitor is over 10 searches a minute, the model takes over 8 seconds or fails, or plans nothing usable. The response then has `fallback: true`.
+- Keyword search (`keywordPlan`) takes over when there's no key, the visitor is over 10 searches a minute, the model takes over 8 seconds or fails, plans nothing usable, or its plan finds nothing. The response then has `fallback: true`.
 - The key is `GEMINI_API_KEY` in Netlify's environment variables, read only in `netlify/functions/search.mts`. See `CLAUDE.md`.
 
 ## Working on it

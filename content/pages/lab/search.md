@@ -29,6 +29,6 @@ Keyword search answers instead, and the page says "Showing keyword results," whe
 - no API key is set up,
 - you've searched more than 10 times in a minute,
 - the model takes more than 8 seconds, or returns an error (including going over the free tier's limits), or
-- the model plans nothing usable.
+- the model plans nothing usable, or its searches find nothing that keyword search can find.
 
-Keyword search spots common filters (level, format, start term, budget, and "is it open" questions) and searches everything for the words that are left. The search page works without JavaScript too: it shows keyword results, and the chips still work.
+Keyword search spots common filters (level, format, start term, budget, and "is it open" questions), ignores filler like "what do you offer," and searches everything for the words that are left, allowing for word endings ("parents" finds "parent"). If nothing matches every word, it shows what matches most of them. The search page works without JavaScript too: it shows keyword results, and the chips still work.
