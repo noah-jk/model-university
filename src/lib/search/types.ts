@@ -1,5 +1,7 @@
 // Shapes shared by the search function, the search page, and its script.
 
+import type { SaveData } from "../workbench/toggle.ts";
+
 // What a result is. `kind` and `ref` (the catalog id) match the item model of
 // the planned Workbench, where people save results, so a result can be saved
 // as-is and rendered again later from those two fields.
@@ -13,6 +15,8 @@ export type SearchResult = {
   url: string;
   // One line of facts, e.g. "Master's · Online · Starts fall, spring · About $28,440 total"
   detail: string;
+  // What its Save to Workbench toggle saves, when the workbench is on
+  save?: SaveData;
 };
 
 // One catalog search the model (or the keyword interpreter) decided to run,

@@ -13,6 +13,10 @@ const routes: Partial<Record<Feature, { pattern: string; entrypoint: string }[]>
   markdownPages: [{ pattern: "/[...path]/index.md", entrypoint: "./src/features/markdown-pages.ts" }],
   // Rendered on demand (it sets prerender = false); the API is netlify/functions/search.mts
   aiSearch: [{ pattern: "/search", entrypoint: "./src/features/search/index.astro" }],
+  workbench: [
+    { pattern: "/data/workbench-index.json", entrypoint: "./src/features/workbench-index.ts" },
+    { pattern: "/workbench", entrypoint: "./src/features/workbench/index.astro" },
+  ],
 };
 
 export default function aiFeatures(): AstroIntegration {

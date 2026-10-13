@@ -28,6 +28,10 @@ const siteConfig = {
     // Lab experiment: natural-language search at /search/. A Gemini model turns
     // the question into catalog searches; without a key it uses keyword search.
     aiSearch: true,
+    // Lab experiment: the workbench at /workbench/, where people save programs,
+    // courses, and more, with notes, a comparison, and a deadline timeline.
+    // Kept in localStorage; nothing is sent anywhere.
+    workbench: true,
   },
 
   // Settings for the aiSearch feature. The tier is shown on /lab/search/: on
