@@ -152,7 +152,8 @@ const data = JSON.stringify(result ?? null).replace(/</g, "\\u003c");
   .search-output :global(h2:focus-visible) { outline: 3px solid var(--focus); }
   .search-output :global(.count) { font: 400 var(--step-0) var(--sans); color: var(--muted); }
   .search-output :global(.results) { list-style: none; margin: 0; padding: 0; }
-  .search-output :global(.result) { max-width: none; padding-block: 0.8rem; border-bottom: 1px solid var(--line); }
+  .search-output :global(.result) { max-width: none; display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem 1rem; padding-block: 0.8rem; border-bottom: 1px solid var(--line); }
+  .search-output :global(.result .save-toggle) { flex: none; margin-top: 0.1rem; }
   .search-output :global(.result a) { font-weight: 600; font-size: var(--step-0); }
   .search-output :global(.result p) { margin: 0.15rem 0 0; font-size: var(--step--1); color: var(--muted); }
   .search-output :global(.empty h2) { font-size: var(--step-2); }

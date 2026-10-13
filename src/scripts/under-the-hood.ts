@@ -3,7 +3,9 @@
 // interest profile, lists what was personalized on this page, and resets.
 
 import { JOURNEY, PANEL_KEY, TYPE_LABELS } from "../lib/personalization-settings.ts";
-import { loadSession, nextStep, resetSession, storageAvailable, type Profile, type Session } from "./personalize.ts";
+import { loadSession, nextStep, resetSession, SAVED_WEIGHT, storageAvailable, type Profile, type Session } from "./personalize.ts";
+import { workbench } from "../lib/workbench/store.ts";
+import { STORAGE_KEY as WORKBENCH_KEY } from "../lib/workbench/types.ts";
 
 const html = document.documentElement;
 const panel = document.getElementById("under-the-hood")!;
@@ -158,6 +160,21 @@ function renderVisits(session: Session) {
   panel.querySelector(".uth-visits")!.replaceChildren(...(items.length ? items : [el("li", "No pages yet. Open a program, course, or faculty page to start.", "empty")]));
 }
 
+// The workbench is kept differently: in localStorage, so it outlasts the tab
+function renderWorkbench(profile: Profile) {
+  const target = panel.querySelector(".uth-workbench");
+  if (!target) return;
+  const count = workbench.get().items.length;
+  let bytes = 0;
+  try {
+    bytes = new Blob([localStorage.getItem(WORKBENCH_KEY) ?? ""]).size;
+  } catch {}
+  const size = bytes < 1024 ? `${bytes} bytes` : `${(bytes / 1024).toFixed(1)} KB`;
+  target.textContent = `${count} ${count === 1 ? "item" : "items"}, using ${size}. Unlike this session's profile, it's kept in localStorage, so it stays after the tab closes, until you remove it.${
+    profile.saved ? ` Each saved item counts as much as ${SAVED_WEIGHT} page views in the interest profile.` : ""
+  }`;
+}
+
 function render(session: Session) {
   const views = session.views.length;
   panel.querySelector(".uth-stat")!.textContent = storageAvailable
@@ -168,6 +185,7 @@ function render(session: Session) {
   renderProfile(session.profile);
   renderAnswers(session.profile);
   renderVisits(session);
+  renderWorkbench(session.profile);
 }
 
 // Live updates: re-render while open, and announce one short summary

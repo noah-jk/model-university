@@ -128,3 +128,18 @@ th { font-weight: 600; }
 html:not(.js) .needs-js { display: none !important; }
 /* The opposite: shown only without JavaScript (e.g. a plain link a script replaces) */
 html.js .no-js-only { display: none !important; }
+
+/* Save to Workbench toggles (src/lib/workbench/toggle.ts) */
+.save-toggle { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 40px; padding: 0.4rem 0.95rem 0.4rem 0.8rem; font: 600 var(--step--1) / 1 var(--sans); color: var(--fir); background: transparent; border: 1.5px solid var(--fir); border-radius: 999px; cursor: pointer; }
+.save-toggle svg { width: 1.05rem; height: 1.05rem; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
+.save-toggle:hover { background: var(--lichen); color: var(--basalt); }
+.save-toggle[aria-pressed="true"] { background: var(--fir); color: var(--fog); }
+.save-toggle[aria-pressed="true"] svg { fill: currentColor; }
+.save-toggle[aria-pressed="true"]:hover { background: var(--fir-deep); color: var(--on-dark); }
+.save-toggle.compact { min-height: 32px; padding: 0.25rem 0.7rem 0.25rem 0.55rem; font-size: 0.8125rem; }
+.save-toggle.compact svg { width: 0.95rem; height: 0.95rem; }
+h1 + .save-toggle { margin: -0.25rem 0 1rem; }
+/* "Your workbench won't be saved" notice, when there's no localStorage */
+.workbench-notice { position: fixed; z-index: 40; left: 50%; bottom: 1.25rem; transform: translateX(-50%); display: flex; align-items: center; gap: 1rem; max-width: calc(100% - 2rem); padding: 0.75rem 1rem; background: var(--paper); color: var(--basalt); border: 1px solid var(--line); border-radius: var(--radius-s); box-shadow: 0 6px 24px rgb(0 0 0 / 0.18); }
+.workbench-notice p { margin: 0; }
+@media (max-width: 47.99rem) { .workbench-notice { bottom: calc(6rem + env(safe-area-inset-bottom)); } }

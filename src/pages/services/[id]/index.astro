@@ -2,6 +2,7 @@
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import SaveButton from "../../../components/workbench/SaveButton.astro";
 import { pageMeta } from "../../../lib/personalization.ts";
 import AtAGlance from "../../../components/AtAGlance.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
@@ -28,6 +29,7 @@ const upcoming = eventsAbout("services", s.id).filter((e) => !hasEnded(e));
   <div class="detail">
     <article>
       <h1>{s.name}</h1>
+      <SaveButton kind="service" id={s.id} />
       <p class="lede">{s.description}</p>
 
       <h2>Hours</h2>

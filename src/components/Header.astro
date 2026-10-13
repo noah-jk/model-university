@@ -2,6 +2,7 @@
 import siteConfig from "../../site.config.ts";
 import { JOURNEY } from "../lib/personalization-settings.ts";
 import Recents from "./Recents.astro";
+import WorkbenchLink from "./workbench/HeaderLink.astro";
 
 // Main sections (some with a submenu), plus a smaller utility row.
 type NavItem = { href: string; label: string; children?: { href: string; label: string }[] };
@@ -37,6 +38,8 @@ const recents = siteConfig.features.personalization;
 // Search: a button in the utility row that opens a field (a plain link to
 // /search/ without JavaScript), and a field in the Menu on small screens.
 const search = siteConfig.features.aiSearch;
+// The workbench link sits next to For me (and in the Menu on small screens)
+const workbench = siteConfig.features.workbench;
 const searchIcon = "M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM15.2 15.2 20 20";
 // The header button starts at the first step (or just "Apply" without personalization); header-cta.ts keeps it on the visitor's next step.
 const cta = recents ? { href: JOURNEY[0].href, label: JOURNEY[0].label } : { href: "/admissions/apply/", label: "Apply" };
@@ -61,6 +64,7 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
       <ul>
         {utilityNav.map(({ href, label }) => <li><a href={href} aria-current={ariaCurrent(href)}>{label}</a></li>)}
         {recents && <li><button type="button" class="recents-toggle needs-js" data-recents-toggle aria-expanded="false">For me</button></li>}
+        {workbench && <li><WorkbenchLink current={current.startsWith("/workbench/")} /></li>}
         {
           search && (
             <li class="header-search">
@@ -125,6 +129,11 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
         {recents && (
           <li class="small-screens">
             <button type="button" class="recents-toggle needs-js" data-recents-toggle aria-expanded="false">For me</button>
+          </li>
+        )}
+        {workbench && (
+          <li class="small-screens">
+            <WorkbenchLink current={current.startsWith("/workbench/")} />
           </li>
         )}
       </ul>
@@ -268,6 +277,15 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
   @media (max-width: 47.99rem) {
     .main .recents-toggle { width: 100%; text-align: left; min-height: 48px; border-bottom: 0; font-size: var(--step-0); }
     .main .recents-toggle[aria-expanded="true"] { text-decoration: underline; text-underline-offset: 0.35em; text-decoration-color: #dce5c3; }
+  }
+  /* Workbench link: like the other utility links, with a count badge */
+  nav :global(.workbench-link) { display: inline-flex; align-items: center; gap: 0.35rem; color: var(--on-dark); text-decoration: none; padding-block: 0.4rem; border-bottom: 2px solid transparent; }
+  nav :global(.workbench-link:hover), nav :global(.workbench-link[aria-current="page"]) { border-bottom-color: #dce5c3; }
+  nav :global(.workbench-link:focus-visible) { outline: 2px solid #dce5c3; outline-offset: 2px; }
+  nav :global(.workbench-link svg) { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
+  nav :global(.workbench-count) { min-width: 1.35rem; padding: 0.1rem 0.4rem; border-radius: 999px; background: #dce5c3; color: #142b26; font: 700 0.75rem / 1.2 var(--sans); text-align: center; }
+  @media (max-width: 47.99rem) {
+    .main :global(.workbench-link) { width: 100%; min-height: 48px; border-bottom: 0; font-weight: 600; font-size: var(--step-0); }
   }
   /* Search: a pill like Recents, which opens into a field in the same spot */
   .header-search { display: flex; align-items: center; }

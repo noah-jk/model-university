@@ -2,6 +2,7 @@
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import SaveButton from "../../../../components/workbench/SaveButton.astro";
 import { pageMeta } from "../../../../lib/personalization.ts";
 import Breadcrumb from "../../../../components/Breadcrumb.astro";
 import RelatedLinks from "../../../../components/RelatedLinks.astro";
@@ -27,6 +28,7 @@ const hasRelated = Object.values(related).some((ids) => ids.length > 0);
   <div class="detail">
     <article class="prose">
       <h1>{title}</h1>
+      <SaveButton kind="news" id={story.id} />
       <p class="byline"><time datetime={date.toISOString().slice(0, 10)}>{storyDate(date)}</time> · {author}</p>
       <p class="lede">{summary}</p>
       <Content />

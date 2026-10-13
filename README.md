@@ -7,7 +7,7 @@ What's included today:
 - **The site**: programs (a single filterable list, plus a page for each program), a course catalog (a page for every subject and every course), admissions (apply, tuition and aid, visit), student services, a faculty directory, events, news, about, and a "Connect your AI" page
 - **An MCP server** at `/mcp` with read-only tools: `search_programs`, `get_program`, `compare_programs`, `list_colleges`, `search_courses`, `get_course`, `find_services`, `get_service`, `services_open_now`, `search_faculty`, `get_faculty`, `search_events` (upcoming by default, or a date range), and `list_news`, plus the prompts `recommend-program` and `find-help`. Every result carries an absolute page url.
 - **AI-readable files**: `/llms.txt`, JSON feeds at `/data/*.json`, and a Markdown copy of every detail page at `…/index.md`
-- **Lab** at `/lab/`: experiments, each with a page explaining it: session-based personalization with an "Under the hood" panel (`/lab/personalization/`), and natural-language search (`/search/`, explained at `/lab/search/`).
+- **Lab** at `/lab/`: experiments, each with a page explaining it: session-based personalization with an "Under the hood" panel (`/lab/personalization/`), and natural-language search (`/search/`, explained at `/lab/search/`), and the workbench (`/workbench/`, explained at `/lab/workbench/`).
 
 Search engines are asked not to index the site (`X-Robots-Tag: noindex`) until `indexing` is switched on in `site.config.ts`.
 
@@ -32,7 +32,8 @@ src/
     tools.ts                The catalog tools (names, descriptions, schemas), shared by the MCP server and search
     search/                 Natural-language search: plans, results, and the results HTML
     llm/                    The model behind search, behind a small interface
-  features/                 AI features with their own routes (llms.txt, JSON feeds, Markdown pages, /search/)
+    workbench/              The workbench: data model, store, views (compare, timeline), and its catalog index
+  features/                 Features with their own routes (llms.txt, JSON feeds, Markdown pages, /search/, /workbench/)
   layouts/, components/, pages/, scripts/, styles/
 netlify/functions/mcp.mts   The MCP endpoint
 netlify/functions/search.mts  The search endpoint, /api/search (the only code that reads the Gemini key)
@@ -41,6 +42,7 @@ scripts/
   check-content.ts          Validates content against the schemas and checks cross-references
   test-mcp.ts               Calls every MCP tool and prompt without Netlify
   test-search.ts            Runs /api/search with a fake model
+  test-workbench.ts         The workbench's store, views, and index
 ```
 
 ### Content model
@@ -77,6 +79,7 @@ Each feature is a switch in `site.config.ts`. When a switch is off, its routes a
 | `markdownPages` | `…/index.md` copies of program, course, and service pages |
 | `askAi` | "Ask AI" menus on the home page and section overview pages (academics, programs, courses, admissions, services, faculty, events, news) |
 | `personalization` | Session-based personalization: the application journey and the "For me" panel in the header, the program list's order, the journey forms' prefilling, and the "Under the hood" panel. Uses sessionStorage only. |
+| `workbench` | The workbench: `/workbench/`, `/data/workbench-index.json`, Save to Workbench toggles, and the header link. Uses localStorage only. |
 | `aiSearch` | Natural-language search: `/search/`, `/api/search`, and Search in the header. The model and tier are set under `aiSearch` in `site.config.ts`. |
 
 ### Personalization (Lab)
@@ -105,9 +108,20 @@ To avoid layout shift, the program list is reordered by a small inline script be
 - One model call per search. The model (Gemini, set in `site.config.ts`) is offered the search tools from `src/lib/tools.ts` and answers only with calls to them: the plan. It never writes results.
 - `src/lib/search/plan.ts` checks the plan against the tools' schemas (at most 4 calls), runs it, and turns its filters into chips. Removing a chip sends the plan back with `drop`, and it runs again without the model.
 - Every result is built from the catalog record by `resultFor(kind, ref)` in `results.ts`. `kind` (program, course, faculty, event, service, news) and `ref` (the catalog id) match the planned Workbench's items.
-- `src/lib/search/render.ts` renders results for both the server and the browser. The Workbench's Save button will go in its `renderResult`.
+- `src/lib/search/render.ts` renders results for both the server and the browser. Each result has its Save to Workbench toggle there.
 - Keyword search (`keywordPlan`) takes over when there's no key, the visitor is over 10 searches a minute, the model takes over 8 seconds or fails, plans nothing usable, or its plan finds nothing. The response then has `fallback: true`.
 - The key is `GEMINI_API_KEY` in Netlify's environment variables, read only in `netlify/functions/search.mts`. See `CLAUDE.md`.
+
+### Workbench (Lab)
+
+People save programs, courses, faculty, events, services, and news to `/workbench/`, add notes, compare up to four programs, and see a timeline of deadlines (for a start term they pick) and saved events. It's the counterpart to For me: what they chose to keep, not what the site noticed.
+
+- `src/lib/workbench/types.ts`: the data model. Items are references (`kind` and `ref`, the catalog id), never copies, so the page always shows live data. `WORKBENCH_LABEL` is the name people see. `"answer"` items are reserved for phase 2: kept in storage, not shown.
+- `src/lib/workbench/store.ts`: the only code that reads or writes the workbench. localStorage under `cascadia:workbench`, a `workbench:change` event after every write, `storage` events for other tabs, a memory fallback (with a notice) when storage is blocked, `migrate()` for stored data, and `serialize()` / `deserialize()` for phase 3's share links. At most 100 items and 1,000 characters a note.
+- `src/lib/workbench/derive.ts`: the comparison, the timeline (with .ics files), key facts, and change detection, with no page code. Programs watch tuition, deadlines, and start terms; events watch their date and location.
+- `/data/workbench-index.json` (`index-data.ts`): the catalog fields the page needs, built whenever the workbench is on, whatever `jsonFeeds` says. Its size is in the build log.
+- Toggles come from one renderer (`toggle.ts`), used by detail pages, the program list, and search results. They're hidden without JavaScript, and an inline script in BaseLayout marks saved ones before the page is drawn.
+- Saved items feed the personalization profile, each counting as three page views.
 
 ## Working on it
 
@@ -116,7 +130,7 @@ Needs Node 22.18 or newer.
 ```sh
 npm install
 npm run dev            # local site at http://localhost:4321
-npm test               # MCP and search smoke tests, and content check
+npm test               # MCP, search, and workbench tests, and content check
 npm run check          # type check
 npm run build          # news index, content check, then build into dist/
 npm run index:news     # rebuild content/generated/news.json from content/news/

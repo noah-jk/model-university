@@ -1,0 +1,56 @@
+---
+import siteConfig from "../../../../site.config.ts";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import { getPage } from "../../../lib/pages.ts";
+import { MAX_ITEMS, MAX_NOTE, STORAGE_KEY, WORKBENCH_LABEL } from "../../../lib/workbench/types.ts";
+
+const page = await getPage("lab/workbench");
+const { Content } = page;
+const path = "/lab/workbench/";
+const enabled = siteConfig.features.workbench;
+const weightNote = siteConfig.features.personalization ? "In the personalization profile, each saved item counts as much as three page views." : "";
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <Breadcrumb items={[{ label: "Lab", href: "/lab/" }, { label: page.title, href: path }]} />
+  <article class="prose">
+    <h1>{page.title}</h1>
+    <p class="lede">{page.description}</p>
+
+    {
+      enabled ? (
+        <section class="panel try" aria-labelledby="try-title">
+          <h2 id="try-title">Try it</h2>
+          <ol>
+            <li>
+              Open a few <a href="/academics/programs/">programs</a> and use <strong>Save to {WORKBENCH_LABEL}</strong> near the title, or <strong>Save</strong> in the
+              program list. The count in the header goes up, in every open tab.
+            </li>
+            <li>Save an <a href="/about/events/">event</a> or two, then open <a href="/workbench/">your {WORKBENCH_LABEL.toLowerCase()}</a>.</li>
+            <li>Add a note, reorder items, then look at <strong>Compare</strong> and <strong>Timeline</strong>. Change the start term to see different deadlines.</li>
+          </ol>
+        </section>
+      ) : (
+        <p class="panel">
+          <strong>This experiment is switched off on this site.</strong> Set <code>workbench: true</code> in <code>site.config.ts</code> to turn it on.
+        </p>
+      )
+    }
+
+    <Content />
+    <p class="hint">
+      It holds up to {MAX_ITEMS} items, with notes of up to {MAX_NOTE.toLocaleString("en-US")} characters, under the localStorage key <code>{STORAGE_KEY}</code>. {weightNote}
+      The code is in <code>src/lib/workbench/</code> (the data model, store, and views, with no page code), <code>src/scripts/workbench/</code>, and
+      <code>src/features/workbench/</code>.
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .try { margin-block: 1.5rem 2rem; border-left: 6px solid var(--fir); }
+  .try h2 { margin-top: 0; }
+  .try ol { padding-left: 1.25rem; }
+  .try li { margin-bottom: 0.5rem; }
+  .hint { font-size: var(--step--1); color: var(--muted); }
+</style>

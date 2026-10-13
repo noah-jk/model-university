@@ -2,6 +2,7 @@
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import SaveButton from "../../../../components/workbench/SaveButton.astro";
 import { pageMeta } from "../../../../lib/personalization.ts";
 import AtAGlance from "../../../../components/AtAGlance.astro";
 import Breadcrumb from "../../../../components/Breadcrumb.astro";
@@ -36,6 +37,7 @@ const instructor = instructorOf(c);
   <div class="detail">
     <article>
       <h1>{title}</h1>
+      <SaveButton kind="course" id={c.id} />
       <p class="lede">{c.description}</p>
 
       <h2>Prerequisites</h2>
