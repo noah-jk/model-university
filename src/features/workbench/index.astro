@@ -37,14 +37,6 @@ const tabs = [
       <p id="wb-term-hint" class="hint">Used for application deadlines in Compare and Timeline.</p>
     </div>
 
-    {
-      personalization && (
-        <section class="wb-next" aria-label="Your next step" data-wb-next hidden>
-          <NextStep headingLevel="h2" wide />
-        </section>
-      )
-    }
-
     <div class="tabs" role="tablist" aria-label={`${WORKBENCH_LABEL} views`}>
       {
         tabs.map((tab, i) => (
@@ -62,6 +54,14 @@ const tabs = [
           <p class="loading">Loading…</p>
         </section>
       ))
+    }
+
+    {
+      personalization && (
+        <section class="wb-next" aria-label="Your next step" data-wb-next hidden>
+          <NextStep headingLevel="h2" wide />
+        </section>
+      )
     }
   </div>
 
@@ -82,7 +82,7 @@ const tabs = [
   .term-row label { font-weight: 600; }
   .term-row select { min-height: 44px; padding: 0.35rem 0.6rem; font: inherit; color: var(--basalt); background: var(--paper); border: 1.5px solid var(--muted); border-radius: var(--radius-s); }
   .hint { margin: 0; flex-basis: 100%; font-size: var(--step--1); color: var(--muted); }
-  .wb-next { margin-bottom: 2rem; }
+  .wb-next { margin-top: 3rem; }
 
   /* Tabs */
   .tabs { display: flex; gap: 0.25rem; border-bottom: 2px solid var(--line); margin-bottom: 1.5rem; overflow-x: auto; }
