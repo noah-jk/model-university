@@ -19,6 +19,12 @@ const paths = [
   { href: "/admissions/visit/", title: "Visit campus", text: "Tours, open houses, and online information sessions." },
   { href: "/academics/programs/", title: "Find a program", text: "Search every degree, minor, and certificate." },
 ];
+// Admissions pages for particular students, with their steps and dates
+const audiences = [
+  { href: "/admissions/transfer/", title: "Transfer students", text: "Bringing credits from another college, or coming back to finish." },
+  { href: "/admissions/international/", title: "International students", text: "English scores, financial documents, your I-20, and your visa." },
+  { href: "/admissions/graduate/", title: "Graduate students", text: "Master's, doctoral, and certificate programs, and funding." },
+];
 const deadlines = [
   ["Fall", "March 1"],
   ["Winter", "October 15"],
@@ -50,6 +56,20 @@ const prompt = `I'm thinking about applying to ${siteConfig.name}. Use {origin}/
         }
       </ul>
 
+      <section aria-labelledby="audiences-title">
+        <h2 id="audiences-title">Steps for your situation</h2>
+        <ul class="paths audiences">
+          {
+            audiences.map((a) => (
+              <li>
+                <h3><a href={a.href}>{a.title}</a></h3>
+                <p>{a.text}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
       <section aria-labelledby="events-title">
         <h2 id="events-title">Upcoming admissions events</h2>
         <EventList events={upcoming} upcomingOnly limit={4} />
@@ -76,7 +96,8 @@ const prompt = `I'm thinking about applying to ${siteConfig.name}. Use {origin}/
 <style>
   .paths { list-style: none; padding: 0; margin: 2rem 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
   .paths li { border-top: 3px solid var(--fir); padding-top: 0.75rem; }
-  .detail article .paths h2 { font-size: var(--step-1); margin: 0 0 0.25rem; }
+  .detail article .paths h2, .detail article .paths h3 { font-size: var(--step-1); margin: 0 0 0.25rem; }
+  .audiences { margin-top: 1rem; }
   .paths p { margin: 0; color: var(--muted); }
   .deadlines { align-self: start; }
   .deadlines h2 { font-size: var(--step-1); }

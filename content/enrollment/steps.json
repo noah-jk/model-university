@@ -1,0 +1,430 @@
+[
+  {
+    "id": "explore-programs",
+    "title": "Explore programs",
+    "description": "Find programs that fit what you want to study, how you want to learn, and when you want to start. Save the ones you like to compare them.",
+    "levels": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "order": 10,
+    "url": "/academics/programs/",
+    "journey": "explore"
+  },
+  {
+    "id": "request-info",
+    "title": "Request information",
+    "description": "Tell us what interests you, and an admissions counselor will send details about programs, costs, and next steps.",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International"
+    ],
+    "order": 20,
+    "office": "admissions",
+    "url": "/admissions/request-info/",
+    "journey": "requestInfo"
+  },
+  {
+    "id": "grad-request-info",
+    "title": "Request information",
+    "description": "Tell us which programs interest you, and a graduate admissions advisor will send details about requirements, funding, and next steps.",
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ],
+    "order": 20,
+    "office": "graduate-school-office",
+    "url": "/admissions/request-info/",
+    "journey": "requestInfo"
+  },
+  {
+    "id": "visit-campus",
+    "title": "Visit campus",
+    "description": "Take a tour, sit in on a class, and talk with an admissions counselor. Online sessions work if you can't come in person.",
+    "levels": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "order": 30,
+    "office": "admissions",
+    "url": "/admissions/visit/schedule/",
+    "journey": "visit"
+  },
+  {
+    "id": "apply",
+    "title": "Apply",
+    "description": "Submit your application by your program's deadline. It's free for Washington residents and takes about 30 minutes.",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International"
+    ],
+    "order": 40,
+    "due": {
+      "program_deadline": true
+    },
+    "office": "admissions",
+    "url": "/admissions/apply/",
+    "journey": "apply"
+  },
+  {
+    "id": "grad-apply",
+    "title": "Apply, with transcripts and recommendations",
+    "description": "Submit your application by your program's deadline, with transcripts from every college you've attended and two letters of recommendation.",
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ],
+    "order": 40,
+    "due": {
+      "program_deadline": true
+    },
+    "office": "graduate-school-office",
+    "url": "/admissions/apply/",
+    "journey": "apply"
+  },
+  {
+    "id": "send-transcripts",
+    "title": "Send transcripts from every college you've attended",
+    "description": "Ask each college to send an official transcript. Unofficial copies are fine while we review your application.",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "Transfer",
+      "Returning adult"
+    ],
+    "order": 45,
+    "due": {
+      "program_deadline": true
+    },
+    "office": "transfer-center"
+  },
+  {
+    "id": "english-proficiency",
+    "title": "Send English proficiency scores",
+    "description": "Send TOEFL, IELTS, or Duolingo English Test scores, unless English is your first language or you studied in English.",
+    "levels": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "student_types": [
+      "International"
+    ],
+    "order": 45,
+    "due": {
+      "program_deadline": true
+    },
+    "office": "international-student-services"
+  },
+  {
+    "id": "fafsa",
+    "title": "Submit your FAFSA or WASFA",
+    "description": "File by the priority date to be considered for the most grants and scholarships. Use the WASFA if you can't file the FAFSA. File again every year.",
+    "levels": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "New graduate student",
+      "Current student"
+    ],
+    "order": 50,
+    "due": {
+      "calendar": "fafsa-priority"
+    },
+    "office": "financial-aid-and-scholarships",
+    "url": "https://studentaid.gov/"
+  },
+  {
+    "id": "financial-documents",
+    "title": "Send financial documents for your I-20",
+    "description": "Show that you can cover a year of tuition and living costs. We need these before we can issue your I-20.",
+    "levels": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "student_types": [
+      "International"
+    ],
+    "order": 55,
+    "due": {
+      "calendar": "i20-documents"
+    },
+    "office": "international-student-services"
+  },
+  {
+    "id": "housing",
+    "title": "Apply for housing",
+    "description": "First-year students get priority for the residence halls. Apply early for the best choice of rooms.",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "First-year"
+    ],
+    "order": 60,
+    "due": {
+      "before_term_start_days": 60
+    },
+    "office": "housing-and-residence-life"
+  },
+  {
+    "id": "assistantship",
+    "title": "Ask about assistantships",
+    "description": "Teaching and research assistantships cover tuition and pay a stipend. Ask your program about openings when you apply.",
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ],
+    "order": 60,
+    "due": {
+      "before_term_start_days": 90
+    },
+    "office": "graduate-school-office"
+  },
+  {
+    "id": "credit-evaluation",
+    "title": "Get your credits evaluated",
+    "description": "After you're admitted, the Transfer Center shows how your credits apply to your program, so you know what's left.",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "Transfer"
+    ],
+    "order": 65,
+    "due": {
+      "before_term_start_days": 45
+    },
+    "office": "transfer-center"
+  },
+  {
+    "id": "adult-advising",
+    "title": "Plan your schedule with an advisor",
+    "description": "Build a schedule that fits around work and family, with evening, hybrid, and online classes, and ask about credit for prior learning.",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "Returning adult"
+    ],
+    "order": 65,
+    "due": {
+      "before_term_start_days": 30
+    },
+    "office": "academic-advising"
+  },
+  {
+    "id": "enrollment-deposit",
+    "title": "Confirm your place",
+    "description": "Pay the $200 enrollment deposit to hold your place. It's credited to your first tuition bill.",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International"
+    ],
+    "order": 70,
+    "due": {
+      "calendar": "enrollment-deposit"
+    },
+    "office": "admissions"
+  },
+  {
+    "id": "grad-accept-offer",
+    "title": "Accept your offer of admission",
+    "description": "Accept your offer and pay the enrollment deposit to hold your place in your program.",
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ],
+    "order": 70,
+    "due": {
+      "calendar": "enrollment-deposit"
+    },
+    "office": "graduate-school-office"
+  },
+  {
+    "id": "i20-visa",
+    "title": "Get your I-20 and apply for a visa",
+    "description": "When your I-20 arrives, pay the SEVIS fee and book your F-1 visa interview. Interview waits can take several weeks.",
+    "levels": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "student_types": [
+      "International"
+    ],
+    "order": 75,
+    "due": {
+      "before_term_start_days": 60
+    },
+    "office": "international-student-services"
+  },
+  {
+    "id": "orientation-first-year",
+    "title": "Attend first-year orientation",
+    "description": "Meet your advisor, register for your first classes, and get your student ID. Families are welcome on the first morning.",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "First-year",
+      "International"
+    ],
+    "order": 80,
+    "due": {
+      "calendar": "orientation-first-year"
+    },
+    "office": "new-student-orientation"
+  },
+  {
+    "id": "orientation-transfer",
+    "title": "Attend transfer orientation",
+    "description": "Meet your advisor, review how your credits apply, and register for your first classes.",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "Transfer",
+      "Returning adult"
+    ],
+    "order": 80,
+    "due": {
+      "calendar": "orientation-transfer"
+    },
+    "office": "new-student-orientation"
+  },
+  {
+    "id": "orientation-graduate",
+    "title": "Attend graduate orientation",
+    "description": "Meet your program director and other new graduate students, and learn about funding, research support, and campus resources.",
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ],
+    "order": 80,
+    "due": {
+      "calendar": "orientation-graduate"
+    },
+    "office": "graduate-school-office"
+  },
+  {
+    "id": "meet-advisor",
+    "title": "Meet with your advisor",
+    "description": "Check your degree progress and plan next term's classes before registration opens.",
+    "levels": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "student_types": [
+      "Current student"
+    ],
+    "order": 82,
+    "due": {
+      "calendar": "registration-opens"
+    },
+    "office": "academic-advising"
+  },
+  {
+    "id": "register",
+    "title": "Register for classes",
+    "description": "Sign up as soon as registration opens for the best choice of sections.",
+    "levels": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "student_types": [
+      "Current student"
+    ],
+    "order": 84,
+    "due": {
+      "calendar": "classes-begin"
+    },
+    "office": "registrar"
+  },
+  {
+    "id": "pay-tuition",
+    "title": "Pay tuition",
+    "description": "Pay your bill or set up a payment plan with Student Accounts by the due date to keep your classes.",
+    "levels": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student",
+      "Current student"
+    ],
+    "order": 90,
+    "due": {
+      "calendar": "tuition-due"
+    },
+    "office": "student-accounts"
+  },
+  {
+    "id": "finalize-schedule",
+    "title": "Finalize your schedule",
+    "description": "Add or drop classes by the deadline. After that, changes need an instructor's approval.",
+    "levels": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "student_types": [
+      "Current student"
+    ],
+    "order": 95,
+    "due": {
+      "calendar": "last-day-to-add"
+    },
+    "office": "registrar"
+  }
+]

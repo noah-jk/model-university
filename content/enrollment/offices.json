@@ -1,0 +1,146 @@
+[
+  {
+    "level": "Undergraduate",
+    "student_type": "First-year",
+    "offices": [
+      {
+        "service": "admissions",
+        "reason": "Answers questions about applying and your admission decision."
+      },
+      {
+        "service": "financial-aid-and-scholarships",
+        "reason": "Helps with the FAFSA, grants, and scholarships."
+      },
+      {
+        "service": "housing-and-residence-life",
+        "reason": "Runs the residence halls, where most first-year students live."
+      },
+      {
+        "service": "new-student-orientation",
+        "reason": "Plans your orientation and first week."
+      }
+    ]
+  },
+  {
+    "level": "Undergraduate",
+    "student_type": "Transfer",
+    "offices": [
+      {
+        "service": "transfer-center",
+        "reason": "Evaluates your credits and helps you plan the rest of your degree."
+      },
+      {
+        "service": "admissions",
+        "reason": "Answers questions about applying and your admission decision."
+      },
+      {
+        "service": "financial-aid-and-scholarships",
+        "reason": "Helps with the FAFSA and transfer scholarships."
+      }
+    ]
+  },
+  {
+    "level": "Undergraduate",
+    "student_type": "Returning adult",
+    "offices": [
+      {
+        "service": "academic-advising",
+        "reason": "Helps you build a schedule that fits around work and family."
+      },
+      {
+        "service": "financial-aid-and-scholarships",
+        "reason": "Helps with the FAFSA and aid for part-time students."
+      },
+      {
+        "service": "transfer-center",
+        "reason": "Counts credits from any college you've attended before."
+      },
+      {
+        "service": "veterans-services",
+        "reason": "Helps veterans and military-connected students use their education benefits."
+      }
+    ]
+  },
+  {
+    "level": "Undergraduate",
+    "student_type": "International",
+    "offices": [
+      {
+        "service": "international-student-services",
+        "reason": "Issues your I-20 and helps with visas and arrival."
+      },
+      {
+        "service": "admissions",
+        "reason": "Answers questions about applying and your admission decision."
+      },
+      {
+        "service": "housing-and-residence-life",
+        "reason": "Helps you find a place to live before you arrive."
+      }
+    ]
+  },
+  {
+    "level": "Undergraduate",
+    "student_type": "Current student",
+    "offices": [
+      {
+        "service": "academic-advising",
+        "reason": "Helps you plan classes and stay on track to graduate."
+      },
+      {
+        "service": "registrar",
+        "reason": "Handles registration, transcripts, and your academic record."
+      },
+      {
+        "service": "student-accounts",
+        "reason": "Handles tuition bills and payment plans."
+      }
+    ]
+  },
+  {
+    "level": "Graduate",
+    "student_type": "New graduate student",
+    "offices": [
+      {
+        "service": "graduate-school-office",
+        "reason": "Handles graduate admission, assistantships, and your thesis."
+      },
+      {
+        "service": "financial-aid-and-scholarships",
+        "reason": "Helps with the FAFSA and graduate loans."
+      }
+    ]
+  },
+  {
+    "level": "Graduate",
+    "student_type": "International",
+    "offices": [
+      {
+        "service": "international-student-services",
+        "reason": "Issues your I-20 and helps with visas and arrival."
+      },
+      {
+        "service": "graduate-school-office",
+        "reason": "Handles graduate admission and assistantships."
+      }
+    ]
+  },
+  {
+    "level": "Graduate",
+    "student_type": "Current student",
+    "offices": [
+      {
+        "service": "graduate-school-office",
+        "reason": "Handles assistantships, thesis deadlines, and graduation."
+      },
+      {
+        "service": "registrar",
+        "reason": "Handles registration, transcripts, and your academic record."
+      },
+      {
+        "service": "student-accounts",
+        "reason": "Handles tuition bills and payment plans."
+      }
+    ]
+  }
+]

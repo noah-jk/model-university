@@ -1,0 +1,161 @@
+---
+// An admissions page for one kind of student (transfer, international,
+// graduate): the words from content/pages/, then their steps, key dates, and
+// offices, all from the enrollment rules in content/enrollment/, so the page
+// always matches Your Path.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumb from "./Breadcrumb.astro";
+import JourneyActions from "./JourneyActions.astro";
+import { services } from "../lib/catalog.ts";
+import { calendarEntry, calendarFor, officesFor, stepsFor, upcomingCalendarTerms, type StudentLevel } from "../lib/enrollment.ts";
+import { getPage } from "../lib/pages.ts";
+import { pagePath } from "../lib/urls.ts";
+import type { EnrollmentStep } from "../lib/schemas.ts";
+
+interface Props {
+  slug: string;
+  // One group per level, e.g. international students applying for a bachelor's or a graduate program
+  groups: { level: StudentLevel; type: string; heading?: string }[];
+}
+const { slug, groups } = Astro.props;
+const page = await getPage(slug);
+const { Content } = page;
+
+// Dates for the next two terms, as of the build
+const terms = upcomingCalendarTerms().slice(0, 2);
+const serviceNamed = (id: string) => services.find((s) => s.id === id)!;
+const shortDay = (day: string) => new Date(`${day}T12:00:00Z`).toLocaleDateString("en-US", { timeZone: "UTC", month: "short", day: "numeric", year: "numeric" });
+
+// When a step is due, in words; the table below has the dates
+function when(step: EnrollmentStep) {
+  const due = step.due;
+  if (!due) return undefined;
+  if ("program_deadline" in due) return "By your program's application deadline (each program page lists it)";
+  if ("before_term_start_days" in due) return `About ${Math.round(due.before_term_start_days / 7)} weeks before classes start`;
+  return calendarEntry(due.calendar, terms[0])?.title;
+}
+
+// Rows for the key dates table: each kind of date, with its date in each term
+function dateRows(level: string, type: string) {
+  const rows = new Map<string, { title: string; dates: string[] }>();
+  terms.forEach((term, i) => {
+    for (const entry of calendarFor(term, level, type)) {
+      const row = rows.get(entry.key) ?? { title: entry.title, dates: terms.map(() => "") };
+      row.dates[i] = entry.end ? `${shortDay(entry.date)} to ${shortDay(entry.end)}` : shortDay(entry.date);
+      rows.set(entry.key, row);
+    }
+  });
+  return [...rows.values()];
+}
+
+const offices = [...new Map(groups.flatMap((g) => officesFor(g.level, g.type)).map((o) => [o.service, o])).values()];
+const typeLabel = (g: { type: string; level: string }) => (g.type === "International" ? `international ${g.level.toLowerCase()} students` : `${g.type.toLowerCase()} students`);
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <Breadcrumb items={[{ label: "Admissions", href: "/admissions/" }, { label: page.title, href: `/${slug}/` }]} />
+  <div class="audience">
+    <article class="prose">
+      <h1>{page.title}</h1>
+      <p class="lede">{page.description}</p>
+      <JourneyActions />
+      <Content />
+    </article>
+
+    {
+      groups.map((group) => {
+        const id = `${group.level}-${group.type}`.toLowerCase().replace(/[^a-z]+/g, "-");
+        const rows = dateRows(group.level, group.type);
+        return (
+          <section class="group" aria-labelledby={`${id}-title`}>
+            <h2 id={`${id}-title`}>{group.heading ?? "Your steps"}</h2>
+            <ol class="steps">
+              {stepsFor(group.level, group.type).map((step) => {
+                const office = step.office && serviceNamed(step.office);
+                const timing = when(step);
+                return (
+                  <li>
+                    <p class="step-title">{step.url ? <a href={step.url}>{step.title}</a> : step.title}</p>
+                    <p>{step.description}</p>
+                    {(timing || office) && (
+                      <p class="facts">
+                        {timing && <span>When: {timing}</span>}
+                        {office && (
+                          <span>
+                            Help: <a href={pagePath("services", office.id)}>{office.name}</a>
+                          </span>
+                        )}
+                      </p>
+                    )}
+                  </li>
+                );
+              })}
+            </ol>
+
+            <div class="table-scroll" role="region" aria-labelledby={`${id}-dates`} tabindex="0">
+              <table>
+                <caption id={`${id}-dates`}>Key dates for {typeLabel(group)}</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">What</th>
+                    {terms.map((term) => <th scope="col">Starting {term}</th>)}
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((row) => (
+                    <tr>
+                      <th scope="row">{row.title}</th>
+                      {row.dates.map((d) => <td>{d || "—"}</td>)}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p class="hint">Application deadlines depend on your program; each program page lists them.</p>
+          </section>
+        );
+      })
+    }
+
+    <section class="offices" aria-labelledby="offices-title">
+      <h2 id="offices-title">Offices that can help</h2>
+      <ul>
+        {
+          offices.map((o) => {
+            const service = serviceNamed(o.service);
+            return (
+              <li>
+                <a href={pagePath("services", service.id)}>{service.name}</a>
+                <p>{o.reason}</p>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .audience { max-width: 52rem; }
+  .group { margin-top: 2.5rem; }
+  .group h2, .offices h2 { font-size: var(--step-2); }
+  .steps { padding-left: 1.4rem; margin: 0 0 1.5rem; }
+  .steps li { max-width: none; padding: 0.6rem 0 0.8rem 0.25rem; border-bottom: 1px solid var(--line); }
+  .steps p { margin: 0.15rem 0 0; }
+  .step-title { font-weight: 600; }
+  .steps .facts span { display: block; }
+  .steps .facts span + span::before { content: none; }
+  .table-scroll { border: 1px solid var(--line); border-radius: var(--radius-s); background: var(--paper); }
+  .table-scroll:focus-visible { outline-offset: 2px; }
+  table { min-width: 28rem; }
+  caption { text-align: left; padding: 0.75rem 1rem; font-weight: 600; }
+  th, td { padding-inline: 1rem; }
+  tbody th { font-weight: 400; }
+  .hint { font-size: var(--step--1); color: var(--muted); margin-top: 0.5rem; }
+  .offices { margin-top: 2.5rem; }
+  .offices ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+  .offices li { border-top: 3px solid var(--fir); padding-top: 0.6rem; }
+  .offices a { font-weight: 600; }
+  .offices p { margin: 0.25rem 0 0; color: var(--muted); font-size: var(--step--1); }
+</style>

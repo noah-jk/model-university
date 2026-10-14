@@ -488,6 +488,8 @@ addEvent({
   registration_required: true,
   description: "Learn how your community college credits transfer, which programs accept transfer credit, and how to plan a smooth move to Cascadia State.",
   related: { services: ["transfer-center", "admissions"] },
+  levels: ["Undergraduate"],
+  student_types: ["Transfer", "Returning adult"],
 });
 addEvent({
   title: "Personal Statement Workshop",
@@ -520,6 +522,8 @@ for (const [college, fields] of Object.entries(colleges)) {
       registration_required: true,
       description: `Faculty and graduate advisors from the ${college} introduce master's, doctoral, and certificate options, then answer questions about admission, funding, and part-time study.`,
       related: { departments: fields.map(([f]) => slug(f)), services: ["graduate-school-office"] },
+      levels: ["Graduate"],
+      student_types: ["New graduate student", "International"],
     });
   }
 }
@@ -738,6 +742,19 @@ addEvent({
   description: "Cascadia State celebrates the class of 2027. Graduates receive guest tickets through the Registrar; the ceremony is also streamed online.",
   related: { services: ["registrar"] },
 });
+
+// Admissions events for particular students (Your Path suggests them by
+// student type and level). Fixed dates, no random draws, so adding them
+// doesn't change any other event.
+const targeted = [
+  { title: "International Student Admissions Webinar", dates: ["2026-11-18", "2027-02-10"], start: "08:00", end: "09:00", category: "Admissions", audience: ["Prospective students"], location: "Online", campus: "Online", registration_required: true, levels: ["Undergraduate", "Graduate"], student_types: ["International"], description: "Admissions and International Student Services walk through applying from outside the U.S., English proficiency scores, financial documents, and getting your I-20. Scheduled early in the day for students in Asia.", related: { services: ["international-student-services", "admissions"] } },
+  { title: "Transfer Credit Drop-in", dates: ["2027-01-27", "2027-04-21"], start: "15:00", end: "17:00", category: "Admissions", audience: ["Prospective students", "Current students"], location: "Transfer Center, Rainier Student Center", campus: "Tacoma Bay campus", levels: ["Undergraduate"], student_types: ["Transfer", "Returning adult"], description: "Bring your transcripts and see how your credits apply to the program you want. No appointment needed.", related: { services: ["transfer-center"] } },
+  { title: "Returning to College: Information Session for Adult Learners", dates: ["2026-12-02", "2027-03-10"], start: "18:00", end: "19:00", category: "Admissions", audience: ["Prospective students"], location: "Online", campus: "Online", registration_required: true, levels: ["Undergraduate"], student_types: ["Returning adult"], description: "Finishing a degree around work and family: evening and online classes, credit for prior learning, aid for part-time students, and veterans' benefits.", related: { services: ["academic-advising", "financial-aid-and-scholarships", "veterans-services"] } },
+  { title: "First-Year Admissions Q&A", dates: ["2026-11-04", "2027-01-13"], start: "18:00", end: "19:00", category: "Admissions", audience: ["Prospective students", "Families"], location: "Online", campus: "Online", registration_required: true, levels: ["Undergraduate"], student_types: ["First-year"], description: "Admissions counselors answer questions from high school students and their families about applying, deadlines, and what happens after you're admitted.", related: { services: ["admissions"] } },
+  { title: "Graduate Funding and Assistantships Webinar", dates: ["2027-01-20"], start: "12:00", end: "13:00", category: "Money", audience: ["Prospective students"], location: "Online", campus: "Online", registration_required: true, levels: ["Graduate"], student_types: ["New graduate student", "International"], description: "How teaching and research assistantships, fellowships, and graduate loans work, and how to ask your program about openings.", related: { services: ["graduate-school-office", "financial-aid-and-scholarships"] } },
+  { title: "Registration Help Drop-in", dates: ["2026-11-10", "2027-02-17", "2027-05-18"], start: "11:00", end: "13:00", category: "Academics", audience: ["Current students"], location: "Registrar, Rainier Student Center", campus: "Tacoma Bay campus", levels: ["Undergraduate", "Graduate"], student_types: ["Current student"], description: "Registrar and advising staff help with holds, waitlists, and building next term's schedule, the week registration opens.", related: { services: ["registrar", "academic-advising"] } },
+];
+for (const { dates, ...event } of targeted) for (const date of dates) addEvent({ ...event, date });
 
 events.sort((a, b) => a.start.localeCompare(b.start) || a.title.localeCompare(b.title));
 

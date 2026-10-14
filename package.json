@@ -11,7 +11,7 @@
     "check": "astro check",
     "generate": "node scripts/generate-data.mjs",
     "check:content": "node scripts/check-content.ts",
-    "test": "node scripts/test-mcp.ts && node scripts/test-search.ts && node scripts/test-workbench.ts && npm run check:content",
+    "test": "node scripts/test-mcp.ts && node scripts/test-search.ts && node scripts/test-workbench.ts && node scripts/test-enrollment.ts && npm run check:content",
     "index:news": "node scripts/index-news.ts"
   },
   "engines": {

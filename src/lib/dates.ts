@@ -32,3 +32,8 @@ export function eventBadge(event: Event) {
 // which JavaScript reads as midnight UTC, so format them in UTC.
 export const storyDate = (date: Date) => date.toLocaleDateString("en-US", { timeZone: "UTC", month: "long", day: "numeric", year: "numeric" });
 
+
+// "2027-01-04" → "Monday, January 4, 2027". Calendar days have no time, so
+// they're read as noon UTC to stay on the same day everywhere.
+export const longDay = (day: string) =>
+  new Date(`${day}T12:00:00Z`).toLocaleDateString("en-US", { timeZone: "UTC", weekday: "long", month: "long", day: "numeric", year: "numeric" });
