@@ -1,0 +1,19 @@
+---
+// The header's Workbench link with its item count ("Workbench, 3 items" to
+// screen readers). Hidden without JavaScript, since the workbench needs it.
+// The count is filled in before the page is drawn (see BaseLayout) and kept
+// up to date by src/scripts/workbench/save.ts.
+import { WORKBENCH_LABEL } from "../../lib/workbench/types.ts";
+
+interface Props {
+  current?: boolean;
+}
+const { current } = Astro.props;
+---
+
+<a class="workbench-link needs-js" href="/workbench/" data-workbench-link aria-current={current ? "page" : undefined}>
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"></path></svg>
+  <span>{WORKBENCH_LABEL}</span>
+  <span class="workbench-count" aria-hidden="true" data-workbench-count hidden></span>
+  <span class="visually-hidden" data-workbench-count-text>, no items</span>
+</a>

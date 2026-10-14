@@ -2,6 +2,7 @@
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import SaveButton from "../../../../components/workbench/SaveButton.astro";
 import { pageMeta } from "../../../../lib/personalization.ts";
 import AtAGlance from "../../../../components/AtAGlance.astro";
 import Breadcrumb from "../../../../components/Breadcrumb.astro";
@@ -28,6 +29,7 @@ const where = e.campus === "Online" ? "Online" : `${e.location}, ${e.campus}`;
   <div class="detail">
     <article>
       <h1>{e.title}</h1>
+      <SaveButton kind="event" id={e.id} />
       <p class="lede"><time datetime={e.start}>{when}</time> (Pacific time)</p>
       <p class="past-notice" data-past-notice data-ends={e.end} hidden>This event has already taken place.</p>
 

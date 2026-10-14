@@ -8,6 +8,8 @@ import TabBar from "../components/TabBar.astro";
 import UnderTheHood from "../components/UnderTheHood.astro";
 import { PANEL_KEY, type PageMeta } from "../lib/personalization-settings.ts";
 import { pageDataAttributes } from "../lib/personalization.ts";
+import { SAVE_LABELS } from "../lib/workbench/toggle.ts";
+import { STORAGE_KEY as WORKBENCH_KEY } from "../lib/workbench/types.ts";
 
 interface Props {
   title: string;
@@ -18,6 +20,7 @@ interface Props {
 
 const { title, description, page } = Astro.props;
 const personalization = siteConfig.features.personalization;
+const workbench = siteConfig.features.workbench;
 const isHome = Astro.url.pathname === "/";
 const pageTitle = isHome ? siteConfig.name : `${title} | ${siteConfig.name}`;
 ---
@@ -65,9 +68,38 @@ const pageTitle = isHome ? siteConfig.name : `${title} | ${siteConfig.name}`;
     <TabBar />
     {personalization && <UnderTheHood />}
     <div id="announcer" class="visually-hidden" aria-live="polite"></div>
+    {
+      workbench && (
+        <script is:inline define:vars={{ key: WORKBENCH_KEY, labels: SAVE_LABELS }}>
+          // Workbench: show saved toggles and the header count before the page is
+          // drawn, so labels don't change after it appears. src/scripts/workbench/save.ts takes over from here.
+          try {
+            const items = JSON.parse(localStorage.getItem(key) ?? "null")?.items ?? [];
+            const saved = new Set(items.map((i) => `${i.kind}:${i.ref}`));
+            document.querySelectorAll("button[data-save-ref]").forEach((b) => {
+              if (!saved.has(`${b.dataset.saveKind}:${b.dataset.saveRef}`)) return;
+              b.setAttribute("aria-pressed", "true");
+              b.querySelector(".save-label").textContent = ("saveCompact" in b.dataset ? labels.compact : labels.full).on;
+            });
+            document.querySelectorAll("[data-workbench-count]").forEach((el) => {
+              el.textContent = items.length;
+              el.hidden = !items.length;
+            });
+            document.querySelectorAll("[data-workbench-count-text]").forEach((el) => (el.textContent = `, ${items.length || "no"} ${items.length === 1 ? "item" : "items"}`));
+          } catch {}
+        </script>
+      )
+    }
     <script>
       import "../scripts/enhance.ts";
     </script>
+    {
+      workbench && (
+        <script>
+          import "../scripts/workbench/save.ts";
+        </script>
+      )
+    }
   </body>
 </html>
 

@@ -11,6 +11,7 @@ import { campusTime, formatTime, isOpen } from "../hours.ts";
 import { absoluteUrl, pagePath, type PageType } from "../urls.ts";
 import { DAYS, DAY_NAMES } from "../vocab.ts";
 import type { Service } from "../schemas.ts";
+import { saveData } from "../workbench/save-data.ts";
 import type { Kind, SearchResult } from "./types.ts";
 
 const byId = <T extends { id: string }>(rows: T[]) => new Map(rows.map((r) => [r.id, r]));
@@ -37,6 +38,12 @@ function openStatus(service: Service, now: Date) {
 }
 
 export function resultFor(kind: Kind, ref: string, base: string, now = new Date()): SearchResult | undefined {
+  const result = describe(kind, ref, base, now);
+  const save = result && siteConfig.features.workbench ? saveData(kind, ref) : undefined;
+  return result && (save ? { ...result, save } : result);
+}
+
+function describe(kind: Kind, ref: string, base: string, now: Date): SearchResult | undefined {
   const url = absoluteUrl(pagePath(PAGE_TYPE[kind], ref), base);
   switch (kind) {
     case "program": {

@@ -7,7 +7,17 @@
 // profile. It also marks the "apply" step when any [data-journey-apply]
 // button or link is clicked.
 
+import siteConfig from "../../site.config.ts";
 import { JOURNEY, MAX_VIEWS, PROFILE_KEY, type JourneyStep, type PageMeta } from "../lib/personalization-settings.ts";
+import { workbench } from "../lib/workbench/store.ts";
+import type { Interest } from "../lib/workbench/types.ts";
+
+// Saving something to the workbench says more than viewing it: each saved
+// item counts as this many page views in the interest profile.
+export const SAVED_WEIGHT = 3;
+// The interest signals of what's saved to the workbench, if it's switched on
+const savedInterests = (): Interest[] =>
+  siteConfig.features.workbench ? workbench.get().items.flatMap((i) => (i.interest ? [i.interest] : [])) : [];
 
 export type PageView = PageMeta & { url: string; at: string };
 
@@ -36,6 +46,8 @@ export type Forms = { requestInfo?: RequestInfoAnswers; visit?: VisitAnswers };
 type Counts = Record<string, number>;
 export type Profile = {
   views: number;
+  // Workbench items that count toward the profile (each counts SAVED_WEIGHT times)
+  saved: number;
   department: Counts;
   college: Counts;
   level: Counts;
@@ -60,7 +72,7 @@ export type Profile = {
 };
 export type Session = { views: PageView[]; forms: Forms; applied?: string; profile: Profile };
 
-const emptySession = (): Session => ({ views: [], forms: {}, profile: deriveProfile([], {}) });
+const emptySession = (): Session => ({ views: [], forms: {}, profile: deriveProfile([], {}, undefined, savedInterests()) });
 
 // sessionStorage can be missing or blocked (some private modes), so every
 // access is guarded. Without it the experiment simply does nothing.
@@ -71,7 +83,7 @@ export function loadSession(): Session {
     const forms: Forms = saved.forms ?? {};
     // The visit form used to ask for a date of birth; drop any saved before it was removed
     if (forms.visit) delete (forms.visit as Record<string, unknown>).dob;
-    return { views: saved.views, forms, applied: saved.applied, profile: deriveProfile(saved.views, forms, saved.applied) };
+    return { views: saved.views, forms, applied: saved.applied, profile: deriveProfile(saved.views, forms, saved.applied, savedInterests()) };
   } catch {
     return emptySession();
   }
@@ -88,7 +100,7 @@ export const storageAvailable = (() => {
 })();
 
 function save(views: PageView[], forms: Forms, applied?: string) {
-  const session: Session = { views, forms, applied, profile: deriveProfile(views, forms, applied) };
+  const session: Session = { views, forms, applied, profile: deriveProfile(views, forms, applied, savedInterests()) };
   try {
     sessionStorage.setItem(PROFILE_KEY, JSON.stringify(session));
   } catch {
@@ -98,12 +110,14 @@ function save(views: PageView[], forms: Forms, applied?: string) {
   return session;
 }
 
-// Counts by department, college, level, and format across page views, plus
-// the program named in the request-info form; the journey; and form answers.
-export function deriveProfile(views: PageView[], forms: Forms, applied?: string): Profile {
-  const profile: Profile = { views: views.length, department: {}, college: {}, level: {}, modality: {}, journey: {}, stated: {}, contact: {} };
+// Counts by department, college, level, and format across page views, the
+// program named in the request-info form, and saved workbench items (which
+// count SAVED_WEIGHT times); the journey; and form answers.
+export function deriveProfile(views: PageView[], forms: Forms, applied?: string, saved: Interest[] = []): Profile {
+  const profile: Profile = { views: views.length, saved: saved.length, department: {}, college: {}, level: {}, modality: {}, journey: {}, stated: {}, contact: {} };
   const signals: Partial<Record<"department" | "college" | "level" | "modality", string>>[] = [...views];
   if (forms.requestInfo?.program) signals.push(forms.requestInfo.program);
+  for (const interest of saved) for (let i = 0; i < SAVED_WEIGHT; i++) signals.push(interest);
   for (const signal of signals) {
     for (const key of ["department", "college", "level", "modality"] as const) {
       const value = signal[key];
@@ -171,6 +185,7 @@ export function interestReason(session: Session, signal: "department" | "college
   if (!value) return undefined;
   if (profile.stated[signal]) return `because you asked about ${profile.stated.program} in the request-info form`;
   const count = profile[signal][value] ?? 0;
+  if (profile.saved) return `because ${value} comes up most in the pages you've viewed and the items you've saved (saved items count ${SAVED_WEIGHT} times)`;
   return `because ${value} is the ${signal} you've looked at most (${count} of ${profile.views} page views)`;
 }
 
@@ -196,6 +211,18 @@ export function recentPages(session: Session, count: number) {
     if (recent.length === count) break;
   }
   return recent;
+}
+
+// The pages opened most often, most first. Pages with the same count go in
+// order of when they were last opened. Each comes with its view count.
+export function mostViewedPages(session: Session, count: number) {
+  const pages = new Map<string, { view: PageView; views: number }>();
+  for (const view of session.views) {
+    const key = `${view.type}:${view.id}`;
+    const entry = pages.get(key);
+    pages.set(key, { view, views: (entry?.views ?? 0) + 1 }); // views are in time order, so the last one wins
+  }
+  return [...pages.values()].sort((a, b) => b.views - a.views || b.view.at.localeCompare(a.view.at)).slice(0, count);
 }
 
 export function recordForm<K extends keyof Forms>(kind: K, answers: Forms[K]) {
@@ -241,6 +268,14 @@ function recordPageView() {
 }
 
 recordPageView();
+
+// Saving or removing workbench items changes the profile too
+if (siteConfig.features.workbench) {
+  window.addEventListener("workbench:change", () => {
+    const session = loadSession();
+    window.dispatchEvent(new CustomEvent("personalization:change", { detail: session }));
+  });
+}
 
 // Any apply button or link, anywhere on the site, completes the "apply" step
 document.addEventListener("click", (e) => {

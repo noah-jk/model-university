@@ -4,6 +4,7 @@
 import { getCollection } from "astro:content";
 import siteConfig from "../../../../site.config.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import SaveButton from "../../../components/workbench/SaveButton.astro";
 import AskAiMenu from "../../../components/AskAiMenu.astro";
 import { colleges, collegeOf, departmentOf } from "../../../lib/catalog.ts";
 import { usd } from "../../../lib/format.ts";
@@ -67,6 +68,7 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
             <div>
               <h2><a href={pagePath("programs", p.id)}>{p.name}</a></h2>
               <p>{college.name}</p>
+              <SaveButton kind="program" id={p.id} compact />
             </div>
             <p class="facts">
               <span>{p.modality}</span>
@@ -98,16 +100,21 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
             const n = matches.length;
             const because = stated
               ? `because you asked about ${profile.stated.program} in the request-info form`
-              : `because ${department} is the department you've looked at most (${count} of ${profile.views} page views)`;
+              : profile.saved
+                ? `because ${department} comes up most in the pages you've viewed and the items you've saved`
+                : `because ${department} is the department you've looked at most (${count} of ${profile.views} page views)`;
             list.dataset.personalized = `Program list: ${n} ${department} ${n === 1 ? "program" : "programs"} moved to the top, ${because}.`;
             const note = document.getElementById("program-order-note");
             const text = document.createElement("p");
-            text.textContent = stated ? `Showing ${department} programs first, based on your request-info form.` : `Showing ${department} programs first, based on the pages you've viewed.`;
+            text.textContent = stated ? `Showing ${department} programs first, based on your request-info form.` : `Showing ${department} programs first, based on the pages you've viewed${profile.saved ? " and saved" : ""}.`;
             const details = document.createElement("details");
             const summary = document.createElement("summary");
             summary.textContent = "Why am I seeing this?";
             const why = document.createElement("p");
-            why.textContent = (stated ? `You chose ${profile.stated.program} in the request-info form, and what you tell us in a form comes before what you view. ` : `${count} of your ${profile.views} views were ${department} pages. `) + "The rest of the list stays in A to Z order.";
+            const basis = profile.saved
+              ? `${department} comes up most in what you've viewed and saved. Each saved item counts as much as three views. `
+              : `${count} of your ${profile.views} views were ${department} pages. `;
+            why.textContent = (stated ? `You chose ${profile.stated.program} in the request-info form, and what you tell us in a form comes before what you view. ` : basis) + "The rest of the list stays in A to Z order.";
             details.append(summary, why);
             note.append(text, details);
             note.hidden = false;

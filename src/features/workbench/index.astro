@@ -1,0 +1,164 @@
+---
+// /workbench/: what the visitor has saved, with notes, a program comparison,
+// and a deadline timeline. Built only when the workbench is switched on. The
+// page is a shell: src/scripts/workbench/page.ts fills it from localStorage
+// and /data/workbench-index.json, so it always shows live catalog data.
+import siteConfig from "../../../site.config.ts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import NextStep from "../../components/NextStep.astro";
+import { WORKBENCH_LABEL } from "../../lib/workbench/types.ts";
+
+const personalization = siteConfig.features.personalization;
+const tabs = [
+  { id: "items", label: "Items" },
+  { id: "compare", label: "Compare" },
+  { id: "timeline", label: "Timeline" },
+];
+---
+
+<BaseLayout title={WORKBENCH_LABEL} description={`Save programs, courses, faculty, events, and services from ${siteConfig.name}, add notes, compare programs, and see your deadlines.`}>
+  <div class="page-intro">
+    <h1>{WORKBENCH_LABEL}</h1>
+    <p class="lede">
+      Keep the programs, courses, people, events, and services you want to come back to, add your own notes, compare programs side by side, and see your
+      deadlines in one place.
+    </p>
+    <p class="where">
+      It's saved in this browser only, not sent anywhere, and it stays until you remove it. <a href="/lab/workbench/">How it works</a>
+    </p>
+  </div>
+
+  <noscript><p class="panel">The {WORKBENCH_LABEL.toLowerCase()} needs JavaScript, because it's kept in your browser.</p></noscript>
+
+  <div class="workbench needs-js" data-workbench>
+    <div class="term-row">
+      <label for="wb-term">Start term</label>
+      <select id="wb-term" aria-describedby="wb-term-hint"></select>
+      <p id="wb-term-hint" class="hint">Used for application deadlines in Compare and Timeline.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label={`${WORKBENCH_LABEL} views`}>
+      {
+        tabs.map((tab, i) => (
+          <button type="button" role="tab" id={`tab-${tab.id}`} aria-controls={`panel-${tab.id}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>
+            {tab.label}
+            <span class="tab-count" data-tab-count={tab.id} />
+          </button>
+        ))
+      }
+    </div>
+
+    {
+      tabs.map((tab, i) => (
+        <section role="tabpanel" id={`panel-${tab.id}`} aria-labelledby={`tab-${tab.id}`} tabindex="0" hidden={i !== 0} data-panel={tab.id}>
+          <p class="loading">Loading…</p>
+        </section>
+      ))
+    }
+
+    {
+      personalization && (
+        <section class="wb-next" aria-label="Your next step" data-wb-next hidden>
+          <NextStep headingLevel="h2" wide />
+        </section>
+      )
+    }
+  </div>
+
+  <div class="undo-bar" data-undo hidden>
+    <p data-undo-text></p>
+    <button type="button" class="button" data-undo-button>Undo</button>
+  </div>
+</BaseLayout>
+
+<script>
+  import "../../scripts/workbench/page.ts";
+</script>
+
+<style>
+  .page-intro { max-width: var(--measure); }
+  .where { color: var(--muted); }
+  .term-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.75rem; margin: 1.5rem 0; }
+  .term-row label { font-weight: 600; }
+  .term-row select { min-height: 44px; padding: 0.35rem 0.6rem; font: inherit; color: var(--basalt); background: var(--paper); border: 1.5px solid var(--muted); border-radius: var(--radius-s); }
+  .hint { margin: 0; flex-basis: 100%; font-size: var(--step--1); color: var(--muted); }
+  .wb-next { margin-top: 3rem; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 0.25rem; border-bottom: 2px solid var(--line); margin-bottom: 1.5rem; overflow-x: auto; }
+  [role="tab"] { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px; padding: 0.5rem 1rem; margin-bottom: -2px; font: 600 var(--step-0) var(--sans); color: var(--muted); background: none; border: 0; border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; }
+  [role="tab"]:hover { color: var(--basalt); }
+  [role="tab"][aria-selected="true"] { color: var(--basalt); border-bottom-color: var(--fir); }
+  [role="tab"]:focus-visible { outline-offset: -3px; }
+  .tab-count:not(:empty) { min-width: 1.4rem; padding: 0.05rem 0.4rem; border-radius: 999px; background: var(--lichen); color: var(--basalt); font-size: var(--step--1); text-align: center; }
+  [role="tabpanel"]:focus-visible { outline-offset: 6px; }
+  .loading { color: var(--muted); }
+
+  /* Items (rendered by page.ts) */
+  .workbench :global(.wb-group) { margin-bottom: 2rem; }
+  .workbench :global(.wb-group > h2) { font-size: var(--step-2); margin-bottom: 0.5rem; }
+  .workbench :global(h2:focus), .workbench :global(h3:focus) { outline: none; }
+  .workbench :global(h2:focus-visible) { outline: 3px solid var(--focus); }
+  .workbench :global(.wb-items) { list-style: none; margin: 0; padding: 0; }
+  .workbench :global(.wb-item) { max-width: none; display: grid; gap: 0.5rem; padding-block: 1rem; border-bottom: 1px solid var(--line); }
+  .workbench :global(.wb-item h3) { font: 600 var(--step-0) / 1.35 var(--sans); margin: 0; }
+  .workbench :global(.wb-item .facts) { margin: 0; }
+  .workbench :global(.wb-item .facts span) { display: block; }
+  .workbench :global(.wb-item .facts span + span::before) { content: none; }
+  .workbench :global(.wb-flag) { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; margin: 0; padding: 0.5rem 0.75rem; background: var(--lichen); border-radius: var(--radius-s); font-size: var(--step--1); }
+  .workbench :global(.wb-note) { display: grid; gap: 0.3rem; max-width: 40rem; }
+  .workbench :global(.wb-note label) { font-size: var(--step--1); font-weight: 600; }
+  .workbench :global(textarea) { width: 100%; min-height: 4.5rem; padding: 0.5rem 0.65rem; font: inherit; color: var(--basalt); background: var(--paper); border: 1.5px solid var(--muted); border-radius: var(--radius-s); resize: vertical; }
+  .workbench :global(.wb-actions) { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .workbench :global(.wb-actions button), .workbench :global(.wb-flag button), .workbench :global(.small-button) {
+    min-height: 36px; padding: 0.3rem 0.8rem; font: 600 var(--step--1) / 1 var(--sans); color: var(--fir); background: transparent; border: 1.5px solid var(--line); border-radius: 999px; cursor: pointer;
+  }
+  .workbench :global(.wb-actions button:hover), .workbench :global(.small-button:hover) { border-color: var(--fir); }
+  .workbench :global(button[aria-disabled="true"]) { color: var(--muted); border-style: dashed; cursor: not-allowed; }
+  .workbench :global(.wb-missing) { color: var(--muted); }
+  .workbench :global(.add-note) { display: grid; gap: 0.4rem; max-width: 40rem; margin-top: 1rem; }
+  .workbench :global(.add-note label) { font-weight: 600; }
+  .workbench :global(.add-note .row) { display: flex; gap: 0.5rem; }
+  .workbench :global(.empty) { max-width: var(--measure); }
+  .workbench :global(.pickup) { list-style: none; padding: 0; margin: 0.5rem 0 0; }
+  .workbench :global(.pickup li) { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1rem; padding-block: 0.6rem; border-bottom: 1px solid var(--line); max-width: 40rem; }
+
+  /* Compare */
+  .workbench :global(.compare-pick) { border: 1px solid var(--line); border-radius: var(--radius-s); padding: 0.75rem 1rem 1rem; margin: 0 0 1.5rem; }
+  .workbench :global(.compare-pick legend) { font-weight: 600; padding-inline: 0.25rem; }
+  .workbench :global(.compare-pick label) { display: flex; align-items: center; gap: 0.5rem; min-height: 36px; }
+  .workbench :global(.compare-pick input) { width: 1.1rem; height: 1.1rem; accent-color: var(--fir); }
+  .workbench :global(.compare-wrap) { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-s); background: var(--paper); }
+  .workbench :global(.compare-wrap:focus-visible) { outline-offset: 2px; }
+  .workbench :global(.compare) { min-width: 30rem; }
+  .workbench :global(.compare caption) { text-align: left; padding: 0.75rem 1rem; font-weight: 600; }
+  .workbench :global(.compare th), .workbench :global(.compare td) { padding: 0.6rem 1rem; }
+  .workbench :global(.compare thead th) { vertical-align: bottom; }
+  /* Row labels stay in view while the programs scroll sideways */
+  .workbench :global(.compare tbody th), .workbench :global(.compare thead td) { position: sticky; left: 0; z-index: 1; background: var(--paper); min-width: 8.5rem; max-width: 12rem; }
+  .workbench :global(.compare tbody th) { color: var(--muted); font-weight: 600; }
+  .workbench :global(.compare th[scope="col"]) { min-width: 9.5rem; }
+  .workbench :global(.not-offered) { color: var(--salmonberry); font-weight: 600; }
+  .workbench :global(.scroll-hint) { font-size: var(--step--1); color: var(--muted); }
+  @media (min-width: 60rem) { .workbench :global(.scroll-hint) { display: none; } }
+
+  /* Timeline */
+  .workbench :global(.timeline) { list-style: none; margin: 0; padding: 0; }
+  .workbench :global(.timeline li) { max-width: none; display: grid; grid-template-columns: 9.5rem 1fr; gap: 0.25rem 1.25rem; padding-block: 0.9rem; border-bottom: 1px solid var(--line); }
+  @media (max-width: 40rem) { .workbench :global(.timeline li) { grid-template-columns: 1fr; } }
+  .workbench :global(.timeline time) { font-weight: 600; }
+  .workbench :global(.timeline .what) { display: grid; gap: 0.3rem; justify-items: start; }
+  .workbench :global(.timeline p) { margin: 0; }
+  .workbench :global(.timeline .past) { color: var(--muted); }
+  .workbench :global(.timeline .past a) { color: inherit; }
+  .workbench :global(.badge) { display: inline-block; margin-left: 0.5rem; padding: 0.05rem 0.5rem; border-radius: 999px; font: 700 0.75rem / 1.4 var(--sans); vertical-align: 0.1em; }
+  .workbench :global(.badge.next) { background: var(--fir); color: var(--fog); }
+  .workbench :global(.badge.passed) { background: var(--lichen); color: var(--basalt); }
+
+  /* Undo, after removing an item */
+  .undo-bar { position: fixed; z-index: 40; left: 50%; bottom: 1.25rem; transform: translateX(-50%); display: flex; align-items: center; gap: 1rem; max-width: calc(100% - 2rem); padding: 0.6rem 0.75rem 0.6rem 1.1rem; background: var(--fir-deep); color: var(--on-dark); border-radius: 999px; box-shadow: 0 6px 24px rgb(0 0 0 / 0.25); }
+  .undo-bar p { margin: 0; }
+  .undo-bar .button { background: #dce5c3; border-color: #dce5c3; color: #142b26; }
+  .undo-bar .button:focus-visible { outline-color: #fff; }
+  @media (max-width: 47.99rem) { .undo-bar { bottom: calc(6rem + env(safe-area-inset-bottom)); border-radius: var(--radius-l); } }
+</style>

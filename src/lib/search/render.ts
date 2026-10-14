@@ -4,6 +4,7 @@
 // again in the browser after each search, so results look and behave the same
 // either way. Everything shown is escaped.
 
+import { saveToggle } from "../workbench/toggle.ts";
 import type { Kind, SearchResponse, SearchResult } from "./types.ts";
 
 export const GROUPS: { kind: Kind; title: string }[] = [
@@ -32,12 +33,14 @@ export const searchHref = (query: string) => `/search/?q=${encodeURIComponent(qu
 const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
 export const statusText = (r: SearchResponse) => `${plural(r.results.length, "result")} for “${r.query}”${r.answer ? ", with a quick answer" : ""}.`;
 
-// One result. Results carry `kind` and `ref`, which is all the Workbench will
-// need: its Save button goes in this <li>.
+// One result, with its Save to Workbench toggle when the workbench is on
 function renderResult(r: SearchResult) {
   return `<li class="result" data-kind="${esc(r.kind)}" data-ref="${esc(r.ref)}">
-  <a href="${esc(r.url)}">${esc(r.title)}</a>
-  <p>${esc(r.detail)}</p>
+  <div>
+    <a href="${esc(r.url)}">${esc(r.title)}</a>
+    <p>${esc(r.detail)}</p>
+  </div>
+  ${r.save ? saveToggle(r.save, { compact: true }) : ""}
 </li>`;
 }
 

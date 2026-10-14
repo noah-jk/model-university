@@ -7,6 +7,8 @@
 // Open state lives on <html data-under-the-hood="open">, set by an inline
 // script in BaseLayout's <head> before the page is drawn, so a panel that was
 // open on the last page doesn't push content around on this one.
+import siteConfig from "../../site.config.ts";
+import { WORKBENCH_LABEL } from "../lib/workbench/types.ts";
 ---
 
 <section id="under-the-hood" class="uth" aria-labelledby="uth-title">
@@ -40,6 +42,15 @@
     <h3 id="uth-forms">From your forms</h3>
     <div class="uth-answers"></div>
   </section>
+
+  {
+    siteConfig.features.workbench && (
+      <section aria-labelledby="uth-workbench">
+        <h3 id="uth-workbench">{WORKBENCH_LABEL}</h3>
+        <p class="uth-workbench" />
+      </section>
+    )
+  }
 
   <section aria-labelledby="uth-log">
     <h3 id="uth-log">Visit log, newest first</h3>

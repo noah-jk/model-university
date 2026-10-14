@@ -1,0 +1,18 @@
+---
+// "Save to Workbench" near a detail page's title. Renders nothing when the
+// workbench is switched off. See src/lib/workbench/toggle.ts.
+import siteConfig from "../../../site.config.ts";
+import { saveData } from "../../lib/workbench/save-data.ts";
+import { saveToggle } from "../../lib/workbench/toggle.ts";
+import type { ContentKind } from "../../lib/workbench/types.ts";
+
+interface Props {
+  kind: ContentKind;
+  id: string;
+  compact?: boolean;
+}
+const { kind, id, compact } = Astro.props;
+const data = siteConfig.features.workbench ? saveData(kind, id) : undefined;
+---
+
+{data && <Fragment set:html={saveToggle(data, { compact })} />}

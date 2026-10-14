@@ -46,6 +46,8 @@ function describeInterests() {
 function show(response: SearchResponse) {
   current = response;
   output.innerHTML = renderResults(response);
+  // Save to Workbench toggles in the results catch up (src/scripts/workbench/save.ts)
+  window.dispatchEvent(new Event("content:rendered"));
   delete area.dataset.pending;
   area.removeAttribute("aria-busy");
   status.textContent = statusText(response);
