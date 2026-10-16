@@ -71,21 +71,25 @@ const pageTitle = isHome ? siteConfig.name : `${title} | ${siteConfig.name}`;
     {
       workbench && (
         <script is:inline define:vars={{ key: WORKBENCH_KEY, labels: SAVE_LABELS }}>
-          // Workbench: show saved toggles and the header count before the page is
-          // drawn, so labels don't change after it appears. src/scripts/workbench/save.ts takes over from here.
+          // Your Path: show saved toggles and the header count before the page is
+          // drawn, so nothing changes after it appears. The count is the one the last
+          // page worked out (steps to do, or saved items); src/scripts/workbench/save.ts takes over from here.
           try {
-            const items = JSON.parse(localStorage.getItem(key) ?? "null")?.items ?? [];
+            const stored = JSON.parse(localStorage.getItem(key) ?? "null");
+            const items = stored?.items ?? [];
             const saved = new Set(items.map((i) => `${i.kind}:${i.ref}`));
             document.querySelectorAll("button[data-save-ref]").forEach((b) => {
               if (!saved.has(`${b.dataset.saveKind}:${b.dataset.saveRef}`)) return;
               b.setAttribute("aria-pressed", "true");
               b.querySelector(".save-label").textContent = ("saveCompact" in b.dataset ? labels.compact : labels.full).on;
             });
+            const badge = stored?.badge ?? { count: items.length, counting: "saved" };
+            const text = !badge.count ? "" : badge.counting === "steps" ? `, ${badge.count} ${badge.count === 1 ? "step" : "steps"} to do` : `, ${badge.count} saved`;
             document.querySelectorAll("[data-workbench-count]").forEach((el) => {
-              el.textContent = items.length;
-              el.hidden = !items.length;
+              el.textContent = badge.count;
+              el.hidden = !badge.count;
             });
-            document.querySelectorAll("[data-workbench-count-text]").forEach((el) => (el.textContent = `, ${items.length || "no"} ${items.length === 1 ? "item" : "items"}`));
+            document.querySelectorAll("[data-workbench-count-text]").forEach((el) => (el.textContent = text));
           } catch {}
         </script>
       )

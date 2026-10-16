@@ -3,6 +3,7 @@ import siteConfig from "../../site.config.ts";
 import { JOURNEY } from "../lib/personalization-settings.ts";
 import Recents from "./Recents.astro";
 import WorkbenchLink from "./workbench/HeaderLink.astro";
+import { WORKBENCH_PATH } from "../lib/workbench/types.ts";
 
 // Main sections (some with a submenu), plus a smaller utility row.
 type NavItem = { href: string; label: string; children?: { href: string; label: string }[] };
@@ -64,7 +65,7 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
       <ul>
         {utilityNav.map(({ href, label }) => <li><a href={href} aria-current={ariaCurrent(href)}>{label}</a></li>)}
         {recents && <li><button type="button" class="recents-toggle needs-js" data-recents-toggle aria-expanded="false">For me</button></li>}
-        {workbench && <li><WorkbenchLink current={current.startsWith("/workbench/")} /></li>}
+        {workbench && <li><WorkbenchLink current={current.startsWith(WORKBENCH_PATH)} /></li>}
         {
           search && (
             <li class="header-search">
@@ -133,7 +134,7 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
         )}
         {workbench && (
           <li class="small-screens">
-            <WorkbenchLink current={current.startsWith("/workbench/")} />
+            <WorkbenchLink current={current.startsWith(WORKBENCH_PATH)} />
           </li>
         )}
       </ul>

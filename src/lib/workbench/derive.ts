@@ -1,12 +1,12 @@
 // Views the site works out from a workbench and the catalog index: the
-// program comparison, the deadline timeline, key facts for each item, and
+// program comparison, key facts for each item, and
 // what changed since an item was saved. No DOM code, so phase 2 (AI
 // suggestions) and the MCP server can use these too.
 
 import siteConfig from "../../../site.config.ts";
 import { upcomingTerms } from "../terms.ts";
 import { usd } from "../format.ts";
-import { WATCHED, WATCHED_LABELS, type ContentKind, type IndexProgram, type Workbench, type WorkbenchIndex, type WorkbenchItem } from "./types.ts";
+import { WATCHED, WATCHED_LABELS, type ContentKind, type IndexProgram, type WorkbenchIndex, type WorkbenchItem } from "./types.ts";
 
 type Entry = WorkbenchIndex[ContentKind][string];
 export const lookup = (index: WorkbenchIndex, item: WorkbenchItem): Entry | undefined =>
@@ -68,12 +68,6 @@ export function deadlineDate(deadline: string, startTerm: string) {
   return iso(year);
 }
 
-// The start term to use: the one chosen on the workbench, else the one from
-// the request-info form, else the next term to start
-export function startTermFor(workbench: Workbench, requestInfoTerm?: string, now = new Date()) {
-  return workbench.startTerm ?? (requestInfoTerm && termStart(requestInfoTerm) ? requestInfoTerm : upcomingTerms(1, now)[0]);
-}
-
 // Terms to choose from: the next five, plus the chosen one if it has passed
 export function termOptions(chosen: string | undefined, now = new Date()) {
   const terms = upcomingTerms(5, now);
@@ -127,74 +121,10 @@ export function compareTable(programs: { id: string; program: IndexProgram }[], 
   };
 }
 
-// Timeline --------------------------------------------------------------------
-
-export type TimelineEntry = {
-  date: string; // YYYY-MM-DD (campus time)
-  start?: string; // ISO date and time, for events
-  end?: string;
-  kind: "deadline" | "event";
-  title: string;
-  about: { name: string; url: string };
-  itemId: string;
-  past: boolean;
-  next: boolean;
-};
-
-const campusDay = (iso: string, timeZone: string) => new Date(iso).toLocaleDateString("en-CA", { timeZone });
+// Dates ----------------------------------------------------------------------
 
 export function longDate(day: string) {
   return new Date(`${day}T12:00:00Z`).toLocaleDateString("en-US", { timeZone: "UTC", weekday: "short", month: "long", day: "numeric", year: "numeric" });
-}
-
-// Application deadlines for the start term from saved programs, and saved
-// events, in date order. Past entries are marked, and so is the next one.
-export function timeline(workbench: Workbench, index: WorkbenchIndex, startTerm: string, { now = new Date(), timeZone = siteConfig.timezone } = {}): TimelineEntry[] {
-  const today = campusDay(now.toISOString(), timeZone);
-  const entries: Omit<TimelineEntry, "past" | "next">[] = [];
-  for (const item of workbench.items) {
-    if (item.kind === "program" && item.ref && index.program[item.ref]) {
-      const program = index.program[item.ref];
-      const cell = deadlineFor(program, startTerm);
-      const deadline = program.application_deadlines.find((d) => d.term === termName(startTerm));
-      const date = !cell.notOffered && deadline && deadlineDate(deadline.deadline, startTerm);
-      if (date) entries.push({ date, kind: "deadline", title: `Application deadline for ${startTerm}`, about: { name: program.name, url: program.url }, itemId: item.id });
-    }
-    if (item.kind === "event" && item.ref && index.event[item.ref]) {
-      const event = index.event[item.ref];
-      entries.push({ date: campusDay(event.start, timeZone), start: event.start, end: event.end, kind: "event", title: event.title, about: { name: event.title, url: event.url }, itemId: item.id });
-    }
-  }
-  entries.sort((a, b) => a.date.localeCompare(b.date) || (a.start ?? "").localeCompare(b.start ?? "") || a.title.localeCompare(b.title));
-  const nextAt = entries.findIndex((e) => e.date >= today);
-  return entries.map((e, i) => ({ ...e, past: e.date < today, next: i === nextAt }));
-}
-
-// An .ics file for one timeline entry
-export function icsFor(entry: TimelineEntry, siteName: string, origin: string) {
-  const esc = (s: string) => s.replace(/[\\;,]/g, (c) => `\\${c}`).replace(/\n/g, "\\n");
-  const stamp = (iso: string) => new Date(iso).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
-  const day = (d: string) => d.replace(/-/g, "");
-  const nextDay = (d: string) => new Date(Date.parse(`${d}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 10).replace(/-/g, "");
-  const summary = entry.kind === "deadline" ? `${entry.about.name}: ${entry.title}` : entry.title;
-  const when =
-    entry.kind === "event" && entry.start && entry.end
-      ? [`DTSTART:${stamp(entry.start)}`, `DTEND:${stamp(entry.end)}`]
-      : [`DTSTART;VALUE=DATE:${day(entry.date)}`, `DTEND;VALUE=DATE:${nextDay(entry.date)}`];
-  return [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    `PRODID:-//${esc(siteName)}//Workbench//EN`,
-    "BEGIN:VEVENT",
-    `UID:${entry.itemId}-${entry.kind}-${day(entry.date)}@${new URL(origin).host}`,
-    `DTSTAMP:${stamp(new Date().toISOString())}`,
-    ...when,
-    `SUMMARY:${esc(summary)}`,
-    `URL:${new URL(entry.about.url, origin).toString()}`,
-    "END:VEVENT",
-    "END:VCALENDAR",
-    "",
-  ].join("\r\n");
 }
 
 // Item cards ------------------------------------------------------------------

@@ -2,6 +2,7 @@
 import siteConfig from "../../../site.config.ts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getPage } from "../../lib/pages.ts";
+import { WORKBENCH_LABEL } from "../../lib/workbench/types.ts";
 
 const page = await getPage("lab");
 const { Content } = page;
@@ -15,8 +16,8 @@ const experiments = [
   },
   {
     href: "/lab/workbench/",
-    title: "Workbench",
-    text: "Save programs, courses, people, events, and services, add notes, compare programs, and see your deadlines. Kept in your browser only.",
+    title: WORKBENCH_LABEL,
+    text: "Answer two questions and get your plan: every step, deadline, and office for your start term, next to what you've saved. Kept in your browser only.",
     on: siteConfig.features.workbench,
   },
   {

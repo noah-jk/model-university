@@ -1,14 +1,17 @@
 ---
-// /workbench/: what the visitor has saved, with notes, a program comparison,
-// and a deadline timeline. Built only when the workbench is switched on. The
-// page is a shell: src/scripts/workbench/page.ts fills it from localStorage
-// and /data/workbench-index.json, so it always shows live catalog data.
+// /your-path/: Your Path, the plan the site builds for a student (steps,
+// dates, and offices for their start term) plus everything they've saved,
+// with notes, a program comparison, and a timeline. Built only when the
+// workbench is switched on. The page is a shell: src/scripts/workbench/page.ts
+// fills it from localStorage, /data/enrollment.json, and
+// /data/workbench-index.json, so it always shows live content.
 import siteConfig from "../../../site.config.ts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import NextStep from "../../components/NextStep.astro";
 import { WORKBENCH_LABEL } from "../../lib/workbench/types.ts";
 
 const personalization = siteConfig.features.personalization;
+const title = `Your path to ${siteConfig.shortName}`;
 const tabs = [
   { id: "items", label: "Items" },
   { id: "compare", label: "Compare" },
@@ -16,26 +19,55 @@ const tabs = [
 ];
 ---
 
-<BaseLayout title={WORKBENCH_LABEL} description={`Save programs, courses, faculty, events, and services from ${siteConfig.name}, add notes, compare programs, and see your deadlines.`}>
+<BaseLayout title={title} description={`Your steps, deadlines, and the offices that can help, for your start term at ${siteConfig.name}, plus the programs, courses, and events you save.`}>
   <div class="page-intro">
-    <h1>{WORKBENCH_LABEL}</h1>
+    <h1>{title}</h1>
     <p class="lede">
-      Keep the programs, courses, people, events, and services you want to come back to, add your own notes, compare programs side by side, and see your
-      deadlines in one place.
+      Answer two questions and we'll build your plan: every step, deadline, and office you need, for your start term. Anything you save as you browse
+      shows up here too.
     </p>
-    <p class="where">
-      It's saved in this browser only, not sent anywhere, and it stays until you remove it. <a href="/lab/workbench/">How it works</a>
-    </p>
+    <p class="where">Nothing is sent anywhere; it's saved in this browser. <a href="/lab/workbench/">How it works</a></p>
   </div>
 
-  <noscript><p class="panel">The {WORKBENCH_LABEL.toLowerCase()} needs JavaScript, because it's kept in your browser.</p></noscript>
+  <noscript><p class="panel">{WORKBENCH_LABEL} needs JavaScript, because it's kept in your browser.</p></noscript>
 
   <div class="workbench needs-js" data-workbench>
-    <div class="term-row">
-      <label for="wb-term">Start term</label>
-      <select id="wb-term" aria-describedby="wb-term-hint"></select>
-      <p id="wb-term-hint" class="hint">Used for application deadlines in Compare and Timeline.</p>
-    </div>
+    <form class="profile-bar" data-profile>
+      <fieldset>
+        <legend>Your plan</legend>
+        <p class="sentence">
+          <span class="lead-in">Planning as</span>
+          <span class="pick">
+            <label for="pf-type">Student type</label>
+            <select id="pf-type" data-field="studentType"></select>
+            <span class="tag" data-tag="studentType" hidden>Suggested</span>
+          </span>
+          <span class="pick">
+            <label for="pf-level">Level</label>
+            <select id="pf-level" data-field="level"></select>
+            <span class="tag" data-tag="level" hidden>Suggested</span>
+          </span>
+          <span class="lead-in">starting</span>
+          <span class="pick">
+            <label for="pf-term">Start term</label>
+            <select id="pf-term" data-field="startTerm"></select>
+            <span class="tag" data-tag="startTerm" hidden>Suggested</span>
+          </span>
+        </p>
+        <div class="profile-notes" data-profile-notes></div>
+      </fieldset>
+    </form>
+
+    <section class="path-section" aria-labelledby="steps-title" data-steps hidden>
+      <h2 id="steps-title" tabindex="-1" data-focus-key="steps-heading">Your steps</h2>
+      <p class="progress" data-progress></p>
+      <ol class="path-steps" data-steps-list></ol>
+    </section>
+
+    <section class="path-section" aria-labelledby="offices-title" data-offices hidden>
+      <h2 id="offices-title" tabindex="-1" data-focus-key="offices-heading">Offices for you</h2>
+      <ul class="offices" data-offices-list></ul>
+    </section>
 
     <div class="tabs" role="tablist" aria-label={`${WORKBENCH_LABEL} views`}>
       {
@@ -55,6 +87,8 @@ const tabs = [
         </section>
       ))
     }
+
+    <div class="dismissed" data-dismissed hidden></div>
 
     {
       personalization && (
@@ -78,10 +112,59 @@ const tabs = [
 <style>
   .page-intro { max-width: var(--measure); }
   .where { color: var(--muted); }
-  .term-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.75rem; margin: 1.5rem 0; }
-  .term-row label { font-weight: 600; }
-  .term-row select { min-height: 44px; padding: 0.35rem 0.6rem; font: inherit; color: var(--basalt); background: var(--paper); border: 1.5px solid var(--muted); border-radius: var(--radius-s); }
-  .hint { margin: 0; flex-basis: 100%; font-size: var(--step--1); color: var(--muted); }
+  .hint { margin: 0; font-size: var(--step--1); color: var(--muted); }
+
+  /* Profile bar: a sentence with a select for each value */
+  .profile-bar { margin: 1.5rem 0 2rem; }
+  .profile-bar fieldset { margin: 0; padding: 1rem 1.25rem 1.1rem; border: 1px solid var(--line); border-left: 6px solid var(--fir); border-radius: var(--radius-s); background: var(--paper); }
+  .profile-bar legend { padding: 0 0.35rem; font: 600 var(--step--1) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .sentence { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.5rem 0.75rem; margin: 0; max-width: none; font-size: var(--step-1); }
+  .lead-in { padding-bottom: 0.55rem; }
+  .pick { display: inline-grid; grid-template-columns: auto auto; align-items: center; gap: 0.15rem 0.4rem; }
+  .pick label { grid-column: 1 / -1; font: 600 var(--step--1) / 1.2 var(--sans); color: var(--muted); }
+  .pick select { min-height: 44px; padding: 0.35rem 0.6rem; font: 600 var(--step-0) var(--sans); color: var(--basalt); background: var(--fog); border: 1.5px solid var(--fir); border-radius: var(--radius-s); }
+  .tag { justify-self: start; padding: 0.05rem 0.45rem; border-radius: 999px; background: var(--lichen); color: var(--basalt); font: 700 0.75rem / 1.4 var(--sans); }
+  @media (max-width: 40rem) {
+    .sentence { flex-direction: column; align-items: stretch; }
+    .lead-in { display: none; }
+    .pick select { width: 100%; }
+  }
+  .profile-notes { display: grid; gap: 0.35rem; margin-top: 0.75rem; font-size: var(--step--1); }
+  .profile-notes :global(p) { margin: 0; }
+  .profile-notes :global(.note-row) { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; }
+  .profile-notes :global(summary) { cursor: pointer; color: var(--salmonberry); }
+  .profile-notes :global(.ask) { font-weight: 600; }
+
+  /* Steps and offices */
+  .path-section { margin-bottom: 2.5rem; }
+  .path-section > h2 { font-size: var(--step-2); margin-bottom: 0.25rem; }
+  .progress { margin: 0 0 0.75rem; color: var(--muted); }
+  .path-steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+  .path-steps :global(li) { max-width: none; position: relative; display: grid; gap: 0.3rem; padding: 0.9rem 1rem 1rem 3.25rem; border-bottom: 1px solid var(--line); counter-increment: step; }
+  .path-steps :global(li::before) { content: counter(step); position: absolute; left: 0.75rem; top: 0.95rem; width: 1.75rem; height: 1.75rem; border-radius: 999px; display: grid; place-items: center; font: 700 var(--step--1) / 1 var(--sans); background: var(--lichen); color: var(--basalt); }
+  .path-steps :global(li.is-next) { background: var(--paper); border: 2px solid var(--fir); border-radius: var(--radius-s); margin-block: 0.25rem; }
+  .path-steps :global(li.is-next::before) { background: var(--fir); color: var(--fog); }
+  .path-steps :global(li.is-done::before) { content: "✓" / ""; }
+  .path-steps :global(.check) { display: flex; align-items: flex-start; gap: 0.6rem; }
+  .path-steps :global(.check input) { width: 1.25rem; height: 1.25rem; margin: 0.15rem 0 0; flex: none; accent-color: var(--fir); }
+  .path-steps :global(.check label) { font-weight: 600; }
+  .path-steps :global(li.is-done .check label) { color: var(--muted); }
+  .path-steps :global(p) { margin: 0; }
+  .path-steps :global(.status) { font-size: var(--step--1); font-weight: 600; }
+  .path-steps :global(.status .overdue) { color: var(--salmonberry); }
+  .path-steps :global(.status .next) { display: inline-block; padding: 0 0.45rem; margin-right: 0.35rem; border-radius: 999px; background: var(--fir); color: var(--fog); }
+  .path-steps :global(.links) { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; font-size: var(--step--1); }
+  .path-steps :global(.step-note) { font-size: var(--step--1); color: var(--muted); }
+  .offices { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+  .offices :global(li) { max-width: none; display: grid; gap: 0.35rem; align-content: start; justify-items: start; padding: 0.9rem 1rem; background: var(--paper); border: 1px solid var(--line); border-top: 3px solid var(--fir); border-radius: var(--radius-s); }
+  .offices :global(a) { font-weight: 600; }
+  .offices :global(p) { margin: 0; font-size: var(--step--1); color: var(--muted); }
+  .workbench :global(.for-you) { font: 700 0.75rem / 1.4 var(--sans); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .workbench :global(.for-you summary) { display: inline; cursor: pointer; color: var(--salmonberry); text-transform: none; letter-spacing: 0; font-weight: 600; }
+  .workbench :global(.for-you p) { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--muted); }
+  .dismissed { margin-top: 2rem; font-size: var(--step--1); }
+  .dismissed :global(ul) { list-style: none; padding: 0; margin: 0.5rem 0 0; }
+  .dismissed :global(li) { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; padding-block: 0.4rem; border-bottom: 1px solid var(--line); }
   .wb-next { margin-top: 3rem; }
 
   /* Tabs */
@@ -110,10 +193,10 @@ const tabs = [
   .workbench :global(.wb-note label) { font-size: var(--step--1); font-weight: 600; }
   .workbench :global(textarea) { width: 100%; min-height: 4.5rem; padding: 0.5rem 0.65rem; font: inherit; color: var(--basalt); background: var(--paper); border: 1.5px solid var(--muted); border-radius: var(--radius-s); resize: vertical; }
   .workbench :global(.wb-actions) { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-  .workbench :global(.wb-actions button), .workbench :global(.wb-flag button), .workbench :global(.small-button) {
+  .workbench :global(.wb-actions button), .workbench :global(.wb-flag button), .workbench :global(.small-button), .offices :global(button), .dismissed :global(button) {
     min-height: 36px; padding: 0.3rem 0.8rem; font: 600 var(--step--1) / 1 var(--sans); color: var(--fir); background: transparent; border: 1.5px solid var(--line); border-radius: 999px; cursor: pointer;
   }
-  .workbench :global(.wb-actions button:hover), .workbench :global(.small-button:hover) { border-color: var(--fir); }
+  .workbench :global(.wb-actions button:hover), .workbench :global(.small-button:hover), .offices :global(button:hover), .dismissed :global(button:hover) { border-color: var(--fir); }
   .workbench :global(button[aria-disabled="true"]) { color: var(--muted); border-style: dashed; cursor: not-allowed; }
   .workbench :global(.wb-missing) { color: var(--muted); }
   .workbench :global(.add-note) { display: grid; gap: 0.4rem; max-width: 40rem; margin-top: 1rem; }
@@ -153,7 +236,8 @@ const tabs = [
   .workbench :global(.timeline .past a) { color: inherit; }
   .workbench :global(.badge) { display: inline-block; margin-left: 0.5rem; padding: 0.05rem 0.5rem; border-radius: 999px; font: 700 0.75rem / 1.4 var(--sans); vertical-align: 0.1em; }
   .workbench :global(.badge.next) { background: var(--fir); color: var(--fog); }
-  .workbench :global(.badge.passed) { background: var(--lichen); color: var(--basalt); }
+  .workbench :global(.badge.passed), .workbench :global(.badge.done) { background: var(--lichen); color: var(--basalt); }
+  .workbench :global(.timeline .kind) { font-size: var(--step--1); color: var(--muted); }
 
   /* Undo, after removing an item */
   .undo-bar { position: fixed; z-index: 40; left: 50%; bottom: 1.25rem; transform: translateX(-50%); display: flex; align-items: center; gap: 1rem; max-width: calc(100% - 2rem); padding: 0.6rem 0.75rem 0.6rem 1.1rem; background: var(--fir-deep); color: var(--on-dark); border-radius: 999px; box-shadow: 0 6px 24px rgb(0 0 0 / 0.25); }

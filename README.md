@@ -7,7 +7,7 @@ What's included today:
 - **The site**: programs (a single filterable list, plus a page for each program), a course catalog (a page for every subject and every course), admissions (apply, tuition and aid, visit), student services, a faculty directory, events, news, about, and a "Connect your AI" page
 - **An MCP server** at `/mcp` with read-only tools: `search_programs`, `get_program`, `compare_programs`, `list_colleges`, `search_courses`, `get_course`, `find_services`, `get_service`, `services_open_now`, `search_faculty`, `get_faculty`, `search_events` (upcoming by default, or a date range), and `list_news`, plus the prompts `recommend-program` and `find-help`. Every result carries an absolute page url.
 - **AI-readable files**: `/llms.txt`, JSON feeds at `/data/*.json`, and a Markdown copy of every detail page at `…/index.md`
-- **Lab** at `/lab/`: experiments, each with a page explaining it: session-based personalization with an "Under the hood" panel (`/lab/personalization/`), and natural-language search (`/search/`, explained at `/lab/search/`), and the workbench (`/workbench/`, explained at `/lab/workbench/`).
+- **Lab** at `/lab/`: experiments, each with a page explaining it: session-based personalization with an "Under the hood" panel (`/lab/personalization/`), and natural-language search (`/search/`, explained at `/lab/search/`), and Your Path (`/your-path/`, explained at `/lab/workbench/`).
 
 Search engines are asked not to index the site (`X-Robots-Tag: noindex`) until `indexing` is switched on in `site.config.ts`.
 
@@ -33,8 +33,8 @@ src/
     tools.ts                The catalog tools (names, descriptions, schemas), shared by the MCP server and search
     search/                 Natural-language search: plans, results, and the results HTML
     llm/                    The model behind search, behind a small interface
-    workbench/              The workbench: data model, store, views (compare, timeline), and its catalog index
-  features/                 Features with their own routes (llms.txt, JSON feeds, Markdown pages, /search/, /workbench/)
+    workbench/              Your Path: data model, store, profile, plan, views (compare, timeline), and its catalog index
+  features/                 Features with their own routes (llms.txt, JSON feeds, Markdown pages, /search/, /your-path/)
   layouts/, components/, pages/, scripts/, styles/
 netlify/functions/mcp.mts   The MCP endpoint
 netlify/functions/search.mts  The search endpoint, /api/search (the only code that reads the Gemini key)
@@ -45,6 +45,7 @@ scripts/
   test-mcp.ts               Calls every MCP tool and prompt without Netlify
   test-search.ts            Runs /api/search with a fake model
   test-workbench.ts         The workbench's store, views, and index
+  test-your-path.ts         Your Path's profile, plan, and timeline
   test-enrollment.ts        The enrollment rules, their lookups, and targeted events
 ```
 
@@ -82,7 +83,7 @@ Each feature is a switch in `site.config.ts`. When a switch is off, its routes a
 | `markdownPages` | `…/index.md` copies of program, course, and service pages |
 | `askAi` | "Ask AI" menus on the home page and section overview pages (academics, programs, courses, admissions, services, faculty, events, news) |
 | `personalization` | Session-based personalization: the application journey and the "For me" panel in the header, the program list's order, the journey forms' prefilling, and the "Under the hood" panel. Uses sessionStorage only. |
-| `workbench` | The workbench: `/workbench/`, `/data/workbench-index.json`, `/data/enrollment.json`, Save to Workbench toggles, and the header link. Uses localStorage only. |
+| `workbench` | Your Path: `/your-path/` (and a redirect from `/workbench/`), `/data/workbench-index.json`, `/data/enrollment.json`, Save to Your Path toggles, and the header link with its count. Uses localStorage only. |
 | `aiSearch` | Natural-language search: `/search/`, `/api/search`, and Search in the header. The model and tier are set under `aiSearch` in `site.config.ts`. |
 
 ### Personalization (Lab)
@@ -110,8 +111,8 @@ To avoid layout shift, the program list is reordered by a small inline script be
 
 - One model call per search. The model (Gemini, set in `site.config.ts`) is offered the search tools from `src/lib/tools.ts` and answers only with calls to them: the plan. It never writes results.
 - `src/lib/search/plan.ts` checks the plan against the tools' schemas (at most 4 calls), runs it, and turns its filters into chips. Removing a chip sends the plan back with `drop`, and it runs again without the model.
-- Every result is built from the catalog record by `resultFor(kind, ref)` in `results.ts`. `kind` (program, course, faculty, event, service, news) and `ref` (the catalog id) match the planned Workbench's items.
-- `src/lib/search/render.ts` renders results for both the server and the browser. Each result has its Save to Workbench toggle there.
+- Every result is built from the catalog record by `resultFor(kind, ref)` in `results.ts`. `kind` (program, course, faculty, event, service, news) and `ref` (the catalog id) match Your Path's saved items.
+- `src/lib/search/render.ts` renders results for both the server and the browser. Each result has its Save to Your Path toggle there.
 - Keyword search (`keywordPlan`) takes over when there's no key, the visitor is over 10 searches a minute, the model takes over 8 seconds or fails, plans nothing usable, or its plan finds nothing. The response then has `fallback: true`.
 - The key is `GEMINI_API_KEY` in Netlify's environment variables, read only in `netlify/functions/search.mts`. See `CLAUDE.md`.
 
@@ -122,19 +123,29 @@ To avoid layout shift, the program list is reordered by a small inline script be
 - `calendar.json`: institution-wide dates (orientation, registration, tuition due, classes begin, finals, the FAFSA priority date) for 2026–27 and 2027–28. Each entry is for a term or an academic year, and its id is the term (or year) plus its `key`, like `winter-2027-classes-begin`. Application deadlines aren't here: each program has its own.
 - `steps.json`: what each kind of student does, in order. Prospective students start with the application journey (explore, request information, visit, apply). A step's date is a calendar `key` (for the student's start term), a number of days before classes begin, or the program's deadline.
 - `offices.json`: two to four offices for each student type and level, each with a reason.
-- Student types and levels are in `src/lib/vocab.ts`; lookups are in `src/lib/enrollment.ts`.
+- Student types and levels are in `src/lib/vocab.ts`. Lookups are in `src/lib/enrollment-rules.ts`, which takes the rules as data so the build, the browser (from `/data/enrollment.json`), and MCP share it; `src/lib/enrollment.ts` applies them to the files.
 - The calendar is fixed for 2026–27 and 2027–28, so start terms after Summer 2028 have no dates until it's extended.
 
-### Workbench (Lab)
+### Your Path (Lab)
 
-People save programs, courses, faculty, events, services, and news to `/workbench/`, add notes, compare up to four programs, and see a timeline of deadlines (for a start term they pick) and saved events. It's the counterpart to For me: what they chose to keep, not what the site noticed.
+Your Path (`/your-path/`; `/workbench/` redirects there) is the student's plan: their steps, dates, and offices for a start term, worked out from the enrollment rules, next to what they've saved. Internally it's still the workbench (files, types, and the storage key), and `WORKBENCH_LABEL` and `WORKBENCH_PATH` in `types.ts` are the name and address people see.
 
-- `src/lib/workbench/types.ts`: the data model. Items are references (`kind` and `ref`, the catalog id), never copies, so the page always shows live data. `WORKBENCH_LABEL` is the name people see. `"answer"` items are reserved for phase 2: kept in storage, not shown.
-- `src/lib/workbench/store.ts`: the only code that reads or writes the workbench. localStorage under `cascadia:workbench`, a `workbench:change` event after every write, `storage` events for other tabs, a memory fallback (with a notice) when storage is blocked, `migrate()` for stored data, and `serialize()` / `deserialize()` for phase 3's share links. At most 100 items and 1,000 characters a note.
-- `src/lib/workbench/derive.ts`: the comparison, the timeline (with .ics files), key facts, and change detection, with no page code. Programs watch tuition, deadlines, and start terms; events watch their date and location.
-- `/data/workbench-index.json` (`index-data.ts`): the catalog fields the page needs, built whenever the workbench is on, whatever `jsonFeeds` says. Its size is in the build log.
+It's built in three layers:
+
+- **Profile** (`src/lib/workbench/profile.ts`): student type, level, and start term. What the student chooses is stored and always wins. Otherwise `resolveProfile()` suggests a value from strong signals only (the request-info form, a saved program or office, or two views of pages for one kind of student, listed in `TYPE_SIGNALS`), worked out fresh on every page and never stored. Saved programs at both levels mean it asks instead.
+- **Rules**: `content/enrollment/`, above.
+- **Plan** (`src/lib/workbench/plan.ts`): `planFor()` gives the steps (with dates for the start term, status, and the next one), offices, targeted events, and calendar entries; `planSteps()` needs only the rules, for MCP; `pathTimeline()` lists every date once, with its source. Nothing in the plan is stored. No DOM code.
+
+The rest:
+
+- `src/lib/workbench/types.ts`: the data model (version 2). Items are references (`kind` and `ref`, the catalog id), never copies, so the page always shows live data. Alongside them: `profile` (the student's choices), `completed` (step ids, so they stay done when the term changes), `dismissed` (`kind:id`), `hiddenHandoffs` (for #18), and `badge` (what the header count last showed). `"answer"` items are reserved: kept in storage, not shown.
+- `src/lib/workbench/store.ts`: the only code that reads or writes it. localStorage under `cascadia:workbench`, a `workbench:change` event after every write, `storage` events for other tabs, a memory fallback (with a notice) when storage is blocked, `migrate()` (version 1 moves its start term into `profile`), `prune()` for ids the rules or catalog no longer have, and `serialize()` / `deserialize()` for share links. At most 100 items and 1,000 characters a note.
+- `src/lib/workbench/derive.ts`: the comparison, key facts, and change detection. Programs watch tuition, deadlines, and start terms; events watch their date and location.
+- `src/scripts/workbench/path-state.ts`: the plan's steps and next step on every page, from the bundled steps alone, for the header count, the header button, and the next-step tile. Once a plan exists, those follow it, so the site suggests one next step. When a journey step is done (in sessionStorage), `personalize.ts` also adds it to `completed`.
+- The header count is the steps still to do once there's a plan, otherwise the saved items. An inline script in BaseLayout draws the last count before the page is painted.
+- `/data/workbench-index.json` (`index-data.ts`): the catalog fields the page needs, built whenever the feature is on, whatever `jsonFeeds` says. Its size is in the build log.
 - Toggles come from one renderer (`toggle.ts`), used by detail pages, the program list, and search results. They're hidden without JavaScript, and an inline script in BaseLayout marks saved ones before the page is drawn.
-- Saved items feed the personalization profile, each counting as three page views.
+- Saved items feed the personalization profile, each counting as three page views. Under the hood shows the plan's profile, where each value came from, and how many steps are done and items dismissed.
 
 ## Working on it
 
@@ -143,7 +154,7 @@ Needs Node 22.18 or newer.
 ```sh
 npm install
 npm run dev            # local site at http://localhost:4321
-npm test               # MCP, search, and workbench tests, and content check
+npm test               # MCP, search, workbench, Your Path, and enrollment tests, and content check
 npm run check          # type check
 npm run build          # news index, content check, then build into dist/
 npm run index:news     # rebuild content/generated/news.json from content/news/

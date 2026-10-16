@@ -3,7 +3,8 @@ import siteConfig from "../../../../site.config.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import { getPage } from "../../../lib/pages.ts";
-import { MAX_ITEMS, MAX_NOTE, STORAGE_KEY, WORKBENCH_LABEL } from "../../../lib/workbench/types.ts";
+import { MAX_ITEMS, MAX_NOTE, STORAGE_KEY, WORKBENCH_LABEL, WORKBENCH_PATH } from "../../../lib/workbench/types.ts";
+import { pagePath } from "../../../lib/urls.ts";
 
 const page = await getPage("lab/workbench");
 const { Content } = page;
@@ -24,11 +25,15 @@ const weightNote = siteConfig.features.personalization ? "In the personalization
           <h2 id="try-title">Try it</h2>
           <ol>
             <li>
-              Open a few <a href="/academics/programs/">programs</a> and use <strong>Save to {WORKBENCH_LABEL}</strong> near the title, or <strong>Save</strong> in the
-              program list. The count in the header goes up, in every open tab.
+              Open <a href={WORKBENCH_PATH}>{WORKBENCH_LABEL}</a> and choose <strong>Transfer</strong>. The level becomes Undergraduate, and your steps, offices, and
+              timeline appear, with nothing saved.
             </li>
-            <li>Save an <a href="/about/events/">event</a> or two, then open <a href="/workbench/">your {WORKBENCH_LABEL.toLowerCase()}</a>.</li>
-            <li>Add a note, reorder items, then look at <strong>Compare</strong> and <strong>Timeline</strong>. Change the start term to see different deadlines.</li>
+            <li>Check off a step, then change the start term. Every date changes, and the step stays done.</li>
+            <li>
+              Use <strong>Reset student type to suggested</strong>. Then, in the same tab, open <a href="/admissions/transfer/">Transfer admissions</a> and the{" "}
+              <a href={pagePath("services", "transfer-center")}>Transfer Center</a>, and come back: {WORKBENCH_LABEL} suggests Transfer and Undergraduate, and says why.
+            </li>
+            <li>Dismiss an office, then use <strong>Show dismissed items</strong> to bring it back.</li>
           </ol>
         </section>
       ) : (
@@ -41,8 +46,8 @@ const weightNote = siteConfig.features.personalization ? "In the personalization
     <Content />
     <p class="hint">
       It holds up to {MAX_ITEMS} items, with notes of up to {MAX_NOTE.toLocaleString("en-US")} characters, under the localStorage key <code>{STORAGE_KEY}</code>. {weightNote}
-      The code is in <code>src/lib/workbench/</code> (the data model, store, and views, with no page code), <code>src/scripts/workbench/</code>, and
-      <code>src/features/workbench/</code>.
+      The rules are in <code>content/enrollment/</code>. The code is in <code>src/lib/workbench/</code> (the data model, store, profile, plan, and views, with no
+      page code), <code>src/scripts/workbench/</code>, and <code>src/features/workbench/</code>.
     </p>
   </article>
 </BaseLayout>

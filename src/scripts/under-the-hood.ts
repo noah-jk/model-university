@@ -6,6 +6,8 @@ import { JOURNEY, PANEL_KEY, TYPE_LABELS } from "../lib/personalization-settings
 import { loadSession, nextStep, resetSession, SAVED_WEIGHT, storageAvailable, type Profile, type Session } from "./personalize.ts";
 import { workbench } from "../lib/workbench/store.ts";
 import { STORAGE_KEY as WORKBENCH_KEY } from "../lib/workbench/types.ts";
+import type { Field } from "../lib/workbench/profile.ts";
+import { pathState } from "./workbench/path-state.ts";
 
 const html = document.documentElement;
 const panel = document.getElementById("under-the-hood")!;
@@ -175,6 +177,29 @@ function renderWorkbench(profile: Profile) {
   }`;
 }
 
+// Who Your Path thinks the student is, and where each answer came from:
+// chosen on the Your Path page (stored), or suggested from this tab (worked
+// out fresh on every page, never stored)
+function renderPlan(session: Session) {
+  const target = panel.querySelector(".uth-plan");
+  if (!target) return;
+  const { profile, steps, toDo } = pathState(session);
+  const w = workbench.get();
+  const source = (field: Field) => (field.source === "chosen" ? "you chose it" : field.why ? `suggested: ${field.why}` : "suggested");
+  const value = (field: Field & { mixed?: boolean }) => (field.value ? `${field.value} (${source(field)})` : field.mixed ? `Not set: ${field.why}` : "Not set");
+  const list = el("dl");
+  list.append(
+    ...([
+      ["Student type", value(profile.studentType)],
+      ["Level", value(profile.level)],
+      ["Start term", value(profile.startTerm)],
+      ["Steps", steps ? `${steps.length - toDo} of ${steps.length} done` : "No plan until level and student type are known"],
+      ["Kept in localStorage", `${w.completed.length} completed ${w.completed.length === 1 ? "step" : "steps"}, ${w.dismissed.length} dismissed ${w.dismissed.length === 1 ? "item" : "items"}`],
+    ] as const).flatMap(([label, text]) => [el("dt", label), el("dd", text)])
+  );
+  target.replaceChildren(list);
+}
+
 function render(session: Session) {
   const views = session.views.length;
   panel.querySelector(".uth-stat")!.textContent = storageAvailable
@@ -186,6 +211,7 @@ function render(session: Session) {
   renderAnswers(session.profile);
   renderVisits(session);
   renderWorkbench(session.profile);
+  renderPlan(session);
 }
 
 // Live updates: re-render while open, and announce one short summary
@@ -197,6 +223,7 @@ window.addEventListener("personalization:change", (e) => {
   live.textContent = session.views.length ? `Profile updated: ${session.views.length} views` : "Session reset: 0 views";
 });
 window.addEventListener("personalized", () => isOpen() && renderChanges());
+window.addEventListener("workbench:change", () => isOpen() && renderPlan(loadSession()));
 
 // Opened on load (?demo, or left open on the last page): sync state without
 // moving focus away from where the page put it.

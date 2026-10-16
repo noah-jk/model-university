@@ -10,27 +10,44 @@
 // The browser uses the shared `workbench` store below. Tests make their own
 // with createStore(), passing a fake storage.
 
-import { MAX_ITEMS, MAX_NOTE, STORAGE_KEY, type Interest, type ItemKind, type Workbench, type WorkbenchItem } from "./types.ts";
+import { MAX_ITEMS, MAX_NOTE, STORAGE_KEY, type Interest, type ItemKind, type PlanChoices, type Workbench, type WorkbenchItem } from "./types.ts";
 
 type Storage = { getItem(key: string): string | null; setItem(key: string, value: string): void; removeItem(key: string): void };
 
-const empty = (): Workbench => ({ version: 1, items: [], updatedAt: new Date().toISOString() });
+const empty = (): Workbench => ({ version: 2, items: [], profile: {}, dismissed: [], completed: [], hiddenHandoffs: [], updatedAt: new Date().toISOString() });
 
 const isItem = (x: unknown): x is WorkbenchItem => {
   const i = x as WorkbenchItem;
   return Boolean(i) && typeof i.id === "string" && typeof i.kind === "string" && typeof i.addedAt === "string";
 };
 
-// Any stored version in, the current version out. Only version 1 exists so
-// far. Unknown or broken data becomes an empty workbench, with a warning,
-// never an error. Items of kinds this version doesn't show (like "answer")
-// are kept.
+// Any stored version in, the current version out. Version 1 had a start term
+// at the top level; version 2 keeps it with the student's other choices.
+// Unknown or broken data becomes an empty workbench, with a warning, never an
+// error. Items of kinds this version doesn't show (like "answer") are kept.
+const strings = (list: unknown) => (Array.isArray(list) ? [...new Set(list.filter((x): x is string => typeof x === "string"))] : []);
+const choices = (profile: unknown): PlanChoices => {
+  const p = (profile ?? {}) as Record<string, unknown>;
+  return Object.fromEntries((["startTerm", "level", "studentType"] as const).filter((k) => typeof p[k] === "string").map((k) => [k, p[k]]));
+};
+
 export function migrate(stored: unknown): Workbench {
-  const data = stored as Partial<Workbench> | null;
-  if (data?.version === 1 && Array.isArray(data.items)) {
+  const data = stored as (Partial<Omit<Workbench, "version">> & { version?: number; startTerm?: string }) | null;
+  if ((data?.version === 1 || data?.version === 2) && Array.isArray(data.items)) {
     const items = data.items.filter(isItem).map((item) => ({ ...item, source: item.source ?? "saved" }));
     if (items.length < data.items.length) console.warn(`Workbench: dropped ${data.items.length - items.length} unreadable items`);
-    return { version: 1, items, ...(typeof data.startTerm === "string" && { startTerm: data.startTerm }), updatedAt: data.updatedAt ?? new Date().toISOString() };
+    const profile = data.version === 1 ? (typeof data.startTerm === "string" ? { startTerm: data.startTerm } : {}) : choices(data.profile);
+    const badge = data.badge && typeof data.badge.count === "number" ? { badge: data.badge } : {};
+    return {
+      version: 2,
+      items,
+      profile,
+      dismissed: strings(data.dismissed),
+      completed: strings(data.completed),
+      hiddenHandoffs: strings(data.hiddenHandoffs),
+      ...badge,
+      updatedAt: data.updatedAt ?? new Date().toISOString(),
+    };
   }
   if (stored != null) console.warn("Workbench: saved data wasn't readable, so it was reset");
   return empty();
@@ -55,7 +72,7 @@ const fromBase64Url = (text: string) => {
 export function serialize(workbench: Workbench) {
   const compact: Compact = {
     v: 1,
-    ...(workbench.startTerm && { t: workbench.startTerm }),
+    ...(workbench.profile.startTerm && { t: workbench.profile.startTerm }),
     i: workbench.items.map((item) => {
       const main = item.ref ?? item.text ?? "";
       return item.note ? [item.kind, main, item.note] : [item.kind, main];
@@ -77,7 +94,7 @@ export function deserialize(text: string, newId: () => string = () => crypto.ran
       source: "shared",
       addedAt,
     }));
-    return { version: 1, items, ...(compact.t && { startTerm: compact.t }), updatedAt: addedAt };
+    return { ...empty(), items, profile: compact.t ? { startTerm: compact.t } : {}, updatedAt: addedAt };
   } catch {
     console.warn("Workbench: couldn't read that shared workbench");
     return empty();
@@ -225,18 +242,69 @@ export function createStore(storage: Storage | null, { newId = (): string => cry
       });
     },
 
+    // A choice about the student (start term, level, or type). Undefined
+    // removes the choice, so the suggested value is used again.
+    setChoice(field: keyof PlanChoices, value: string | undefined) {
+      write((w) => {
+        if (value) w.profile[field] = value;
+        else delete w.profile[field];
+      });
+    },
     setStartTerm(term: string | undefined) {
       write((w) => {
-        if (term) w.startTerm = term;
-        else delete w.startTerm;
+        if (term) w.profile.startTerm = term;
+        else delete w.profile.startTerm;
       });
     },
 
-    clear() {
+    // Check a step off, or un-check it
+    setCompleted(stepId: string, done: boolean) {
       write((w) => {
-        w.items = [];
-        delete w.startTerm;
+        w.completed = done ? [...new Set([...w.completed, stepId])] : w.completed.filter((id) => id !== stepId);
       });
+    },
+    // Steps finished elsewhere (the application journey). Writes only if something's new.
+    completeAll(stepIds: string[]) {
+      const current = new Set(get().completed);
+      const fresh = stepIds.filter((id) => !current.has(id));
+      if (fresh.length) write((w) => (w.completed = [...w.completed, ...fresh]));
+      return fresh.length > 0;
+    },
+
+    // Hide a pulled-in item ("office:transfer-center"), or bring it back
+    setDismissed(key: string, dismissed: boolean) {
+      write((w) => {
+        w.dismissed = dismissed ? [...new Set([...w.dismissed, key])] : w.dismissed.filter((k) => k !== key);
+      });
+    },
+
+    hideHandoff(id: string) {
+      write((w) => (w.hiddenHandoffs = [...new Set([...w.hiddenHandoffs, id])]));
+    },
+
+    // What the header badge shows. Writes only when it changes.
+    setBadge(badge: NonNullable<Workbench["badge"]>) {
+      const current = get().badge;
+      if (current?.count === badge.count && current.counting === badge.counting) return;
+      write((w) => (w.badge = badge));
+    },
+
+    // Drop completed and dismissed ids that no longer exist in the rules or
+    // the catalog. `known` says whether a step id or a "kind:id" is real.
+    prune(known: { step: (id: string) => boolean; dismissed: (key: string) => boolean }) {
+      const w = get();
+      const completed = w.completed.filter(known.step);
+      const dismissed = w.dismissed.filter(known.dismissed);
+      if (completed.length === w.completed.length && dismissed.length === w.dismissed.length) return false;
+      write((next) => {
+        next.completed = completed;
+        next.dismissed = dismissed;
+      });
+      return true;
+    },
+
+    clear() {
+      write((w) => Object.assign(w, { ...empty(), updatedAt: w.updatedAt }));
     },
 
     serialize: () => serialize(get()),
