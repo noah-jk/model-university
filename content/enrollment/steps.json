@@ -96,6 +96,7 @@
   {
     "id": "grad-apply",
     "title": "Apply, with transcripts and recommendations",
+    "short": "Apply",
     "description": "Submit your application by your program's deadline, with transcripts from every college you've attended and two letters of recommendation.",
     "levels": [
       "Graduate"
@@ -115,6 +116,7 @@
   {
     "id": "send-transcripts",
     "title": "Send transcripts from every college you've attended",
+    "short": "Send transcripts",
     "description": "Ask each college to send an official transcript. Unofficial copies are fine while we review your application.",
     "levels": [
       "Undergraduate"
@@ -132,6 +134,7 @@
   {
     "id": "english-proficiency",
     "title": "Send English proficiency scores",
+    "short": "Send English scores",
     "description": "Send TOEFL, IELTS, or Duolingo English Test scores, unless English is your first language or you studied in English.",
     "levels": [
       "Undergraduate",
@@ -149,6 +152,7 @@
   {
     "id": "fafsa",
     "title": "Submit your FAFSA or WASFA",
+    "short": "Submit your FAFSA",
     "description": "File by the priority date to be considered for the most grants and scholarships. Use the WASFA if you can't file the FAFSA. File again every year.",
     "levels": [
       "Undergraduate",
@@ -171,6 +175,7 @@
   {
     "id": "financial-documents",
     "title": "Send financial documents for your I-20",
+    "short": "Send financial documents",
     "description": "Show that you can cover a year of tuition and living costs. We need these before we can issue your I-20.",
     "levels": [
       "Undergraduate",
@@ -204,6 +209,7 @@
   {
     "id": "assistantship",
     "title": "Ask about assistantships",
+    "short": "Ask about assistantships",
     "description": "Teaching and research assistantships cover tuition and pay a stipend. Ask your program about openings when you apply.",
     "levels": [
       "Graduate"
@@ -221,6 +227,7 @@
   {
     "id": "credit-evaluation",
     "title": "Get your credits evaluated",
+    "short": "Get credits evaluated",
     "description": "After you're admitted, the Transfer Center shows how your credits apply to your program, so you know what's left.",
     "levels": [
       "Undergraduate"
@@ -237,6 +244,7 @@
   {
     "id": "adult-advising",
     "title": "Plan your schedule with an advisor",
+    "short": "Plan your schedule",
     "description": "Build a schedule that fits around work and family, with evening, hybrid, and online classes, and ask about credit for prior learning.",
     "levels": [
       "Undergraduate"
@@ -272,6 +280,7 @@
   {
     "id": "grad-accept-offer",
     "title": "Accept your offer of admission",
+    "short": "Accept your offer",
     "description": "Accept your offer and pay the enrollment deposit to hold your place in your program.",
     "levels": [
       "Graduate"
@@ -289,6 +298,7 @@
   {
     "id": "i20-visa",
     "title": "Get your I-20 and apply for a visa",
+    "short": "Get your I-20 and visa",
     "description": "When your I-20 arrives, pay the SEVIS fee and book your F-1 visa interview. Interview waits can take several weeks.",
     "levels": [
       "Undergraduate",
@@ -306,6 +316,7 @@
   {
     "id": "orientation-first-year",
     "title": "Attend first-year orientation",
+    "short": "Attend orientation",
     "description": "Meet your advisor, register for your first classes, and get your student ID. Families are welcome on the first morning.",
     "levels": [
       "Undergraduate"
@@ -323,6 +334,7 @@
   {
     "id": "orientation-transfer",
     "title": "Attend transfer orientation",
+    "short": "Attend orientation",
     "description": "Meet your advisor, review how your credits apply, and register for your first classes.",
     "levels": [
       "Undergraduate"
@@ -340,6 +352,7 @@
   {
     "id": "orientation-graduate",
     "title": "Attend graduate orientation",
+    "short": "Attend orientation",
     "description": "Meet your program director and other new graduate students, and learn about funding, research support, and campus resources.",
     "levels": [
       "Graduate"
@@ -413,6 +426,7 @@
   {
     "id": "finalize-schedule",
     "title": "Finalize your schedule",
+    "short": "Finalize your schedule",
     "description": "Add or drop classes by the deadline. After that, changes need an instructor's approval.",
     "levels": [
       "Undergraduate",

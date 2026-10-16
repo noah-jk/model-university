@@ -191,6 +191,7 @@ export const JOURNEY_STEPS = ["explore", "requestInfo", "visit", "apply"] as con
 export const enrollmentStep = z.object({
   id,
   title: text,
+  short: text.max(28).optional(), // for tight spaces like the header button, e.g. "Send transcripts"
   description: text,
   levels,
   student_types: studentTypes,

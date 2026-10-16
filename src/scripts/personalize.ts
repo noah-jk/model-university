@@ -11,6 +11,8 @@ import siteConfig from "../../site.config.ts";
 import { JOURNEY, MAX_VIEWS, PROFILE_KEY, type JourneyStep, type PageMeta } from "../lib/personalization-settings.ts";
 import { workbench } from "../lib/workbench/store.ts";
 import type { Interest } from "../lib/workbench/types.ts";
+import type { EnrollmentStep } from "../lib/schemas.ts";
+import stepsData from "../../content/enrollment/steps.json" with { type: "json" };
 
 // Saving something to the workbench says more than viewing it: each saved
 // item counts as this many page views in the interest profile.
@@ -106,8 +108,18 @@ function save(views: PageView[], forms: Forms, applied?: string) {
   } catch {
     // Storage full or blocked: keep going without saving
   }
+  keepJourney(session.profile);
   window.dispatchEvent(new CustomEvent("personalization:change", { detail: session }));
   return session;
+}
+
+// The journey lives in this tab's sessionStorage, but Your Path (in
+// localStorage) shows the same steps. Copy finished journey steps into its
+// completed list, so progress survives closing the tab.
+function keepJourney(profile: Profile) {
+  if (!siteConfig.features.workbench) return;
+  const done = (stepsData as EnrollmentStep[]).filter((s) => s.journey && profile.journey[s.journey]).map((s) => s.id);
+  if (done.length) workbench.completeAll(done);
 }
 
 // Counts by department, college, level, and format across page views, the
@@ -268,6 +280,7 @@ function recordPageView() {
 }
 
 recordPageView();
+keepJourney(loadSession().profile);
 
 // Saving or removing workbench items changes the profile too
 if (siteConfig.features.workbench) {

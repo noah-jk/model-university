@@ -11,8 +11,10 @@ export const MAX_VIEWS = 50;
 export const RECENT_COUNT = 4;
 
 // What a detail page tells the tracker about itself, via data-* attributes on <main>
+// "page" is an ordinary page that still says something about a visitor, like
+// /admissions/transfer/ (Your Path counts views of it as a signal)
 export type PageMeta = {
-  type: "program" | "course" | "service" | "faculty" | "event" | "news";
+  type: "program" | "course" | "service" | "faculty" | "event" | "news" | "page";
   id: string;
   name: string;
   department?: string;
@@ -28,6 +30,7 @@ export const TYPE_LABELS: Record<PageMeta["type"], string> = {
   faculty: "Faculty",
   event: "Event",
   news: "News story",
+  page: "Page",
 };
 
 // The application journey, in the order most students take it. A step is

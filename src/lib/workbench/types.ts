@@ -2,8 +2,11 @@
 // content (kind + ref), never copies, so it always shows live data, plus the
 // student's own notes. See src/lib/workbench/store.ts for reading and writing.
 
-// The name people see. Change it here to rename the feature everywhere.
-export const WORKBENCH_LABEL = "Workbench";
+// The name people see, and where the page lives. Change them here to rename
+// the feature everywhere. (Code, types, and the storage key keep the
+// internal name, "workbench".)
+export const WORKBENCH_LABEL = "Your Path";
+export const WORKBENCH_PATH = "/your-path/";
 
 export const STORAGE_KEY = "cascadia:workbench";
 export const MAX_ITEMS = 100;
@@ -20,7 +23,7 @@ export type ItemKind =
 // Kinds this version shows. Anything else in storage is kept but not shown.
 export const SHOWN_KINDS: readonly ItemKind[] = [...CONTENT_KINDS, "note"];
 
-export type ItemSource = "saved" | "suggested" | "shared"; // phase 1 uses "saved"
+export type ItemSource = "saved" | "suggested" | "shared" | "advisor"; // so far only "saved" is used
 
 // The interest signals of a saved item (department, college, level, format),
 // as they were when it was saved. Only the personalization profile reads
@@ -37,12 +40,27 @@ export type WorkbenchItem = {
   addedAt: string; // ISO date
   watch?: Record<string, string>; // fingerprints of watched fields when saved
   interest?: Interest;
+  addedBy?: { role: "student" | "advisor"; name?: string }; // no UI yet
+  section?: string; // no UI yet
 };
 
+// What the student has chosen about themselves. Only choices are stored:
+// suggested values are worked out fresh on each load (src/lib/workbench/profile.ts),
+// so a choice always wins and a stale guess is never kept.
+export type PlanChoices = { startTerm?: string; level?: string; studentType?: string };
+
 export type Workbench = {
-  version: 1;
+  version: 2;
   items: WorkbenchItem[]; // display order within each kind's group
-  startTerm?: string; // e.g. "Fall 2027"; drives the timeline and compare views
+  profile: PlanChoices;
+  // Pulled-in items the student hid, as "kind:id" ("office:transfer-center", "event:…")
+  dismissed: string[];
+  // Step ids the student checked off (or finished through the journey), whatever the start term
+  completed: string[];
+  // Handoff ids the student hid ("Don't show this again")
+  hiddenHandoffs: string[];
+  // What the header badge last showed, so it can be drawn before scripts run
+  badge?: { count: number; counting: "steps" | "saved" };
   updatedAt: string;
 };
 
@@ -90,7 +108,7 @@ export type IndexProgram = {
 };
 export type IndexCourse = { code: string; title: string; url: string; credits: number; terms_offered: string[]; modality: string };
 export type IndexFaculty = { name: string; title: string; department: string; url: string };
-export type IndexEvent = { title: string; url: string; start: string; end: string; location: string; campus: string };
+export type IndexEvent = { title: string; url: string; start: string; end: string; location: string; campus: string; levels?: string[]; student_types?: string[] };
 export type IndexService = { name: string; url: string; category: string; location: string };
 export type IndexNews = { title: string; url: string; date: string };
 

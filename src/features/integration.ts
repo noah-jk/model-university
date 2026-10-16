@@ -6,6 +6,7 @@
 import { writeFileSync } from "node:fs";
 import type { AstroIntegration } from "astro";
 import siteConfig, { type Feature } from "../../site.config.ts";
+import { WORKBENCH_PATH } from "../lib/workbench/types.ts";
 
 const routes: Partial<Record<Feature, { pattern: string; entrypoint: string }[]>> = {
   llmsTxt: [{ pattern: "/llms.txt", entrypoint: "./src/features/llms-txt.ts" }],
@@ -16,7 +17,7 @@ const routes: Partial<Record<Feature, { pattern: string; entrypoint: string }[]>
   workbench: [
     { pattern: "/data/workbench-index.json", entrypoint: "./src/features/workbench-index.ts" },
     { pattern: "/data/enrollment.json", entrypoint: "./src/features/enrollment-data.ts" },
-    { pattern: "/workbench", entrypoint: "./src/features/workbench/index.astro" },
+    { pattern: WORKBENCH_PATH.replace(/\/$/, ""), entrypoint: "./src/features/workbench/index.astro" },
   ],
 };
 
@@ -24,10 +25,12 @@ export default function aiFeatures(): AstroIntegration {
   return {
     name: "ai-features",
     hooks: {
-      "astro:config:setup": ({ injectRoute }) => {
+      "astro:config:setup": ({ injectRoute, updateConfig }) => {
         for (const [feature, featureRoutes] of Object.entries(routes)) {
           if (siteConfig.features[feature as Feature]) featureRoutes.forEach((route) => injectRoute(route));
         }
+        // The workbench used to live at /workbench/
+        if (siteConfig.features.workbench) updateConfig({ redirects: { "/workbench": WORKBENCH_PATH } });
       },
       // Netlify reads dist/_headers. Until indexing is switched on, ask
       // search engines to stay away from every page and file.

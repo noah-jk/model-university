@@ -1,29 +1,41 @@
 ---
 slug: lab/workbench
-title: Workbench
-description: A place to keep the programs, courses, people, events, and services you're weighing, with your own notes, a side-by-side comparison, and your deadlines in order.
+title: Your Path
+description: Answer two questions and get your plan for Cascadia State, with every step, deadline, and office for your start term, next to the programs, courses, people, and events you've saved.
 ---
 
 ## The idea
 
-Choosing a school takes weeks, and it happens across devices and with family and counselors. The workbench is where a prospective student keeps what they've chosen to come back to. It's the opposite of **For me**: For me is what the site noticed in this tab; the workbench is what you chose to keep.
+Applying to college is a list of steps that depends on who you are. A transfer student sends transcripts and gets a credit evaluation, an international student needs an I-20, and a graduate student applies through the Graduate School. Most university sites make you work that out from a dozen pages. Your Path works it out for you, and keeps what you've chosen to come back to beside it.
 
-From what you save, the site works out two views:
+## Profile, rules, plan
 
-- **Compare** puts up to four saved programs side by side: credential, format, campus, start terms, length, cost per credit, estimated total tuition, and the application deadline for the start term you pick. Costs are never added up, because the programs are alternatives.
-- **Timeline** lists the application deadlines for your start term and the dates of saved events, in order, with the next one marked and a calendar file for each.
+Your Path is built in three layers, and only the first is about you.
 
-## Always up to date
+1. **Profile:** your student type, level, and start term. You choose them in the sentence at the top of the page. Until you do, the site may suggest a value, but only from a strong signal: an answer you gave in the request-info form, a program or office you saved, or two or more visits to pages for one kind of student. Each suggestion is marked "Suggested" and says why. With no strong signal, the field stays blank. If your saved programs are both undergraduate and graduate, it asks instead of guessing.
+2. **Rules:** the university's enrollment steps, academic calendar, and offices, kept as content in `content/enrollment/`. Each step and date says which students it applies to. The same rules build the admissions pages, so Your Path and those pages always agree.
+3. **Plan:** worked out fresh on every visit from your profile and the rules. It lists your steps in order, with due dates for your start term, the offices that can help, and events meant for students like you. A step that depends on your program's application deadline uses the earliest deadline among the programs you've saved. Change your start term and every date changes with it.
 
-The workbench stores which items you saved, not copies of them, so it always shows the catalog's latest details. When a program's tuition, deadlines, or start terms change after you save it (or an event's date or location), the item says so until you mark it as seen. If something is removed from the catalog, it shows as no longer available.
+Nothing in the plan is stored. What's stored is what you chose: your answers, the steps you've checked off, the items you dismissed, and what you saved. Checked-off steps stay done when you change your start term.
+
+## Saved items
+
+You can still save programs, courses, people, events, and services as you browse. Saved items store which item you saved, not a copy, so they always show the catalog's latest details, and say so when a program's tuition or deadlines change after you save it.
+
+- **Compare** puts up to four saved programs side by side. Costs are never added up, because the programs are alternatives.
+- **Timeline** lists every date in your plan in order: your steps, the academic calendar, your saved programs' deadlines, and saved events. Each date appears once, with where it comes from, and you can add any of them to your calendar.
+
+## One next step
+
+When the site knows enough for a plan, the header button and the next-step box on other pages show your plan's next step, so the site never suggests two different things. Steps in the application journey (request information, visit, apply) are checked off when you send those forms.
 
 ## Where your data lives
 
-Everything is in this browser's localStorage, under one key. Nothing is sent to the site or anyone else, and it stays until you remove it or clear your browser's data. That's different from the personalization experiment, which keeps its profile in sessionStorage and forgets it when the tab closes. Saved items do feed that profile, as a stronger signal than a page view.
+Everything is in this browser's localStorage, under one key. Nothing is sent to the site or anyone else, and it stays until you remove it or clear your browser's data. Suggestions come from the personalization experiment's record of this tab, which is in sessionStorage and is forgotten when the tab closes; only your own choices are kept.
 
-If your browser blocks localStorage (some private modes do), the workbench still works for the page you're on and tells you it won't be kept.
+If your browser blocks localStorage (some private modes do), Your Path still works for the page you're on and tells you it won't be kept.
 
 ## Coming next
 
-- **Phase 2:** start a workbench from a question in plain language. The AI suggests items to save, and short answers with their sources.
-- **Phase 3:** share a link to your workbench, send it to admissions instead of filling in the request-information form, and copy it for your own AI assistant.
+- Hand your plan to an advisor or admissions, or copy it for your own AI assistant.
+- Ask the university's MCP server for the plan for any kind of student.

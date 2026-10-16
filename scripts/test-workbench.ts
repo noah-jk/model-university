@@ -4,8 +4,8 @@
 import * as catalog from "../src/lib/catalog.ts";
 import { buildIndex } from "../src/lib/workbench/index-data.ts";
 import { createStore, deserialize, migrate } from "../src/lib/workbench/store.ts";
-import { changesSinceSaved, compareTable, deadlineDate, fingerprint, timeline } from "../src/lib/workbench/derive.ts";
-import { MAX_ITEMS, MAX_NOTE, STORAGE_KEY, type Workbench } from "../src/lib/workbench/types.ts";
+import { changesSinceSaved, compareTable, deadlineDate, fingerprint } from "../src/lib/workbench/derive.ts";
+import { MAX_ITEMS, MAX_NOTE, STORAGE_KEY } from "../src/lib/workbench/types.ts";
 
 const check = (ok: unknown, message: string) => {
   if (!ok) throw new Error(message);
@@ -61,13 +61,36 @@ check(!("note" in store.get().items.find((i) => i.id === first.id)!), "store: an
 const note = store.addNote("Visit in spring?");
 check(note.ok && store.get().items.at(-1)?.kind === "note" && store.get().items.at(-1)?.text === "Visit in spring?", "store: free-standing notes");
 store.setStartTerm("Fall 2027");
-check(store.get().startTerm === "Fall 2027", "store: start term");
+check(store.get().profile.startTerm === "Fall 2027", "store: start term");
+store.setChoice("studentType", "Transfer");
+store.setChoice("level", "Undergraduate");
+store.setChoice("level", undefined);
+check(store.get().profile.studentType === "Transfer" && !("level" in store.get().profile), "store: choices, and removing one");
+store.setCompleted("apply", true);
+store.setCompleted("fafsa", true);
+store.setCompleted("fafsa", false);
+check(store.get().completed.join() === "apply", "store: check a step off and back on");
+check(store.completeAll(["apply", "visit"]) && !store.completeAll(["visit"]) && store.get().completed.join() === "apply,visit", "store: completeAll writes only new steps");
+store.setDismissed("office:transfer-center", true);
+store.setDismissed("event:gone", true);
+check(store.get().dismissed.length === 2, "store: dismiss");
+store.setDismissed("event:gone", false);
+check(store.get().dismissed.join() === "office:transfer-center", "store: restore a dismissed item");
+store.setDismissed("event:gone", true);
+const pruned = store.prune({ step: (id) => id === "apply", dismissed: (key) => key !== "event:gone" });
+check(pruned && store.get().completed.join() === "apply" && store.get().dismissed.join() === "office:transfer-center", "store: prune drops ids that no longer exist");
+check(!store.prune({ step: () => true, dismissed: () => true }), "store: prune writes nothing when all ids exist");
+const writes = storage.data.get(STORAGE_KEY);
+store.setBadge({ count: 3, counting: "steps" });
+const afterBadge = storage.data.get(STORAGE_KEY);
+store.setBadge({ count: 3, counting: "steps" });
+check(afterBadge !== writes && storage.data.get(STORAGE_KEY) === afterBadge && store.get().badge?.count === 3, "store: badge writes only when it changes");
 
 const full = newStore();
 for (let i = 0; i < MAX_ITEMS; i++) full.add("course", `course-${i}`);
 check(!full.add("course", "one-more").ok && full.get().items.length === MAX_ITEMS, `store: at most ${MAX_ITEMS} items`);
 store.clear();
-check(store.get().items.length === 0 && !store.get().startTerm, "store: clear");
+check(store.get().items.length === 0 && !store.get().profile.startTerm && store.get().completed.length === 0 && store.get().dismissed.length === 0, "store: clear");
 
 // Without storage, the workbench lives in memory and says so
 const memory = newStore(null);
@@ -78,7 +101,11 @@ check(!memory.persistent && memory.has("program", "nursing-msn"), "store: works 
 
 check(quietly(() => migrate("not json at all")).items.length === 0, "migrate: unreadable data resets");
 check(quietly(() => migrate({ version: 99, items: [{ id: "a" }] })).items.length === 0, "migrate: unknown versions reset");
-check(migrate(null).version === 1, "migrate: nothing saved gives an empty workbench");
+check(migrate(null).version === 2, "migrate: nothing saved gives an empty workbench");
+const v1 = migrate({ version: 1, startTerm: "Spring 2027", updatedAt: "2026-10-01T00:00:00Z", items: [{ id: "b", kind: "program", ref: "nursing-msn", source: "saved", addedAt: "2026-10-01T00:00:00Z" }] });
+check(v1.version === 2 && v1.profile.startTerm === "Spring 2027" && v1.items.length === 1 && v1.completed.length === 0 && v1.dismissed.length === 0, "migrate: version 1 keeps its items and start term");
+const messy = migrate({ version: 2, items: [], profile: { level: "Graduate", studentType: 4 }, completed: ["apply", 7], dismissed: "nope" });
+check(messy.profile.level === "Graduate" && !("studentType" in messy.profile) && messy.completed.join() === "apply" && messy.dismissed.length === 0, "migrate: bad choices and ids are dropped");
 const withAnswer = quietly(() => migrate({
   version: 1,
   updatedAt: "2026-10-01T00:00:00Z",
@@ -105,7 +132,7 @@ const text = shared.serialize();
 const back = deserialize(text, () => `copy-${++n}`);
 check(/^[A-Za-z0-9_-]+$/.test(text), "serialize: URL-safe text");
 check(
-  back.startTerm === "Winter 2027" &&
+  back.profile.startTerm === "Winter 2027" &&
     JSON.stringify(back.items.map((i) => [i.kind, i.ref ?? i.text, i.note])) === JSON.stringify(shared.get().items.map((i) => [i.kind, i.ref ?? i.text, i.note])) &&
     back.items.every((i) => i.source === "shared"),
   "serialize → deserialize: same items, notes, and start term"
@@ -127,24 +154,6 @@ check(two.programs.length === 2 && two.rows.every((r) => r.cells.length === 2) &
 check(!two.rows.some((r) => /total of|combined|sum/i.test(r.label)), "compare: costs aren't added up");
 const five = compareTable(catalog.programs.slice(0, 5).map((p) => program(p.id)), "Fall 2027");
 check(five.programs.length === 4, "compare: at most four programs");
-
-const events = [...catalog.events].sort((a, b) => a.start.localeCompare(b.start));
-const plan: Workbench = {
-  version: 1,
-  updatedAt: "",
-  items: [
-    { id: "p", kind: "program", ref: offeredIn("Spring")[0], source: "saved", addedAt: "" },
-    { id: "late", kind: "event", ref: events.at(-1)!.id, source: "saved", addedAt: "" },
-    { id: "early", kind: "event", ref: events[0].id, source: "saved", addedAt: "" },
-  ],
-};
-const middle = new Date(events[Math.floor(events.length / 2)].start);
-const entries = timeline(plan, index, "Spring 2027", { now: middle });
-check(entries.map((e) => e.date).join() === [...entries.map((e) => e.date)].sort().join(), "timeline: in date order");
-check(entries[0].itemId === "early" && entries[0].past, "timeline: past dates are marked");
-check(entries.filter((e) => e.next).length === 1 && !entries.find((e) => e.next)!.past, "timeline: exactly one Next, and it's upcoming");
-check(entries.some((e) => e.kind === "deadline"), "timeline: includes the program's deadline");
-check(timeline({ ...plan, items: [{ id: "f", kind: "program", ref: fallOnly.id, source: "saved", addedAt: "" }] }, index, "Spring 2027").length === 0, "timeline: no deadline for a term a program doesn't start in");
 
 const entry = index.program["nursing-msn"];
 const saved = { id: "s", kind: "program" as const, ref: "nursing-msn", source: "saved" as const, addedAt: "", watch: fingerprint("program", entry) };

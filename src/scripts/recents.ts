@@ -43,8 +43,9 @@ function loadIndex() {
 const saveButton = (view: Session["views"][number]) => {
   const { department, college, level, modality } = view;
   const interest = Object.fromEntries(Object.entries({ department, college, level, modality }).filter(([, v]) => v));
-  const entry = index?.[view.type]?.[view.id];
-  return saveToggle({ kind: view.type, ref: view.id, name: view.name, interest, ...(entry && { watch: fingerprint(view.type, entry) }) }, { compact: true });
+  const kind = view.type as Exclude<typeof view.type, "page">;
+  const entry = index?.[kind]?.[view.id];
+  return saveToggle({ kind, ref: view.id, name: view.name, interest, ...(entry && { watch: fingerprint(kind, entry) }) }, { compact: true });
 };
 
 const sortButtons = [...panel.querySelectorAll<HTMLButtonElement>("[data-sort]")];
@@ -72,7 +73,7 @@ function renderRecent(session: Session) {
     span.textContent = sort === "most" ? `${TYPE_LABELS[view.type]} · ${views} ${views === 1 ? "view" : "views"}` : TYPE_LABELS[view.type];
     text.append(a, span);
     li.append(text);
-    if (siteConfig.features.workbench) li.insertAdjacentHTML("beforeend", saveButton(view));
+    if (siteConfig.features.workbench && view.type !== "page") li.insertAdjacentHTML("beforeend", saveButton(view));
     return li;
   });
   panel.querySelector(".recent-list")!.replaceChildren(...rows);

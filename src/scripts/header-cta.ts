@@ -1,7 +1,7 @@
-// The header button for the next step in the application journey
-// (src/components/Header.astro): Explore programs, Request information,
-// Schedule a visit, Apply, then Tuition and aid. The page ships with the
-// first step; this updates it from this tab's session.
+// The header button for the next step (src/components/Header.astro): the
+// application journey (Explore programs, Request information, Schedule a
+// visit, Apply, then Tuition and aid), or Your Path's next step once it has a
+// plan. The page ships with the first step; this updates it.
 
 export {};
 
@@ -9,17 +9,17 @@ const buttons = document.querySelectorAll<HTMLAnchorElement>("[data-header-cta]"
 
 if (buttons.length) {
   // Loaded only when the button is there, because personalize.ts records page views
-  const [{ loadSession, markPersonalized }, { nextAction, nextStepReason }] = await Promise.all([import("./personalize.ts"), import("./next-step.ts")]);
+  const [{ loadSession, markPersonalized }, { nextAction }] = await Promise.all([import("./personalize.ts"), import("./next-step.ts")]);
   type Session = ReturnType<typeof loadSession>;
 
+  // The journey's next step, or Your Path's once it has a plan (see next-step.ts)
   const render = (session: Session) => {
-    const { next, href, isApply } = nextAction(session);
+    const action = nextAction(session);
     buttons.forEach((button) => {
-      button.href = href;
-      button.textContent = next ? next.label : "Tuition and aid";
-      button.toggleAttribute("data-journey-apply", isApply);
-      const reason = nextStepReason(session);
-      markPersonalized(button, reason && `Header button: “${button.textContent}”, because ${reason}.`);
+      button.href = action.href;
+      button.textContent = action.short;
+      button.toggleAttribute("data-journey-apply", action.isApply);
+      markPersonalized(button, action.reason && `Header button: “${action.short}”, because ${action.reason}.`);
     });
   };
   render(loadSession());

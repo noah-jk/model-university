@@ -52,7 +52,7 @@ const offices = [...new Map(groups.flatMap((g) => officesFor(g.level, g.type)).m
 const typeLabel = (g: { type: string; level: string }) => (g.type === "International" ? `international ${g.level.toLowerCase()} students` : `${g.type.toLowerCase()} students`);
 ---
 
-<BaseLayout title={page.title} description={page.description}>
+<BaseLayout title={page.title} description={page.description} page={{ type: "page", id: slug, name: page.title }}>
   <Breadcrumb items={[{ label: "Admissions", href: "/admissions/" }, { label: page.title, href: `/${slug}/` }]} />
   <div class="audience">
     <article class="prose">
