@@ -1,0 +1,1208 @@
+[
+  {
+    "id": "2026-27-fafsa-priority",
+    "key": "fafsa-priority",
+    "year": "2026-27",
+    "title": "FAFSA and WASFA priority date",
+    "date": "2026-02-15",
+    "kind": "deadline",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "New graduate student",
+      "Current student"
+    ],
+    "description": "File by this date to be considered for the most grants and scholarships for 2026–27.",
+    "service": "financial-aid-and-scholarships",
+    "url": "https://studentaid.gov/"
+  },
+  {
+    "id": "fall-2026-admission-decisions",
+    "key": "admission-decisions",
+    "term": "Fall 2026",
+    "title": "Admission decisions released",
+    "date": "2026-04-01",
+    "kind": "milestone",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "description": "Decisions go out by email for applications that were complete by the program's deadline.",
+    "service": "admissions"
+  },
+  {
+    "id": "fall-2026-enrollment-deposit",
+    "key": "enrollment-deposit",
+    "term": "Fall 2026",
+    "title": "Enrollment deposit due",
+    "date": "2026-05-01",
+    "kind": "deadline",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "description": "Admitted students confirm their place with a $200 deposit, credited to the first tuition bill.",
+    "service": "admissions"
+  },
+  {
+    "id": "fall-2026-registration-opens",
+    "key": "registration-opens",
+    "term": "Fall 2026",
+    "title": "Registration opens",
+    "date": "2026-05-15",
+    "kind": "milestone",
+    "description": "Students can sign up for classes. New students register at orientation.",
+    "service": "registrar"
+  },
+  {
+    "id": "fall-2026-i20-documents",
+    "key": "i20-documents",
+    "term": "Fall 2026",
+    "title": "I-20 financial documents due",
+    "date": "2026-06-01",
+    "kind": "deadline",
+    "student_types": [
+      "International"
+    ],
+    "description": "International students send proof of funding so the university can issue an I-20.",
+    "service": "international-student-services"
+  },
+  {
+    "id": "fall-2026-orientation-first-year",
+    "key": "orientation-first-year",
+    "term": "Fall 2026",
+    "title": "First-year orientation",
+    "date": "2026-09-16",
+    "end": "2026-09-17",
+    "kind": "event",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "First-year",
+      "International"
+    ],
+    "description": "Meet an advisor, register for classes, and get a student ID.",
+    "service": "new-student-orientation"
+  },
+  {
+    "id": "fall-2026-orientation-transfer",
+    "key": "orientation-transfer",
+    "term": "Fall 2026",
+    "title": "Transfer orientation",
+    "date": "2026-09-18",
+    "kind": "event",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "Transfer",
+      "Returning adult"
+    ],
+    "description": "Review how credits apply, meet an advisor, and register for classes.",
+    "service": "new-student-orientation"
+  },
+  {
+    "id": "fall-2026-orientation-graduate",
+    "key": "orientation-graduate",
+    "term": "Fall 2026",
+    "title": "Graduate orientation",
+    "date": "2026-09-21",
+    "kind": "event",
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ],
+    "description": "Meet program directors and other new graduate students, and learn about funding and research support.",
+    "service": "graduate-school-office"
+  },
+  {
+    "id": "fall-2026-classes-begin",
+    "key": "classes-begin",
+    "term": "Fall 2026",
+    "title": "Classes begin",
+    "date": "2026-09-23",
+    "kind": "milestone",
+    "service": "registrar"
+  },
+  {
+    "id": "fall-2026-last-day-to-add",
+    "key": "last-day-to-add",
+    "term": "Fall 2026",
+    "title": "Last day to add classes",
+    "date": "2026-09-30",
+    "kind": "deadline",
+    "description": "After this, adding a class needs the instructor's approval.",
+    "service": "registrar"
+  },
+  {
+    "id": "fall-2026-tuition-due",
+    "key": "tuition-due",
+    "term": "Fall 2026",
+    "title": "Tuition due",
+    "date": "2026-10-09",
+    "kind": "deadline",
+    "description": "Pay in full or set up a payment plan to keep your classes.",
+    "service": "student-accounts"
+  },
+  {
+    "id": "winter-2027-i20-documents",
+    "key": "i20-documents",
+    "term": "Winter 2027",
+    "title": "I-20 financial documents due",
+    "date": "2026-10-30",
+    "kind": "deadline",
+    "student_types": [
+      "International"
+    ],
+    "description": "International students send proof of funding so the university can issue an I-20.",
+    "service": "international-student-services"
+  },
+  {
+    "id": "winter-2027-registration-opens",
+    "key": "registration-opens",
+    "term": "Winter 2027",
+    "title": "Registration opens",
+    "date": "2026-11-09",
+    "kind": "milestone",
+    "description": "Students can sign up for classes. New students register at orientation.",
+    "service": "registrar"
+  },
+  {
+    "id": "winter-2027-admission-decisions",
+    "key": "admission-decisions",
+    "term": "Winter 2027",
+    "title": "Admission decisions released",
+    "date": "2026-11-16",
+    "kind": "milestone",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "description": "Decisions go out by email for applications that were complete by the program's deadline.",
+    "service": "admissions"
+  },
+  {
+    "id": "winter-2027-enrollment-deposit",
+    "key": "enrollment-deposit",
+    "term": "Winter 2027",
+    "title": "Enrollment deposit due",
+    "date": "2026-12-01",
+    "kind": "deadline",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "description": "Admitted students confirm their place with a $200 deposit, credited to the first tuition bill.",
+    "service": "admissions"
+  },
+  {
+    "id": "fall-2026-finals-week",
+    "key": "finals-week",
+    "term": "Fall 2026",
+    "title": "Finals week",
+    "date": "2026-12-07",
+    "end": "2026-12-11",
+    "kind": "milestone"
+  },
+  {
+    "id": "winter-2027-orientation-first-year",
+    "key": "orientation-first-year",
+    "term": "Winter 2027",
+    "title": "First-year orientation",
+    "date": "2026-12-08",
+    "kind": "event",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "First-year",
+      "International"
+    ],
+    "description": "Meet an advisor, register for classes, and get a student ID.",
+    "service": "new-student-orientation"
+  },
+  {
+    "id": "winter-2027-orientation-transfer",
+    "key": "orientation-transfer",
+    "term": "Winter 2027",
+    "title": "Transfer orientation",
+    "date": "2026-12-09",
+    "kind": "event",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "Transfer",
+      "Returning adult"
+    ],
+    "description": "Review how credits apply, meet an advisor, and register for classes.",
+    "service": "new-student-orientation"
+  },
+  {
+    "id": "winter-2027-orientation-graduate",
+    "key": "orientation-graduate",
+    "term": "Winter 2027",
+    "title": "Graduate orientation",
+    "date": "2026-12-10",
+    "kind": "event",
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ],
+    "description": "Meet program directors and other new graduate students, and learn about funding and research support.",
+    "service": "graduate-school-office"
+  },
+  {
+    "id": "winter-2027-classes-begin",
+    "key": "classes-begin",
+    "term": "Winter 2027",
+    "title": "Classes begin",
+    "date": "2027-01-04",
+    "kind": "milestone",
+    "service": "registrar"
+  },
+  {
+    "id": "winter-2027-last-day-to-add",
+    "key": "last-day-to-add",
+    "term": "Winter 2027",
+    "title": "Last day to add classes",
+    "date": "2027-01-11",
+    "kind": "deadline",
+    "description": "After this, adding a class needs the instructor's approval.",
+    "service": "registrar"
+  },
+  {
+    "id": "winter-2027-tuition-due",
+    "key": "tuition-due",
+    "term": "Winter 2027",
+    "title": "Tuition due",
+    "date": "2027-01-22",
+    "kind": "deadline",
+    "description": "Pay in full or set up a payment plan to keep your classes.",
+    "service": "student-accounts"
+  },
+  {
+    "id": "spring-2027-i20-documents",
+    "key": "i20-documents",
+    "term": "Spring 2027",
+    "title": "I-20 financial documents due",
+    "date": "2027-02-01",
+    "kind": "deadline",
+    "student_types": [
+      "International"
+    ],
+    "description": "International students send proof of funding so the university can issue an I-20.",
+    "service": "international-student-services"
+  },
+  {
+    "id": "2027-28-fafsa-priority",
+    "key": "fafsa-priority",
+    "year": "2027-28",
+    "title": "FAFSA and WASFA priority date",
+    "date": "2027-02-15",
+    "kind": "deadline",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "New graduate student",
+      "Current student"
+    ],
+    "description": "File by this date to be considered for the most grants and scholarships for 2027–28.",
+    "service": "financial-aid-and-scholarships",
+    "url": "https://studentaid.gov/"
+  },
+  {
+    "id": "spring-2027-admission-decisions",
+    "key": "admission-decisions",
+    "term": "Spring 2027",
+    "title": "Admission decisions released",
+    "date": "2027-02-15",
+    "kind": "milestone",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "description": "Decisions go out by email for applications that were complete by the program's deadline.",
+    "service": "admissions"
+  },
+  {
+    "id": "spring-2027-registration-opens",
+    "key": "registration-opens",
+    "term": "Spring 2027",
+    "title": "Registration opens",
+    "date": "2027-02-16",
+    "kind": "milestone",
+    "description": "Students can sign up for classes. New students register at orientation.",
+    "service": "registrar"
+  },
+  {
+    "id": "spring-2027-enrollment-deposit",
+    "key": "enrollment-deposit",
+    "term": "Spring 2027",
+    "title": "Enrollment deposit due",
+    "date": "2027-03-01",
+    "kind": "deadline",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "description": "Admitted students confirm their place with a $200 deposit, credited to the first tuition bill.",
+    "service": "admissions"
+  },
+  {
+    "id": "winter-2027-finals-week",
+    "key": "finals-week",
+    "term": "Winter 2027",
+    "title": "Finals week",
+    "date": "2027-03-15",
+    "end": "2027-03-19",
+    "kind": "milestone"
+  },
+  {
+    "id": "spring-2027-orientation-first-year",
+    "key": "orientation-first-year",
+    "term": "Spring 2027",
+    "title": "First-year orientation",
+    "date": "2027-03-25",
+    "kind": "event",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "First-year",
+      "International"
+    ],
+    "description": "Meet an advisor, register for classes, and get a student ID.",
+    "service": "new-student-orientation"
+  },
+  {
+    "id": "spring-2027-orientation-graduate",
+    "key": "orientation-graduate",
+    "term": "Spring 2027",
+    "title": "Graduate orientation",
+    "date": "2027-03-26",
+    "kind": "event",
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ],
+    "description": "Meet program directors and other new graduate students, and learn about funding and research support.",
+    "service": "graduate-school-office"
+  },
+  {
+    "id": "spring-2027-orientation-transfer",
+    "key": "orientation-transfer",
+    "term": "Spring 2027",
+    "title": "Transfer orientation",
+    "date": "2027-03-26",
+    "kind": "event",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "Transfer",
+      "Returning adult"
+    ],
+    "description": "Review how credits apply, meet an advisor, and register for classes.",
+    "service": "new-student-orientation"
+  },
+  {
+    "id": "spring-2027-classes-begin",
+    "key": "classes-begin",
+    "term": "Spring 2027",
+    "title": "Classes begin",
+    "date": "2027-03-29",
+    "kind": "milestone",
+    "service": "registrar"
+  },
+  {
+    "id": "fall-2027-admission-decisions",
+    "key": "admission-decisions",
+    "term": "Fall 2027",
+    "title": "Admission decisions released",
+    "date": "2027-04-01",
+    "kind": "milestone",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "description": "Decisions go out by email for applications that were complete by the program's deadline.",
+    "service": "admissions"
+  },
+  {
+    "id": "spring-2027-last-day-to-add",
+    "key": "last-day-to-add",
+    "term": "Spring 2027",
+    "title": "Last day to add classes",
+    "date": "2027-04-05",
+    "kind": "deadline",
+    "description": "After this, adding a class needs the instructor's approval.",
+    "service": "registrar"
+  },
+  {
+    "id": "summer-2027-i20-documents",
+    "key": "i20-documents",
+    "term": "Summer 2027",
+    "title": "I-20 financial documents due",
+    "date": "2027-04-15",
+    "kind": "deadline",
+    "student_types": [
+      "International"
+    ],
+    "description": "International students send proof of funding so the university can issue an I-20.",
+    "service": "international-student-services"
+  },
+  {
+    "id": "spring-2027-tuition-due",
+    "key": "tuition-due",
+    "term": "Spring 2027",
+    "title": "Tuition due",
+    "date": "2027-04-16",
+    "kind": "deadline",
+    "description": "Pay in full or set up a payment plan to keep your classes.",
+    "service": "student-accounts"
+  },
+  {
+    "id": "summer-2027-registration-opens",
+    "key": "registration-opens",
+    "term": "Summer 2027",
+    "title": "Registration opens",
+    "date": "2027-04-19",
+    "kind": "milestone",
+    "description": "Students can sign up for classes. New students register at orientation.",
+    "service": "registrar"
+  },
+  {
+    "id": "fall-2027-enrollment-deposit",
+    "key": "enrollment-deposit",
+    "term": "Fall 2027",
+    "title": "Enrollment deposit due",
+    "date": "2027-04-30",
+    "kind": "deadline",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "description": "Admitted students confirm their place with a $200 deposit, credited to the first tuition bill.",
+    "service": "admissions"
+  },
+  {
+    "id": "summer-2027-admission-decisions",
+    "key": "admission-decisions",
+    "term": "Summer 2027",
+    "title": "Admission decisions released",
+    "date": "2027-04-30",
+    "kind": "milestone",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "description": "Decisions go out by email for applications that were complete by the program's deadline.",
+    "service": "admissions"
+  },
+  {
+    "id": "summer-2027-enrollment-deposit",
+    "key": "enrollment-deposit",
+    "term": "Summer 2027",
+    "title": "Enrollment deposit due",
+    "date": "2027-05-14",
+    "kind": "deadline",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "description": "Admitted students confirm their place with a $200 deposit, credited to the first tuition bill.",
+    "service": "admissions"
+  },
+  {
+    "id": "fall-2027-registration-opens",
+    "key": "registration-opens",
+    "term": "Fall 2027",
+    "title": "Registration opens",
+    "date": "2027-05-17",
+    "kind": "milestone",
+    "description": "Students can sign up for classes. New students register at orientation.",
+    "service": "registrar"
+  },
+  {
+    "id": "fall-2027-i20-documents",
+    "key": "i20-documents",
+    "term": "Fall 2027",
+    "title": "I-20 financial documents due",
+    "date": "2027-06-01",
+    "kind": "deadline",
+    "student_types": [
+      "International"
+    ],
+    "description": "International students send proof of funding so the university can issue an I-20.",
+    "service": "international-student-services"
+  },
+  {
+    "id": "spring-2027-finals-week",
+    "key": "finals-week",
+    "term": "Spring 2027",
+    "title": "Finals week",
+    "date": "2027-06-07",
+    "end": "2027-06-11",
+    "kind": "milestone"
+  },
+  {
+    "id": "summer-2027-orientation-first-year",
+    "key": "orientation-first-year",
+    "term": "Summer 2027",
+    "title": "First-year orientation",
+    "date": "2027-06-17",
+    "kind": "event",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "First-year",
+      "International"
+    ],
+    "description": "Meet an advisor, register for classes, and get a student ID.",
+    "service": "new-student-orientation"
+  },
+  {
+    "id": "summer-2027-orientation-graduate",
+    "key": "orientation-graduate",
+    "term": "Summer 2027",
+    "title": "Graduate orientation",
+    "date": "2027-06-18",
+    "kind": "event",
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ],
+    "description": "Meet program directors and other new graduate students, and learn about funding and research support.",
+    "service": "graduate-school-office"
+  },
+  {
+    "id": "summer-2027-orientation-transfer",
+    "key": "orientation-transfer",
+    "term": "Summer 2027",
+    "title": "Transfer orientation",
+    "date": "2027-06-18",
+    "kind": "event",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "Transfer",
+      "Returning adult"
+    ],
+    "description": "Review how credits apply, meet an advisor, and register for classes.",
+    "service": "new-student-orientation"
+  },
+  {
+    "id": "summer-2027-classes-begin",
+    "key": "classes-begin",
+    "term": "Summer 2027",
+    "title": "Classes begin",
+    "date": "2027-06-21",
+    "kind": "milestone",
+    "service": "registrar"
+  },
+  {
+    "id": "summer-2027-last-day-to-add",
+    "key": "last-day-to-add",
+    "term": "Summer 2027",
+    "title": "Last day to add classes",
+    "date": "2027-06-28",
+    "kind": "deadline",
+    "description": "After this, adding a class needs the instructor's approval.",
+    "service": "registrar"
+  },
+  {
+    "id": "summer-2027-tuition-due",
+    "key": "tuition-due",
+    "term": "Summer 2027",
+    "title": "Tuition due",
+    "date": "2027-07-09",
+    "kind": "deadline",
+    "description": "Pay in full or set up a payment plan to keep your classes.",
+    "service": "student-accounts"
+  },
+  {
+    "id": "summer-2027-finals-week",
+    "key": "finals-week",
+    "term": "Summer 2027",
+    "title": "Finals week",
+    "date": "2027-08-16",
+    "end": "2027-08-20",
+    "kind": "milestone"
+  },
+  {
+    "id": "fall-2027-orientation-first-year",
+    "key": "orientation-first-year",
+    "term": "Fall 2027",
+    "title": "First-year orientation",
+    "date": "2027-09-15",
+    "end": "2027-09-16",
+    "kind": "event",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "First-year",
+      "International"
+    ],
+    "description": "Meet an advisor, register for classes, and get a student ID.",
+    "service": "new-student-orientation"
+  },
+  {
+    "id": "fall-2027-orientation-transfer",
+    "key": "orientation-transfer",
+    "term": "Fall 2027",
+    "title": "Transfer orientation",
+    "date": "2027-09-17",
+    "kind": "event",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "Transfer",
+      "Returning adult"
+    ],
+    "description": "Review how credits apply, meet an advisor, and register for classes.",
+    "service": "new-student-orientation"
+  },
+  {
+    "id": "fall-2027-orientation-graduate",
+    "key": "orientation-graduate",
+    "term": "Fall 2027",
+    "title": "Graduate orientation",
+    "date": "2027-09-20",
+    "kind": "event",
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ],
+    "description": "Meet program directors and other new graduate students, and learn about funding and research support.",
+    "service": "graduate-school-office"
+  },
+  {
+    "id": "fall-2027-classes-begin",
+    "key": "classes-begin",
+    "term": "Fall 2027",
+    "title": "Classes begin",
+    "date": "2027-09-22",
+    "kind": "milestone",
+    "service": "registrar"
+  },
+  {
+    "id": "fall-2027-last-day-to-add",
+    "key": "last-day-to-add",
+    "term": "Fall 2027",
+    "title": "Last day to add classes",
+    "date": "2027-09-29",
+    "kind": "deadline",
+    "description": "After this, adding a class needs the instructor's approval.",
+    "service": "registrar"
+  },
+  {
+    "id": "fall-2027-tuition-due",
+    "key": "tuition-due",
+    "term": "Fall 2027",
+    "title": "Tuition due",
+    "date": "2027-10-08",
+    "kind": "deadline",
+    "description": "Pay in full or set up a payment plan to keep your classes.",
+    "service": "student-accounts"
+  },
+  {
+    "id": "winter-2028-i20-documents",
+    "key": "i20-documents",
+    "term": "Winter 2028",
+    "title": "I-20 financial documents due",
+    "date": "2027-11-01",
+    "kind": "deadline",
+    "student_types": [
+      "International"
+    ],
+    "description": "International students send proof of funding so the university can issue an I-20.",
+    "service": "international-student-services"
+  },
+  {
+    "id": "winter-2028-registration-opens",
+    "key": "registration-opens",
+    "term": "Winter 2028",
+    "title": "Registration opens",
+    "date": "2027-11-09",
+    "kind": "milestone",
+    "description": "Students can sign up for classes. New students register at orientation.",
+    "service": "registrar"
+  },
+  {
+    "id": "winter-2028-admission-decisions",
+    "key": "admission-decisions",
+    "term": "Winter 2028",
+    "title": "Admission decisions released",
+    "date": "2027-11-16",
+    "kind": "milestone",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "description": "Decisions go out by email for applications that were complete by the program's deadline.",
+    "service": "admissions"
+  },
+  {
+    "id": "winter-2028-enrollment-deposit",
+    "key": "enrollment-deposit",
+    "term": "Winter 2028",
+    "title": "Enrollment deposit due",
+    "date": "2027-12-01",
+    "kind": "deadline",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "description": "Admitted students confirm their place with a $200 deposit, credited to the first tuition bill.",
+    "service": "admissions"
+  },
+  {
+    "id": "fall-2027-finals-week",
+    "key": "finals-week",
+    "term": "Fall 2027",
+    "title": "Finals week",
+    "date": "2027-12-06",
+    "end": "2027-12-10",
+    "kind": "milestone"
+  },
+  {
+    "id": "winter-2028-orientation-first-year",
+    "key": "orientation-first-year",
+    "term": "Winter 2028",
+    "title": "First-year orientation",
+    "date": "2027-12-08",
+    "kind": "event",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "First-year",
+      "International"
+    ],
+    "description": "Meet an advisor, register for classes, and get a student ID.",
+    "service": "new-student-orientation"
+  },
+  {
+    "id": "winter-2028-orientation-transfer",
+    "key": "orientation-transfer",
+    "term": "Winter 2028",
+    "title": "Transfer orientation",
+    "date": "2027-12-09",
+    "kind": "event",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "Transfer",
+      "Returning adult"
+    ],
+    "description": "Review how credits apply, meet an advisor, and register for classes.",
+    "service": "new-student-orientation"
+  },
+  {
+    "id": "winter-2028-orientation-graduate",
+    "key": "orientation-graduate",
+    "term": "Winter 2028",
+    "title": "Graduate orientation",
+    "date": "2027-12-10",
+    "kind": "event",
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ],
+    "description": "Meet program directors and other new graduate students, and learn about funding and research support.",
+    "service": "graduate-school-office"
+  },
+  {
+    "id": "winter-2028-classes-begin",
+    "key": "classes-begin",
+    "term": "Winter 2028",
+    "title": "Classes begin",
+    "date": "2028-01-03",
+    "kind": "milestone",
+    "service": "registrar"
+  },
+  {
+    "id": "winter-2028-last-day-to-add",
+    "key": "last-day-to-add",
+    "term": "Winter 2028",
+    "title": "Last day to add classes",
+    "date": "2028-01-10",
+    "kind": "deadline",
+    "description": "After this, adding a class needs the instructor's approval.",
+    "service": "registrar"
+  },
+  {
+    "id": "winter-2028-tuition-due",
+    "key": "tuition-due",
+    "term": "Winter 2028",
+    "title": "Tuition due",
+    "date": "2028-01-21",
+    "kind": "deadline",
+    "description": "Pay in full or set up a payment plan to keep your classes.",
+    "service": "student-accounts"
+  },
+  {
+    "id": "spring-2028-i20-documents",
+    "key": "i20-documents",
+    "term": "Spring 2028",
+    "title": "I-20 financial documents due",
+    "date": "2028-02-01",
+    "kind": "deadline",
+    "student_types": [
+      "International"
+    ],
+    "description": "International students send proof of funding so the university can issue an I-20.",
+    "service": "international-student-services"
+  },
+  {
+    "id": "spring-2028-admission-decisions",
+    "key": "admission-decisions",
+    "term": "Spring 2028",
+    "title": "Admission decisions released",
+    "date": "2028-02-15",
+    "kind": "milestone",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "description": "Decisions go out by email for applications that were complete by the program's deadline.",
+    "service": "admissions"
+  },
+  {
+    "id": "spring-2028-registration-opens",
+    "key": "registration-opens",
+    "term": "Spring 2028",
+    "title": "Registration opens",
+    "date": "2028-02-16",
+    "kind": "milestone",
+    "description": "Students can sign up for classes. New students register at orientation.",
+    "service": "registrar"
+  },
+  {
+    "id": "spring-2028-enrollment-deposit",
+    "key": "enrollment-deposit",
+    "term": "Spring 2028",
+    "title": "Enrollment deposit due",
+    "date": "2028-03-01",
+    "kind": "deadline",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "description": "Admitted students confirm their place with a $200 deposit, credited to the first tuition bill.",
+    "service": "admissions"
+  },
+  {
+    "id": "winter-2028-finals-week",
+    "key": "finals-week",
+    "term": "Winter 2028",
+    "title": "Finals week",
+    "date": "2028-03-13",
+    "end": "2028-03-17",
+    "kind": "milestone"
+  },
+  {
+    "id": "spring-2028-orientation-first-year",
+    "key": "orientation-first-year",
+    "term": "Spring 2028",
+    "title": "First-year orientation",
+    "date": "2028-03-23",
+    "kind": "event",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "First-year",
+      "International"
+    ],
+    "description": "Meet an advisor, register for classes, and get a student ID.",
+    "service": "new-student-orientation"
+  },
+  {
+    "id": "spring-2028-orientation-graduate",
+    "key": "orientation-graduate",
+    "term": "Spring 2028",
+    "title": "Graduate orientation",
+    "date": "2028-03-24",
+    "kind": "event",
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ],
+    "description": "Meet program directors and other new graduate students, and learn about funding and research support.",
+    "service": "graduate-school-office"
+  },
+  {
+    "id": "spring-2028-orientation-transfer",
+    "key": "orientation-transfer",
+    "term": "Spring 2028",
+    "title": "Transfer orientation",
+    "date": "2028-03-24",
+    "kind": "event",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "Transfer",
+      "Returning adult"
+    ],
+    "description": "Review how credits apply, meet an advisor, and register for classes.",
+    "service": "new-student-orientation"
+  },
+  {
+    "id": "spring-2028-classes-begin",
+    "key": "classes-begin",
+    "term": "Spring 2028",
+    "title": "Classes begin",
+    "date": "2028-03-27",
+    "kind": "milestone",
+    "service": "registrar"
+  },
+  {
+    "id": "spring-2028-last-day-to-add",
+    "key": "last-day-to-add",
+    "term": "Spring 2028",
+    "title": "Last day to add classes",
+    "date": "2028-04-03",
+    "kind": "deadline",
+    "description": "After this, adding a class needs the instructor's approval.",
+    "service": "registrar"
+  },
+  {
+    "id": "spring-2028-tuition-due",
+    "key": "tuition-due",
+    "term": "Spring 2028",
+    "title": "Tuition due",
+    "date": "2028-04-14",
+    "kind": "deadline",
+    "description": "Pay in full or set up a payment plan to keep your classes.",
+    "service": "student-accounts"
+  },
+  {
+    "id": "summer-2028-i20-documents",
+    "key": "i20-documents",
+    "term": "Summer 2028",
+    "title": "I-20 financial documents due",
+    "date": "2028-04-14",
+    "kind": "deadline",
+    "student_types": [
+      "International"
+    ],
+    "description": "International students send proof of funding so the university can issue an I-20.",
+    "service": "international-student-services"
+  },
+  {
+    "id": "summer-2028-registration-opens",
+    "key": "registration-opens",
+    "term": "Summer 2028",
+    "title": "Registration opens",
+    "date": "2028-04-19",
+    "kind": "milestone",
+    "description": "Students can sign up for classes. New students register at orientation.",
+    "service": "registrar"
+  },
+  {
+    "id": "summer-2028-admission-decisions",
+    "key": "admission-decisions",
+    "term": "Summer 2028",
+    "title": "Admission decisions released",
+    "date": "2028-05-01",
+    "kind": "milestone",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "description": "Decisions go out by email for applications that were complete by the program's deadline.",
+    "service": "admissions"
+  },
+  {
+    "id": "summer-2028-enrollment-deposit",
+    "key": "enrollment-deposit",
+    "term": "Summer 2028",
+    "title": "Enrollment deposit due",
+    "date": "2028-05-15",
+    "kind": "deadline",
+    "student_types": [
+      "First-year",
+      "Transfer",
+      "Returning adult",
+      "International",
+      "New graduate student"
+    ],
+    "description": "Admitted students confirm their place with a $200 deposit, credited to the first tuition bill.",
+    "service": "admissions"
+  },
+  {
+    "id": "spring-2028-finals-week",
+    "key": "finals-week",
+    "term": "Spring 2028",
+    "title": "Finals week",
+    "date": "2028-06-05",
+    "end": "2028-06-09",
+    "kind": "milestone"
+  },
+  {
+    "id": "summer-2028-orientation-first-year",
+    "key": "orientation-first-year",
+    "term": "Summer 2028",
+    "title": "First-year orientation",
+    "date": "2028-06-15",
+    "kind": "event",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "First-year",
+      "International"
+    ],
+    "description": "Meet an advisor, register for classes, and get a student ID.",
+    "service": "new-student-orientation"
+  },
+  {
+    "id": "summer-2028-orientation-graduate",
+    "key": "orientation-graduate",
+    "term": "Summer 2028",
+    "title": "Graduate orientation",
+    "date": "2028-06-16",
+    "kind": "event",
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ],
+    "description": "Meet program directors and other new graduate students, and learn about funding and research support.",
+    "service": "graduate-school-office"
+  },
+  {
+    "id": "summer-2028-orientation-transfer",
+    "key": "orientation-transfer",
+    "term": "Summer 2028",
+    "title": "Transfer orientation",
+    "date": "2028-06-16",
+    "kind": "event",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "Transfer",
+      "Returning adult"
+    ],
+    "description": "Review how credits apply, meet an advisor, and register for classes.",
+    "service": "new-student-orientation"
+  },
+  {
+    "id": "summer-2028-classes-begin",
+    "key": "classes-begin",
+    "term": "Summer 2028",
+    "title": "Classes begin",
+    "date": "2028-06-19",
+    "kind": "milestone",
+    "service": "registrar"
+  },
+  {
+    "id": "summer-2028-last-day-to-add",
+    "key": "last-day-to-add",
+    "term": "Summer 2028",
+    "title": "Last day to add classes",
+    "date": "2028-06-26",
+    "kind": "deadline",
+    "description": "After this, adding a class needs the instructor's approval.",
+    "service": "registrar"
+  },
+  {
+    "id": "summer-2028-tuition-due",
+    "key": "tuition-due",
+    "term": "Summer 2028",
+    "title": "Tuition due",
+    "date": "2028-07-07",
+    "kind": "deadline",
+    "description": "Pay in full or set up a payment plan to keep your classes.",
+    "service": "student-accounts"
+  },
+  {
+    "id": "summer-2028-finals-week",
+    "key": "finals-week",
+    "term": "Summer 2028",
+    "title": "Finals week",
+    "date": "2028-08-14",
+    "end": "2028-08-18",
+    "kind": "milestone"
+  }
+]

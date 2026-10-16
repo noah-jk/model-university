@@ -15,6 +15,7 @@ const routes: Partial<Record<Feature, { pattern: string; entrypoint: string }[]>
   aiSearch: [{ pattern: "/search", entrypoint: "./src/features/search/index.astro" }],
   workbench: [
     { pattern: "/data/workbench-index.json", entrypoint: "./src/features/workbench-index.ts" },
+    { pattern: "/data/enrollment.json", entrypoint: "./src/features/enrollment-data.ts" },
     { pattern: "/workbench", entrypoint: "./src/features/workbench/index.astro" },
   ],
 };

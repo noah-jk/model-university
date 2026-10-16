@@ -19,6 +19,7 @@ One content layer feeds every page and every AI feature.
 site.config.ts              Site name, URL, timezone, indexing, and AI feature switches
 content/
   generated/                Catalog, faculty, and events as JSON, written by scripts/generate-data.mjs (don't edit by hand)
+  enrollment/               Your Path's rules: academic calendar, enrollment steps, offices by student type (edited by hand)
   news/                     News stories, one Markdown file each
   pages/                    About and admissions pages in Markdown
 src/
@@ -39,10 +40,12 @@ netlify/functions/mcp.mts   The MCP endpoint
 netlify/functions/search.mts  The search endpoint, /api/search (the only code that reads the Gemini key)
 scripts/
   generate-data.mjs         Deterministic synthetic data (same seed, same data)
+  generate-enrollment.mjs   The first version of content/enrollment/ (run once; the files are edited by hand after that)
   check-content.ts          Validates content against the schemas and checks cross-references
   test-mcp.ts               Calls every MCP tool and prompt without Netlify
   test-search.ts            Runs /api/search with a fake model
   test-workbench.ts         The workbench's store, views, and index
+  test-enrollment.ts        The enrollment rules, their lookups, and targeted events
 ```
 
 ### Content model
@@ -55,7 +58,7 @@ scripts/
 | `courses` | 1,330 courses | `department`, `prerequisites` (courses) |
 | `services` | 36 student services with weekly hours | |
 | `faculty` | 318 faculty, 6 to 8 per department | `department` |
-| `events` | 64 events across the 2026–27 academic year | `related` programs, departments, services, faculty |
+| `events` | 76 events across the 2026–27 academic year, some for particular students (`levels`, `student_types`) | `related` programs, departments, services, faculty |
 | `news` | News stories (Markdown) | `related` programs, departments, services, faculty |
 | `pages` | About and admissions pages (Markdown) | |
 
@@ -79,7 +82,7 @@ Each feature is a switch in `site.config.ts`. When a switch is off, its routes a
 | `markdownPages` | `…/index.md` copies of program, course, and service pages |
 | `askAi` | "Ask AI" menus on the home page and section overview pages (academics, programs, courses, admissions, services, faculty, events, news) |
 | `personalization` | Session-based personalization: the application journey and the "For me" panel in the header, the program list's order, the journey forms' prefilling, and the "Under the hood" panel. Uses sessionStorage only. |
-| `workbench` | The workbench: `/workbench/`, `/data/workbench-index.json`, Save to Workbench toggles, and the header link. Uses localStorage only. |
+| `workbench` | The workbench: `/workbench/`, `/data/workbench-index.json`, `/data/enrollment.json`, Save to Workbench toggles, and the header link. Uses localStorage only. |
 | `aiSearch` | Natural-language search: `/search/`, `/api/search`, and Search in the header. The model and tier are set under `aiSearch` in `site.config.ts`. |
 
 ### Personalization (Lab)
@@ -111,6 +114,16 @@ To avoid layout shift, the program list is reordered by a small inline script be
 - `src/lib/search/render.ts` renders results for both the server and the browser. Each result has its Save to Workbench toggle there.
 - Keyword search (`keywordPlan`) takes over when there's no key, the visitor is over 10 searches a minute, the model takes over 8 seconds or fails, plans nothing usable, or its plan finds nothing. The response then has `fallback: true`.
 - The key is `GEMINI_API_KEY` in Netlify's environment variables, read only in `netlify/functions/search.mts`. See `CLAUDE.md`.
+
+### Enrollment rules
+
+`content/enrollment/` holds what applies to whom, for Your Path (#14) and the admissions pages for transfer, international, and graduate students. It's written to be owned by an admissions office: plain JSON, edited by hand, validated by `npm run check:content`.
+
+- `calendar.json`: institution-wide dates (orientation, registration, tuition due, classes begin, finals, the FAFSA priority date) for 2026–27 and 2027–28. Each entry is for a term or an academic year, and its id is the term (or year) plus its `key`, like `winter-2027-classes-begin`. Application deadlines aren't here: each program has its own.
+- `steps.json`: what each kind of student does, in order. Prospective students start with the application journey (explore, request information, visit, apply). A step's date is a calendar `key` (for the student's start term), a number of days before classes begin, or the program's deadline.
+- `offices.json`: two to four offices for each student type and level, each with a reason.
+- Student types and levels are in `src/lib/vocab.ts`; lookups are in `src/lib/enrollment.ts`.
+- The calendar is fixed for 2026–27 and 2027–28, so start terms after Summer 2028 have no dates until it's extended.
 
 ### Workbench (Lab)
 

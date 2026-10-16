@@ -232,7 +232,14 @@
       "services": [
         "graduate-school-office"
       ]
-    }
+    },
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ]
   },
   {
     "id": "graduate-programs-information-session-arts-and-letters-2026-11-04",
@@ -261,7 +268,14 @@
       "services": [
         "graduate-school-office"
       ]
-    }
+    },
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ]
   },
   {
     "id": "graduate-programs-information-session-social-and-behavioral-sciences-2026-11-04",
@@ -287,6 +301,39 @@
       ],
       "services": [
         "graduate-school-office"
+      ]
+    },
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ]
+  },
+  {
+    "id": "first-year-admissions-qanda-2026-11-04",
+    "title": "First-Year Admissions Q&A",
+    "start": "2026-11-04T18:00:00-08:00",
+    "end": "2026-11-04T19:00:00-08:00",
+    "registration_required": true,
+    "category": "Admissions",
+    "audience": [
+      "Prospective students",
+      "Families"
+    ],
+    "location": "Online",
+    "campus": "Online",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "First-year"
+    ],
+    "description": "Admissions counselors answer questions from high school students and their families about applying, deadlines, and what happens after you're admitted.",
+    "related": {
+      "services": [
+        "admissions"
       ]
     }
   },
@@ -327,6 +374,33 @@
     "related": {
       "services": [
         "admissions"
+      ]
+    }
+  },
+  {
+    "id": "registration-help-drop-in-2026-11-10",
+    "title": "Registration Help Drop-in",
+    "start": "2026-11-10T11:00:00-08:00",
+    "end": "2026-11-10T13:00:00-08:00",
+    "registration_required": false,
+    "category": "Academics",
+    "audience": [
+      "Current students"
+    ],
+    "location": "Registrar, Rainier Student Center",
+    "campus": "Tacoma Bay campus",
+    "levels": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "student_types": [
+      "Current student"
+    ],
+    "description": "Registrar and advising staff help with holds, waitlists, and building next term's schedule, the week registration opens.",
+    "related": {
+      "services": [
+        "registrar",
+        "academic-advising"
       ]
     }
   },
@@ -377,7 +451,14 @@
       "services": [
         "graduate-school-office"
       ]
-    }
+    },
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ]
   },
   {
     "id": "graduate-programs-information-session-education-2026-11-12",
@@ -402,7 +483,14 @@
       "services": [
         "graduate-school-office"
       ]
-    }
+    },
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ]
   },
   {
     "id": "graduate-programs-information-session-health-and-human-services-2026-11-12",
@@ -430,7 +518,14 @@
       "services": [
         "graduate-school-office"
       ]
-    }
+    },
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ]
   },
   {
     "id": "transfer-student-information-night-2026-11-12",
@@ -450,7 +545,14 @@
         "transfer-center",
         "admissions"
       ]
-    }
+    },
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "Transfer",
+      "Returning adult"
+    ]
   },
   {
     "id": "graduate-programs-information-session-carver-college-of-business-2026-11-17",
@@ -476,6 +578,40 @@
       ],
       "services": [
         "graduate-school-office"
+      ]
+    },
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ]
+  },
+  {
+    "id": "international-student-admissions-webinar-2026-11-18",
+    "title": "International Student Admissions Webinar",
+    "start": "2026-11-18T08:00:00-08:00",
+    "end": "2026-11-18T09:00:00-08:00",
+    "registration_required": true,
+    "category": "Admissions",
+    "audience": [
+      "Prospective students"
+    ],
+    "location": "Online",
+    "campus": "Online",
+    "levels": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "student_types": [
+      "International"
+    ],
+    "description": "Admissions and International Student Services walk through applying from outside the U.S., English proficiency scores, financial documents, and getting your I-20. Scheduled early in the day for students in Asia.",
+    "related": {
+      "services": [
+        "international-student-services",
+        "admissions"
       ]
     }
   },
@@ -539,6 +675,33 @@
     "related": {
       "services": [
         "counseling-center"
+      ]
+    }
+  },
+  {
+    "id": "returning-to-college-information-session-for-adult-learners-2026-12-02",
+    "title": "Returning to College: Information Session for Adult Learners",
+    "start": "2026-12-02T18:00:00-08:00",
+    "end": "2026-12-02T19:00:00-08:00",
+    "registration_required": true,
+    "category": "Admissions",
+    "audience": [
+      "Prospective students"
+    ],
+    "location": "Online",
+    "campus": "Online",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "Returning adult"
+    ],
+    "description": "Finishing a degree around work and family: evening and online classes, credit for prior learning, aid for part-time students, and veterans' benefits.",
+    "related": {
+      "services": [
+        "academic-advising",
+        "financial-aid-and-scholarships",
+        "veterans-services"
       ]
     }
   },
@@ -668,6 +831,32 @@
     }
   },
   {
+    "id": "first-year-admissions-qanda-2027-01-13",
+    "title": "First-Year Admissions Q&A",
+    "start": "2027-01-13T18:00:00-08:00",
+    "end": "2027-01-13T19:00:00-08:00",
+    "registration_required": true,
+    "category": "Admissions",
+    "audience": [
+      "Prospective students",
+      "Families"
+    ],
+    "location": "Online",
+    "campus": "Online",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "First-year"
+    ],
+    "description": "Admissions counselors answer questions from high school students and their families about applying, deadlines, and what happens after you're admitted.",
+    "related": {
+      "services": [
+        "admissions"
+      ]
+    }
+  },
+  {
     "id": "wildfire-smoke-and-community-health-2027-01-13",
     "title": "Wildfire Smoke and Community Health",
     "start": "2027-01-13T18:30:00-08:00",
@@ -712,6 +901,33 @@
     }
   },
   {
+    "id": "graduate-funding-and-assistantships-webinar-2027-01-20",
+    "title": "Graduate Funding and Assistantships Webinar",
+    "start": "2027-01-20T12:00:00-08:00",
+    "end": "2027-01-20T13:00:00-08:00",
+    "registration_required": true,
+    "category": "Money",
+    "audience": [
+      "Prospective students"
+    ],
+    "location": "Online",
+    "campus": "Online",
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ],
+    "description": "How teaching and research assistantships, fellowships, and graduate loans work, and how to ask your program about openings.",
+    "related": {
+      "services": [
+        "graduate-school-office",
+        "financial-aid-and-scholarships"
+      ]
+    }
+  },
+  {
     "id": "fafsa-and-wasfa-completion-night-2027-01-21",
     "title": "FAFSA and WASFA Completion Night",
     "start": "2027-01-21T17:00:00-08:00",
@@ -729,6 +945,33 @@
     "related": {
       "services": [
         "financial-aid-and-scholarships"
+      ]
+    }
+  },
+  {
+    "id": "transfer-credit-drop-in-2027-01-27",
+    "title": "Transfer Credit Drop-in",
+    "start": "2027-01-27T15:00:00-08:00",
+    "end": "2027-01-27T17:00:00-08:00",
+    "registration_required": false,
+    "category": "Admissions",
+    "audience": [
+      "Prospective students",
+      "Current students"
+    ],
+    "location": "Transfer Center, Rainier Student Center",
+    "campus": "Tacoma Bay campus",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "Transfer",
+      "Returning adult"
+    ],
+    "description": "Bring your transcripts and see how your credits apply to the program you want. No appointment needed.",
+    "related": {
+      "services": [
+        "transfer-center"
       ]
     }
   },
@@ -801,7 +1044,14 @@
       "services": [
         "graduate-school-office"
       ]
-    }
+    },
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ]
   },
   {
     "id": "graduate-programs-information-session-carver-college-of-business-2027-02-03",
@@ -828,7 +1078,14 @@
       "services": [
         "graduate-school-office"
       ]
-    }
+    },
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ]
   },
   {
     "id": "campus-tour-tacoma-bay-2027-02-05",
@@ -877,7 +1134,14 @@
       "services": [
         "graduate-school-office"
       ]
-    }
+    },
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ]
   },
   {
     "id": "graduate-programs-information-session-science-2027-02-09",
@@ -905,7 +1169,14 @@
       "services": [
         "graduate-school-office"
       ]
-    }
+    },
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ]
   },
   {
     "id": "graduate-programs-information-session-social-and-behavioral-sciences-2027-02-09",
@@ -931,6 +1202,40 @@
       ],
       "services": [
         "graduate-school-office"
+      ]
+    },
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ]
+  },
+  {
+    "id": "international-student-admissions-webinar-2027-02-10",
+    "title": "International Student Admissions Webinar",
+    "start": "2027-02-10T08:00:00-08:00",
+    "end": "2027-02-10T09:00:00-08:00",
+    "registration_required": true,
+    "category": "Admissions",
+    "audience": [
+      "Prospective students"
+    ],
+    "location": "Online",
+    "campus": "Online",
+    "levels": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "student_types": [
+      "International"
+    ],
+    "description": "Admissions and International Student Services walk through applying from outside the U.S., English proficiency scores, financial documents, and getting your I-20. Scheduled early in the day for students in Asia.",
+    "related": {
+      "services": [
+        "international-student-services",
+        "admissions"
       ]
     }
   },
@@ -976,7 +1281,14 @@
       "services": [
         "graduate-school-office"
       ]
-    }
+    },
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ]
   },
   {
     "id": "graduate-programs-information-session-engineering-and-computing-2027-02-16",
@@ -1003,6 +1315,40 @@
       ],
       "services": [
         "graduate-school-office"
+      ]
+    },
+    "levels": [
+      "Graduate"
+    ],
+    "student_types": [
+      "New graduate student",
+      "International"
+    ]
+  },
+  {
+    "id": "registration-help-drop-in-2027-02-17",
+    "title": "Registration Help Drop-in",
+    "start": "2027-02-17T11:00:00-08:00",
+    "end": "2027-02-17T13:00:00-08:00",
+    "registration_required": false,
+    "category": "Academics",
+    "audience": [
+      "Current students"
+    ],
+    "location": "Registrar, Rainier Student Center",
+    "campus": "Tacoma Bay campus",
+    "levels": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "student_types": [
+      "Current student"
+    ],
+    "description": "Registrar and advising staff help with holds, waitlists, and building next term's schedule, the week registration opens.",
+    "related": {
+      "services": [
+        "registrar",
+        "academic-advising"
       ]
     }
   },
@@ -1128,6 +1474,33 @@
     "related": {
       "services": [
         "counseling-center"
+      ]
+    }
+  },
+  {
+    "id": "returning-to-college-information-session-for-adult-learners-2027-03-10",
+    "title": "Returning to College: Information Session for Adult Learners",
+    "start": "2027-03-10T18:00:00-08:00",
+    "end": "2027-03-10T19:00:00-08:00",
+    "registration_required": true,
+    "category": "Admissions",
+    "audience": [
+      "Prospective students"
+    ],
+    "location": "Online",
+    "campus": "Online",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "Returning adult"
+    ],
+    "description": "Finishing a degree around work and family: evening and online classes, credit for prior learning, aid for part-time students, and veterans' benefits.",
+    "related": {
+      "services": [
+        "academic-advising",
+        "financial-aid-and-scholarships",
+        "veterans-services"
       ]
     }
   },
@@ -1301,6 +1674,33 @@
     }
   },
   {
+    "id": "transfer-credit-drop-in-2027-04-21",
+    "title": "Transfer Credit Drop-in",
+    "start": "2027-04-21T15:00:00-07:00",
+    "end": "2027-04-21T17:00:00-07:00",
+    "registration_required": false,
+    "category": "Admissions",
+    "audience": [
+      "Prospective students",
+      "Current students"
+    ],
+    "location": "Transfer Center, Rainier Student Center",
+    "campus": "Tacoma Bay campus",
+    "levels": [
+      "Undergraduate"
+    ],
+    "student_types": [
+      "Transfer",
+      "Returning adult"
+    ],
+    "description": "Bring your transcripts and see how your credits apply to the program you want. No appointment needed.",
+    "related": {
+      "services": [
+        "transfer-center"
+      ]
+    }
+  },
+  {
     "id": "thinking-clearly-about-artificial-intelligence-2027-04-21",
     "title": "Thinking Clearly About Artificial Intelligence",
     "start": "2027-04-21T18:30:00-07:00",
@@ -1364,6 +1764,33 @@
     "related": {
       "services": [
         "puget-library"
+      ]
+    }
+  },
+  {
+    "id": "registration-help-drop-in-2027-05-18",
+    "title": "Registration Help Drop-in",
+    "start": "2027-05-18T11:00:00-07:00",
+    "end": "2027-05-18T13:00:00-07:00",
+    "registration_required": false,
+    "category": "Academics",
+    "audience": [
+      "Current students"
+    ],
+    "location": "Registrar, Rainier Student Center",
+    "campus": "Tacoma Bay campus",
+    "levels": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "student_types": [
+      "Current student"
+    ],
+    "description": "Registrar and advising staff help with holds, waitlists, and building next term's schedule, the week registration opens.",
+    "related": {
+      "services": [
+        "registrar",
+        "academic-advising"
       ]
     }
   },
