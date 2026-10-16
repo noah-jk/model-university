@@ -80,6 +80,13 @@ store.setDismissed("event:gone", true);
 const pruned = store.prune({ step: (id) => id === "apply", dismissed: (key) => key !== "event:gone" });
 check(pruned && store.get().completed.join() === "apply" && store.get().dismissed.join() === "office:transfer-center", "store: prune drops ids that no longer exist");
 check(!store.prune({ step: () => true, dismissed: () => true }), "store: prune writes nothing when all ids exist");
+store.setVisit("2026-11-20");
+check(store.get().visit?.date === "2026-11-20", "store: the visit date");
+store.setVisit(undefined);
+check(!("visit" in store.get()), "store: remove the visit");
+store.hideHandoff("tuition");
+store.hideHandoff("tuition");
+check(store.get().hiddenHandoffs.join() === "tuition", "store: a hidden handoff is kept once");
 const writes = storage.data.get(STORAGE_KEY);
 store.setBadge({ count: 3, counting: "steps" });
 const afterBadge = storage.data.get(STORAGE_KEY);
@@ -105,6 +112,7 @@ check(migrate(null).version === 2, "migrate: nothing saved gives an empty workbe
 const v1 = migrate({ version: 1, startTerm: "Spring 2027", updatedAt: "2026-10-01T00:00:00Z", items: [{ id: "b", kind: "program", ref: "nursing-msn", source: "saved", addedAt: "2026-10-01T00:00:00Z" }] });
 check(v1.version === 2 && v1.profile.startTerm === "Spring 2027" && v1.items.length === 1 && v1.completed.length === 0 && v1.dismissed.length === 0, "migrate: version 1 keeps its items and start term");
 const messy = migrate({ version: 2, items: [], profile: { level: "Graduate", studentType: 4 }, completed: ["apply", 7], dismissed: "nope" });
+check(migrate({ version: 2, items: [], visit: { date: "2026-11-20" } }).visit?.date === "2026-11-20" && !("visit" in migrate({ version: 2, items: [], visit: { date: "soon" } })), "migrate: keeps a valid visit date only");
 check(messy.profile.level === "Graduate" && !("studentType" in messy.profile) && messy.completed.join() === "apply" && messy.dismissed.length === 0, "migrate: bad choices and ids are dropped");
 const withAnswer = quietly(() => migrate({
   version: 1,

@@ -50,6 +50,8 @@ let compareChoice: string[] | undefined;
 // Where focus should go after the next render
 let pendingFocus: string | undefined;
 let showDismissed = false;
+// The saved item whose More actions list is open, if any (one at a time)
+let openMore: string | undefined;
 let pruned = false;
 
 // Profile -----------------------------------------------------------------------
@@ -222,12 +224,17 @@ function renderItem(item: WorkbenchItem, w: Workbench, group: WorkbenchItem[], o
 
   const button = (action: string, text: string, disabled = false) =>
     `<button type="button" data-action="${action}" data-focus-key="${key(action)}"${disabled ? ' aria-disabled="true"' : ""}>${esc(text)}${hidden(` ${name}`)}</button>`;
-  const actions = [
-    isContent(item) && !missing && button("note", item.note ? "Edit note" : "Add note"),
-    button("up", "Move up", at === 0),
-    button("down", "Move down", at === group.length - 1),
-    button("remove", "Remove"),
-  ].filter(Boolean);
+  // Add note stays in view; the rest are behind a More actions disclosure
+  const open = openMore === item.id;
+  const more = `<div class="more" data-more-for="${item.id}">
+    <button type="button" class="more-toggle" aria-expanded="${open}" aria-controls="more-${item.id}" data-more="${item.id}" data-focus-key="${key("more")}">More actions${hidden(` for ${name}`)}</button>
+    <ul class="more-list" id="more-${item.id}"${open ? "" : " hidden"}>
+      <li>${button("up", "Move up", at === 0)}</li>
+      <li>${button("down", "Move down", at === group.length - 1)}</li>
+      <li>${button("remove", "Remove")}</li>
+    </ul>
+  </div>`;
+  const actions = [isContent(item) && !missing && button("note", item.note ? "Edit note" : "Add note"), more].filter(Boolean);
 
   return `<li class="wb-item" data-item-id="${item.id}" tabindex="-1" data-focus-key="${key("item")}">${body}<div class="wb-actions">${actions.join("")}</div></li>`;
 }
@@ -358,12 +365,13 @@ function renderTimeline(w: Workbench, plan: Plan | undefined, profile: ResolvedP
       const when = e.start ? eventTime(e) : e.end ? `Through ${longDay(e.end)}` : "";
       const title = e.url ? `<a href="${esc(e.url)}">${esc(e.title)}</a>` : esc(e.title);
       const calendar = e.past || e.done ? "" : `<button type="button" class="small-button" data-ics="${i}" data-focus-key="ics:${esc(e.id)}">Add to calendar${hidden(`: ${e.title}`)}</button>`;
+      const remove = e.id === "visit" ? `<button type="button" class="small-button" data-remove-visit data-focus-key="remove-visit">Remove${hidden(` ${e.title}`)}</button>` : "";
       return `<li class="${e.past || e.done ? "past" : ""}">
         <time datetime="${e.date}">${esc(longDay(e.date))}</time>
         <div class="what">
           <p><strong>${title}</strong>${badge}</p>
           <p class="kind">${KIND_LABEL[e.kind]} · ${esc(e.source)}${when ? ` · ${esc(when)}` : ""}</p>
-          ${calendar}
+          ${calendar}${remove}
         </div>
       </li>`;
     })
@@ -491,6 +499,39 @@ function removeItem(item: WorkbenchItem, w: Workbench) {
   announce(`Removed ${name} from ${WORKBENCH_LABEL}. Undo is at the bottom of the page.`);
 }
 
+// More actions: a disclosure (a button and a list of ordinary buttons), not
+// a menu. Opening one closes any other. It stays open after a Move, with
+// focus on the same Move button, so moving an item several places is quick.
+// Escape, or focus leaving it, closes it.
+function setMore(id: string | undefined, { focusToggle = false } = {}) {
+  const closing = openMore;
+  openMore = id;
+  for (const box of root.querySelectorAll<HTMLElement>("[data-more-for]")) {
+    const open = box.dataset.moreFor === id;
+    box.querySelector("[data-more]")!.setAttribute("aria-expanded", String(open));
+    box.querySelector<HTMLElement>(".more-list")!.hidden = !open;
+  }
+  if (focusToggle && closing) root.querySelector<HTMLElement>(`[data-more="${CSS.escape(closing)}"]`)?.focus();
+}
+
+root.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape" || !openMore) return;
+  if (!(event.target as Element).closest(`[data-more-for="${CSS.escape(openMore)}"]`)) return;
+  event.preventDefault();
+  setMore(undefined, { focusToggle: true });
+});
+
+root.addEventListener("focusout", (event) => {
+  const box = (event.target as Element).closest<HTMLElement>("[data-more-for]");
+  if (!box || box.dataset.moreFor !== openMore) return;
+  const to = event.relatedTarget as Node | null;
+  // Re-renders replace the list; only close when focus really went somewhere else
+  setTimeout(() => {
+    const current = root.querySelector(`[data-more-for="${CSS.escape(box.dataset.moreFor!)}"]`);
+    if (openMore === box.dataset.moreFor && !current?.contains(document.activeElement) && (!to || !current?.contains(to))) setMore(undefined);
+  });
+});
+
 // Dismissing a pulled-in office or event moves focus to the next one in its
 // group, or the group's heading if it was the last
 function dismiss(key: string) {
@@ -514,6 +555,14 @@ root.addEventListener("click", (event) => {
   if (locked) {
     event.preventDefault();
     announce(`${locked.labels?.[0]?.textContent ?? "This step"} was done through your application journey.`);
+    return;
+  }
+
+  // The visit from the visit form: removing it moves focus to the timeline panel
+  if (target.closest("[data-remove-visit]")) {
+    workbench.setVisit(undefined);
+    panels.timeline.focus();
+    announce(`Removed your campus visit from ${WORKBENCH_LABEL}.`);
     return;
   }
 
@@ -560,6 +609,9 @@ root.addEventListener("click", (event) => {
     return;
   }
 
+  const moreToggle = target.closest<HTMLButtonElement>("[data-more]");
+  if (moreToggle) return setMore(openMore === moreToggle.dataset.more ? undefined : moreToggle.dataset.more);
+
   const button = target.closest<HTMLButtonElement>("button[data-action]");
   const id = button?.closest<HTMLElement>("[data-item-id]")?.dataset.itemId;
   if (!button || !id || button.getAttribute("aria-disabled") === "true") return;
@@ -577,6 +629,7 @@ root.addEventListener("click", (event) => {
       break;
     }
     case "remove":
+      openMore = undefined;
       removeItem(item, w);
       break;
     case "note":
@@ -687,7 +740,46 @@ const tabFromHash = () => {
 tabFromHash();
 window.addEventListener("hashchange", tabFromHash);
 
+// Links from elsewhere --------------------------------------------------------------
+
+// Handoffs link here with the student's answers after the #, like
+// #plan&type=Transfer&level=Undergraduate (see pathLink in handoffs.ts). The
+// part after # never reaches the server, so no log records an answer. The
+// values are saved as the student's choices, then cleared from the address.
+// Returns whether the link changed the plan, so it can be announced.
+function applyLink() {
+  const params = new URLSearchParams(location.hash.slice(1));
+  if (!params.has("plan")) return false;
+  history.replaceState(history.state, "", location.pathname);
+  const before = workbench.get().profile;
+  const level = params.get("level") ?? undefined;
+  const type = params.get("type") ?? undefined;
+  if (level && (STUDENT_LEVELS as readonly string[]).includes(level)) workbench.setChoice("level", level);
+  if (type && ALL_STUDENT_TYPES.includes(type)) {
+    // A type that only fits one level brings its level (Transfer → Undergraduate)
+    const fits = STUDENT_LEVELS.filter((l) => (STUDENT_TYPES[l] as readonly string[]).includes(type));
+    if (!validType(workbench.get().profile.level, type) || (!level && fits.length === 1)) {
+      if (fits.length === 1) workbench.setChoice("level", fits[0]);
+      else workbench.setChoice("level", undefined);
+    }
+    workbench.setChoice("studentType", type);
+  }
+  const after = workbench.get().profile;
+  return before.level !== after.level || before.studentType !== after.studentType;
+}
+
+// After arriving from a link, a field still to answer gets focus, so the
+// student can finish their plan straight away
+function focusMissing() {
+  const profile = currentProfile(workbench.get());
+  if (!profile.studentType.value) selects.studentType.focus();
+  else if (!profile.level.value) selects.level.focus();
+}
+
 // Loading ------------------------------------------------------------------------
+
+const fromLink = location.hash.startsWith("#plan");
+const linkChanged = applyLink();
 
 window.addEventListener("workbench:change", render);
 window.addEventListener("personalization:change", render);
@@ -709,6 +801,8 @@ Promise.all([getJson<WorkbenchIndex>("/data/workbench-index.json"), getJson<Rule
       });
     }
     render();
+    if (fromLink) focusMissing();
+    if (linkChanged) announcePlan();
   })
   .catch(() => {
     for (const panel of Object.values(panels)) panel.innerHTML = `<p>${WORKBENCH_LABEL} couldn't load. Reload the page to try again.</p>`;

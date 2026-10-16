@@ -145,7 +145,18 @@ The rest:
 - The header count is the steps still to do once there's a plan, otherwise the saved items. An inline script in BaseLayout draws the last count before the page is painted.
 - `/data/workbench-index.json` (`index-data.ts`): the catalog fields the page needs, built whenever the feature is on, whatever `jsonFeeds` says. Its size is in the build log.
 - Toggles come from one renderer (`toggle.ts`), used by detail pages, the program list, and search results. They're hidden without JavaScript, and an inline script in BaseLayout marks saved ones before the page is drawn.
-- Saved items feed the personalization profile, each counting as three page views. Under the hood shows the plan's profile, where each value came from, and how many steps are done and items dismissed.
+- Saved items feed the personalization profile, each counting as three page views. Under the hood shows the plan's profile, where each value came from, and how many steps are done, items dismissed, and tips hidden.
+- Saved items keep Add note in view; Move up, Move down, and Remove are behind a More actions disclosure (a button and a list of ordinary buttons, not a menu).
+- Links can fill in Your Path: `/your-path/#plan&type=Transfer&level=Undergraduate` saves those answers as the student's choices, then clears them from the address. They go after the `#` so they never reach the server. `pathLink()` in `handoffs.ts` builds them.
+- The request-info form asks "Which describes you?" (the student type, narrowed by degree level); Your Path suggests it. Sending the visit form keeps the visit date on Your Path's timeline, and the form says so.
+
+#### Handoffs
+
+Short panels on key pages that explain Your Path where it matters: the homepage, the admissions landing (with a student type and level picker), tuition and aid (the next aid step), program pages (a line under Save), the Transfer Center, International Student Services, and the Graduate School Office and their admissions pages, the request-info and visit forms after sending, and the first save anywhere (once).
+
+- All the words are in `src/lib/workbench/handoffs.ts`, as small functions of the plan, so they're tested and move easily. `PathHandoff.astro` and `ProgramPathHint.astro` render them; `src/scripts/workbench/handoffs.ts` fills in the plan's numbers.
+- Each has a start state (no plan yet) and a continue state. BaseLayout's inline script picks the state from the cached header count and hides dismissed handoffs before paint, and the text keeps its space, so nothing shifts.
+- "Hide this tip" stores the handoff's id in `hiddenHandoffs` (one id per kind of page). Only the homepage and tuition handoffs show dates, so only they download `/data/enrollment.json`.
 
 ## Working on it
 

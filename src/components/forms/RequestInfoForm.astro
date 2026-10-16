@@ -6,6 +6,7 @@ import JourneyForm from "./JourneyForm.astro";
 import Field from "./Field.astro";
 import { collegeOf, departmentOf, programs } from "../../lib/catalog.ts";
 import { upcomingTerms } from "../../lib/terms.ts";
+import { LEVEL_OF_PROGRAM, STUDENT_LEVELS, STUDENT_TYPES } from "../../lib/vocab.ts";
 
 interface Props {
   id?: string;
@@ -20,6 +21,13 @@ const programsByLevel = levels.map((level) => ({
   level,
   programs: programs.filter((p) => p.level === level).sort((a, b) => a.name.localeCompare(b.name)),
 }));
+
+// Student types for someone applying (current students don't request info),
+// each with the levels it applies to, so picking a degree level narrows them
+const studentTypes = [...new Set(STUDENT_LEVELS.flatMap((l) => STUDENT_TYPES[l] as readonly string[]))]
+  .filter((type) => type !== "Current student")
+  .map((type) => ({ type, levels: STUDENT_LEVELS.filter((l) => (STUDENT_TYPES[l] as readonly string[]).includes(type)) }));
+const levelOf = Object.fromEntries(levels.map((l) => [l, LEVEL_OF_PROGRAM[l as keyof typeof LEVEL_OF_PROGRAM]]));
 ---
 
 <JourneyForm id={id} kind="requestInfo" heading={heading} headingLevel={headingLevel} submitLabel="Request information">
@@ -41,7 +49,11 @@ const programsByLevel = levels.map((level) => ({
   />
   <Field formId={id} name="level" label="Degree level" select required missing="Choose a degree level">
     <option value="">Choose a level</option>
-    {levels.map((level) => <option value={level}>{level}</option>)}
+    {levels.map((level) => <option value={level} data-student-level={levelOf[level]}>{level}</option>)}
+  </Field>
+  <Field formId={id} name="studentType" label="Which describes you?" select required missing="Choose which describes you">
+    <option value="">Choose one</option>
+    {studentTypes.map(({ type, levels }) => <option value={type} data-student-levels={levels.join(" ")}>{type}</option>)}
   </Field>
   <Field formId={id} name="program" label="Program of interest" hint="Choose a degree level first to narrow the list." select>
     <option value="">No preference yet</option>

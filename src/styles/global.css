@@ -86,6 +86,11 @@ main { padding-block: clamp(2rem, 6vw, 4rem); }
 .button { display: inline-flex; align-items: center; gap: 0.45rem; font: 600 var(--step--1) / 1 var(--sans); padding: 0.7rem 1rem; border-radius: 999px; border: 1.5px solid var(--fir); background: var(--fir); color: var(--fog); cursor: pointer; text-decoration: none; min-height: 44px; }
 .button:hover { background: var(--fir-deep); border-color: var(--fir-deep); color: var(--on-dark); }
 .button.secondary { background: transparent; color: var(--fir); }
+/* Shown once, under the button, after the first save to Your Path (src/scripts/workbench/handoffs.ts) */
+.first-save { flex-basis: 100%; margin: 0.4rem 0 0; font-size: var(--step--1); color: var(--muted); }
+.first-save a { font-weight: 600; }
+/* A button that looks like a link, for small actions like "Hide this tip" */
+.link-button { background: none; border: 0; padding: 0; font: inherit; color: var(--salmonberry); text-decoration: underline; text-underline-offset: 0.18em; cursor: pointer; }
 .button.secondary:hover { background: var(--lichen); color: var(--basalt); border-color: var(--fir); }
 .button svg { width: 1em; height: 1em; }
 

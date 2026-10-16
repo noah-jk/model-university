@@ -29,9 +29,13 @@ You can still save programs, courses, people, events, and services as you browse
 
 When the site knows enough for a plan, the header button and the next-step box on other pages show your plan's next step, so the site never suggests two different things. Steps in the application journey (request information, visit, apply) are checked off when you send those forms.
 
+## Help where you need it
+
+A few pages point to Your Path at the moment it's useful: the homepage, the admissions page (choose your student type and level, and Your Path opens filled in), tuition and aid (your next aid deadline), each program page (what saving it adds to your plan), and the pages for transfer, international, and graduate students. They're short, never pop up, and each has a "Hide this tip" button. Hidden tips stay hidden.
+
 ## Where your data lives
 
-Everything is in this browser's localStorage, under one key. Nothing is sent to the site or anyone else, and it stays until you remove it or clear your browser's data. Suggestions come from the personalization experiment's record of this tab, which is in sessionStorage and is forgotten when the tab closes; only your own choices are kept.
+Everything is in this browser's localStorage, under one key. Nothing is sent to the site or anyone else, and it stays until you remove it or clear your browser's data. Suggestions come from the personalization experiment's record of this tab, which is in sessionStorage and is forgotten when the tab closes; only your own choices are kept. If you send the visit form, its date is kept too, so your visit shows on your timeline; you can remove it there.
 
 If your browser blocks localStorage (some private modes do), Your Path still works for the page you're on and tells you it won't be kept.
 

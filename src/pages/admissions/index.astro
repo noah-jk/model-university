@@ -3,6 +3,7 @@ import siteConfig from "../../../site.config.ts";
 import { getPage } from "../../lib/pages.ts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import JourneyActions from "../../components/JourneyActions.astro";
+import PathHandoff from "../../components/workbench/PathHandoff.astro";
 import AskAiMenu from "../../components/AskAiMenu.astro";
 import PageIntro from "../../components/PageIntro.astro";
 import introImage from "../../assets/images/students-campus-2.jpg";
@@ -40,6 +41,8 @@ const prompt = `I'm thinking about applying to ${siteConfig.name}. Use {origin}/
     <AskAiMenu prompt={prompt} label="Ask AI about applying" />
     <JourneyActions />
   </PageIntro>
+
+  <PathHandoff id="admissions" />
 
   <div class="detail">
     <article>

@@ -1,0 +1,96 @@
+---
+// A handoff: a quiet panel that explains Your Path on a key page (the words
+// are in src/lib/workbench/handoffs.ts). Renders nothing when the workbench
+// is switched off, and needs JavaScript (.needs-js), since Your Path does.
+//
+// No layout shift: BaseLayout's inline script picks the state ("start" or
+// "continue", from the header count the last page saved) and hides handoffs
+// the student dismissed, before the page is drawn. The text keeps its space
+// while src/scripts/workbench/handoffs.ts fills in the plan's numbers.
+import siteConfig from "../../../site.config.ts";
+import { HIDE_LABEL, panelCopy, type PanelId } from "../../lib/workbench/handoffs.ts";
+import { STUDENT_LEVELS, STUDENT_TYPES } from "../../lib/vocab.ts";
+
+interface Props {
+  id: PanelId;
+  headingLevel?: 2 | 3;
+  // The homepage hides its continue state while the next-step tile shows the plan's next step
+  hideWhenContinuing?: boolean;
+}
+const { id, headingLevel = 2, hideWhenContinuing = false } = Astro.props;
+const Heading = `h${headingLevel}` as "h2" | "h3";
+const copy = panelCopy(id);
+const titleId = `handoff-${id}-title`;
+// For the admissions landing's picker: student types for applicants, then levels
+const types = [...new Set(STUDENT_LEVELS.flatMap((l) => STUDENT_TYPES[l] as readonly string[]))].filter((t) => t !== "Current student");
+---
+
+{
+  siteConfig.features.workbench && (
+    <section class="handoff needs-js" data-handoff={id} data-state="start" data-hide-continuing={hideWhenContinuing || undefined} aria-labelledby={titleId}>
+      <Heading id={titleId} class="handoff-title" tabindex="-1" data-handoff-heading>
+        {copy.heading}
+      </Heading>
+      <p class="handoff-text" data-handoff-text>
+        {copy.text}
+      </p>
+      {id === "admissions" && (
+        <form class="handoff-pick" data-handoff-pick action={copy.action.href}>
+          <span class="pick">
+            <label for="handoff-type">Student type</label>
+            <select id="handoff-type" name="type">
+              <option value="">Choose…</option>
+              {types.map((t) => (
+                <option>{t}</option>
+              ))}
+            </select>
+          </span>
+          <span class="pick">
+            <label for="handoff-level">Level</label>
+            <select id="handoff-level" name="level">
+              <option value="">Choose…</option>
+              {STUDENT_LEVELS.map((l) => (
+                <option>{l}</option>
+              ))}
+            </select>
+          </span>
+          <button type="submit" class="button">
+            {copy.action.label}
+          </button>
+        </form>
+      )}
+      <p class="handoff-actions">
+        <a class="button" href={copy.action.href} data-handoff-action>
+          {copy.action.label}
+        </a>
+        <button type="button" class="link-button" data-handoff-hide>
+          {HIDE_LABEL.visible}
+          <span class="visually-hidden">{HIDE_LABEL.hidden}</span>
+        </button>
+      </p>
+    </section>
+  )
+}
+
+<style>
+  .handoff { margin-block: 1.5rem; padding: 1rem 1.25rem; border: 1px solid var(--line); border-left: 6px solid var(--fir); border-radius: var(--radius-s); background: var(--paper); max-width: 52rem; }
+  .handoff[hidden] { display: none; }
+  .handoff-title { margin: 0 0 0.35rem; font-size: var(--step-1); }
+  .handoff-title:focus { outline: none; }
+  .handoff-title:focus-visible { outline: 3px solid var(--focus); }
+  /* Room for the longest text, so filling in the plan's numbers doesn't move anything */
+  .handoff-text { margin: 0 0 0.75rem; max-width: var(--measure); min-height: 3lh; }
+  @media (min-width: 48rem) { .handoff-text { min-height: 2lh; } }
+  .handoff-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; margin: 0; }
+  .handoff-actions .link-button { font-size: var(--step--1); }
+
+  .handoff-pick { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.75rem; margin-bottom: 0.75rem; }
+  .handoff-pick .pick { display: grid; gap: 0.2rem; }
+  .handoff-pick label { font-weight: 600; font-size: var(--step--1); }
+  .handoff-pick select { min-height: 44px; padding: 0.35rem 0.6rem; font: inherit; color: var(--basalt); background: var(--fog); border: 1.5px solid var(--muted); border-radius: var(--radius-s); }
+
+  /* The picker is the start state's action; the link is the continue state's */
+  [data-handoff="admissions"][data-state="start"] [data-handoff-action] { display: none; }
+  [data-state="continue"] [data-handoff-pick] { display: none; }
+  [data-hide-continuing][data-state="continue"] { display: none; }
+</style>

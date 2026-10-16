@@ -6,7 +6,9 @@
 //
 // Nothing is sent anywhere. On submit, src/scripts/journey-forms.ts checks the
 // fields, saves the answers to this tab's session, and shows the next step.
+import siteConfig from "../../../site.config.ts";
 import type { JourneyStep } from "../../lib/personalization-settings.ts";
+import { WORKBENCH_LABEL, WORKBENCH_PATH } from "../../lib/workbench/types.ts";
 
 interface Props {
   id: string;
@@ -18,6 +20,7 @@ interface Props {
 
 const { id, kind, heading, submitLabel, headingLevel = 2 } = Astro.props;
 const Heading = `h${headingLevel}` as "h2" | "h3";
+const yourPath = siteConfig.features.workbench;
 ---
 
 <div class="journey-form" id={id}>
@@ -29,7 +32,9 @@ const Heading = `h${headingLevel}` as "h2" | "h3";
     </div>
     <slot />
     <p class="privacy">
-      This is a demo: your answers stay in this browser tab and aren't sent anywhere. <a href="/lab/personalization/">How this works</a>
+      This is a demo: your answers stay in this browser tab and aren't sent anywhere.{" "}
+      {kind === "visit" && yourPath && `The visit date is also kept on ${WORKBENCH_LABEL}, in this browser, until you remove it. `}
+      <a href="/lab/personalization/">How this works</a>
     </p>
     <button class="button" type="submit">{submitLabel}</button>
   </form>
@@ -37,6 +42,14 @@ const Heading = `h${headingLevel}` as "h2" | "h3";
     <Heading class="success-title" tabindex="-1"></Heading>
     <p class="success-text"></p>
     <p><a class="button next-step" href="/admissions/"></a></p>
+    {
+      yourPath && (
+        <p class="success-path" data-success-path>
+          <span data-success-path-text />
+          <a class="button secondary" data-success-path-link href={WORKBENCH_PATH} />
+        </p>
+      )
+    }
   </div>
   <noscript>
     <p class="panel">This form needs JavaScript. You can also reach Admissions by email at <a href="mailto:admissions@cascadiastate.example">admissions@cascadiastate.example</a>.</p>
@@ -70,4 +83,5 @@ const Heading = `h${headingLevel}` as "h2" | "h3";
   .error-summary ul { margin: 0; padding-left: 1.1rem; }
   .privacy { font-size: var(--step--1); color: var(--muted); }
   .success-text { max-width: var(--measure); }
+  .success-path { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; max-width: var(--measure); margin-bottom: 0; padding-top: 1rem; border-top: 1px solid var(--line); }
 </style>

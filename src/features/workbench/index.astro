@@ -197,6 +197,13 @@ const tabs = [
     min-height: 36px; padding: 0.3rem 0.8rem; font: 600 var(--step--1) / 1 var(--sans); color: var(--fir); background: transparent; border: 1.5px solid var(--line); border-radius: 999px; cursor: pointer;
   }
   .workbench :global(.wb-actions button:hover), .workbench :global(.small-button:hover), .offices :global(button:hover), .dismissed :global(button:hover) { border-color: var(--fir); }
+  /* More actions: the list opens beside its button and wraps on small screens */
+  .workbench :global(.more) { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
+  .workbench :global(.more-toggle::after) { content: ""; display: inline-block; width: 0.4em; height: 0.4em; margin-left: 0.45em; border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(-0.15em) rotate(45deg); }
+  .workbench :global(.more-toggle[aria-expanded="true"]::after) { transform: translateY(0.1em) rotate(-135deg); }
+  .workbench :global(.more-list) { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; margin: 0; padding: 0; }
+  .workbench :global(.more-list[hidden]) { display: none; }
+  .workbench :global(.more-list li) { margin: 0; }
   .workbench :global(button[aria-disabled="true"]) { color: var(--muted); border-style: dashed; cursor: not-allowed; }
   .workbench :global(.wb-missing) { color: var(--muted); }
   .workbench :global(.add-note) { display: grid; gap: 0.4rem; max-width: 40rem; margin-top: 1rem; }

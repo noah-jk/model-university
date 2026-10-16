@@ -38,6 +38,7 @@ export function migrate(stored: unknown): Workbench {
     if (items.length < data.items.length) console.warn(`Workbench: dropped ${data.items.length - items.length} unreadable items`);
     const profile = data.version === 1 ? (typeof data.startTerm === "string" ? { startTerm: data.startTerm } : {}) : choices(data.profile);
     const badge = data.badge && typeof data.badge.count === "number" ? { badge: data.badge } : {};
+    const visit = typeof data.visit?.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(data.visit.date) ? { visit: { date: data.visit.date } } : {};
     return {
       version: 2,
       items,
@@ -46,6 +47,7 @@ export function migrate(stored: unknown): Workbench {
       completed: strings(data.completed),
       hiddenHandoffs: strings(data.hiddenHandoffs),
       ...badge,
+      ...visit,
       updatedAt: data.updatedAt ?? new Date().toISOString(),
     };
   }
@@ -275,6 +277,15 @@ export function createStore(storage: Storage | null, { newId = (): string => cry
     setDismissed(key: string, dismissed: boolean) {
       write((w) => {
         w.dismissed = dismissed ? [...new Set([...w.dismissed, key])] : w.dismissed.filter((k) => k !== key);
+      });
+    },
+
+    // The visit form's date (YYYY-MM-DD), shown on the timeline. Undefined removes it.
+    setVisit(date: string | undefined) {
+      if (get().visit?.date === date) return;
+      write((w) => {
+        if (date) w.visit = { date };
+        else delete w.visit;
       });
     },
 

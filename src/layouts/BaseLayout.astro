@@ -90,6 +90,20 @@ const pageTitle = isHome ? siteConfig.name : `${title} | ${siteConfig.name}`;
               el.hidden = !badge.count;
             });
             document.querySelectorAll("[data-workbench-count-text]").forEach((el) => (el.textContent = text));
+            // Handoffs (PathHandoff.astro): hide dismissed ones, and pick "continue" if the
+            // last page had a plan. Its text is filled in by src/scripts/workbench/handoffs.ts,
+            // in space the panel keeps for it.
+            const hidden = stored?.hiddenHandoffs ?? [];
+            const state = badge.counting === "steps" ? "continue" : "start";
+            document.querySelectorAll("[data-handoff]").forEach((el) => {
+              if (hidden.includes(el.dataset.handoff)) el.hidden = true;
+              if (el.dataset.handoff === "program") {
+                if (saved.has(`program:${el.dataset.programRef}`)) el.querySelector("[data-handoff-text]").textContent = "";
+                return;
+              }
+              el.dataset.state = state;
+              if (state === "continue") el.querySelector("[data-handoff-text]").textContent = "";
+            });
           } catch {}
         </script>
       )
