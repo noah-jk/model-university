@@ -1,5 +1,5 @@
 // Tests for Your Path: who the student is (profile), what they need to do
-// (plan), and every date once (timeline). No browser needed.
+// (plan), every date once (timeline), and the handoffs' words. No browser needed.
 // Run with: npm test
 
 import * as catalog from "../src/lib/catalog.ts";
@@ -8,6 +8,7 @@ import { buildIndex } from "../src/lib/workbench/index-data.ts";
 import { deadlineDate } from "../src/lib/workbench/derive.ts";
 import { pathIcs, pathTimeline, planFor, planSteps, programsByPlan } from "../src/lib/workbench/plan.ts";
 import { describeStudents, resolveProfile, type Signals } from "../src/lib/workbench/profile.ts";
+import { admissionsCopy, aidLine, homeCopy, pathLink, programSaved, requestInfoCopy, tuitionCopy, typeCopy, VISIT_COPY } from "../src/lib/workbench/handoffs.ts";
 import type { PlanChoices, Workbench, WorkbenchItem } from "../src/lib/workbench/types.ts";
 
 const check = (ok: unknown, message: string) => {
@@ -132,5 +133,50 @@ const ics = pathIcs(finals, "Cascadia State; University", "https://example.edu")
 check(ics.includes("DTSTART;VALUE=DATE:") && ics.includes(`DTEND;VALUE=DATE:`) && ics.includes("Cascadia State\\; University"), "calendar file: all-day range, with text escaped");
 const timed = entries.find((e) => e.start)!;
 check(/DTSTART:\d{8}T\d{6}Z/.test(pathIcs(timed, "Cascadia", "https://example.edu")), "calendar file: events keep their times");
+
+
+// Request-info student type and the visit ----------------------------------------------
+
+const fromForm = resolve({}, { requestInfo: { level: "Bachelor's", studentType: "Transfer" } });
+check(fromForm.studentType.value === "Transfer" && fromForm.studentType.source === "inferred" && /request-info form/.test(fromForm.studentType.why!), "profile: the form's student type is suggested, and says why");
+check(resolve({ studentType: "First-year" }, { requestInfo: { level: "Bachelor's", studentType: "Transfer" } }).studentType.source === "chosen", "profile: a chosen type wins over the form");
+check(!resolve({}, { requestInfo: { level: "Master's", studentType: "Transfer" } }).studentType.value, "profile: a form type that doesn't fit the level is ignored");
+
+const visitWb = workbenchWith([], {}, { visit: { date: "2026-11-20" } });
+const visitEntry = pathTimeline(undefined, rules, index, visitWb, "Winter 2027", undefined, now).find((e) => e.id === "visit");
+check(visitEntry?.title === "Your campus visit" && visitEntry.date === "2026-11-20" && visitEntry.source === "your visit request", "timeline: the visit from the visit form");
+
+// Handoffs ---------------------------------------------------------------------------------
+
+const startSummary = { ready: false, startTerm: "Winter 2027" };
+const transferSteps = planSteps(rules, "Undergraduate", "Transfer", "Winter 2027", { completed: ["explore-programs"], journeyDone: [], programDeadlines: [], now });
+const going = { ready: true, level: "Undergraduate", studentType: "Transfer", startTerm: "Winter 2027", steps: transferSteps };
+
+check(homeCopy().heading === "Skip the scavenger hunt" && homeCopy(startSummary).action.label === "Plan your path", "handoff home: start");
+check(homeCopy(going).text === "1 of 10 steps done. Next: Request information." && homeCopy(going).action.label === "Continue your path", `handoff home: continue (${homeCopy(going).text})`);
+check(/Your plan is for transfer undergraduates starting Winter 2027\. 1 of 10 steps done\./.test(admissionsCopy(going).text), "handoff admissions: continue says who the plan is for");
+check(typeCopy("transfer").action.label === "See transfer steps" && typeCopy("transfer").action.href === "/your-path/#plan&type=Transfer", "handoff transfer: start links with the type");
+check(typeCopy("transfer", going).action.label === "Continue your path", "handoff transfer: continue when the type matches");
+check(typeCopy("international", going).action.label === "Switch your path to international steps" && !/level=/.test(typeCopy("international", going).action.href), "handoff international: switch, setting only the type");
+check(typeCopy("graduate").action.href === "/your-path/#plan&type=New%20graduate%20student&level=Graduate", "handoff graduate: sets type and level");
+check(pathLink() === "/your-path/#plan", "pathLink with nothing chosen");
+
+// Aid: dates need the calendar (rules from enrollment.ts have it)
+check(aidLine(transferSteps) === "The FAFSA priority date has passed. File as soon as you can; aid is still available.", `handoff tuition: passed FAFSA date (${aidLine(transferSteps)})`);
+const fallSteps = planSteps(rules, "Undergraduate", "Transfer", "Fall 2027", { completed: [], journeyDone: [], programDeadlines: [], now });
+check(/^Next aid step on your path: Submit your FAFSA, by Feb 15, 2027\.$/.test(aidLine(fallSteps)), `handoff tuition: next aid step with its date (${aidLine(fallSteps)})`);
+const intlSteps = planSteps(rules, "Graduate", "International", "Fall 2027", { completed: [], journeyDone: [], programDeadlines: [], now });
+check(/Send financial documents/.test(aidLine(intlSteps)), "handoff tuition: international students get financial documents, not the FAFSA");
+const aidDone = planSteps(rules, "Undergraduate", "Transfer", "Fall 2027", { completed: ["fafsa"], journeyDone: [], programDeadlines: [], now });
+check(/^Your aid steps are done\. Next: /.test(aidLine(aidDone)), "handoff tuition: aid steps done");
+
+const ugProgram = { level: "Undergraduate", startTerms: ["Fall", "Winter"] };
+check(/^Saved\. Choose your student type/.test(programSaved(ugProgram, startSummary)), "handoff program: no plan yet");
+check(programSaved(ugProgram, going) === "Saved. Your Path now shows the Winter 2027 deadline for this program.", "handoff program: in the plan");
+check(/doesn't start in Spring 2027/.test(programSaved(ugProgram, { ...going, startTerm: "Spring 2027" })), "handoff program: doesn't start in the term");
+check(/graduate program, so it's in your saved items but not part of your undergraduate plan/.test(programSaved({ level: "Graduate", startTerms: ["Fall"] }, going)), "handoff program: other level");
+check(requestInfoCopy(going).text === "Your path is ready: 10 steps for transfer undergraduates starting Winter 2027." && requestInfoCopy(startSummary).action.label === "Finish your path", "handoff request info: ready, or finish");
+const allCopy = [homeCopy(), homeCopy(going), admissionsCopy(), tuitionCopy(), typeCopy("graduate", going), requestInfoCopy(going), VISIT_COPY].flatMap((c): string[] => [c.text, c.action.label, "heading" in c ? String(c.heading) : ""]);
+check(!allCopy.some((t) => t.includes("!") || /learn more|click here/i.test(t)), "handoff copy: no exclamation points or vague links");
 
 console.log("\nYour Path checks passed.");

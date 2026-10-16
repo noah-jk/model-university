@@ -16,6 +16,7 @@ import AskAiMenu from "../components/AskAiMenu.astro";
 import McpAddress from "../components/McpAddress.astro";
 import EventList from "../components/EventList.astro";
 import NextStep from "../components/NextStep.astro";
+import PathHandoff from "../components/workbench/PathHandoff.astro";
 import NewsList from "../components/NewsList.astro";
 import { events, hasEnded } from "../lib/catalog.ts";
 
@@ -87,6 +88,7 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
       </section>
     )
   }
+  <PathHandoff id="home" hideWhenContinuing={siteConfig.features.personalization} />
 
   <section class="split" aria-labelledby="split-title">
     <div class="split-text">

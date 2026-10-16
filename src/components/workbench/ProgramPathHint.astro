@@ -1,0 +1,39 @@
+---
+// One line under a program page's Save button: what saving it does for Your
+// Path, and after saving, what Your Path now shows. Words are in
+// src/lib/workbench/handoffs.ts; src/scripts/workbench/handoffs.ts fills them
+// in. Renders nothing when the workbench is switched off.
+import siteConfig from "../../../site.config.ts";
+import type { Program } from "../../lib/schemas.ts";
+import { HIDE_LABEL, PROGRAM_HINT } from "../../lib/workbench/handoffs.ts";
+import { LEVEL_OF_PROGRAM } from "../../lib/vocab.ts";
+
+interface Props {
+  program: Program;
+}
+const { program } = Astro.props;
+---
+
+{
+  siteConfig.features.workbench && (
+    <p
+      class="path-hint needs-js"
+      data-handoff="program"
+      data-program-ref={program.id}
+      data-program-level={LEVEL_OF_PROGRAM[program.level]}
+      data-start-terms={program.start_terms.join(" ")}
+    >
+      <span data-handoff-text>{PROGRAM_HINT}</span>
+      <button type="button" class="link-button" data-handoff-hide>
+        {HIDE_LABEL.visible}
+        <span class="visually-hidden">{HIDE_LABEL.hidden}</span>
+      </button>
+    </p>
+  )
+}
+
+<style>
+  .path-hint { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem; margin: 0.5rem 0 0; font-size: var(--step--1); color: var(--muted); max-width: var(--measure); min-height: 2lh; }
+  .path-hint[hidden] { display: none; }
+  .path-hint a { font-weight: 600; }
+</style>

@@ -160,7 +160,8 @@ const campusDay = (iso: string) => new Date(iso).toLocaleDateString("en-CA", { t
 
 // Everything with a date, once each, in order: steps (their dates shown as
 // the step), the rest of the calendar, deadlines of other saved programs at
-// this level, and saved events. Without a plan: saved programs and events.
+// this level, saved events, and the visit they asked for. Without a plan:
+// saved programs, events, and the visit.
 export function pathTimeline(plan: Plan | undefined, rules: RulesLookup, index: WorkbenchIndex, workbench: Workbench, term: string, planLevel: string | undefined, now = new Date()): PathEntry[] {
   const today = campusToday(now);
   const entries: Omit<PathEntry, "past" | "next">[] = [];
@@ -181,6 +182,10 @@ export function pathTimeline(plan: Plan | undefined, rules: RulesLookup, index: 
   for (const item of workbench.items.filter((i) => i.kind === "event" && i.ref && index.event[i.ref])) {
     const e = index.event[item.ref!];
     entries.push({ id: `event:${item.ref}`, date: campusDay(e.start), start: e.start, finish: e.end, kind: "event", title: e.title, source: "saved event", url: e.url });
+  }
+
+  if (workbench.visit) {
+    entries.push({ id: "visit", date: workbench.visit.date, kind: "event", title: "Your campus visit", source: "your visit request", url: "/admissions/visit/" });
   }
 
   entries.sort((a, b) => a.date.localeCompare(b.date) || (a.start ?? "").localeCompare(b.start ?? "") || a.title.localeCompare(b.title));

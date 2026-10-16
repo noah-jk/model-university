@@ -6,6 +6,10 @@
 // Errors follow a common accessible pattern: a summary at the top that links
 // to each problem and gets focus, plus a message next to each field.
 
+import siteConfig from "../../site.config.ts";
+import { requestInfoCopy, VISIT_COPY } from "../lib/workbench/handoffs.ts";
+import { workbench } from "../lib/workbench/store.ts";
+import { pathSummary } from "./workbench/handoffs.ts";
 import { loadSession, markPersonalized, nextStep, recordForm, type Forms, type Session } from "./personalize.ts";
 
 type Kind = keyof Forms;
@@ -30,13 +34,26 @@ function problemWith(field: Field) {
   return dataset.invalid ?? `Check your ${labelFor(field).toLowerCase()}`;
 }
 
-// Request info: picking a level narrows the program list, and picking a
-// program sets its level.
+// Request info: picking a level narrows the program list and student types,
+// and picking a program sets its level.
 function linkLevelAndProgram(form: HTMLFormElement) {
   const level = form.elements.namedItem("level") as HTMLSelectElement | null;
   const program = form.elements.namedItem("program") as HTMLSelectElement | null;
   if (!level || !program) return;
+  // Student types that apply at the chosen level (Transfer is only for bachelor's degrees)
+  const studentType = form.elements.namedItem("studentType") as HTMLSelectElement | null;
+  const narrowTypes = () => {
+    if (!studentType) return;
+    const studentLevel = level.selectedOptions[0]?.dataset.studentLevel;
+    for (const option of studentType.querySelectorAll<HTMLOptionElement>("option[data-student-levels]")) {
+      const show = !studentLevel || option.dataset.studentLevels!.split(" ").includes(studentLevel);
+      option.hidden = !show;
+      option.disabled = !show;
+    }
+    if (studentType.selectedOptions[0]?.disabled) studentType.value = "";
+  };
   const narrow = () => {
+    narrowTypes();
     for (const group of program.querySelectorAll("optgroup")) {
       const show = !level.value || group.label === level.value;
       group.hidden = !show;
@@ -85,7 +102,7 @@ function answersFrom(form: HTMLFormElement, kind: Kind): Forms[Kind] {
   const program = option?.value
     ? { id: option.value, name: option.text.trim(), department: option.dataset.department!, college: option.dataset.college!, level: option.dataset.level!, modality: option.dataset.modality! }
     : undefined;
-  return { ...contact, level: data.level, startTerm: data.startTerm, ...(program && { program }), at };
+  return { ...contact, level: data.level, ...(data.studentType && { studentType: data.studentType }), startTerm: data.startTerm, ...(program && { program }), at };
 }
 
 const thanks: Record<Kind, (session: Session) => string> = {
@@ -108,6 +125,15 @@ function showSuccess(wrapper: HTMLElement, form: HTMLFormElement, kind: Kind, se
   link.textContent = next ? `Next step: ${next.label}` : "Next: tuition and financial aid";
   link.href = next?.href ?? "/admissions/tuition-and-aid/";
   link.toggleAttribute("data-journey-apply", next?.step === "apply");
+  // What sending the form did for Your Path
+  const path = success.querySelector<HTMLElement>("[data-success-path]");
+  if (path) {
+    const copy = kind === "visit" ? VISIT_COPY : requestInfoCopy(pathSummary());
+    path.querySelector("[data-success-path-text]")!.textContent = copy.text;
+    const pathLink = path.querySelector<HTMLAnchorElement>("[data-success-path-link]")!;
+    pathLink.textContent = copy.action.label;
+    pathLink.href = copy.action.href;
+  }
   form.hidden = true;
   success.hidden = false;
   title.focus();
@@ -159,6 +185,8 @@ document.querySelectorAll<HTMLFormElement>("form[data-journey-form]").forEach((f
     }
     summary.hidden = true;
     const session = recordForm(kind, answersFrom(form, kind));
+    // Sending the visit form puts the visit on Your Path's timeline (only its date is kept)
+    if (kind === "visit" && siteConfig.features.workbench) workbench.setVisit(session.forms.visit!.date);
     showSuccess(wrapper, form, kind, session);
   });
 });

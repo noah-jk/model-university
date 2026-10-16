@@ -57,8 +57,11 @@ export type Workbench = {
   dismissed: string[];
   // Step ids the student checked off (or finished through the journey), whatever the start term
   completed: string[];
-  // Handoff ids the student hid ("Don't show this again")
+  // Handoff ids the student hid ("Don't show this again"), and one-time
+  // handoffs already shown ("first-save")
   hiddenHandoffs: string[];
+  // The campus visit they asked for in the visit form (only the date), for the timeline
+  visit?: { date: string };
   // What the header badge last showed, so it can be drawn before scripts run
   badge?: { count: number; counting: "steps" | "saved" };
   updatedAt: string;

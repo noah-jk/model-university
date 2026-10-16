@@ -30,6 +30,8 @@ export type RequestInfoAnswers = {
   lastName: string;
   email: string;
   level: string;
+  // First-year, Transfer, and so on (STUDENT_TYPES in vocab.ts). Missing from answers saved before it was asked.
+  studentType?: string;
   program?: { id: string; name: string; department: string; college: string; level: string; modality: string };
   startTerm: string;
   at: string;
@@ -62,6 +64,7 @@ export type Profile = {
   // the program picked in the request-info form.
   stated: {
     level?: string;
+    studentType?: string;
     program?: string;
     department?: string;
     college?: string;
@@ -145,7 +148,7 @@ export function deriveProfile(views: PageView[], forms: Forms, applied?: string,
 
   const { requestInfo: info, visit } = forms;
   profile.stated = {
-    ...(info && { level: info.level, startTerm: info.startTerm }),
+    ...(info && { level: info.level, startTerm: info.startTerm, ...(info.studentType && { studentType: info.studentType }) }),
     ...(info?.program && {
       program: info.program.name,
       department: info.program.department,

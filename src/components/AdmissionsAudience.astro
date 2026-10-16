@@ -6,6 +6,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumb from "./Breadcrumb.astro";
 import JourneyActions from "./JourneyActions.astro";
+import PathHandoff from "./workbench/PathHandoff.astro";
 import { services } from "../lib/catalog.ts";
 import { calendarEntry, calendarFor, officesFor, stepsFor, upcomingCalendarTerms, type StudentLevel } from "../lib/enrollment.ts";
 import { getPage } from "../lib/pages.ts";
@@ -19,6 +20,9 @@ interface Props {
 }
 const { slug, groups } = Astro.props;
 const page = await getPage(slug);
+// Each page points to its students' steps on Your Path
+const HANDOFF_FOR = { "admissions/transfer": "transfer", "admissions/international": "international", "admissions/graduate": "graduate" } as const;
+const handoff = HANDOFF_FOR[slug as keyof typeof HANDOFF_FOR];
 const { Content } = page;
 
 // Dates for the next two terms, as of the build
@@ -59,6 +63,7 @@ const typeLabel = (g: { type: string; level: string }) => (g.type === "Internati
       <h1>{page.title}</h1>
       <p class="lede">{page.description}</p>
       <JourneyActions />
+      {handoff && <PathHandoff id={handoff} />}
       <Content />
     </article>
 

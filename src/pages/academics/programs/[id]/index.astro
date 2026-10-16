@@ -3,6 +3,7 @@ import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
 import SaveButton from "../../../../components/workbench/SaveButton.astro";
+import ProgramPathHint from "../../../../components/workbench/ProgramPathHint.astro";
 import { pageMeta } from "../../../../lib/personalization.ts";
 import AtAGlance from "../../../../components/AtAGlance.astro";
 import Breadcrumb from "../../../../components/Breadcrumb.astro";
@@ -33,6 +34,7 @@ const upcoming = eventsForProgram(p).filter((e) => !hasEnded(e));
     <article>
       <h1>{p.name}</h1>
       <SaveButton kind="program" id={p.id} />
+      <ProgramPathHint program={p} />
       <p class="lede">{p.description}</p>
       <JourneyActions programId={p.id} />
 

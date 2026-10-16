@@ -9,11 +9,11 @@ import type { PlanChoices, WorkbenchItem } from "./types.ts";
 
 type Level = (typeof STUDENT_LEVELS)[number];
 
-// What inference looks at: this tab's page views and request-info answer
+// What inference looks at: this tab's page views and request-info answers
 // (from personalization), and the saved items
 export type Signals = {
   views: { type: string; id: string; level?: string }[];
-  requestInfo?: { level?: string; startTerm?: string };
+  requestInfo?: { level?: string; startTerm?: string; studentType?: string };
   items: WorkbenchItem[];
 };
 
@@ -66,6 +66,8 @@ function inferLevel(signals: Signals): Field & { mixed?: boolean } {
 }
 
 function inferType(signals: Signals, level: string | undefined): Field {
+  const formType = signals.requestInfo?.studentType;
+  if (formType && validType(level, formType)) return { value: formType, source: "inferred", why: `You chose ${formType} in the request-info form.` };
   for (const signal of TYPE_SIGNALS) {
     if (signal.level && level && signal.level !== level) continue;
     if (!validType(level, signal.type)) continue;

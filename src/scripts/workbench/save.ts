@@ -8,6 +8,7 @@ import { workbench } from "../../lib/workbench/store.ts";
 import { SAVE_LABELS } from "../../lib/workbench/toggle.ts";
 import { MAX_ITEMS, WORKBENCH_LABEL, type ContentKind, type Workbench } from "../../lib/workbench/types.ts";
 import { loadSession } from "../personalize.ts";
+import { afterSave } from "./handoffs.ts";
 import { pathState } from "./path-state.ts";
 
 export function syncToggles(root: ParentNode = document) {
@@ -72,7 +73,7 @@ document.addEventListener("click", (event) => {
     announce(`${WORKBENCH_LABEL} is full (${MAX_ITEMS} items). Remove something to save more.`);
     return;
   }
-  announce(`Saved ${saveName} to ${WORKBENCH_LABEL}.`);
+  announce(afterSave(button, kind, saveRef!) ?? `Saved ${saveName} to ${WORKBENCH_LABEL}.`);
   warnIfNotSaved();
 });
 

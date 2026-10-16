@@ -102,6 +102,7 @@ function renderAnswers(profile: Profile) {
     ["Email", contact.email],
     ["Phone", contact.phone],
     ["Degree level", stated.level],
+    ["Student type", stated.studentType],
     ["Program", stated.program],
     ["Start term", stated.startTerm],
     ["Visit date", stated.visitDate && shortDate(stated.visitDate)],
@@ -185,6 +186,7 @@ function renderPlan(session: Session) {
   if (!target) return;
   const { profile, steps, toDo } = pathState(session);
   const w = workbench.get();
+  const tips = w.hiddenHandoffs.filter((id) => id !== "first-save").length;
   const source = (field: Field) => (field.source === "chosen" ? "you chose it" : field.why ? `suggested: ${field.why}` : "suggested");
   const value = (field: Field & { mixed?: boolean }) => (field.value ? `${field.value} (${source(field)})` : field.mixed ? `Not set: ${field.why}` : "Not set");
   const list = el("dl");
@@ -194,7 +196,7 @@ function renderPlan(session: Session) {
       ["Level", value(profile.level)],
       ["Start term", value(profile.startTerm)],
       ["Steps", steps ? `${steps.length - toDo} of ${steps.length} done` : "No plan until level and student type are known"],
-      ["Kept in localStorage", `${w.completed.length} completed ${w.completed.length === 1 ? "step" : "steps"}, ${w.dismissed.length} dismissed ${w.dismissed.length === 1 ? "item" : "items"}`],
+      ["Kept in localStorage", `${w.completed.length} completed ${w.completed.length === 1 ? "step" : "steps"}, ${w.dismissed.length} dismissed ${w.dismissed.length === 1 ? "item" : "items"}, ${tips} hidden ${tips === 1 ? "tip" : "tips"}${w.visit ? ", and your visit date" : ""}`],
     ] as const).flatMap(([label, text]) => [el("dt", label), el("dd", text)])
   );
   target.replaceChildren(list);

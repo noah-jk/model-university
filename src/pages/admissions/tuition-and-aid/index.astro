@@ -2,6 +2,7 @@
 import { getPage } from "../../../lib/pages.ts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
+import PathHandoff from "../../../components/workbench/PathHandoff.astro";
 import { programs } from "../../../lib/catalog.ts";
 import { usd } from "../../../lib/format.ts";
 import { pagePath } from "../../../lib/urls.ts";
@@ -25,6 +26,7 @@ const byLevel = PROGRAM_LEVELS.map((level) => {
   <article class="prose">
     <h1>{page.title}</h1>
     <p class="lede">{page.description}</p>
+    <PathHandoff id="tuition" />
 
     <h2>Tuition by program level</h2>
     <div class="table-scroll">

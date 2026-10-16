@@ -3,6 +3,7 @@ import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import SaveButton from "../../../components/workbench/SaveButton.astro";
+import PathHandoff from "../../../components/workbench/PathHandoff.astro";
 import { pageMeta } from "../../../lib/personalization.ts";
 import AtAGlance from "../../../components/AtAGlance.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
@@ -22,6 +23,9 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { service: s } = Astro.props;
 const path = pagePath("services", s.id);
 const upcoming = eventsAbout("services", s.id).filter((e) => !hasEnded(e));
+// Offices for one kind of student point to that student's steps on Your Path
+const HANDOFF_FOR = { "transfer-center": "transfer", "international-student-services": "international", "graduate-school-office": "graduate" } as const;
+const handoff = HANDOFF_FOR[s.id as keyof typeof HANDOFF_FOR];
 ---
 
 <BaseLayout title={s.name} description={s.description} page={pageMeta.service(s)}>
@@ -31,6 +35,7 @@ const upcoming = eventsAbout("services", s.id).filter((e) => !hasEnded(e));
       <h1>{s.name}</h1>
       <SaveButton kind="service" id={s.id} />
       <p class="lede">{s.description}</p>
+      {handoff && <PathHandoff id={handoff} />}
 
       <h2>Hours</h2>
       <div class="table-scroll">
