@@ -5,12 +5,13 @@
 // screens) and is filled from this tab's session when it opens; see
 // src/scripts/recents.ts.
 import NextStep from "./NextStep.astro";
+import { RECENTS_LABEL } from "../lib/personalization-settings.ts";
 ---
 
 <section id="recents" class="recents" aria-labelledby="recents-title" hidden>
   <div class="wrap">
     <div class="intro">
-      <h2 id="recents-title" tabindex="-1">For me</h2>
+      <h2 id="recents-title" tabindex="-1">{RECENTS_LABEL}</h2>
       <p>Based on the pages you've viewed in this tab. <a href="/lab/personalization/">How this works</a></p>
       <button type="button" class="button secondary close">Close</button>
     </div>

@@ -58,7 +58,8 @@ import { WORKBENCH_LABEL } from "../lib/workbench/types.ts";
     <ol class="uth-visits"></ol>
   </section>
 
-  <button type="button" class="button uth-reset">Reset session</button>
+  <button type="button" class="button uth-reset">{siteConfig.features.workbench ? "Reset session and plan" : "Reset session"}</button>
+  {siteConfig.features.workbench && <p class="uth-reset-note">Also starts {WORKBENCH_LABEL}'s plan over: your answers, checked steps, dismissed items, and hidden tips. Saved items stay.</p>}
 </section>
 
 <script>
@@ -115,6 +116,7 @@ import { WORKBENCH_LABEL } from "../lib/workbench/types.ts";
   .uth-visits :global(time), .uth-visits :global(.type) { color: var(--muted); }
   .uth-visits :global(.type) { display: block; }
   .uth-reset { margin-top: 1.25rem; }
+  .uth-reset-note { color: var(--muted); }
   .uth-steps { padding-left: 1.25rem; }
   .uth-steps :global(.state) { color: var(--muted); }
   .uth-answers :global(dl), .uth-plan :global(dl) { display: grid; grid-template-columns: auto 1fr; gap: 0.25rem 0.75rem; margin: 0.5rem 0 0; }

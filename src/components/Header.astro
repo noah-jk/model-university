@@ -1,6 +1,6 @@
 ---
 import siteConfig from "../../site.config.ts";
-import { JOURNEY } from "../lib/personalization-settings.ts";
+import { JOURNEY, RECENTS_LABEL } from "../lib/personalization-settings.ts";
 import Recents from "./Recents.astro";
 import WorkbenchLink from "./workbench/HeaderLink.astro";
 import { WORKBENCH_PATH } from "../lib/workbench/types.ts";
@@ -39,7 +39,7 @@ const recents = siteConfig.features.personalization;
 // Search: a button in the utility row that opens a field (a plain link to
 // /search/ without JavaScript), and a field in the Menu on small screens.
 const search = siteConfig.features.aiSearch;
-// The workbench link sits next to For me (and in the Menu on small screens)
+// The workbench link sits next to Recents (and in the Menu on small screens)
 const workbench = siteConfig.features.workbench;
 const searchIcon = "M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM15.2 15.2 20 20";
 // The header button starts at the first step (or just "Apply" without personalization); header-cta.ts keeps it on the visitor's next step.
@@ -64,7 +64,7 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
     <nav class="utility" aria-label="Utility">
       <ul>
         {utilityNav.map(({ href, label }) => <li><a href={href} aria-current={ariaCurrent(href)}>{label}</a></li>)}
-        {recents && <li><button type="button" class="recents-toggle needs-js" data-recents-toggle aria-expanded="false">For me</button></li>}
+        {recents && <li><button type="button" class="recents-toggle needs-js" data-recents-toggle aria-expanded="false">{RECENTS_LABEL}</button></li>}
         {workbench && <li><WorkbenchLink current={current.startsWith(WORKBENCH_PATH)} /></li>}
         {
           search && (
@@ -129,7 +129,7 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
         <li class="cta-item"><a class="cta" href={cta.href} data-header-cta data-journey-apply={!recents || undefined}>{cta.label}</a></li>
         {recents && (
           <li class="small-screens">
-            <button type="button" class="recents-toggle needs-js" data-recents-toggle aria-expanded="false">For me</button>
+            <button type="button" class="recents-toggle needs-js" data-recents-toggle aria-expanded="false">{RECENTS_LABEL}</button>
           </li>
         )}
         {workbench && (

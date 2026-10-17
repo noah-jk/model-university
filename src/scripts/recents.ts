@@ -1,9 +1,9 @@
-// The "For me" panel (src/components/Recents.astro): recently or most viewed pages and
+// The Recents panel (src/components/Recents.astro): recently or most viewed pages and
 // the next step in the application journey, from this tab's session. It's
 // filled in when it opens, and re-filled if the session changes while open.
 
 import siteConfig from "../../site.config.ts";
-import { RECENT_COUNT, TYPE_LABELS } from "../lib/personalization-settings.ts";
+import { RECENT_COUNT, RECENTS_LABEL, TYPE_LABELS } from "../lib/personalization-settings.ts";
 import { fingerprint } from "../lib/workbench/derive.ts";
 import { saveToggle } from "../lib/workbench/toggle.ts";
 import type { WorkbenchIndex } from "../lib/workbench/types.ts";
@@ -96,7 +96,7 @@ sortButtons.forEach((button) =>
 
 function render(session: Session) {
   renderRecent(session);
-  renderNext(panel, session, "Next-step tile in For me");
+  renderNext(panel, session, `Next-step tile in ${RECENTS_LABEL}`);
 }
 
 function setOpen(open: boolean) {
