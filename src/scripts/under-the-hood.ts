@@ -2,10 +2,11 @@
 // any [data-under-the-hood-toggle] button, shows the session's visit log and
 // interest profile, lists what was personalized on this page, and resets.
 
+import siteConfig from "../../site.config.ts";
 import { JOURNEY, PANEL_KEY, TYPE_LABELS } from "../lib/personalization-settings.ts";
 import { loadSession, nextStep, resetSession, SAVED_WEIGHT, storageAvailable, type Profile, type Session } from "./personalize.ts";
 import { workbench } from "../lib/workbench/store.ts";
-import { STORAGE_KEY as WORKBENCH_KEY } from "../lib/workbench/types.ts";
+import { STORAGE_KEY as WORKBENCH_KEY, WORKBENCH_LABEL } from "../lib/workbench/types.ts";
 import type { Field } from "../lib/workbench/profile.ts";
 import { pathState } from "./workbench/path-state.ts";
 
@@ -49,7 +50,11 @@ panel.addEventListener("keydown", (e) => {
   if (e.key === "Escape") setOpen(false);
 });
 panel.addEventListener("animationend", () => panel.classList.remove("opening"));
-panel.querySelector(".uth-reset")!.addEventListener("click", () => resetSession());
+// Resets this tab's session and, with Your Path on, its plan (saved items stay)
+panel.querySelector(".uth-reset")!.addEventListener("click", () => {
+  if (siteConfig.features.workbench) workbench.resetPlan();
+  resetSession();
+});
 
 // Rendering -------------------------------------------------------------------
 
@@ -222,7 +227,11 @@ window.addEventListener("personalization:change", (e) => {
   if (!isOpen()) return;
   const session = (e as CustomEvent<Session>).detail;
   render(session);
-  live.textContent = session.views.length ? `Profile updated: ${session.views.length} views` : "Session reset: 0 views";
+  live.textContent = session.views.length
+    ? `Profile updated: ${session.views.length} views`
+    : siteConfig.features.workbench
+      ? `Session and plan reset. Your saved items are still on ${WORKBENCH_LABEL}.`
+      : "Session reset: 0 views";
 });
 window.addEventListener("personalized", () => isOpen() && renderChanges());
 window.addEventListener("workbench:change", () => isOpen() && renderPlan(loadSession()));

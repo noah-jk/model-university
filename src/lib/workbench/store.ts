@@ -314,8 +314,21 @@ export function createStore(storage: Storage | null, { newId = (): string => cry
       return true;
     },
 
+    // Start the plan over: the student's choices, checked steps, dismissals,
+    // hidden tips, and visit date. Saved items stay: they're kept on purpose.
+    resetPlan() {
+      write((w) => {
+        Object.assign(w, { ...empty(), items: w.items, updatedAt: w.updatedAt });
+        delete w.visit;
+      });
+    },
+
     clear() {
-      write((w) => Object.assign(w, { ...empty(), updatedAt: w.updatedAt }));
+      write((w) => {
+        Object.assign(w, { ...empty(), updatedAt: w.updatedAt });
+        delete w.visit;
+        delete w.badge;
+      });
     },
 
     serialize: () => serialize(get()),
