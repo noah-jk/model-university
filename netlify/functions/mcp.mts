@@ -1,14 +1,15 @@
 // The MCP endpoint, served at /mcp by Netlify Functions.
 // Stateless Streamable HTTP: each request gets a fresh server, which suits
-// serverless. Read-only tools over the generated content in content/generated/:
-// programs, courses, student services, faculty, events, and news. The tools
-// themselves are defined in src/lib/tools.ts, shared with on-site search.
+// serverless. Read-only tools over the generated content in content/generated/
+// (programs, courses, student services, faculty, events, and news) and the
+// enrollment rules in content/enrollment/ (steps and the academic calendar).
+// The tools themselves are defined in src/lib/tools.ts, shared with on-site search.
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
 import { z } from "zod";
 import siteConfig from "../../site.config.ts";
-import { tools } from "../../src/lib/tools.ts";
+import { ToolError, tools } from "../../src/lib/tools.ts";
 
 const UNIVERSITY = siteConfig.name;
 
@@ -31,7 +32,7 @@ function buildServer(base: string) {
   const server = new McpServer(
     { name: "cascadia-state-catalog", version: "1.0.0" },
     {
-      instructions: `Official academic program, course, student services, faculty, event, and news information for ${UNIVERSITY}, a fictional university used for demos. Use search tools to find ids, then get_* tools for details. When the person states preferences (field, level, format, start term, budget), apply them as search filters and recommend the 1–3 best matches, each with a one-line reason. Don't re-list options they've ruled out. If the person hasn't stated any preference, ask one short clarifying question. Once they've stated any preference, stop asking and recommend, even if details are missing; offer to refine afterward. Always include the page url for every program, course, service, faculty member, event, or news story you mention, as a link. Event times are in campus local time (Pacific). Tuition and deadlines are estimates; suggest confirming on the linked page.`,
+      instructions: `Official academic program, course, student services, faculty, event, and news information for ${UNIVERSITY}, a fictional university used for demos. Use search tools to find ids, then get_* tools for details. When the person states preferences (field, level, format, start term, budget), apply them as search filters and recommend the 1–3 best matches, each with a one-line reason. Don't re-list options they've ruled out. If the person hasn't stated any preference, ask one short clarifying question. Once they've stated any preference, stop asking and recommend, even if details are missing; offer to refine afterward. Always include the page url for every program, course, service, faculty member, event, or news story you mention, as a link. Event times are in campus local time (Pacific). Tuition and deadlines are estimates; suggest confirming on the linked page. When someone asks what to do next, what's due, or how to apply or enroll, ask their student type (first-year, transfer, returning adult, international, new graduate, or current student) and level if you don't know them, then use get_enrollment_steps (with program_id if they've named a program) and get_academic_calendar for other dates. Application deadlines come from each program (get_program), not the calendar.`,
     }
   );
 
@@ -40,8 +41,14 @@ function buildServer(base: string) {
       tool.name,
       { title: tool.title, description: tool.description, inputSchema: tool.input, annotations: readOnly },
       async (args) => {
-        const result = tool.run(args, base);
-        return result == null ? notFound(tool.notFound!) : json(result);
+        try {
+          const result = tool.run(args, base);
+          return result == null ? notFound(tool.notFound!) : json(result);
+        } catch (error) {
+          // Input the tool can't answer, with how to fix it
+          if (error instanceof ToolError) return notFound(error.message);
+          throw error;
+        }
       }
     );
   }
@@ -75,6 +82,30 @@ function buildServer(base: string) {
       argsSchema: { need: z.string().optional().describe("What you need help with, e.g. 'tutoring' or 'pay my bill'") },
     },
     ({ need }) => userText(`I need help with: ${need || "something at the university"}. Use find_services to pick the best service at ${UNIVERSITY}, then get_service to check whether it's open right now. Tell me which service to use, whether it's open now, and give me its link.`)
+  );
+
+  server.registerPrompt(
+    "plan-my-path",
+    {
+      title: "Plan my path",
+      description: "Say what kind of student you are and when you'd start, and get a checklist of every step and deadline, with links.",
+      argsSchema: {
+        student_type: z.string().optional().describe("First-year, Transfer, Returning adult, International, New graduate student, or Current student"),
+        level: z.string().optional().describe("Undergraduate or Graduate"),
+        start_term: z.string().optional().describe('When you\'d start, e.g. "Winter 2027"'),
+        program: z.string().optional().describe("A program name or id, for its application deadline"),
+      },
+    },
+    ({ student_type, level, start_term, program }) => {
+      const stated = Object.entries({ "student type": student_type, level, "start term": start_term }).filter(([, v]) => v);
+      const missing = ["student type", "level", "start term"].filter((k) => !stated.some(([s]) => s === k));
+      const about = stated.length ? stated.map(([k, v]) => `${k}: ${v}`).join("; ") : "nothing yet";
+      const ask = missing.length ? ` First ask me my ${missing.join(" and ")} in one short question.` : "";
+      const programStep = program ? ` I'm interested in "${program}": find its id with search_programs if needed, and pass it as program_id so the apply step has its deadline.` : "";
+      return userText(
+        `Help me plan my path to ${UNIVERSITY}. About me: ${about}.${ask}${programStep} Then use get_enrollment_steps and give me a plain checklist in order: each step with its due date (say if it has passed), the office that helps, and a link. End with the key dates from get_academic_calendar for my start term that aren't already in the list.`
+      );
+    }
   );
 
   return server;

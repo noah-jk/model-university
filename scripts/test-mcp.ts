@@ -4,6 +4,10 @@
 import handler from "../netlify/functions/mcp.mts";
 import siteConfig from "../site.config.ts";
 import { tools as sharedTools } from "../src/lib/tools.ts";
+import { rules } from "../src/lib/enrollment.ts";
+import { buildIndex } from "../src/lib/workbench/index-data.ts";
+import { planFor } from "../src/lib/workbench/plan.ts";
+import { resolveProfile } from "../src/lib/workbench/profile.ts";
 
 let id = 0;
 async function call(method: string, params: Record<string, unknown>): Promise<any> {
@@ -108,6 +112,70 @@ if (latest.results.length !== 3 || latest.results[0].date < latest.results[2].da
 const marine = await tool("list_news", { department: "Marine Biology" });
 absolute("list_news (department)", marine.results);
 console.log(`✓ list_news: ${latest.results.map((n: { title: string }) => n.title).join(" | ").slice(0, 70)}…`);
+
+// Enrollment steps and the academic calendar ----------------------------------------
+const toolError = async (name: string, args: Record<string, unknown>) => {
+  const r = await call("tools/call", { name, arguments: args });
+  if (!r.isError) throw new Error(`${name}: expected an error for ${JSON.stringify(args)}`);
+  return r.content[0].text as string;
+};
+const urlsIn = (value: unknown): string[] =>
+  typeof value === "string" ? [] : Array.isArray(value) ? value.flatMap(urlsIn) : value && typeof value === "object" ? Object.entries(value).flatMap(([k, v]) => (/url$/.test(k) && typeof v === "string" ? [v] : urlsIn(v))) : [];
+const allAbsolute = (name: string, result: unknown) => {
+  const urls = urlsIn(result);
+  if (!urls.length || urls.some((u) => !/^https?:\/\//.test(u))) throw new Error(`${name}: every url should be absolute: ${urls.filter((u) => !/^https?:/.test(u)).join(", ")}`);
+  return urls.length;
+};
+
+const transfer = await tool("get_enrollment_steps", { student_type: "Transfer", level: "Undergraduate", term: "Winter 2027" });
+const transferUrls = allAbsolute("get_enrollment_steps", transfer);
+// The same steps and dates as Your Path for that profile with nothing saved
+const yourPath = planFor(
+  resolveProfile({ studentType: "Transfer", level: "Undergraduate", startTerm: "Winter 2027" }, { views: [], items: [] }, ["Winter 2027"]),
+  rules,
+  buildIndex(),
+  { version: 2, items: [], profile: {}, dismissed: [], completed: [], hiddenHandoffs: [], updatedAt: "" },
+  []
+)!;
+const same = JSON.stringify(transfer.steps.map((s: { id: string; due_date: string | null }) => [s.id, s.due_date])) === JSON.stringify(yourPath.steps.map((s) => [s.step.id, s.date ?? null]));
+if (!same) throw new Error("get_enrollment_steps: steps differ from Your Path's plan");
+if (!transfer.steps[0].journey || !transfer.offices.some((o: { id: string }) => o.id === "transfer-center")) throw new Error("get_enrollment_steps: journey first, and the Transfer Center among the offices");
+const apply = transfer.steps.find((s: { id: string }) => s.id === "apply");
+if (apply.due_date !== null || !/get_program/.test(apply.note)) throw new Error("get_enrollment_steps: without a program, the apply step points to get_program");
+console.log(`✓ get_enrollment_steps: ${transfer.steps.length} steps for ${transfer.for}, matching Your Path, ${transferUrls} absolute urls`);
+
+const withProgram = await tool("get_enrollment_steps", { student_type: "Transfer", level: "Undergraduate", term: "Winter 2027", program_id: "computer-science-bs" });
+const applyWith = withProgram.steps.find((s: { id: string }) => s.id === "apply");
+if (applyWith.due_date !== withProgram.program.application_deadline || !applyWith.due_date || !/Computer Science/.test(applyWith.date_source)) throw new Error("get_enrollment_steps: program_id fills in the apply step's deadline");
+console.log(`✓ get_enrollment_steps with program_id: apply by ${applyWith.due_date} (${applyWith.date_source})`);
+
+const intl = await tool("get_enrollment_steps", { student_type: "International", level: "Graduate", term: "Fall 2027" });
+const firstYear = await tool("get_enrollment_steps", { student_type: "First-year", level: "Undergraduate", term: "Fall 2027" });
+const hasI20 = (r: { steps: { id: string }[] }) => r.steps.some((s) => s.id === "i20-visa");
+if (!hasI20(intl) || hasI20(firstYear)) throw new Error("get_enrollment_steps: international steps include the I-20; first-year steps don't");
+console.log("✓ get_enrollment_steps: international includes the I-20, first-year doesn't");
+
+const wrongType = await toolError("get_enrollment_steps", { student_type: "Transfer", level: "Graduate", term: "Winter 2027" });
+if (!/New graduate student, International, or Current student/.test(wrongType)) throw new Error(`invalid type error should list valid types: ${wrongType}`);
+const wrongTerm = await toolError("get_enrollment_steps", { student_type: "Transfer", level: "Undergraduate", term: "Fall 2031" });
+const wrongLevel = await toolError("get_enrollment_steps", { student_type: "Transfer", level: "Undergraduate", term: "Winter 2027", program_id: "nursing-msn" });
+console.log(`✓ errors: ${JSON.stringify(wrongType.slice(0, 60))} | ${JSON.stringify(wrongTerm.slice(0, 50))} | ${JSON.stringify(wrongLevel.slice(0, 50))}`);
+
+const winter = await tool("get_academic_calendar", { term: "Winter 2027" });
+allAbsolute("get_academic_calendar", winter);
+const days = winter.dates.map((d: { date: string }) => d.date);
+if (days.join() !== [...days].sort().join() || !winter.dates.some((d: { key: string }) => d.key === "classes-begin")) throw new Error("get_academic_calendar: the term's dates, in date order");
+const intlCalendar = await tool("get_academic_calendar", { term: "Winter 2027", student_type: "International" });
+const transferCalendar = await tool("get_academic_calendar", { term: "Winter 2027", student_type: "Transfer" });
+const keys = (r: { dates: { key: string }[] }) => r.dates.map((d) => d.key);
+if (!keys(intlCalendar).includes("i20-documents") || keys(intlCalendar).includes("fafsa-priority") || keys(transferCalendar).includes("orientation-first-year")) throw new Error("get_academic_calendar: filtered for the student");
+console.log(`✓ get_academic_calendar: ${winter.dates.length} dates for Winter 2027, ${intlCalendar.dates.length} for international students`);
+
+if (!prompts.some((p: { name: string }) => p.name === "plan-my-path")) throw new Error("prompts/list: missing plan-my-path");
+const planPrompt = (await call("prompts/get", { name: "plan-my-path", arguments: { student_type: "Transfer", level: "Undergraduate", start_term: "Winter 2027", program: "Nursing, BS" } })).messages[0].content.text;
+const askPrompt = (await call("prompts/get", { name: "plan-my-path", arguments: {} })).messages[0].content.text;
+if (!/get_enrollment_steps/.test(planPrompt) || !/program_id/.test(planPrompt) || !/First ask me my student type and level and start term/.test(askPrompt)) throw new Error("plan-my-path: uses the tools, and asks what's missing");
+console.log(`✓ prompts/get plan-my-path: ${JSON.stringify(planPrompt.slice(0, 70))}`);
 
 // Search engines are kept out until indexing is switched on
 const options = await handler(new Request("http://localhost:8888/mcp", { method: "OPTIONS" }));
