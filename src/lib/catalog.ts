@@ -180,7 +180,7 @@ export function searchPrograms({ query, level, modality, college, start_term, ma
   };
 }
 
-const findProgram = (id: string) => programs.find((p) => p.id === id) ?? programs.find((p) => norm(p.name) === norm(id));
+export const findProgram = (id: string) => programs.find((p) => p.id === id) ?? programs.find((p) => norm(p.name) === norm(id));
 
 export function getProgram(id: string, base: Base) {
   const p = findProgram(id);

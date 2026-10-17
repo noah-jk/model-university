@@ -1,11 +1,15 @@
-// The catalog tools: names, descriptions, input schemas, and what each one
-// runs. The MCP server (netlify/functions/mcp.mts) registers all of them, and
+// The catalog and enrollment tools: names, descriptions, input schemas, and
+// what each one runs. The MCP server (netlify/functions/mcp.mts) registers all of them, and
 // natural-language search (src/lib/search/) offers a subset to the model, so
 // both describe the catalog in the same words and answer from the same code.
 
 import { z } from "zod";
 import * as catalog from "./catalog.ts";
-import { AUDIENCES, CAMPUSES, COURSE_LEVELS, EVENT_CATEGORIES, MODALITIES, PROGRAM_LEVELS, SERVICE_CATEGORIES, TERMS } from "./vocab.ts";
+import * as enrollment from "./enrollment.ts";
+import { listText } from "./format.ts";
+import { ALL_STUDENT_TYPES, AUDIENCES, CAMPUSES, COURSE_LEVELS, EVENT_CATEGORIES, LEVEL_OF_PROGRAM, MODALITIES, PROGRAM_LEVELS, SERVICE_CATEGORIES, STUDENT_LEVELS, STUDENT_TYPES, TERMS } from "./vocab.ts";
+
+type StudentLevel = (typeof STUDENT_LEVELS)[number];
 
 export type Tool<Shape extends z.ZodRawShape = z.ZodRawShape> = {
   name: string;
@@ -18,6 +22,10 @@ export type Tool<Shape extends z.ZodRawShape = z.ZodRawShape> = {
   notFound?: string;
 };
 
+// A tool's run() throws this when the input can't be answered, with a message
+// that says how to fix it. The MCP server returns it as an error result.
+export class ToolError extends Error {}
+
 // Keeps each tool's run() typed by its own input schema
 const tool = <Shape extends z.ZodRawShape>(t: Tool<Shape>) => t as unknown as Tool;
 
@@ -26,6 +34,24 @@ const modality = z.enum(MODALITIES);
 const term = z.enum(TERMS);
 const limit = z.number().int().min(1).max(50).optional();
 const isoDay = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD");
+
+// Enrollment steps and the academic calendar: a student type, a level, and a
+// start term like "Winter 2027" that the calendar covers
+const studentType = z.enum(ALL_STUDENT_TYPES);
+const studentLevel = z.enum(STUDENT_LEVELS);
+const startTerm = z.string().regex(/^(Winter|Spring|Summer|Fall) \d{4}$/, 'Use a term like "Winter 2027"');
+
+function checkTerm(term: string) {
+  if (!enrollment.calendarTerms.includes(term)) throw new ToolError(`The academic calendar covers ${enrollment.calendarTerms[0]} to ${enrollment.calendarTerms.at(-1)}. Use one of: ${enrollment.calendarTerms.join(", ")}.`);
+}
+// The levels a student type belongs to, checked against a level if one is given
+function levelsFor(type: string | undefined, level: StudentLevel | undefined): StudentLevel[] | undefined {
+  if (type && level && !enrollment.isStudentType(level, type)) {
+    throw new ToolError(`${type} isn't a ${level.toLowerCase()} student type. For ${level}, use ${listText([...STUDENT_TYPES[level]], "or")}.`);
+  }
+  if (level) return [level];
+  return type ? STUDENT_LEVELS.filter((l) => enrollment.isStudentType(l, type)) : undefined;
+}
 
 export const tools: Tool[] = [
   tool({
@@ -158,6 +184,44 @@ export const tools: Tool[] = [
       limit,
     },
     run: (args, base) => catalog.listNews(args, base),
+  }),
+  tool({
+    name: "get_enrollment_steps",
+    title: "Get enrollment steps",
+    description:
+      "Everything one kind of student does to enroll, in order, with due dates for their start term, the office that helps with each step, and page urls; plus the offices for them, each with why. Prospective students start with the application journey (explore programs, request information, visit, apply). Pass program_id to fill in that program's application deadline; otherwise the apply step's deadline depends on the program. Ask the person's student type and level if you don't know them.",
+    input: {
+      student_type: studentType,
+      level: studentLevel,
+      term: startTerm.describe('Start term, e.g. "Winter 2027"'),
+      program_id: z.string().optional().describe("Program id from search_programs, e.g. 'nursing-bs', for its application deadline"),
+    },
+    run: ({ student_type, level, term, program_id }, base) => {
+      levelsFor(student_type, level);
+      checkTerm(term);
+      const program = program_id ? catalog.findProgram(program_id) : undefined;
+      if (program_id && !program) throw new ToolError("No program with that id found. Use search_programs to find valid ids.");
+      if (program && LEVEL_OF_PROGRAM[program.level] !== level) {
+        throw new ToolError(`${program.name} is ${LEVEL_OF_PROGRAM[program.level] === "Graduate" ? "a graduate" : "an undergraduate"} program. Use level ${LEVEL_OF_PROGRAM[program.level]}, or a program at the ${level.toLowerCase()} level.`);
+      }
+      return enrollment.enrollmentSteps({ level, type: student_type, term, program }, base);
+    },
+  }),
+  tool({
+    name: "get_academic_calendar",
+    title: "Get the academic calendar",
+    description:
+      "Institution-wide dates for a term and its academic year, in date order: orientation, registration, classes begin, tuition due, finals, the FAFSA priority date, and more. Give a student type or level to get only their dates. Application deadlines aren't here; each program has its own (get_program).",
+    input: {
+      term: startTerm.describe('Term, e.g. "Winter 2027"'),
+      student_type: studentType.optional(),
+      level: studentLevel.optional(),
+    },
+    run: ({ term, student_type, level }, base) => {
+      const levels = levelsFor(student_type, level);
+      checkTerm(term);
+      return enrollment.academicCalendar({ term, type: student_type, levels }, base);
+    },
   }),
 ];
 
