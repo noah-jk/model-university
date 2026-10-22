@@ -59,7 +59,6 @@ export type NextAction = {
   href: string;
   isApply: boolean;
   icon: string; // which icon in NextStep.astro
-  count: string; // "Step 2 of 9"
   pitch: string;
   why: string;
   reason?: string; // for "What changed on this page"
@@ -77,7 +76,7 @@ function fromPlan(state: PathState, session: Session): NextAction {
   const done = steps.length - state.toDo;
   const next = state.next;
   if (!next) {
-    return { title: `See ${WORKBENCH_LABEL}`, short: WORKBENCH_LABEL, href: WORKBENCH_PATH, isApply: false, icon: "done", count: "", pitch: `You've done every step for ${startTerm.value}. ${WORKBENCH_LABEL} still has your dates.`, why: `You've done all ${steps.length} steps for ${who}.`, reason: `you've done every step on ${WORKBENCH_LABEL}` };
+    return { title: `See ${WORKBENCH_LABEL}`, short: WORKBENCH_LABEL, href: WORKBENCH_PATH, isApply: false, icon: "done", pitch: `You've done every step for ${startTerm.value}. ${WORKBENCH_LABEL} still has your dates.`, why: `You've done all ${steps.length} steps for ${who}.`, reason: `you've done every step on ${WORKBENCH_LABEL}` };
   }
   const { step } = next;
   const href = step.journey === "requestInfo" ? withProgram(stepHref(step), session) : stepHref(step);
@@ -87,7 +86,6 @@ function fromPlan(state: PathState, session: Session): NextAction {
     href,
     isApply: step.journey === "apply",
     icon: step.journey ?? "step",
-    count: `Step ${steps.indexOf(next) + 1} of ${steps.length}`,
     pitch: step.description,
     why: `${WORKBENCH_LABEL} has ${steps.length} steps for ${who}. You've done ${done}, and this is the first one left.`,
     reason: `it's the first step not done on ${WORKBENCH_LABEL}, for ${who} (${done} of ${steps.length} done)`,
@@ -103,7 +101,6 @@ function fromJourney(session: Session): NextAction {
     href,
     isApply: next?.step === "apply",
     icon: next?.step ?? "done",
-    count: next ? `Step ${JOURNEY.indexOf(next) + 1} of ${JOURNEY.length}` : "",
     pitch: pitch(session),
     why: explain(session),
     reason: journeyReason(session),
@@ -140,7 +137,6 @@ export function renderNext(root: ParentNode, session: Session, where = "Next-ste
   tile.toggleAttribute("data-journey-apply", action.isApply);
   tile.querySelector(".title")!.textContent = action.title;
   tile.querySelector(".pitch")!.textContent = action.pitch;
-  tile.querySelector(".count")!.textContent = action.count;
   tile.querySelectorAll<SVGElement>(".icon svg").forEach((icon) => icon.classList.toggle("shown", icon.dataset.icon === action.icon));
   root.querySelector(".why")!.textContent = action.why;
   markPersonalized(tile, action.reason && `${where}: “${action.title}”, because ${action.reason}.`);

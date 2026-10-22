@@ -4,7 +4,7 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import { getPage } from "../../../lib/pages.ts";
 import { programs } from "../../../lib/catalog.ts";
-import { JOURNEY, MAX_VIEWS } from "../../../lib/personalization-settings.ts";
+import { JOURNEY, MAX_VIEWS, RECENTS_LABEL } from "../../../lib/personalization-settings.ts";
 import { pagePath, SECTION_PATH } from "../../../lib/urls.ts";
 
 const page = await getPage("lab/personalization");
@@ -35,7 +35,7 @@ const step = (name: string) => JOURNEY.find((j) => j.step === name)!;
                   <a href={pagePath("programs", p.id)}>{p.name}</a>
                 </>
               ))}
-              . Open <strong>For me</strong> in the header: your next step is requesting information.
+              . Open <strong>{RECENTS_LABEL}</strong> in the header: your next step is requesting information.
             </li>
             <li>
               Fill in the <a href={step("requestInfo").href}>request information</a> form, then the <a href={step("visit").href}>visit</a> form. Each one moves

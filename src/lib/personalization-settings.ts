@@ -4,6 +4,8 @@
 // sessionStorage keys
 export const PROFILE_KEY = "cascadia:personalization";
 export const PANEL_KEY = "cascadia:under-the-hood";
+// The header panel with recently viewed pages and the next step
+export const RECENTS_LABEL = "Recents";
 
 // Keep at most this many page views
 export const MAX_VIEWS = 50;

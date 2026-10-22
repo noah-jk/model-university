@@ -35,25 +35,29 @@ const tabs = [
     <form class="profile-bar" data-profile>
       <fieldset>
         <legend>Your plan</legend>
-        <p class="sentence">
-          <span class="lead-in">Planning as</span>
+        <div class="bar">
           <span class="pick">
-            <label for="pf-type">Student type</label>
+            <span class="pick-label">
+              <label for="pf-type">Student type</label>
+              <span class="tag" data-tag="studentType" hidden>Suggested</span>
+            </span>
             <select id="pf-type" data-field="studentType"></select>
-            <span class="tag" data-tag="studentType" hidden>Suggested</span>
           </span>
           <span class="pick">
-            <label for="pf-level">Level</label>
+            <span class="pick-label">
+              <label for="pf-level">Level</label>
+              <span class="tag" data-tag="level" hidden>Suggested</span>
+            </span>
             <select id="pf-level" data-field="level"></select>
-            <span class="tag" data-tag="level" hidden>Suggested</span>
           </span>
-          <span class="lead-in">starting</span>
           <span class="pick">
-            <label for="pf-term">Start term</label>
+            <span class="pick-label">
+              <label for="pf-term">Start term</label>
+              <span class="tag" data-tag="startTerm" hidden>Suggested</span>
+            </span>
             <select id="pf-term" data-field="startTerm"></select>
-            <span class="tag" data-tag="startTerm" hidden>Suggested</span>
           </span>
-        </p>
+        </div>
         <div class="profile-notes" data-profile-notes></div>
       </fieldset>
     </form>
@@ -116,18 +120,31 @@ const tabs = [
 
   /* Profile bar: a sentence with a select for each value */
   .profile-bar { margin: 1.5rem 0 2rem; }
-  .profile-bar fieldset { margin: 0; padding: 1rem 1.25rem 1.1rem; border: 1px solid var(--line); border-left: 6px solid var(--fir); border-radius: var(--radius-s); background: var(--paper); }
-  .profile-bar legend { padding: 0 0.35rem; font: 600 var(--step--1) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
-  .sentence { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.5rem 0.75rem; margin: 0; max-width: none; font-size: var(--step-1); }
-  .lead-in { padding-bottom: 0.55rem; }
-  .pick { display: inline-grid; grid-template-columns: auto auto; align-items: center; gap: 0.15rem 0.4rem; }
-  .pick label { grid-column: 1 / -1; font: 600 var(--step--1) / 1.2 var(--sans); color: var(--muted); }
-  .pick select { min-height: 44px; padding: 0.35rem 0.6rem; font: 600 var(--step-0) var(--sans); color: var(--basalt); background: var(--fog); border: 1.5px solid var(--fir); border-radius: var(--radius-s); }
-  .tag { justify-self: start; padding: 0.05rem 0.45rem; border-radius: 999px; background: var(--lichen); color: var(--basalt); font: 700 0.75rem / 1.4 var(--sans); }
+  .profile-bar fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+  .profile-bar legend { padding: 0; margin-bottom: 0.5rem; font: 600 var(--step--1) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  /* One integrated bar: a segment for each value, split by thin lines. The
+     selects stay native, styled to fill their segment. */
+  .bar { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: var(--paper); border: 1.5px solid var(--fir); border-radius: var(--radius-s); box-shadow: 0 1px 2px rgb(0 0 0 / 0.06); }
+  .pick { position: relative; display: grid; gap: 0.1rem; padding: 0.55rem 2.5rem 0.5rem 1rem; min-width: 0; }
+  .pick + .pick { border-left: 1px solid var(--line); }
+  .pick:first-child { border-radius: var(--radius-s) 0 0 var(--radius-s); }
+  .pick:last-child { border-radius: 0 var(--radius-s) var(--radius-s) 0; }
+  /* The select has no ring of its own; its segment shows focus */
+  .pick:focus-within { outline: 3px solid var(--focus); outline-offset: -3px; }
+  .pick:hover { background: var(--fog); }
+  /* The label, with "Suggested" beside it when the value was suggested */
+  .pick-label { display: flex; align-items: center; gap: 0.4rem; min-height: 1.4rem; }
+  .pick label { font: 600 var(--step--1) / 1.2 var(--sans); color: var(--muted); }
+  .pick select { appearance: none; width: 100%; min-height: 2rem; padding: 0; margin: 0; font: 600 var(--step-1) / 1.3 var(--sans); color: var(--basalt); background: transparent; border: 0; cursor: pointer; text-overflow: ellipsis; }
+  .pick select:focus { outline: none; }
+  /* The select's arrow, drawn so it matches the theme */
+  .pick::after { content: ""; position: absolute; right: 1.1rem; bottom: 1.05rem; width: 0.5rem; height: 0.5rem; border: solid var(--fir); border-width: 0 2px 2px 0; transform: rotate(45deg); pointer-events: none; }
+  .tag { padding: 0.05rem 0.45rem; border-radius: 999px; background: var(--lichen); color: var(--basalt); font: 700 0.75rem / 1.4 var(--sans); }
   @media (max-width: 40rem) {
-    .sentence { flex-direction: column; align-items: stretch; }
-    .lead-in { display: none; }
-    .pick select { width: 100%; }
+    .bar { grid-template-columns: 1fr; }
+    .pick + .pick { border-left: 0; border-top: 1px solid var(--line); }
+    .pick:first-child { border-radius: var(--radius-s) var(--radius-s) 0 0; }
+    .pick:last-child { border-radius: 0 0 var(--radius-s) var(--radius-s); }
   }
   .profile-notes { display: grid; gap: 0.35rem; margin-top: 0.75rem; font-size: var(--step--1); }
   .profile-notes :global(p) { margin: 0; }
@@ -144,7 +161,6 @@ const tabs = [
   .path-steps :global(li::before) { content: counter(step); position: absolute; left: 0.75rem; top: 0.95rem; width: 1.75rem; height: 1.75rem; border-radius: 999px; display: grid; place-items: center; font: 700 var(--step--1) / 1 var(--sans); background: var(--lichen); color: var(--basalt); }
   .path-steps :global(li.is-next) { background: var(--paper); border: 2px solid var(--fir); border-radius: var(--radius-s); margin-block: 0.25rem; }
   .path-steps :global(li.is-next::before) { background: var(--fir); color: var(--fog); }
-  .path-steps :global(li.is-done::before) { content: "✓" / ""; }
   .path-steps :global(.check) { display: flex; align-items: flex-start; gap: 0.6rem; }
   .path-steps :global(.check input) { width: 1.25rem; height: 1.25rem; margin: 0.15rem 0 0; flex: none; accent-color: var(--fir); }
   .path-steps :global(.check label) { font-weight: 600; }
