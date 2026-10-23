@@ -22,7 +22,7 @@ Nothing in the plan is stored. What's stored is what you chose: your answers, th
 
 You can still save programs, courses, people, events, and services as you browse. Saved items store which item you saved, not a copy, so they always show the catalog's latest details, and say so when a program's tuition or deadlines change after you save it.
 
-- **Compare** puts up to four saved programs side by side. Costs are never added up, because the programs are alternatives.
+- **Compare** puts up to four programs side by side. Search for any program right there, or add one you saved or viewed recently, with one click; adding a program saves it too. Costs are never added up, because the programs are alternatives.
 - **Your plan** is one list of everything to do and every date that matters, in order: your steps (with a checkbox), the academic calendar, your saved programs' deadlines, saved events, and your visit. Each date appears once, with where it comes from, and you can add any of them to your calendar. Steps you've done and dates that have passed fold away at the top.
 
 ## One next step
