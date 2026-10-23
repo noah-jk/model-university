@@ -15,13 +15,14 @@ import { upcomingTerms } from "../../lib/terms.ts";
 import { ALL_STUDENT_TYPES, STUDENT_LEVELS, STUDENT_TYPES } from "../../lib/vocab.ts";
 import { workbench } from "../../lib/workbench/store.ts";
 import { saveToggle } from "../../lib/workbench/toggle.ts";
-import { changesSinceSaved, compareTable, factsFor, fingerprint, lookup, MAX_COMPARE, nameOf, termOptions } from "../../lib/workbench/derive.ts";
+import { changesSinceSaved, compareTable, factsFor, fingerprint, lookup, matchPrograms, MAX_COMPARE, nameOf, termOptions } from "../../lib/workbench/derive.ts";
 import { pathIcs, pathList, pathTimeline, planFor, programsByPlan, type PathEntry, type PathRow, type Plan, type PlanStep } from "../../lib/workbench/plan.ts";
 import { describeStudents, resolveProfile, validType, type ResolvedProfile } from "../../lib/workbench/profile.ts";
-import { CONTENT_KINDS, GROUPS, MAX_NOTE, WORKBENCH_LABEL, type ContentKind, type PlanChoices, type Workbench, type WorkbenchIndex, type WorkbenchItem } from "../../lib/workbench/types.ts";
+import { CONTENT_KINDS, GROUPS, MAX_NOTE, WORKBENCH_LABEL, type ContentKind, type IndexProgram, type PlanChoices, type Workbench, type WorkbenchIndex, type WorkbenchItem } from "../../lib/workbench/types.ts";
 import { loadSession, recentPages } from "../personalize.ts";
 import { renderNext } from "../next-step.ts";
 import { signalsFrom } from "./path-state.ts";
+import { syncToggles } from "./save.ts";
 
 const personalization = siteConfig.features.personalization;
 const root = document.querySelector<HTMLElement>("[data-workbench]")!;
@@ -44,7 +45,7 @@ let index: WorkbenchIndex | undefined;
 let rules: RulesLookup | undefined;
 // Items whose note field is open but still empty
 const editing = new Set<string>();
-// Programs chosen for Compare when more than MAX_COMPARE are saved
+// Programs the student chose to compare (otherwise the first MAX_COMPARE saved)
 let compareChoice: string[] | undefined;
 // Where focus should go after the next render
 let pendingFocus: string | undefined;
@@ -325,26 +326,31 @@ const addNoteForm = (first: boolean) => `<form class="add-note" data-add-note>
   <div class="row"><button type="submit" class="button" data-focus-key="new-note-submit">Add note</button></div>
 </form>`;
 
-// Nothing saved yet: what saving is for, and recently viewed pages to save
-function renderEmpty() {
+// Recently viewed pages, each with its Save toggle. Saved ones stay, shown
+// as saved, so the list doesn't change under the student as they save several.
+function pickup() {
   const recent = personalization ? recentPages(loadSession(), 4).filter((v) => v.type !== "page").slice(0, 3) : [];
-  const pickup = recent.length
-    ? `<h3>Pick up where you left off</h3>
-       <ul class="pickup">${recent
-         .map((view) => {
-           const kind = view.type as ContentKind;
-           const entry = index?.[kind]?.[view.id];
-           const { department, college, level, modality } = view;
-           const interest = Object.fromEntries(Object.entries({ department, college, level, modality }).filter(([, v]) => v));
-           const toggle = saveToggle({ kind, ref: view.id, name: view.name, interest, ...(entry && { watch: fingerprint(kind, entry) }) }, { compact: true });
-           return `<li><a href="${esc(view.url)}">${esc(view.name)}</a>${toggle.replace("<button ", `<button data-focus-key="pickup:${esc(view.type)}:${esc(view.id)}" `)}</li>`;
-         })
-         .join("")}</ul>`
-    : "";
+  if (!recent.length) return "";
+  return `<section class="pickup-section" aria-labelledby="pickup-title">
+    <h2 id="pickup-title">Pick up where you left off</h2>
+    <ul class="pickup">${recent
+      .map((view) => {
+        const kind = view.type as ContentKind;
+        const entry = index?.[kind]?.[view.id];
+        const { department, college, level, modality } = view;
+        const interest = Object.fromEntries(Object.entries({ department, college, level, modality }).filter(([, v]) => v));
+        const toggle = saveToggle({ kind, ref: view.id, name: view.name, interest, ...(entry && { watch: fingerprint(kind, entry) }) }, { compact: true });
+        return `<li><a href="${esc(view.url)}">${esc(view.name)}</a>${toggle.replace("<button ", `<button data-focus-key="pickup:${esc(view.type)}:${esc(view.id)}" `)}</li>`;
+      })
+      .join("")}</ul>
+  </section>`;
+}
+
+// Nothing saved yet: what saving is for
+function renderEmpty() {
   return `<div class="empty">
     <h2 tabindex="-1" data-focus-key="empty-heading">Nothing saved yet</h2>
     <p>You can also save programs, courses, events, and people as you browse: use <strong>Save to ${esc(WORKBENCH_LABEL)}</strong> on their pages, in the program list, or in search results.</p>
-    ${pickup}
   </div>`;
 }
 
@@ -360,36 +366,51 @@ function renderItems(w: Workbench, plan: Plan | undefined, profile: ResolvedProf
     </section>`
     )
     .join("");
-  panels.items.innerHTML = (groups.length ? saved : renderEmpty()) + renderSuggested(plan) + addNoteForm(!groups.length);
+  panels.items.innerHTML = (groups.length ? saved : renderEmpty()) + pickup() + renderSuggested(plan) + addNoteForm(!groups.length);
+  syncToggles(panels.items);
   return groups.reduce((n, g) => n + g.items.length, 0);
 }
 
 // Compare --------------------------------------------------------------------
 
+type SavedProgram = { id: string; program: IndexProgram };
+const savedPrograms = (w: Workbench): SavedProgram[] =>
+  w.items.filter((i) => i.kind === "program" && i.ref && index!.program[i.ref]).map((i) => ({ id: i.ref!, program: index!.program[i.ref!] }));
+
+// What's being compared: the student's picks, or the first MAX_COMPARE saved
+function comparedIds(saved: SavedProgram[]) {
+  if (compareChoice) compareChoice = compareChoice.filter((id) => saved.some((s) => s.id === id));
+  return compareChoice ?? saved.slice(0, MAX_COMPARE).map((s) => s.id);
+}
+
+const chip = (id: string, name: string, action: "add" | "remove") =>
+  action === "remove"
+    ? `<li><span>${esc(name)}</span><button type="button" data-uncompare="${esc(id)}" data-focus-key="uncompare:${esc(id)}" aria-label="Remove ${esc(name)} from the comparison">Remove</button></li>`
+    : `<li><span>${esc(name)}</span><button type="button" data-compare-add="${esc(id)}" data-focus-key="compare-add:${esc(id)}" aria-label="Compare ${esc(name)}">Compare</button></li>`;
+
 function renderCompare(w: Workbench, term: string) {
-  const saved = w.items
-    .filter((i) => i.kind === "program" && i.ref && index!.program[i.ref])
-    .map((i) => ({ id: i.ref!, program: index!.program[i.ref!] }));
-  if (!saved.length) {
-    panels.compare.innerHTML = `<p>Save two or more programs to compare them side by side: format, cost, length, and your deadline.</p>
-      <p><a href="/academics/programs/">Browse programs</a></p>`;
+  const body = panels.compare.querySelector<HTMLElement>("[data-compare-body]")!;
+  const saved = savedPrograms(w);
+  const ids = comparedIds(saved);
+  const compared = ids.map((id) => saved.find((s) => s.id === id)!);
+  // Other saved programs, and programs viewed recently in this tab, one click from the table
+  const others = saved.filter((s) => !ids.includes(s.id));
+  const recent = (personalization ? recentPages(loadSession(), 8) : []).filter((v) => v.type === "program" && index!.program[v.id] && !saved.some((s) => s.id === v.id)).slice(0, 4);
+  const full = ids.length >= MAX_COMPARE;
+  const groups = [
+    compared.length && `<div class="chip-group"><h3 id="comparing-title">Comparing</h3><ul class="chips" aria-labelledby="comparing-title">${compared.map((c) => chip(c.id, c.program.name, "remove")).join("")}</ul></div>`,
+    others.length && `<div class="chip-group"><h3 id="also-saved-title">Also saved</h3><ul class="chips" aria-labelledby="also-saved-title">${others.map((c) => chip(c.id, c.program.name, "add")).join("")}</ul></div>`,
+    recent.length && `<div class="chip-group"><h3 id="recent-programs-title">Viewed recently</h3><ul class="chips" aria-labelledby="recent-programs-title">${recent.map((v) => chip(v.id, index!.program[v.id].name, "add")).join("")}</ul></div>`,
+  ].filter(Boolean);
+  const note = full ? `<p class="compare-full">Comparing ${MAX_COMPARE} programs. Remove one to add another.</p>` : "";
+
+  if (!compared.length) {
+    body.innerHTML = `${groups.join("")}<p>Search above, or save programs as you browse, to compare them side by side: format, cost, length, and your deadline.</p>`;
     return 0;
   }
-  // With more than MAX_COMPARE saved, the visitor picks which to compare
-  if (compareChoice) compareChoice = compareChoice.filter((id) => saved.some((s) => s.id === id));
-  const chosen = saved.length > MAX_COMPARE ? (compareChoice ??= saved.slice(0, MAX_COMPARE).map((s) => s.id)) : saved.map((s) => s.id);
-  const picker =
-    saved.length > MAX_COMPARE
-      ? `<fieldset class="compare-pick"><legend>Choose up to ${MAX_COMPARE} programs to compare</legend>${saved
-          .map(({ id, program }) => {
-            const on = chosen.includes(id);
-            return `<label><input type="checkbox" data-compare-pick="${esc(id)}" data-focus-key="pick:${esc(id)}"${on ? " checked" : ""}${!on && chosen.length >= MAX_COMPARE ? " disabled" : ""} /> ${esc(program.name)}</label>`;
-          })
-          .join("")}</fieldset>`
-      : "";
-  const table = compareTable(saved.filter((s) => chosen.includes(s.id)), term);
+  const table = compareTable(compared, term);
   const caption = table.programs.length === 1 ? `${table.programs[0].name}, for a start in ${term}` : `Comparing ${table.programs.length} programs, for a start in ${term}`;
-  panels.compare.innerHTML = `${picker}
+  body.innerHTML = `<div class="chip-groups">${groups.join("")}</div>${note}
     ${table.programs.length > 1 ? `<p class="scroll-hint">On a small screen, scroll sideways to see every program.</p>` : ""}
     <div class="compare-wrap" role="region" aria-labelledby="compare-caption" tabindex="0">
       <table class="compare">
@@ -400,8 +421,118 @@ function renderCompare(w: Workbench, term: string) {
           .join("")}</tbody>
       </table>
     </div>
-    ${saved.length === 1 ? `<p>Save another program to compare it with ${esc(saved[0].program.name)}. <a href="/academics/programs/">Browse programs</a></p>` : ""}`;
+    ${compared.length === 1 ? `<p>Add another program to compare it with ${esc(compared[0].program.name)}.</p>` : ""}`;
   return saved.length;
+}
+
+// Add a program to the comparison, saving it first if it isn't saved. The
+// message says what happened, for the live region.
+function addToCompare(id: string) {
+  const program = index!.program[id];
+  const w = workbench.get();
+  const ids = comparedIds(savedPrograms(w));
+  if (ids.includes(id)) return `${program.name} is already in the comparison.`;
+  if (ids.length >= MAX_COMPARE) return `Comparing ${MAX_COMPARE} programs. Remove one to add ${program.name}.`;
+  compareChoice = [...ids, id];
+  if (workbench.has("program", id)) {
+    render();
+    return `Added ${program.name} to the comparison.`;
+  }
+  const interest = { level: program.level, college: program.college, department: program.department, modality: program.modality };
+  const result = workbench.add("program", id, { interest, watch: fingerprint("program", program) });
+  if (!result.ok) {
+    compareChoice = ids;
+    return `${WORKBENCH_LABEL} is full. Remove something to add more.`;
+  }
+  return `Saved ${program.name} to ${WORKBENCH_LABEL} and added it to the comparison.`;
+}
+
+// The search: a combobox (ARIA 1.2) with a list of matching programs. It's
+// built once, outside what re-renders, so typing isn't interrupted.
+function setUpCompareSearch() {
+  panels.compare.innerHTML = `<div class="compare-add">
+      <label for="compare-search">Add a program to compare</label>
+      <p class="hint" id="compare-search-hint">Type part of a name, like "nursing" or "data master". Picking one also saves it to ${esc(WORKBENCH_LABEL)}.</p>
+      <div class="combo">
+        <input id="compare-search" type="text" role="combobox" aria-expanded="false" aria-controls="compare-options" aria-autocomplete="list" aria-describedby="compare-search-hint" autocomplete="off" spellcheck="false" />
+        <ul id="compare-options" role="listbox" aria-label="Matching programs" hidden></ul>
+      </div>
+    </div>
+    <div data-compare-body></div>`;
+  const input = panels.compare.querySelector<HTMLInputElement>("#compare-search")!;
+  const list = panels.compare.querySelector<HTMLUListElement>("#compare-options")!;
+  let matches: SavedProgram[] = [];
+  let active = -1;
+  let countTimer: ReturnType<typeof setTimeout> | undefined;
+
+  const close = () => {
+    list.hidden = true;
+    input.setAttribute("aria-expanded", "false");
+    input.removeAttribute("aria-activedescendant");
+    active = -1;
+  };
+  const show = () => {
+    const ids = comparedIds(savedPrograms(workbench.get()));
+    matches = matchPrograms(index!.program, input.value);
+    active = -1;
+    input.removeAttribute("aria-activedescendant");
+    list.innerHTML = matches
+      .map(({ id, program }, i) => {
+        const state = ids.includes(id) ? "comparing" : workbench.has("program", id) ? "saved" : "";
+        return `<li role="option" id="compare-option-${i}" data-option="${esc(id)}" aria-selected="false">${esc(program.name)}<span class="option-meta">${esc(program.level)}${state ? ` · ${state}` : ""}</span></li>`;
+      })
+      .join("");
+    const open = matches.length > 0;
+    list.hidden = !open;
+    input.setAttribute("aria-expanded", String(open));
+    // Say how many match, once typing pauses
+    clearTimeout(countTimer);
+    if (input.value.trim()) countTimer = setTimeout(() => announce(matches.length ? `${matches.length} ${matches.length === 1 ? "program matches" : "programs match"}. Use the arrow keys to choose.` : "No programs match."), 600);
+  };
+  const highlight = (i: number) => {
+    active = i;
+    list.querySelectorAll<HTMLElement>("[role=option]").forEach((o, j) => o.setAttribute("aria-selected", String(j === i)));
+    const option = list.querySelector<HTMLElement>(`#compare-option-${i}`);
+    if (option) {
+      input.setAttribute("aria-activedescendant", option.id);
+      option.scrollIntoView({ block: "nearest" });
+    }
+  };
+  const pick = (id: string) => {
+    clearTimeout(countTimer);
+    input.value = "";
+    close();
+    announce(addToCompare(id));
+    input.focus();
+  };
+
+  input.addEventListener("input", show);
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (list.hidden) show();
+      if (matches.length) highlight((active + 1) % matches.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (matches.length) highlight(active <= 0 ? matches.length - 1 : active - 1);
+    } else if (e.key === "Enter") {
+      if (active >= 0 && !list.hidden) {
+        e.preventDefault();
+        pick(matches[active].id);
+      }
+    } else if (e.key === "Escape") {
+      if (!list.hidden) close();
+      else input.value = "";
+    }
+  });
+  // mousedown, so the click lands before the input loses focus
+  list.addEventListener("mousedown", (e) => {
+    const option = (e.target as Element).closest<HTMLElement>("[data-option]");
+    if (!option) return;
+    e.preventDefault();
+    pick(option.dataset.option!);
+  });
+  input.addEventListener("blur", () => setTimeout(close, 100));
 }
 
 // Calendar files ----------------------------------------------------------------
@@ -593,6 +724,31 @@ root.addEventListener("click", (event) => {
     return;
   }
 
+  // Compare's chips: removing moves focus to the next chip, or the search
+  const uncompare = target.closest<HTMLButtonElement>("[data-uncompare]");
+  if (uncompare) {
+    const id = uncompare.dataset.uncompare!;
+    const ids = comparedIds(savedPrograms(workbench.get()));
+    const next = ids[ids.indexOf(id) + 1] ?? ids[ids.indexOf(id) - 1];
+    compareChoice = ids.filter((x) => x !== id);
+    pendingFocus = next ? `uncompare:${next}` : undefined;
+    render();
+    if (!next) panels.compare.querySelector<HTMLElement>("#compare-search")!.focus();
+    announce(`Removed ${index!.program[id].name} from the comparison. It's still saved.`);
+    return;
+  }
+  const compareAdd = target.closest<HTMLButtonElement>("[data-compare-add]");
+  if (compareAdd) {
+    const id = compareAdd.dataset.compareAdd!;
+    pendingFocus = `uncompare:${id}`;
+    const message = addToCompare(id);
+    // If it couldn't be added, the chip is still there
+    if (!comparedIds(savedPrograms(workbench.get())).includes(id)) pendingFocus = undefined;
+    render();
+    announce(message);
+    return;
+  }
+
   const dismissButton = target.closest<HTMLButtonElement>("[data-dismiss]");
   if (dismissButton) return dismiss(dismissButton.dataset.dismiss!);
 
@@ -736,13 +892,6 @@ root.addEventListener("change", (event) => {
     return;
   }
 
-  // Compare picker
-  if (input.dataset.comparePick && compareChoice && input instanceof HTMLInputElement) {
-    const id = input.dataset.comparePick;
-    compareChoice = input.checked ? [...compareChoice, id].slice(0, MAX_COMPARE) : compareChoice.filter((x) => x !== id);
-    pendingFocus = `pick:${id}`;
-    render();
-  }
 });
 
 // Tabs (the ARIA tabs pattern, with the tab in the address) -------------------
@@ -831,6 +980,7 @@ Promise.all([getJson<WorkbenchIndex>("/data/workbench-index.json"), getJson<Rule
   .then(([indexData, rulesData]) => {
     index = indexData;
     rules = rulesFrom(rulesData);
+    setUpCompareSearch();
     // Forget completed and dismissed ids that no longer exist (once per visit)
     if (!pruned) {
       pruned = true;
