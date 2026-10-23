@@ -79,7 +79,8 @@ const types = [...new Set(STUDENT_LEVELS.flatMap((l) => STUDENT_TYPES[l] as read
   .handoff-title:focus { outline: none; }
   .handoff-title:focus-visible { outline: 3px solid var(--focus); }
   /* Room for the longest text, so filling in the plan's numbers doesn't move anything */
-  .handoff-text { margin: 0 0 0.75rem; max-width: var(--measure); min-height: 3lh; }
+  /* Its own size and color, wherever it's placed (not an intro's large lede) */
+  .handoff-text { margin: 0 0 0.75rem; max-width: var(--measure); min-height: 3lh; font-size: var(--step-0); color: var(--basalt); }
   @media (min-width: 48rem) { .handoff-text { min-height: 2lh; } }
   .handoff-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; margin: 0; }
   .handoff-actions .link-button { font-size: var(--step--1); }

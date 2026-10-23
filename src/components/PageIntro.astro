@@ -1,7 +1,8 @@
 ---
 // The top of a section's main page: the heading and intro text from the slot,
 // with a smaller photo to the right on wide screens (below the text on small
-// ones). The photos are decorative, so by default they have no alt text.
+// ones). The photos are decorative, so by default they have no alt text. A
+// page can put something else on the right instead, in the "side" slot.
 import { Picture } from "astro:assets";
 
 interface Props {
@@ -9,20 +10,35 @@ interface Props {
   alt?: string;
 }
 const { image, alt = "" } = Astro.props;
+const hasSide = Astro.slots.has("side");
 ---
 
 <div class="page-intro intro-with-image">
   <div class="text">
     <slot />
   </div>
-  <figure>
-    <Picture src={image} formats={["avif", "webp"]} widths={[320, 480, 640, 800]} sizes="(min-width: 48rem) 22rem, 100vw" alt={alt} />
-  </figure>
+  {
+    hasSide ? (
+      <div class="side">
+        <slot name="side" />
+      </div>
+    ) : (
+      <figure>
+        <Picture src={image} formats={["avif", "webp"]} widths={[320, 480, 640, 800]} sizes="(min-width: 48rem) 22rem, 100vw" alt={alt} />
+      </figure>
+    )
+  }
 </div>
 
 <style>
   .intro-with-image { display: grid; gap: 1.5rem 3rem; align-items: center; }
   @media (min-width: 48rem) { .intro-with-image { grid-template-columns: minmax(0, 1fr) clamp(15rem, 30%, 22rem); } }
+  /* Something in the side slot sits at the top, beside the heading */
+  .intro-with-image:has(> .side) { align-items: start; }
+  @media (min-width: 48rem) { .intro-with-image:has(> .side) { grid-template-columns: minmax(0, 1fr) clamp(18rem, 38%, 26rem); } }
+  /* If what's in the side slot is hidden (a dismissed tip), the text takes the full width */
+  .intro-with-image:has(> .side > [hidden]:only-child) { grid-template-columns: minmax(0, 1fr); }
+  .side { min-width: 0; }
   .text :global(h1) { margin-bottom: 0.35em; }
   figure { margin: 0; }
   figure :global(img) { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-l); }

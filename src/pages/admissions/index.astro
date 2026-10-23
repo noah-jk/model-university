@@ -2,7 +2,7 @@
 import siteConfig from "../../../site.config.ts";
 import { getPage } from "../../lib/pages.ts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import JourneyActions from "../../components/JourneyActions.astro";
+import { JOURNEY } from "../../lib/personalization-settings.ts";
 import PathHandoff from "../../components/workbench/PathHandoff.astro";
 import AskAiMenu from "../../components/AskAiMenu.astro";
 import PageIntro from "../../components/PageIntro.astro";
@@ -14,8 +14,11 @@ const page = await getPage("admissions");
 const { Content } = page;
 const upcoming = events.filter((e) => e.category === "Admissions" && !hasEnded(e));
 
+// Request information and visiting are here rather than at the top, which keeps
+// one action (Apply) above the fold (#27)
 const paths = [
   { href: "/admissions/apply/", title: "How to apply", text: "Steps and deadlines for first-year, transfer, and graduate students." },
+  { href: JOURNEY.find((j) => j.step === "requestInfo")!.href, title: "Request information", text: "Tell us what interests you, and an admissions counselor will send details and next steps." },
   { href: "/admissions/tuition-and-aid/", title: "Tuition and aid", text: "What it costs, and the grants, scholarships, and work-study that help." },
   { href: "/admissions/visit/", title: "Visit campus", text: "Tours, open houses, and online information sessions." },
   { href: "/academics/programs/", title: "Find a program", text: "Search every degree, minor, and certificate." },
@@ -38,11 +41,13 @@ const prompt = `I'm thinking about applying to ${siteConfig.name}. Use {origin}/
 <BaseLayout title={page.title} description={page.description}>
   <PageIntro image={introImage}>
     <h1>{page.title}</h1>
-    <AskAiMenu prompt={prompt} label="Ask AI about applying" />
-    <JourneyActions />
+    <p class="lede">{page.description}</p>
+    <div class="intro-actions">
+      <a class="button" href={JOURNEY.find((j) => j.step === "apply")!.href} data-journey-apply>Apply</a>
+      <AskAiMenu prompt={prompt} label="Ask AI about applying" quiet />
+    </div>
+    {siteConfig.features.workbench && <PathHandoff id="admissions" slot="side" />}
   </PageIntro>
-
-  <PathHandoff id="admissions" />
 
   <div class="detail">
     <article>
@@ -97,6 +102,12 @@ const prompt = `I'm thinking about applying to ${siteConfig.name}. Use {origin}/
 </script>
 
 <style>
+  .intro-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1rem; margin-top: 1.25rem; }
+  /* The Your Path panel beside the intro (PageIntro's side slot): no extra
+     margin, and its picker stacks */
+  :global(.page-intro .side .handoff) { margin: 0; }
+  :global(.page-intro .side .handoff-pick) { flex-direction: column; align-items: stretch; }
+  :global(.page-intro .side .handoff-pick select) { width: 100%; }
   .paths { list-style: none; padding: 0; margin: 2rem 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
   .paths li { border-top: 3px solid var(--fir); padding-top: 0.75rem; }
   .detail article .paths h2, .detail article .paths h3 { font-size: var(--step-1); margin: 0 0 0.25rem; }
