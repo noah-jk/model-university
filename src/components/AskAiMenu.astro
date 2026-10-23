@@ -11,9 +11,11 @@ interface Props {
   prompt: string;
   // Button text that says what the AI will help with, e.g. "Ask AI about this course"
   label?: string;
+  // A secondary button, when another action on the page comes first
+  quiet?: boolean;
 }
 
-const { prompt, label = "Use with your AI" } = Astro.props;
+const { prompt, label = "Use with your AI", quiet = false } = Astro.props;
 const { features } = siteConfig;
 const site = Astro.site!.origin;
 
@@ -33,7 +35,7 @@ const listId = `ai-menu-${hash.toString(36)}`;
 {
   features.askAi && (
     <div class="ai-menu">
-      <button type="button" class="button ai-menu-toggle needs-js" aria-expanded="false" aria-controls={listId}>
+      <button type="button" class:list={["button", "ai-menu-toggle", "needs-js", { secondary: quiet }]} aria-expanded="false" aria-controls={listId}>
         <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0l1.8 5.2L15 7l-5.2 1.8L8 14l-1.8-5.2L1 7l5.2-1.8z" /></svg>
         {label}
       </button>
