@@ -4,7 +4,6 @@
 // journey, worded from this tab's session.
 
 import siteConfig from "../../site.config.ts";
-import { JOURNEY } from "../lib/personalization-settings.ts";
 import { describeStudents } from "../lib/workbench/profile.ts";
 import { WORKBENCH_LABEL, WORKBENCH_PATH } from "../lib/workbench/types.ts";
 import { focusProgram, interestReason, markPersonalized, nextStep, preferred, type Session } from "./personalize.ts";
@@ -70,13 +69,11 @@ const withProgram = (href: string, session: Session) => {
 };
 
 function fromPlan(state: PathState, session: Session): NextAction {
-  const steps = state.steps!;
   const { level, studentType, startTerm } = state.profile;
   const who = `${describeStudents(level.value!, studentType.value!)} starting ${startTerm.value}`;
-  const done = steps.length - state.toDo;
   const next = state.next;
   if (!next) {
-    return { title: `See ${WORKBENCH_LABEL}`, short: WORKBENCH_LABEL, href: WORKBENCH_PATH, isApply: false, icon: "done", pitch: `You've done every step for ${startTerm.value}. ${WORKBENCH_LABEL} still has your dates.`, why: `You've done all ${steps.length} steps for ${who}.`, reason: `you've done every step on ${WORKBENCH_LABEL}` };
+    return { title: `See ${WORKBENCH_LABEL}`, short: WORKBENCH_LABEL, href: WORKBENCH_PATH, isApply: false, icon: "done", pitch: `You've done every step for ${startTerm.value}. ${WORKBENCH_LABEL} still has your dates.`, why: `You've done every step for ${who}.`, reason: `you've done every step on ${WORKBENCH_LABEL}` };
   }
   const { step } = next;
   const href = step.journey === "requestInfo" ? withProgram(stepHref(step), session) : stepHref(step);
@@ -87,8 +84,8 @@ function fromPlan(state: PathState, session: Session): NextAction {
     isApply: step.journey === "apply",
     icon: step.journey ?? "step",
     pitch: step.description,
-    why: `${WORKBENCH_LABEL} has ${steps.length} steps for ${who}. You've done ${done}, and this is the first one left.`,
-    reason: `it's the first step not done on ${WORKBENCH_LABEL}, for ${who} (${done} of ${steps.length} done)`,
+    why: `It's the first step left on ${WORKBENCH_LABEL}, for ${who}.`,
+    reason: `it's the first step not done on ${WORKBENCH_LABEL}, for ${who}`,
   };
 }
 
