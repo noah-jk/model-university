@@ -37,7 +37,9 @@ export function migrate(stored: unknown): Workbench {
     const items = data.items.filter(isItem).map((item) => ({ ...item, source: item.source ?? "saved" }));
     if (items.length < data.items.length) console.warn(`Workbench: dropped ${data.items.length - items.length} unreadable items`);
     const profile = data.version === 1 ? (typeof data.startTerm === "string" ? { startTerm: data.startTerm } : {}) : choices(data.profile);
-    const badge = data.badge && typeof data.badge.count === "number" ? { badge: data.badge } : {};
+    // The badge used to count steps ({ count, counting }); only a saved-items count is kept now
+    const old = data.badge as { count?: unknown; plan?: unknown } | undefined;
+    const badge = typeof old?.count === "number" && typeof old.plan === "boolean" ? { badge: { count: old.count, plan: old.plan } } : {};
     const visit = typeof data.visit?.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(data.visit.date) ? { visit: { date: data.visit.date } } : {};
     return {
       version: 2,
@@ -296,7 +298,7 @@ export function createStore(storage: Storage | null, { newId = (): string => cry
     // What the header badge shows. Writes only when it changes.
     setBadge(badge: NonNullable<Workbench["badge"]>) {
       const current = get().badge;
-      if (current?.count === badge.count && current.counting === badge.counting) return;
+      if (current?.count === badge.count && current.plan === badge.plan) return;
       write((w) => (w.badge = badge));
     },
 

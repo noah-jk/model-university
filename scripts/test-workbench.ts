@@ -93,9 +93,9 @@ store.resetPlan();
 const afterReset = store.get();
 check(afterReset.items.length === itemsBefore && itemsBefore > 0 && !afterReset.profile.startTerm && !afterReset.completed.length && !afterReset.dismissed.length && !afterReset.hiddenHandoffs.length && !afterReset.visit, "store: resetPlan starts the plan over and keeps saved items");
 const writes = storage.data.get(STORAGE_KEY);
-store.setBadge({ count: 3, counting: "steps" });
+store.setBadge({ count: 3, plan: true });
 const afterBadge = storage.data.get(STORAGE_KEY);
-store.setBadge({ count: 3, counting: "steps" });
+store.setBadge({ count: 3, plan: true });
 check(afterBadge !== writes && storage.data.get(STORAGE_KEY) === afterBadge && store.get().badge?.count === 3, "store: badge writes only when it changes");
 
 const full = newStore();
@@ -118,6 +118,7 @@ const v1 = migrate({ version: 1, startTerm: "Spring 2027", updatedAt: "2026-10-0
 check(v1.version === 2 && v1.profile.startTerm === "Spring 2027" && v1.items.length === 1 && v1.completed.length === 0 && v1.dismissed.length === 0, "migrate: version 1 keeps its items and start term");
 const messy = migrate({ version: 2, items: [], profile: { level: "Graduate", studentType: 4 }, completed: ["apply", 7], dismissed: "nope" });
 check(migrate({ version: 2, items: [], visit: { date: "2026-11-20" } }).visit?.date === "2026-11-20" && !("visit" in migrate({ version: 2, items: [], visit: { date: "soon" } })), "migrate: keeps a valid visit date only");
+check(!("badge" in migrate({ version: 2, items: [], badge: { count: 4, counting: "steps" } })) && migrate({ version: 2, items: [], badge: { count: 2, plan: true } }).badge?.plan === true, "migrate: an old step-count badge is dropped");
 check(messy.profile.level === "Graduate" && !("studentType" in messy.profile) && messy.completed.join() === "apply" && messy.dismissed.length === 0, "migrate: bad choices and ids are dropped");
 const withAnswer = quietly(() => migrate({
   version: 1,

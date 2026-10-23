@@ -63,7 +63,8 @@ export type Workbench = {
   // The campus visit they asked for in the visit form (only the date), for the timeline
   visit?: { date: string };
   // What the header badge last showed, so it can be drawn before scripts run
-  badge?: { count: number; counting: "steps" | "saved" };
+  // (saved items, and whether there was a plan; steps aren't counted, see #25)
+  badge?: { count: number; plan: boolean };
   updatedAt: string;
 };
 

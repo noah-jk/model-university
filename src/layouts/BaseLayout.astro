@@ -72,8 +72,8 @@ const pageTitle = isHome ? siteConfig.name : `${title} | ${siteConfig.name}`;
       workbench && (
         <script is:inline define:vars={{ key: WORKBENCH_KEY, labels: SAVE_LABELS }}>
           // Your Path: show saved toggles and the header count before the page is
-          // drawn, so nothing changes after it appears. The count is the one the last
-          // page worked out (steps to do, or saved items); src/scripts/workbench/save.ts takes over from here.
+          // drawn, so nothing changes after it appears. The count (saved items) and whether
+          // there's a plan are what the last page worked out; src/scripts/workbench/save.ts takes over from here.
           try {
             const stored = JSON.parse(localStorage.getItem(key) ?? "null");
             const items = stored?.items ?? [];
@@ -83,8 +83,8 @@ const pageTitle = isHome ? siteConfig.name : `${title} | ${siteConfig.name}`;
               b.setAttribute("aria-pressed", "true");
               b.querySelector(".save-label").textContent = ("saveCompact" in b.dataset ? labels.compact : labels.full).on;
             });
-            const badge = stored?.badge ?? { count: items.length, counting: "saved" };
-            const text = !badge.count ? "" : badge.counting === "steps" ? `, ${badge.count} ${badge.count === 1 ? "step" : "steps"} to do` : `, ${badge.count} saved`;
+            const badge = stored?.badge ?? { count: items.filter((i) => i.kind !== "answer").length, plan: false };
+            const text = badge.count ? `, ${badge.count} saved` : "";
             document.querySelectorAll("[data-workbench-count]").forEach((el) => {
               el.textContent = badge.count;
               el.hidden = !badge.count;
@@ -94,7 +94,7 @@ const pageTitle = isHome ? siteConfig.name : `${title} | ${siteConfig.name}`;
             // last page had a plan. Its text is filled in by src/scripts/workbench/handoffs.ts,
             // in space the panel keeps for it.
             const hidden = stored?.hiddenHandoffs ?? [];
-            const state = badge.counting === "steps" ? "continue" : "start";
+            const state = badge.plan ? "continue" : "start";
             document.querySelectorAll("[data-handoff]").forEach((el) => {
               if (hidden.includes(el.dataset.handoff)) el.hidden = true;
               if (el.dataset.handoff === "program") {

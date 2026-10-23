@@ -39,7 +39,6 @@ const selects = {
 const ESCAPES: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
 const esc = (value: unknown) => String(value ?? "").replace(/[&<>"']/g, (c) => ESCAPES[c]);
 const hidden = (text: string) => `<span class="visually-hidden">${esc(text)}</span>`;
-const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
 
 let index: WorkbenchIndex | undefined;
 let rules: RulesLookup | undefined;
@@ -50,6 +49,8 @@ let compareChoice: string[] | undefined;
 // Where focus should go after the next render
 let pendingFocus: string | undefined;
 let showDismissed = false;
+// The profile value whose Why? is open, if any
+let openWhy: keyof PlanChoices | undefined;
 // The saved item whose More actions list is open, if any (one at a time)
 let openMore: string | undefined;
 let pruned = false;
@@ -76,20 +77,40 @@ function renderProfile(profile: ResolvedProfile, w: Workbench) {
   selects.level.innerHTML = options(STUDENT_LEVELS, level, "Choose…");
   selects.startTerm.innerHTML = options(termOptions(profile.startTerm.value).filter((t) => terms().includes(t) || t === profile.startTerm.value), profile.startTerm.value);
 
-  const notes: string[] = [];
+  // Each value's Why? (in its segment) opens its reason under the bar, one at
+  // a time. A chosen value's reason offers to go back to the suggested one.
   for (const field of ["studentType", "level", "startTerm"] as const) {
     const value = profile[field];
     root.querySelector<HTMLElement>(`[data-tag="${field}"]`)!.hidden = value.source !== "inferred";
-    if (value.source === "inferred" && value.why) {
-      notes.push(`<details class="note-row" data-focus-key="why:${field}"><summary>Why “${esc(value.value)}”?</summary><p>${esc(value.why)}</p></details>`);
-    }
-    if (w.profile[field]) {
-      notes.push(`<p class="note-row"><button type="button" class="link-button" data-reset="${field}" data-focus-key="reset:${field}">Reset ${FIELD_NAMES[field]} to suggested</button></p>`);
-    }
+    const toggle = root.querySelector<HTMLButtonElement>(`[data-why="${field}"]`)!;
+    toggle.hidden = !value.value || (value.source === "inferred" && !value.why);
+    toggle.setAttribute("aria-expanded", String(openWhy === field && !toggle.hidden));
+    root.querySelector(`[data-why-name="${field}"]`)!.textContent = ` ${FIELD_NAMES[field]}, ${value.value ?? ""}`;
   }
-  if (profile.level.mixed) notes.unshift(`<p class="ask">${esc(profile.level.why)}</p>`);
-  else if (!profile.ready) notes.unshift(`<p class="ask">Choose your student type and level to see your steps, dates, and offices.</p>`);
-  root.querySelector("[data-profile-notes]")!.innerHTML = notes.join("");
+  const panel = root.querySelector<HTMLElement>("[data-why-panel]")!;
+  const open = openWhy && profile[openWhy].value ? openWhy : undefined;
+  panel.hidden = !open;
+  if (open) panel.innerHTML = whyText(open, profile, w);
+  // What's still needed for a plan, if anything
+  const ask = profile.level.mixed
+    ? profile.level.why
+    : !profile.ready
+      ? "Choose your student type and level to see your steps, dates, and offices."
+      : "";
+  root.querySelector("[data-profile-notes]")!.innerHTML = ask ? `<p class="ask">${esc(ask)}</p>` : "";
+}
+
+// What a value's Why? says: the signal it was suggested from, or that the
+// student chose it, with a way back to the suggestion
+function whyText(field: keyof PlanChoices, profile: ResolvedProfile, w: Workbench) {
+  const value = profile[field];
+  if (value.source !== "chosen") return `<p><strong>Suggested.</strong> ${esc(value.why)}</p>`;
+  const { [field]: _, ...others } = w.profile;
+  const suggested = currentProfile({ ...w, profile: others })[field].value;
+  const reset = w.profile[field]
+    ? `<button type="button" class="note-link" data-reset="${field}" data-focus-key="reset:${field}">${suggested ? `Reset to suggested (${esc(suggested)})` : "Clear my choice"}</button>`
+    : "";
+  return `<p>You chose ${esc(value.value)}.</p>${reset}`;
 }
 
 function choose(field: keyof PlanChoices, value: string) {
@@ -113,9 +134,8 @@ function choose(field: keyof PlanChoices, value: string) {
 function announcePlan() {
   const profile = currentProfile(workbench.get());
   if (!profile.ready || !rules) return;
-  const count = rules.stepsFor(profile.level.value!, profile.studentType.value!).length;
   // After any other announcement (like a type change) has been read
-  setTimeout(() => announce(`Your plan was updated: ${plural(count, "step")} for ${describeStudents(profile.level.value!, profile.studentType.value!)} starting ${profile.startTerm.value}.`), 120);
+  setTimeout(() => announce(`Your plan was updated for ${describeStudents(profile.level.value!, profile.studentType.value!)} starting ${profile.startTerm.value}.`), 120);
 }
 
 // Steps and offices ----------------------------------------------------------------
@@ -137,7 +157,8 @@ function renderSteps(plan: Plan | undefined) {
   const section = root.querySelector<HTMLElement>("[data-steps]")!;
   section.hidden = !plan;
   if (!plan) return;
-  root.querySelector("[data-progress]")!.textContent = `${plan.done} of ${plan.steps.length} done. ${plan.reason}.`;
+  // No "3 of 10 done": a count of what's left can feel overwhelming (#25)
+  root.querySelector("[data-progress]")!.textContent = `${plan.reason}.`;
   root.querySelector("[data-steps-list]")!.innerHTML = plan.steps
     .map((s) => {
       const { step } = s;
@@ -248,7 +269,7 @@ function renderSuggested(plan: Plan | undefined) {
       .map(({ id, event, reason }) => {
         const facts = factsFor("event", event).map((f) => `<span>${esc(f)}</span>`).join("");
         return `<li class="wb-item" data-suggested="${esc(id)}">
-          <p class="for-you">Added for you · <details><summary>Why?</summary><p>${esc(reason)}</p></details></p>
+          <div class="for-you">Added for you · <details class="note"><summary>Why?</summary><p>${esc(reason)}</p></details></div>
           <h3><a href="${esc(event.url)}" data-focus-key="suggested:${esc(id)}:link">${esc(event.title)}</a></h3>
           <p class="facts">${facts}</p>
           <div class="wb-actions">
@@ -401,7 +422,7 @@ function renderDismissed(w: Workbench) {
   const list = w.dismissed.filter((k) => dismissedName(k));
   box.hidden = !list.length;
   if (!list.length) return;
-  box.innerHTML = `<button type="button" class="link-button" aria-expanded="${showDismissed}" aria-controls="dismissed-list" data-toggle-dismissed data-focus-key="dismissed-toggle">${showDismissed ? "Hide" : "Show"} dismissed items (${list.length})</button>
+  box.innerHTML = `<button type="button" class="note-link" aria-expanded="${showDismissed}" aria-controls="dismissed-list" data-toggle-dismissed data-focus-key="dismissed-toggle">${showDismissed ? "Hide" : "Show"} dismissed items (${list.length})</button>
     <ul id="dismissed-list"${showDismissed ? "" : " hidden"}>${list
       .map((k) => `<li><span>${esc(dismissedName(k))}</span><button type="button" data-restore="${esc(k)}" data-focus-key="restore:${esc(k)}">Restore${hidden(` ${dismissedName(k)}`)}</button></li>`)
       .join("")}</ul>`;
@@ -598,6 +619,13 @@ root.addEventListener("click", (event) => {
     return;
   }
 
+  const why = target.closest<HTMLButtonElement>("[data-why]");
+  if (why) {
+    const field = why.dataset.why as keyof PlanChoices;
+    openWhy = openWhy === field ? undefined : field;
+    return render();
+  }
+
   const reset = target.closest<HTMLButtonElement>("[data-reset]");
   if (reset) {
     const field = reset.dataset.reset as keyof PlanChoices;
@@ -694,7 +722,8 @@ root.addEventListener("change", (event) => {
     const title = input.labels?.[0]?.textContent ?? "Step";
     workbench.setCompleted(stepId, input.checked);
     const plan = rules && index && planFor(currentProfile(workbench.get()), rules, index, workbench.get(), signalsFrom(personalization ? loadSession() : undefined).journeyDone);
-    if (plan) announce(`${input.checked ? "Marked done" : "Marked not done"}: ${title}. ${plan.done} of ${plan.steps.length} done.`);
+    const next = plan?.steps.find((s) => s.next);
+    if (plan) announce(`${input.checked ? "Marked done" : "Marked not done"}: ${title}.${next ? ` Next: ${next.step.title}.` : " You've done every step."}`);
     return;
   }
 
