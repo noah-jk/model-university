@@ -15,6 +15,7 @@ API keys live only in Netlify environment variables. Never write a key into any 
 - Buttons and links say what happens ("See your path", "Save to Your Path"), never "Learn more" or "Click here".
 - Name features with their constant (e.g. `WORKBENCH_LABEL`), not a literal, so renaming is one change.
 - Code reads like the code around it: small plain functions, comments that explain why, no clever abstractions.
+- Notes that explain personalization or a feature ("Why am I seeing this?", "How it works", "Hide this tip", "Reset to suggested") always use the quiet style in `global.css`: `.note-link` on a link or button, `details.note` on a disclosure. Never style them like content links or buttons, and put them inline next to what they explain, combining nearby ones, rather than stacking them.
 
 ## Accessibility (WCAG 2.2 AA, every change)
 
@@ -53,6 +54,7 @@ API keys live only in Netlify environment variables. Never write a key into any 
 
 - One branch per issue, from the latest `main`. Never merge to `main`; open a PR when a batch is ready and Noah merges it.
 - Before pushing to an existing branch, check whether its PR is still open. If it was merged, start a new branch from `main` and open a new PR.
+- Don't build a PR on top of another open PR. When two issues touch the same files, build them in one branch (one PR that closes both), or wait for the first to merge. A stacked PR merges into its base branch, not `main`, unless that branch is deleted first.
 - Before building an issue, compare it with the code and post a review comment on the issue: conflicts, gaps, and proposed defaults. Build after Noah answers.
 - In issues, types and file paths are suggestions; fit them to the code and say where you differed.
 - Before a PR: `npm test`, `npm run check`, and `npm run build` pass, new logic has tests, and browser checks cover the new interactions.
