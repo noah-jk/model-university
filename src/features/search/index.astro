@@ -88,7 +88,7 @@ const data = JSON.stringify(result ?? null).replace(/</g, "\\u003c");
       )
     }
 
-    <p class="lab-note">Search that understands plain language is a Lab experiment. <a href="/lab/search/">How it works</a></p>
+    <p class="lab-note">Search that understands plain language is a Lab experiment. <a class="note-link" href="/lab/search/">How it works</a></p>
   </div>
   <script is:inline type="application/json" id="search-data" set:html={data} />
 </BaseLayout>

@@ -89,6 +89,19 @@ main { padding-block: clamp(2rem, 6vw, 4rem); }
 /* Shown once, under the button, after the first save to Your Path (src/scripts/workbench/handoffs.ts) */
 .first-save { flex-basis: 100%; margin: 0.4rem 0 0; font-size: var(--step--1); color: var(--muted); }
 .first-save a { font-weight: 600; }
+/* Quiet notes that explain personalization ("Why am I seeing this?", "How it
+   works", "Hide this tip"): small and grey, red on hover and focus, so they
+   don't compete with the content they explain. Use .note-link on a link or
+   button, and .note on a <details> whose <summary> is the link. */
+.note-link, details.note > summary { font-size: var(--step--1); font-weight: 400; color: var(--muted); text-decoration: underline; text-underline-offset: 0.18em; text-decoration-thickness: 1px; cursor: pointer; }
+button.note-link { background: none; border: 0; padding: 0; font-family: inherit; }
+.note-link:hover, .note-link:focus-visible, details.note > summary:hover, details.note > summary:focus-visible { color: var(--salmonberry); text-decoration-thickness: 2px; }
+details.note > summary { display: inline-block; min-height: 24px; list-style: none; }
+details.note > summary::-webkit-details-marker { display: none; }
+details.note > summary::after { content: " +" / ""; }
+details.note[open] > summary::after { content: " −" / ""; }
+details.note > p, details.note > div { margin: 0.35rem 0 0; font-size: var(--step--1); color: var(--muted); }
+
 /* A button that looks like a link, for small actions like "Hide this tip" */
 .link-button { background: none; border: 0; padding: 0; font: inherit; color: var(--salmonberry); text-decoration: underline; text-underline-offset: 0.18em; cursor: pointer; }
 .button.secondary:hover { background: var(--lichen); color: var(--basalt); border-color: var(--fir); }

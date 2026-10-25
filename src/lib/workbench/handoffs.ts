@@ -43,15 +43,8 @@ export function pathLink(choices: { type?: string; level?: string } = {}) {
 }
 
 const shortDate = (day: string) => new Date(`${day}T12:00:00Z`).toLocaleDateString("en-US", { timeZone: "UTC", month: "short", day: "numeric", year: "numeric" });
-const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
 const who = (s: PathSummary) => `${describeStudents(s.level!, s.studentType!)} starting ${s.startTerm}`;
 const continueAction = { label: "Continue your path", href: WORKBENCH_PATH };
-
-// "3 of 8 steps done."
-export function progress(steps: PlanStep[]) {
-  const done = steps.filter((s) => s.status === "done").length;
-  return `${done} of ${plural(steps.length, "step")} done.`;
-}
 
 // "Next: Submit your FAFSA, due Feb 15, 2027." A date shows only when the
 // steps have one (the full rules) and it hasn't passed.
@@ -62,7 +55,8 @@ export function nextLine(steps: PlanStep[]) {
   return `Next: ${title}${next.date && next.status !== "overdue" ? `, due ${shortDate(next.date)}` : ""}.`;
 }
 
-const status = (s: PathSummary) => `${progress(s.steps!)} ${nextLine(s.steps!)}`;
+// No step counts: a long list left can feel overwhelming (#25). Just what's next.
+const status = (s: PathSummary) => nextLine(s.steps!);
 const continuing = (s?: PathSummary): s is PathSummary & { steps: PlanStep[] } => Boolean(s?.ready && s.steps);
 
 // Homepage ------------------------------------------------------------------------
@@ -189,7 +183,7 @@ export const FIRST_SAVE_LINK = `See ${WORKBENCH_LABEL}`;
 // After sending a journey form (not dismissable: it's part of the thank-you) ---
 
 export function requestInfoCopy(s: PathSummary) {
-  if (continuing(s)) return { text: `Your path is ready: ${plural(s.steps.length, "step")} for ${who(s)}.`, action: { label: "See your path", href: WORKBENCH_PATH } };
+  if (continuing(s)) return { text: `Your path is ready, with every step for ${who(s)}.`, action: { label: "See your path", href: WORKBENCH_PATH } };
   return {
     text: `Your path is started for ${s.startTerm}. Choose your student type and level to see every step.`,
     action: { label: "Finish your path", href: pathLink() },

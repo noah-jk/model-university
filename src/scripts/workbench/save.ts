@@ -20,13 +20,14 @@ export function syncToggles(root: ParentNode = document) {
   });
 }
 
-// What the badge says: steps to do once there's a plan, saved items before
-export const badgeText = ({ count, counting }: NonNullable<Workbench["badge"]>) =>
-  count === 0 ? "" : counting === "steps" ? `, ${count} ${count === 1 ? "step" : "steps"} to do` : `, ${count} saved`;
+// What the badge says: how many items are saved. Steps aren't counted, since
+// a count of what's left can feel overwhelming (#25).
+export const badgeText = ({ count }: NonNullable<Workbench["badge"]>) => (count === 0 ? "" : `, ${count} saved`);
 
 export function syncCount() {
   const state = pathState(loadSession());
-  const badge = state.steps ? { count: state.toDo, counting: "steps" as const } : { count: state.saved, counting: "saved" as const };
+  // `plan` tells the next page's handoffs to start in their "continue" state
+  const badge = { count: state.saved, plan: Boolean(state.steps) };
   document.querySelectorAll("[data-workbench-count]").forEach((el) => {
     el.textContent = String(badge.count);
     (el as HTMLElement).hidden = badge.count === 0;

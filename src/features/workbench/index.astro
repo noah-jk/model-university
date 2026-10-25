@@ -26,7 +26,7 @@ const tabs = [
       Answer two questions and we'll build your plan: every step, deadline, and office you need, for your start term. Anything you save as you browse
       shows up here too.
     </p>
-    <p class="where">Nothing is sent anywhere; it's saved in this browser. <a href="/lab/workbench/">How it works</a></p>
+    <p class="where">Saved only in this browser, never sent anywhere. <a class="note-link" href="/lab/workbench/">How {WORKBENCH_LABEL} works</a></p>
   </div>
 
   <noscript><p class="panel">{WORKBENCH_LABEL} needs JavaScript, because it's kept in your browser.</p></noscript>
@@ -40,6 +40,7 @@ const tabs = [
             <span class="pick-label">
               <label for="pf-type">Student type</label>
               <span class="tag" data-tag="studentType" hidden>Suggested</span>
+              <button type="button" class="note-link why-toggle" data-why="studentType" aria-expanded="false" aria-controls="why-panel" hidden>Why?<span class="visually-hidden" data-why-name="studentType"> student type</span></button>
             </span>
             <select id="pf-type" data-field="studentType"></select>
           </span>
@@ -47,6 +48,7 @@ const tabs = [
             <span class="pick-label">
               <label for="pf-level">Level</label>
               <span class="tag" data-tag="level" hidden>Suggested</span>
+              <button type="button" class="note-link why-toggle" data-why="level" aria-expanded="false" aria-controls="why-panel" hidden>Why?<span class="visually-hidden" data-why-name="level"> level</span></button>
             </span>
             <select id="pf-level" data-field="level"></select>
           </span>
@@ -54,10 +56,12 @@ const tabs = [
             <span class="pick-label">
               <label for="pf-term">Start term</label>
               <span class="tag" data-tag="startTerm" hidden>Suggested</span>
+              <button type="button" class="note-link why-toggle" data-why="startTerm" aria-expanded="false" aria-controls="why-panel" hidden>Why?<span class="visually-hidden" data-why-name="startTerm"> start term</span></button>
             </span>
             <select id="pf-term" data-field="startTerm"></select>
           </span>
         </div>
+        <div class="why-panel" id="why-panel" data-why-panel hidden></div>
         <div class="profile-notes" data-profile-notes></div>
       </fieldset>
     </form>
@@ -146,10 +150,13 @@ const tabs = [
     .pick:first-child { border-radius: var(--radius-s) var(--radius-s) 0 0; }
     .pick:last-child { border-radius: 0 0 var(--radius-s) var(--radius-s); }
   }
-  .profile-notes { display: grid; gap: 0.35rem; margin-top: 0.75rem; font-size: var(--step--1); }
+  .why-toggle { margin-left: auto; position: relative; z-index: 1; }
+  /* The reason for one value, opened from its segment's Why? */
+  .why-panel { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem; margin-top: 0.5rem; font-size: var(--step--1); color: var(--muted); }
+  .why-panel[hidden] { display: none; }
+  .why-panel :global(p) { margin: 0; }
+  .profile-notes { margin-top: 0.75rem; }
   .profile-notes :global(p) { margin: 0; }
-  .profile-notes :global(.note-row) { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; }
-  .profile-notes :global(summary) { cursor: pointer; color: var(--salmonberry); }
   .profile-notes :global(.ask) { font-weight: 600; }
 
   /* Steps and offices */
@@ -176,8 +183,8 @@ const tabs = [
   .offices :global(a) { font-weight: 600; }
   .offices :global(p) { margin: 0; font-size: var(--step--1); color: var(--muted); }
   .workbench :global(.for-you) { font: 700 0.75rem / 1.4 var(--sans); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
-  .workbench :global(.for-you summary) { display: inline; cursor: pointer; color: var(--salmonberry); text-transform: none; letter-spacing: 0; font-weight: 600; }
-  .workbench :global(.for-you p) { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--muted); }
+  .workbench :global(.for-you details) { display: inline; text-transform: none; letter-spacing: 0; }
+  .workbench :global(.for-you details > p) { text-transform: none; letter-spacing: 0; font-weight: 400; }
   .dismissed { margin-top: 2rem; font-size: var(--step--1); }
   .dismissed :global(ul) { list-style: none; padding: 0; margin: 0.5rem 0 0; }
   .dismissed :global(li) { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; padding-block: 0.4rem; border-bottom: 1px solid var(--line); }

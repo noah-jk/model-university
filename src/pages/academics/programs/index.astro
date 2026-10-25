@@ -108,6 +108,7 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
             const text = document.createElement("p");
             text.textContent = stated ? `Showing ${department} programs first, based on your request-info form.` : `Showing ${department} programs first, based on the pages you've viewed${profile.saved ? " and saved" : ""}.`;
             const details = document.createElement("details");
+            details.className = "note";
             const summary = document.createElement("summary");
             summary.textContent = "Why am I seeing this?";
             const why = document.createElement("p");
@@ -133,6 +134,4 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
   @media (min-width: 720px) { .entry-list > li { grid-template-columns: 1fr 14rem; } }
   .order-note { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem; margin-bottom: 0.5rem; font-size: var(--step--1); }
   .order-note :global(p) { margin: 0; }
-  .order-note :global(summary) { cursor: pointer; color: var(--salmonberry); }
-  .order-note :global(details p) { margin-top: 0.25rem; color: var(--muted); }
 </style>

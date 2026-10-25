@@ -153,8 +153,8 @@ const transferSteps = planSteps(rules, "Undergraduate", "Transfer", "Winter 2027
 const going = { ready: true, level: "Undergraduate", studentType: "Transfer", startTerm: "Winter 2027", steps: transferSteps };
 
 check(homeCopy().heading === "Skip the scavenger hunt" && homeCopy(startSummary).action.label === "Plan your path", "handoff home: start");
-check(homeCopy(going).text === "1 of 10 steps done. Next: Request information." && homeCopy(going).action.label === "Continue your path", `handoff home: continue (${homeCopy(going).text})`);
-check(/Your plan is for transfer undergraduates starting Winter 2027\. 1 of 10 steps done\./.test(admissionsCopy(going).text), "handoff admissions: continue says who the plan is for");
+check(homeCopy(going).text === "Next: Request information." && homeCopy(going).action.label === "Continue your path", `handoff home: continue (${homeCopy(going).text})`);
+check(admissionsCopy(going).text === "Your plan is for transfer undergraduates starting Winter 2027. Next: Request information.", "handoff admissions: continue says who the plan is for, and what's next");
 check(typeCopy("transfer").action.label === "See transfer steps" && typeCopy("transfer").action.href === "/your-path/#plan&type=Transfer", "handoff transfer: start links with the type");
 check(typeCopy("transfer", going).action.label === "Continue your path", "handoff transfer: continue when the type matches");
 check(typeCopy("international", going).action.label === "Switch your path to international steps" && !/level=/.test(typeCopy("international", going).action.href), "handoff international: switch, setting only the type");
@@ -175,8 +175,9 @@ check(/^Saved\. Choose your student type/.test(programSaved(ugProgram, startSumm
 check(programSaved(ugProgram, going) === "Saved. Your Path now shows the Winter 2027 deadline for this program.", "handoff program: in the plan");
 check(/doesn't start in Spring 2027/.test(programSaved(ugProgram, { ...going, startTerm: "Spring 2027" })), "handoff program: doesn't start in the term");
 check(/graduate program, so it's in your saved items but not part of your undergraduate plan/.test(programSaved({ level: "Graduate", startTerms: ["Fall"] }, going)), "handoff program: other level");
-check(requestInfoCopy(going).text === "Your path is ready: 10 steps for transfer undergraduates starting Winter 2027." && requestInfoCopy(startSummary).action.label === "Finish your path", "handoff request info: ready, or finish");
+check(requestInfoCopy(going).text === "Your path is ready, with every step for transfer undergraduates starting Winter 2027." && requestInfoCopy(startSummary).action.label === "Finish your path", "handoff request info: ready, or finish");
 const allCopy = [homeCopy(), homeCopy(going), admissionsCopy(), tuitionCopy(), typeCopy("graduate", going), requestInfoCopy(going), VISIT_COPY].flatMap((c): string[] => [c.text, c.action.label, "heading" in c ? String(c.heading) : ""]);
 check(!allCopy.some((t) => t.includes("!") || /learn more|click here/i.test(t)), "handoff copy: no exclamation points or vague links");
+check(!allCopy.some((t) => /\d+ (of \d+ )?steps?\b/.test(t)), "handoff copy: no step counts (#25)");
 
 console.log("\nYour Path checks passed.");

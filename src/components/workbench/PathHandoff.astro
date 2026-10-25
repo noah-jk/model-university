@@ -63,7 +63,7 @@ const types = [...new Set(STUDENT_LEVELS.flatMap((l) => STUDENT_TYPES[l] as read
         <a class="button" href={copy.action.href} data-handoff-action>
           {copy.action.label}
         </a>
-        <button type="button" class="link-button" data-handoff-hide>
+        <button type="button" class="note-link" data-handoff-hide>
           {HIDE_LABEL.visible}
           <span class="visually-hidden">{HIDE_LABEL.hidden}</span>
         </button>
@@ -82,7 +82,6 @@ const types = [...new Set(STUDENT_LEVELS.flatMap((l) => STUDENT_TYPES[l] as read
   .handoff-text { margin: 0 0 0.75rem; max-width: var(--measure); min-height: 3lh; }
   @media (min-width: 48rem) { .handoff-text { min-height: 2lh; } }
   .handoff-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; margin: 0; }
-  .handoff-actions .link-button { font-size: var(--step--1); }
 
   .handoff-pick { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.75rem; margin-bottom: 0.75rem; }
   .handoff-pick .pick { display: grid; gap: 0.2rem; }
