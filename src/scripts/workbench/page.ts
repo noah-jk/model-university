@@ -1,5 +1,5 @@
-// The Your Path page (/your-path/): the profile bar, the plan (steps,
-// offices, suggested events), and the Items, Compare, and Timeline tabs. It
+// The Your Path page (/your-path/): the profile bar, and the Your plan
+// (steps and dates in one list, with offices), Saved, and Compare tabs. It
 // fills them from the workbench store, this tab's session,
 // /data/enrollment.json, and /data/workbench-index.json, and re-renders
 // whenever any of them changes (here or in another tab). Re-rendering keeps
@@ -16,7 +16,7 @@ import { ALL_STUDENT_TYPES, STUDENT_LEVELS, STUDENT_TYPES } from "../../lib/voca
 import { workbench } from "../../lib/workbench/store.ts";
 import { saveToggle } from "../../lib/workbench/toggle.ts";
 import { changesSinceSaved, compareTable, factsFor, fingerprint, lookup, MAX_COMPARE, nameOf, termOptions } from "../../lib/workbench/derive.ts";
-import { pathIcs, pathTimeline, planFor, programsByPlan, type PathEntry, type Plan, type PlanStep } from "../../lib/workbench/plan.ts";
+import { pathIcs, pathList, pathTimeline, planFor, programsByPlan, type PathEntry, type PathRow, type Plan, type PlanStep } from "../../lib/workbench/plan.ts";
 import { describeStudents, resolveProfile, validType, type ResolvedProfile } from "../../lib/workbench/profile.ts";
 import { CONTENT_KINDS, GROUPS, MAX_NOTE, WORKBENCH_LABEL, type ContentKind, type PlanChoices, type Workbench, type WorkbenchIndex, type WorkbenchItem } from "../../lib/workbench/types.ts";
 import { loadSession, recentPages } from "../personalize.ts";
@@ -26,9 +26,9 @@ import { signalsFrom } from "./path-state.ts";
 const personalization = siteConfig.features.personalization;
 const root = document.querySelector<HTMLElement>("[data-workbench]")!;
 const panels = {
+  plan: root.querySelector<HTMLElement>("#panel-plan")!,
   items: root.querySelector<HTMLElement>("#panel-items")!,
   compare: root.querySelector<HTMLElement>("#panel-compare")!,
-  timeline: root.querySelector<HTMLElement>("#panel-timeline")!,
 };
 const selects = {
   studentType: root.querySelector<HTMLSelectElement>("#pf-type")!,
@@ -138,7 +138,7 @@ function announcePlan() {
   setTimeout(() => announce(`Your plan was updated for ${describeStudents(profile.level.value!, profile.studentType.value!)} starting ${profile.startTerm.value}.`), 120);
 }
 
-// Steps and offices ----------------------------------------------------------------
+// Your plan: steps and dates in one list, with offices ----------------------------
 
 const JOURNEY_DONE: Record<string, string> = {
   explore: "Done when you looked at a program",
@@ -153,50 +153,87 @@ function stepStatus(s: PlanStep) {
   return `${s.next ? '<span class="next">Next</span>' : ""}${due || (s.next ? "Your next step" : "")}`;
 }
 
-function renderSteps(plan: Plan | undefined) {
-  const section = root.querySelector<HTMLElement>("[data-steps]")!;
-  section.hidden = !plan;
-  if (!plan) return;
-  // No "3 of 10 done": a count of what's left can feel overwhelming (#25)
-  root.querySelector("[data-progress]")!.textContent = `${plan.reason}.`;
-  root.querySelector("[data-steps-list]")!.innerHTML = plan.steps
-    .map((s) => {
-      const { step } = s;
-      const id = `step-${step.id}`;
-      const office = step.office && index?.service[step.office];
-      const links = [
-        step.url && `<a href="${esc(step.url)}">Go${hidden(`: ${step.title}`)}</a>`,
-        office && `<span>Help: <a href="${esc(office.url)}">${esc(office.name)}</a></span>`,
-      ].filter(Boolean);
-      const status = stepStatus(s);
-      return `<li class="${s.next ? "is-next" : ""}${s.status === "done" ? " is-done" : ""}">
-        <div class="check">
-          <input type="checkbox" id="${id}" data-step-check="${esc(step.id)}" data-focus-key="step:${esc(step.id)}"${s.status === "done" ? " checked" : ""}${s.doneByJourney ? ' aria-disabled="true"' : ""} aria-describedby="${id}-status" />
-          <label for="${id}">${esc(step.title)}</label>
-        </div>
-        ${status ? `<p class="status" id="${id}-status">${status}</p>` : `<p class="status visually-hidden" id="${id}-status">Not done</p>`}
-        <p>${esc(step.description)}</p>
-        ${s.note ? `<p class="step-note">${esc(s.note)}</p>` : ""}
-        ${links.length ? `<p class="links">${links.join("")}</p>` : ""}
-      </li>`;
-    })
-    .join("");
+// A step: its checkbox, when it's due, what it is, and where to do it. Its
+// number is its place in the plan, whatever's folded away.
+function stepRow(s: PlanStep, n: number) {
+  const { step } = s;
+  const id = `step-${step.id}`;
+  const office = step.office && index?.service[step.office];
+  const links = [
+    step.url && `<a href="${esc(step.url)}">Go${hidden(`: ${step.title}`)}</a>`,
+    office && `<span>Help: <a href="${esc(office.url)}">${esc(office.name)}</a></span>`,
+  ].filter(Boolean);
+  const status = stepStatus(s);
+  return `<li class="step-row${s.next ? " is-next" : ""}${s.status === "done" ? " is-done" : ""}" data-n="${n}">
+    <div class="check">
+      <input type="checkbox" id="${id}" data-step-check="${esc(step.id)}" data-focus-key="step:${esc(step.id)}"${s.status === "done" ? " checked" : ""}${s.doneByJourney ? ' aria-disabled="true"' : ""} aria-describedby="${id}-status" />
+      <label for="${id}">${esc(step.title)}</label>
+    </div>
+    ${status ? `<p class="status" id="${id}-status">${status}</p>` : `<p class="status visually-hidden" id="${id}-status">Not done</p>`}
+    <p>${esc(step.description)}</p>
+    ${s.note ? `<p class="step-note">${esc(s.note)}</p>` : ""}
+    ${links.length ? `<p class="links">${links.join("")}</p>` : ""}
+  </li>`;
 }
 
-function renderOffices(plan: Plan | undefined) {
-  const section = root.querySelector<HTMLElement>("[data-offices]")!;
-  section.hidden = !plan || !plan.offices.length;
-  if (!plan) return;
-  root.querySelector("[data-offices-list]")!.innerHTML = plan.offices
-    .map(
-      (o) => `<li data-office="${esc(o.id)}">
-        <span class="for-you">For you</span>
-        <a href="${esc(o.url)}" data-focus-key="office:${esc(o.id)}:link">${esc(o.name)}</a>
-        <p>${esc(o.reason)}</p>
-        <button type="button" data-dismiss="office:${esc(o.id)}" data-focus-key="office:${esc(o.id)}:dismiss">Dismiss${hidden(` ${o.name}`)}</button>
-      </li>`
-    )
-    .join("");
+let entries: PathEntry[] = [];
+const KIND_LABEL = { deadline: "Deadline", milestone: "Milestone", event: "Event" };
+const eventTime = (e: PathEntry) => new Intl.DateTimeFormat("en-US", { timeZone: siteConfig.timezone, hour: "numeric", minute: "2-digit" }).formatRange(new Date(e.start!), new Date(e.finish!));
+
+// A date that isn't a step: a calendar milestone, a saved event, the visit,
+// or another saved program's deadline, with where it comes from
+function dateRow(e: PathEntry) {
+  const when = e.start ? eventTime(e) : e.end ? `through ${longDay(e.end)}` : "";
+  const title = e.url ? `<a href="${esc(e.url)}">${esc(e.title)}</a>` : esc(e.title);
+  const calendar = e.past ? "" : `<button type="button" class="small-button" data-ics="${esc(e.id)}" data-focus-key="ics:${esc(e.id)}">Add to calendar${hidden(`: ${e.title}`)}</button>`;
+  const remove = e.id === "visit" ? `<button type="button" class="small-button" data-remove-visit data-focus-key="remove-visit">Remove${hidden(` ${e.title}`)}</button>` : "";
+  return `<li class="date-row${e.past ? " past" : ""}">
+    <p class="when"><time datetime="${e.date}">${esc(longDay(e.date))}</time>${e.past ? ' <span class="badge passed">Passed</span>' : ""}</p>
+    <p class="date-title">${title}</p>
+    <p class="kind">${KIND_LABEL[e.kind]} · ${esc(e.source)}${when ? ` · ${esc(when)}` : ""}</p>
+    ${calendar || remove ? `<p class="row-actions">${calendar}${remove}</p>` : ""}
+  </li>`;
+}
+
+function officesAside(plan: Plan) {
+  if (!plan.offices.length) return "";
+  return `<aside class="plan-offices" aria-labelledby="offices-title">
+    <h2 id="offices-title" tabindex="-1" data-focus-key="offices-heading">Offices for you</h2>
+    <ul class="offices">${plan.offices
+      .map(
+        (o) => `<li data-office="${esc(o.id)}">
+          <a href="${esc(o.url)}" data-focus-key="office:${esc(o.id)}:link">${esc(o.name)}</a>
+          <p>${esc(o.reason)}</p>
+          <button type="button" data-dismiss="office:${esc(o.id)}" data-focus-key="office:${esc(o.id)}:dismiss">Dismiss${hidden(` ${o.name}`)}</button>
+        </li>`
+      )
+      .join("")}</ul>
+  </aside>`;
+}
+
+function renderPlan(w: Workbench, plan: Plan | undefined, profile: ResolvedProfile) {
+  const term = profile.startTerm.value;
+  entries = pathTimeline(plan, rules!, index!, w, term, plan ? profile.level.value : undefined);
+  const { rows, folded } = pathList(plan, entries);
+  const numbers = new Map(plan?.steps.map((s, i) => [s.step.id, i + 1]));
+  const row = (r: PathRow) => (r.kind === "step" ? stepRow(r.step, numbers.get(r.step.step.id)!) : dateRow(r.entry));
+  if (!plan && !rows.length && !folded.length) {
+    panels.plan.innerHTML = `<p>Choose your student type and level above to see every step, date, and office for ${esc(term)}. Programs and events you save show their dates here too.</p>`;
+    return;
+  }
+  // Done steps and passed dates fold away at the top, so the list opens on what's next
+  const doneAndPassed = folded.length
+    ? `<details class="note folded" data-focus-key="folded"><summary>Done and passed (${folded.length})</summary><ol class="path-list">${folded.map(row).join("")}</ol></details>`
+    : "";
+  panels.plan.innerHTML = `<div class="plan-layout">
+    <div class="plan-main">
+      <h2 class="visually-hidden" id="plan-title" tabindex="-1" data-focus-key="plan-heading">Your plan</h2>
+      <p class="plan-for">${plan ? `${esc(plan.reason)}.` : `Choose your student type and level above to see your steps. Until then, here are the dates of what you've saved.`}</p>
+      ${doneAndPassed}
+      <ol class="path-list">${rows.map(row).join("")}</ol>
+    </div>
+    ${plan ? officesAside(plan) : ""}
+  </div>`;
 }
 
 // Items ----------------------------------------------------------------------
@@ -367,38 +404,7 @@ function renderCompare(w: Workbench, term: string) {
   return saved.length;
 }
 
-// Timeline -------------------------------------------------------------------
-
-let entries: PathEntry[] = [];
-const KIND_LABEL = { deadline: "Deadline", milestone: "Milestone", event: "Event" };
-const eventTime = (e: PathEntry) => new Intl.DateTimeFormat("en-US", { timeZone: siteConfig.timezone, hour: "numeric", minute: "2-digit" }).formatRange(new Date(e.start!), new Date(e.finish!));
-
-function renderTimeline(w: Workbench, plan: Plan | undefined, profile: ResolvedProfile) {
-  const term = profile.startTerm.value;
-  entries = pathTimeline(plan, rules!, index!, w, term, plan ? profile.level.value : undefined);
-  if (!entries.length) {
-    panels.timeline.innerHTML = `<p>Choose your student type and level to see every date for ${esc(term)}, or save programs and events to see their dates here, in order.</p>`;
-    return 0;
-  }
-  panels.timeline.innerHTML = `<ol class="timeline">${entries
-    .map((e, i) => {
-      const badge = e.done ? ' <span class="badge done">Done</span>' : e.next ? ' <span class="badge next">Next</span>' : e.past ? ' <span class="badge passed">Passed</span>' : "";
-      const when = e.start ? eventTime(e) : e.end ? `Through ${longDay(e.end)}` : "";
-      const title = e.url ? `<a href="${esc(e.url)}">${esc(e.title)}</a>` : esc(e.title);
-      const calendar = e.past || e.done ? "" : `<button type="button" class="small-button" data-ics="${i}" data-focus-key="ics:${esc(e.id)}">Add to calendar${hidden(`: ${e.title}`)}</button>`;
-      const remove = e.id === "visit" ? `<button type="button" class="small-button" data-remove-visit data-focus-key="remove-visit">Remove${hidden(` ${e.title}`)}</button>` : "";
-      return `<li class="${e.past || e.done ? "past" : ""}">
-        <time datetime="${e.date}">${esc(longDay(e.date))}</time>
-        <div class="what">
-          <p><strong>${title}</strong>${badge}</p>
-          <p class="kind">${KIND_LABEL[e.kind]} · ${esc(e.source)}${when ? ` · ${esc(when)}` : ""}</p>
-          ${calendar}${remove}
-        </div>
-      </li>`;
-    })
-    .join("")}</ol>`;
-  return entries.length;
-}
+// Calendar files ----------------------------------------------------------------
 
 function download(entry: PathEntry) {
   const blob = new Blob([pathIcs(entry, siteConfig.name, location.origin)], { type: "text/calendar" });
@@ -454,9 +460,8 @@ function render() {
 
   const journeyDone = signalsFrom(personalization ? loadSession() : undefined).journeyDone;
   const plan = planFor(profile, rules, index, w, journeyDone);
-  renderSteps(plan);
-  renderOffices(plan);
-  const counts = { items: renderItems(w, plan, profile), compare: renderCompare(w, profile.startTerm.value), timeline: renderTimeline(w, plan, profile) };
+  renderPlan(w, plan, profile);
+  const counts = { items: renderItems(w, plan, profile), compare: renderCompare(w, profile.startTerm.value) };
   for (const [id, n] of Object.entries(counts)) root.querySelector(`[data-tab-count="${id}"]`)!.textContent = n ? String(n) : "";
   renderDismissed(w);
   renderNextStep(plan);
@@ -560,7 +565,8 @@ function dismiss(key: string) {
   const name = dismissedName(key) ?? "item";
   const siblings = [...root.querySelectorAll<HTMLElement>(kind === "office" ? "[data-office]" : "[data-suggested]")].map((el) => el.dataset.office ?? el.dataset.suggested!);
   const next = siblings[siblings.indexOf(id) + 1] ?? siblings[siblings.indexOf(id) - 1];
-  pendingFocus = next ? (kind === "office" ? `office:${next}:link` : `suggested:${next}:link`) : kind === "office" ? "offices-heading" : "group:suggested";
+  // After the last office, the offices go away, so focus goes to the plan's heading
+  pendingFocus = next ? (kind === "office" ? `office:${next}:link` : `suggested:${next}:link`) : kind === "office" ? "plan-heading" : "group:suggested";
   if (!next && kind === "event") pendingFocus = "dismissed-toggle";
   workbench.setDismissed(key, true);
   announce(`Dismissed ${name}. Show dismissed items, at the bottom of the page, to bring it back.`);
@@ -569,7 +575,7 @@ function dismiss(key: string) {
 root.addEventListener("click", (event) => {
   const target = event.target as Element;
   const ics = target.closest<HTMLButtonElement>("[data-ics]");
-  if (ics) return download(entries[Number(ics.dataset.ics)]);
+  if (ics) return download(entries.find((e) => e.id === ics.dataset.ics)!);
 
   // A step done through the journey stays checked
   const locked = target.closest<HTMLInputElement>('input[data-step-check][aria-disabled="true"]');
@@ -579,10 +585,10 @@ root.addEventListener("click", (event) => {
     return;
   }
 
-  // The visit from the visit form: removing it moves focus to the timeline panel
+  // The visit from the visit form: removing it moves focus to the plan's heading
   if (target.closest("[data-remove-visit]")) {
+    pendingFocus = "plan-heading";
     workbench.setVisit(undefined);
-    panels.timeline.focus();
     announce(`Removed your campus visit from ${WORKBENCH_LABEL}.`);
     return;
   }
@@ -717,12 +723,15 @@ root.addEventListener("change", (event) => {
   // Step checkboxes
   const stepId = input.dataset.stepCheck;
   if (stepId && input instanceof HTMLInputElement) {
-    pendingFocus = `step:${stepId}`;
     // Read the label first: the write re-renders the list
     const title = input.labels?.[0]?.textContent ?? "Step";
-    workbench.setCompleted(stepId, input.checked);
-    const plan = rules && index && planFor(currentProfile(workbench.get()), rules, index, workbench.get(), signalsFrom(personalization ? loadSession() : undefined).journeyDone);
+    const after = { ...workbench.get(), completed: input.checked ? [...workbench.get().completed, stepId] : workbench.get().completed.filter((id) => id !== stepId) };
+    const plan = rules && index && planFor(currentProfile(after), rules, index, after, signalsFrom(personalization ? loadSession() : undefined).journeyDone);
     const next = plan?.steps.find((s) => s.next);
+    // A step checked off folds away under "Done and passed", so focus moves
+    // on to the next step; one unchecked comes back into the list, with focus
+    pendingFocus = input.checked ? (next ? `step:${next.step.id}` : "plan-heading") : `step:${stepId}`;
+    workbench.setCompleted(stepId, input.checked);
     if (plan) announce(`${input.checked ? "Marked done" : "Marked not done"}: ${title}.${next ? ` Next: ${next.step.title}.` : " You've done every step."}`);
     return;
   }
@@ -749,7 +758,7 @@ function selectTab(tab: HTMLButtonElement, { focus = false } = {}) {
   }
   if (focus) tab.focus();
   const id = tab.id.replace("tab-", "");
-  history.replaceState(history.state, "", id === "items" ? location.pathname : `#${id}`);
+  history.replaceState(history.state, "", id === "plan" ? location.pathname : `#${id}`);
 }
 
 tabs.forEach((tab, i) => {
@@ -761,9 +770,11 @@ tabs.forEach((tab, i) => {
     selectTab(tabs[(to + tabs.length) % tabs.length], { focus: true });
   });
 });
-// #compare or #timeline in the address opens that tab, on arrival or from a link
+// #items or #compare in the address opens that tab, on arrival or from a link.
+// #timeline was a tab before the plan list replaced it, so it opens Your plan.
 const tabFromHash = () => {
-  const tab = tabs.find((t) => t.id === `tab-${location.hash.slice(1)}`);
+  const id = location.hash.slice(1) === "timeline" ? "plan" : location.hash.slice(1);
+  const tab = tabs.find((t) => t.id === `tab-${id}`);
   if (tab) selectTab(tab);
 };
 tabFromHash();

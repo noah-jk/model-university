@@ -1,7 +1,7 @@
 ---
 // /your-path/: Your Path, the plan the site builds for a student (steps,
 // dates, and offices for their start term) plus everything they've saved,
-// with notes, a program comparison, and a timeline. Built only when the
+// with notes and a program comparison. Built only when the
 // workbench is switched on. The page is a shell: src/scripts/workbench/page.ts
 // fills it from localStorage, /data/enrollment.json, and
 // /data/workbench-index.json, so it always shows live content.
@@ -12,10 +12,11 @@ import { WORKBENCH_LABEL } from "../../lib/workbench/types.ts";
 
 const personalization = siteConfig.features.personalization;
 const title = `Your path to ${siteConfig.shortName}`;
+// Your plan (steps and dates in one list, #30), what's saved, and Compare
 const tabs = [
-  { id: "items", label: "Items" },
+  { id: "plan", label: "Your plan" },
+  { id: "items", label: "Saved" },
   { id: "compare", label: "Compare" },
-  { id: "timeline", label: "Timeline" },
 ];
 ---
 
@@ -65,17 +66,6 @@ const tabs = [
         <div class="profile-notes" data-profile-notes></div>
       </fieldset>
     </form>
-
-    <section class="path-section" aria-labelledby="steps-title" data-steps hidden>
-      <h2 id="steps-title" tabindex="-1" data-focus-key="steps-heading">Your steps</h2>
-      <p class="progress" data-progress></p>
-      <ol class="path-steps" data-steps-list></ol>
-    </section>
-
-    <section class="path-section" aria-labelledby="offices-title" data-offices hidden>
-      <h2 id="offices-title" tabindex="-1" data-focus-key="offices-heading">Offices for you</h2>
-      <ul class="offices" data-offices-list></ul>
-    </section>
 
     <div class="tabs" role="tablist" aria-label={`${WORKBENCH_LABEL} views`}>
       {
@@ -160,28 +150,26 @@ const tabs = [
   .profile-notes :global(.ask) { font-weight: 600; }
 
   /* Steps and offices */
-  .path-section { margin-bottom: 2.5rem; }
-  .path-section > h2 { font-size: var(--step-2); margin-bottom: 0.25rem; }
   .progress { margin: 0 0 0.75rem; color: var(--muted); }
-  .path-steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
-  .path-steps :global(li) { max-width: none; position: relative; display: grid; gap: 0.3rem; padding: 0.9rem 1rem 1rem 3.25rem; border-bottom: 1px solid var(--line); counter-increment: step; }
-  .path-steps :global(li::before) { content: counter(step); position: absolute; left: 0.75rem; top: 0.95rem; width: 1.75rem; height: 1.75rem; border-radius: 999px; display: grid; place-items: center; font: 700 var(--step--1) / 1 var(--sans); background: var(--lichen); color: var(--basalt); }
-  .path-steps :global(li.is-next) { background: var(--paper); border: 2px solid var(--fir); border-radius: var(--radius-s); margin-block: 0.25rem; }
-  .path-steps :global(li.is-next::before) { background: var(--fir); color: var(--fog); }
-  .path-steps :global(.check) { display: flex; align-items: flex-start; gap: 0.6rem; }
-  .path-steps :global(.check input) { width: 1.25rem; height: 1.25rem; margin: 0.15rem 0 0; flex: none; accent-color: var(--fir); }
-  .path-steps :global(.check label) { font-weight: 600; }
-  .path-steps :global(li.is-done .check label) { color: var(--muted); }
-  .path-steps :global(p) { margin: 0; }
-  .path-steps :global(.status) { font-size: var(--step--1); font-weight: 600; }
-  .path-steps :global(.status .overdue) { color: var(--salmonberry); }
-  .path-steps :global(.status .next) { display: inline-block; padding: 0 0.45rem; margin-right: 0.35rem; border-radius: 999px; background: var(--fir); color: var(--fog); }
-  .path-steps :global(.links) { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; font-size: var(--step--1); }
-  .path-steps :global(.step-note) { font-size: var(--step--1); color: var(--muted); }
-  .offices { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
-  .offices :global(li) { max-width: none; display: grid; gap: 0.35rem; align-content: start; justify-items: start; padding: 0.9rem 1rem; background: var(--paper); border: 1px solid var(--line); border-top: 3px solid var(--fir); border-radius: var(--radius-s); }
-  .offices :global(a) { font-weight: 600; }
-  .offices :global(p) { margin: 0; font-size: var(--step--1); color: var(--muted); }
+  .workbench :global(.path-list) { list-style: none; margin: 0; padding: 0; }
+  .workbench :global(.path-list li) { max-width: none; position: relative; display: grid; gap: 0.3rem; padding: 0.9rem 1rem 1rem 3.25rem; border-bottom: 1px solid var(--line); }
+  .workbench :global(.path-list li.step-row::before) { content: attr(data-n); position: absolute; left: 0.75rem; top: 0.95rem; width: 1.75rem; height: 1.75rem; border-radius: 999px; display: grid; place-items: center; font: 700 var(--step--1) / 1 var(--sans); background: var(--lichen); color: var(--basalt); }
+  .workbench :global(.path-list li.is-next) { background: var(--paper); border: 2px solid var(--fir); border-radius: var(--radius-s); margin-block: 0.25rem; }
+  .workbench :global(.path-list li.step-row.is-next::before) { background: var(--fir); color: var(--fog); }
+  .workbench :global(.path-list .check) { display: flex; align-items: flex-start; gap: 0.6rem; }
+  .workbench :global(.path-list .check input) { width: 1.25rem; height: 1.25rem; margin: 0.15rem 0 0; flex: none; accent-color: var(--fir); }
+  .workbench :global(.path-list .check label) { font-weight: 600; }
+  .workbench :global(.path-list li.is-done .check label) { color: var(--muted); }
+  .workbench :global(.path-list p) { margin: 0; }
+  .workbench :global(.path-list .status) { font-size: var(--step--1); font-weight: 600; }
+  .workbench :global(.path-list .status .overdue) { color: var(--salmonberry); }
+  .workbench :global(.path-list .status .next) { display: inline-block; padding: 0 0.45rem; margin-right: 0.35rem; border-radius: 999px; background: var(--fir); color: var(--fog); }
+  .workbench :global(.path-list .links) { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; font-size: var(--step--1); }
+  .workbench :global(.path-list .step-note) { font-size: var(--step--1); color: var(--muted); }
+  .workbench :global(.offices) { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+  .workbench :global(.offices li) { max-width: none; display: grid; gap: 0.35rem; align-content: start; justify-items: start; padding: 0.9rem 1rem; background: var(--paper); border: 1px solid var(--line); border-top: 3px solid var(--fir); border-radius: var(--radius-s); }
+  .workbench :global(.offices a) { font-weight: 600; }
+  .workbench :global(.offices p) { margin: 0; font-size: var(--step--1); color: var(--muted); }
   .workbench :global(.for-you) { font: 700 0.75rem / 1.4 var(--sans); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
   .workbench :global(.for-you details) { display: inline; text-transform: none; letter-spacing: 0; }
   .workbench :global(.for-you details > p) { text-transform: none; letter-spacing: 0; font-weight: 400; }
@@ -216,10 +204,10 @@ const tabs = [
   .workbench :global(.wb-note label) { font-size: var(--step--1); font-weight: 600; }
   .workbench :global(textarea) { width: 100%; min-height: 4.5rem; padding: 0.5rem 0.65rem; font: inherit; color: var(--basalt); background: var(--paper); border: 1.5px solid var(--muted); border-radius: var(--radius-s); resize: vertical; }
   .workbench :global(.wb-actions) { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-  .workbench :global(.wb-actions button), .workbench :global(.wb-flag button), .workbench :global(.small-button), .offices :global(button), .dismissed :global(button) {
+  .workbench :global(.wb-actions button), .workbench :global(.wb-flag button), .workbench :global(.small-button), .workbench :global(.offices button), .dismissed :global(button) {
     min-height: 36px; padding: 0.3rem 0.8rem; font: 600 var(--step--1) / 1 var(--sans); color: var(--fir); background: transparent; border: 1.5px solid var(--line); border-radius: 999px; cursor: pointer;
   }
-  .workbench :global(.wb-actions button:hover), .workbench :global(.small-button:hover), .offices :global(button:hover), .dismissed :global(button:hover) { border-color: var(--fir); }
+  .workbench :global(.wb-actions button:hover), .workbench :global(.small-button:hover), .workbench :global(.offices button:hover), .dismissed :global(button:hover) { border-color: var(--fir); }
   /* More actions: the list opens beside its button and wraps on small screens */
   .workbench :global(.more) { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
   .workbench :global(.more-toggle::after) { content: ""; display: inline-block; width: 0.4em; height: 0.4em; margin-left: 0.45em; border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(-0.15em) rotate(45deg); }
@@ -255,19 +243,24 @@ const tabs = [
   .workbench :global(.scroll-hint) { font-size: var(--step--1); color: var(--muted); }
   @media (min-width: 60rem) { .workbench :global(.scroll-hint) { display: none; } }
 
-  /* Timeline */
-  .workbench :global(.timeline) { list-style: none; margin: 0; padding: 0; }
-  .workbench :global(.timeline li) { max-width: none; display: grid; grid-template-columns: 9.5rem 1fr; gap: 0.25rem 1.25rem; padding-block: 0.9rem; border-bottom: 1px solid var(--line); }
-  @media (max-width: 40rem) { .workbench :global(.timeline li) { grid-template-columns: 1fr; } }
-  .workbench :global(.timeline time) { font-weight: 600; }
-  .workbench :global(.timeline .what) { display: grid; gap: 0.3rem; justify-items: start; }
-  .workbench :global(.timeline p) { margin: 0; }
-  .workbench :global(.timeline .past) { color: var(--muted); }
-  .workbench :global(.timeline .past a) { color: inherit; }
+  /* Your plan: the list, with offices beside it on wide screens */
+  .workbench :global(.plan-layout) { display: grid; gap: 2rem; }
+  @media (min-width: 64rem) { .workbench :global(.plan-layout) { grid-template-columns: minmax(0, 1fr) 19rem; align-items: start; } }
+  .workbench :global(.plan-for) { margin: 0 0 0.75rem; color: var(--muted); }
+  .workbench :global(.plan-offices h2) { font-size: var(--step-1); margin: 0 0 0.75rem; }
+  .workbench :global(.plan-offices .offices) { grid-template-columns: 1fr; }
+  .workbench :global(.folded) { margin-bottom: 0.75rem; }
+  .workbench :global(.folded .path-list) { margin-top: 0.5rem; }
+  /* A date that isn't a step: lighter, with a small marker instead of a number */
+  .workbench :global(.path-list li.date-row) { gap: 0.2rem; padding-block: 0.7rem; }
+  .workbench :global(.path-list li.date-row::before) { content: ""; position: absolute; left: 1.35rem; top: 1.05rem; width: 0.6rem; height: 0.6rem; border-radius: 999px; border: 2px solid var(--fir); }
+  .workbench :global(.path-list .when) { font-size: var(--step--1); font-weight: 600; }
+  .workbench :global(.path-list .date-title) { font-weight: 600; }
+  .workbench :global(.path-list .kind) { font-size: var(--step--1); color: var(--muted); }
+  .workbench :global(.path-list .row-actions) { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.2rem; }
+  .workbench :global(.path-list .past), .workbench :global(.path-list .past a) { color: var(--muted); }
   .workbench :global(.badge) { display: inline-block; margin-left: 0.5rem; padding: 0.05rem 0.5rem; border-radius: 999px; font: 700 0.75rem / 1.4 var(--sans); vertical-align: 0.1em; }
-  .workbench :global(.badge.next) { background: var(--fir); color: var(--fog); }
   .workbench :global(.badge.passed), .workbench :global(.badge.done) { background: var(--lichen); color: var(--basalt); }
-  .workbench :global(.timeline .kind) { font-size: var(--step--1); color: var(--muted); }
 
   /* Undo, after removing an item */
   .undo-bar { position: fixed; z-index: 40; left: 50%; bottom: 1.25rem; transform: translateX(-50%); display: flex; align-items: center; gap: 1rem; max-width: calc(100% - 2rem); padding: 0.6rem 0.75rem 0.6rem 1.1rem; background: var(--fir-deep); color: var(--on-dark); border-radius: 999px; box-shadow: 0 6px 24px rgb(0 0 0 / 0.25); }
