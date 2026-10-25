@@ -15,6 +15,7 @@ API keys live only in Netlify environment variables. Never write a key into any 
 - Buttons and links say what happens ("See your path", "Save to Your Path"), never "Learn more" or "Click here".
 - Name features with their constant (e.g. `WORKBENCH_LABEL`), not a literal, so renaming is one change.
 - Code reads like the code around it: small plain functions, comments that explain why, no clever abstractions.
+- Notes that explain personalization or a feature ("Why am I seeing this?", "How it works", "Hide this tip", "Reset to suggested") always use the quiet style in `global.css`: `.note-link` on a link or button, `details.note` on a disclosure. Never style them like content links or buttons, and put them inline next to what they explain, combining nearby ones, rather than stacking them.
 
 ## Accessibility (WCAG 2.2 AA, every change)
 
