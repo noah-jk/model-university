@@ -193,6 +193,40 @@ export function pathTimeline(plan: Plan | undefined, rules: RulesLookup, index: 
   return entries.map((e, i) => ({ ...e, past: (e.end ?? e.date) < today, next: i === nextAt }));
 }
 
+// Your plan: one list -------------------------------------------------------------
+
+// A row of the plan list: a step (with its checkbox), or a date that isn't a
+// step (a calendar milestone, a saved event, the visit, another saved
+// program's deadline)
+export type PathRow = { kind: "step"; step: PlanStep; entry?: PathEntry } | { kind: "date"; entry: PathEntry };
+export type PathList = { rows: PathRow[]; folded: PathRow[] };
+
+// Steps and dates in one list, each once. Steps keep their rule order: each
+// counts as "due" no earlier than the step before it, so an early date (like
+// last year's FAFSA priority date) doesn't jump ahead of steps that come
+// first. Other dates fit in among them by date. Undated steps at the start
+// (the application journey) stay first.
+//
+// Done steps and dates that have passed fold away (`folded`), so the list
+// opens on what's next. A step that's overdue but not done stays in the list.
+export function pathList(plan: Plan | undefined, entries: PathEntry[]): PathList {
+  const stepEntries = new Map(entries.filter((e) => e.id.startsWith("step:")).map((e) => [e.id.slice(5), e]));
+  const keyed: { row: PathRow; key: string; order: number }[] = [];
+  let runningDate = "";
+  plan?.steps.forEach((step, i) => {
+    if (step.date && step.date > runningDate) runningDate = step.date;
+    keyed.push({ row: { kind: "step", step, ...(stepEntries.has(step.step.id) && { entry: stepEntries.get(step.step.id) }) }, key: runningDate, order: i });
+  });
+  entries
+    .filter((e) => !e.id.startsWith("step:"))
+    .forEach((entry, i) => keyed.push({ row: { kind: "date", entry }, key: entry.date, order: 1000 + i }));
+  // By date; on the same date, steps first, then in their own order
+  keyed.sort((a, b) => a.key.localeCompare(b.key) || a.order - b.order);
+  const rows = keyed.map((k) => k.row);
+  const isFolded = (r: PathRow) => (r.kind === "step" ? r.step.status === "done" : r.entry.past);
+  return { rows: rows.filter((r) => !isFolded(r)), folded: rows.filter(isFolded) };
+}
+
 // An .ics file for one timeline entry: timed events keep their times; other
 // dates are all-day (a range for something like finals week)
 export function pathIcs(entry: PathEntry, siteName: string, origin: string) {

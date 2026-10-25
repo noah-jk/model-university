@@ -78,6 +78,20 @@ export function termOptions(chosen: string | undefined, now = new Date()) {
 
 export const MAX_COMPARE = 4;
 
+// Programs that match what's typed in Compare's search: every word has to
+// appear in the name or level ("nursing master"). Names that start with what
+// was typed come first, then the rest alphabetically.
+export function matchPrograms(programs: Record<string, IndexProgram>, query: string, limit = 8) {
+  const words = query.toLowerCase().split(/[\s,]+/).filter(Boolean);
+  if (!words.length) return [];
+  const start = query.trim().toLowerCase();
+  return Object.entries(programs)
+    .filter(([, p]) => words.every((word) => `${p.name} ${p.level}`.toLowerCase().includes(word)))
+    .sort(([, a], [, b]) => Number(!a.name.toLowerCase().startsWith(start)) - Number(!b.name.toLowerCase().startsWith(start)) || a.name.localeCompare(b.name))
+    .slice(0, limit)
+    .map(([id, program]) => ({ id, program }));
+}
+
 type Cell = { text: string; notOffered?: boolean };
 export type CompareTable = {
   programs: { id: string; name: string; url: string }[];

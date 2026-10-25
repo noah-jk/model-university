@@ -190,7 +190,7 @@ export function requestInfoCopy(s: PathSummary) {
   };
 }
 
-export const VISIT_COPY = { text: "Your visit is on your path, along with the steps to take before it.", action: { label: "See your path", href: `${WORKBENCH_PATH}#timeline` } };
+export const VISIT_COPY = { text: "Your visit is on your path, along with the steps to take before it.", action: { label: "See your path", href: WORKBENCH_PATH } };
 
 // The dismiss button says what it hides
 export const HIDE_LABEL = { visible: "Hide this tip", hidden: ` about ${WORKBENCH_LABEL}` };

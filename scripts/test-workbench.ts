@@ -4,7 +4,7 @@
 import * as catalog from "../src/lib/catalog.ts";
 import { buildIndex } from "../src/lib/workbench/index-data.ts";
 import { createStore, deserialize, migrate } from "../src/lib/workbench/store.ts";
-import { changesSinceSaved, compareTable, deadlineDate, fingerprint } from "../src/lib/workbench/derive.ts";
+import { changesSinceSaved, compareTable, deadlineDate, fingerprint, matchPrograms } from "../src/lib/workbench/derive.ts";
 import { MAX_ITEMS, MAX_NOTE, STORAGE_KEY } from "../src/lib/workbench/types.ts";
 
 const check = (ok: unknown, message: string) => {
@@ -168,6 +168,13 @@ check(two.programs.length === 2 && two.rows.every((r) => r.cells.length === 2) &
 check(!two.rows.some((r) => /total of|combined|sum/i.test(r.label)), "compare: costs aren't added up");
 const five = compareTable(catalog.programs.slice(0, 5).map((p) => program(p.id)), "Fall 2027");
 check(five.programs.length === 4, "compare: at most four programs");
+
+// Compare's search
+const nursingHits = matchPrograms(index.program, "nursing");
+check(nursingHits.length > 0 && nursingHits.every((m) => /nursing/i.test(m.program.name)) && /^nursing/i.test(nursingHits[0].program.name), "compare search: matches by name, starts-with first");
+check(matchPrograms(index.program, "nursing master").every((m) => m.program.level === "Master's") && matchPrograms(index.program, "nursing master").length > 0, "compare search: every word counts, level included");
+check(matchPrograms(index.program, "  ").length === 0 && matchPrograms(index.program, "zzzz").length === 0, "compare search: nothing for blank or no match");
+check(matchPrograms(index.program, "a", 5).length === 5, "compare search: limited");
 
 const entry = index.program["nursing-msn"];
 const saved = { id: "s", kind: "program" as const, ref: "nursing-msn", source: "saved" as const, addedAt: "", watch: fingerprint("program", entry) };

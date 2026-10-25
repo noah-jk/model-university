@@ -6,7 +6,7 @@ import * as catalog from "../src/lib/catalog.ts";
 import { rules } from "../src/lib/enrollment.ts";
 import { buildIndex } from "../src/lib/workbench/index-data.ts";
 import { deadlineDate } from "../src/lib/workbench/derive.ts";
-import { pathIcs, pathTimeline, planFor, planSteps, programsByPlan } from "../src/lib/workbench/plan.ts";
+import { pathIcs, pathList, pathTimeline, planFor, planSteps, programsByPlan } from "../src/lib/workbench/plan.ts";
 import { describeStudents, resolveProfile, type Signals } from "../src/lib/workbench/profile.ts";
 import { admissionsCopy, aidLine, homeCopy, pathLink, programSaved, requestInfoCopy, tuitionCopy, typeCopy, VISIT_COPY } from "../src/lib/workbench/handoffs.ts";
 import type { PlanChoices, Workbench, WorkbenchItem } from "../src/lib/workbench/types.ts";
@@ -180,4 +180,27 @@ const allCopy = [homeCopy(), homeCopy(going), admissionsCopy(), tuitionCopy(), t
 check(!allCopy.some((t) => t.includes("!") || /learn more|click here/i.test(t)), "handoff copy: no exclamation points or vague links");
 check(!allCopy.some((t) => /\d+ (of \d+ )?steps?\b/.test(t)), "handoff copy: no step counts (#25)");
 
+
+// One plan list (#30) --------------------------------------------------------------------
+
+const listWb = workbenchWith([program(bachelors), program(bachelors2), event(noProgram.events[0].id)], {}, { completed: ["explore-programs"] });
+const listPlan = planFor(transfer, rules, index, listWb, [], now)!;
+const listEntries = pathTimeline(listPlan, rules, index, listWb, "Winter 2027", "Undergraduate", now);
+const { rows, folded } = pathList(listPlan, listEntries);
+const all = [...folded, ...rows];
+const stepIds = all.filter((r) => r.kind === "step").map((r) => (r.kind === "step" ? r.step.step.id : ""));
+check(stepIds.slice().sort().join() === listPlan.steps.map((s) => s.step.id).sort().join(), "plan list: every step once");
+const unfoldedSteps = rows.filter((r) => r.kind === "step").map((r) => (r.kind === "step" ? r.step.step.id : ""));
+check(unfoldedSteps.join() === listPlan.steps.filter((s) => s.status !== "done").map((s) => s.step.id).join(), "plan list: steps keep their rule order");
+const dateRows = all.filter((r) => r.kind === "date");
+check(dateRows.length === listEntries.filter((e) => !e.id.startsWith("step:")).length && !dateRows.some((r) => r.entry.id.startsWith("step:")), "plan list: each other date once, and step dates only as steps");
+check(folded.some((r) => r.kind === "step" && r.step.step.id === "explore-programs") && !rows.some((r) => r.kind === "step" && r.step.status === "done"), "plan list: done steps fold away");
+check(rows.some((r) => r.kind === "step" && r.step.status === "overdue"), "plan list: overdue steps stay in the list");
+check(rows[0].kind === "step" && rows[0].step.next, "plan list: opens on the next step");
+// Dates between two steps sit between them
+const keyOf = (r: (typeof rows)[number]) => (r.kind === "step" ? r.step.date ?? "" : r.entry.date);
+const classes = rows.findIndex((r) => r.kind === "date" && /Classes begin/.test(r.entry.title));
+const tuition = rows.findIndex((r) => r.kind === "step" && r.step.step.id === "pay-tuition");
+check(classes > -1 && tuition > classes && keyOf(rows[tuition]) >= keyOf(rows[classes]), "plan list: other dates fit in among the steps by date");
+check(pathList(undefined, pathTimeline(undefined, rules, index, listWb, "Winter 2027", undefined, now)).rows.every((r) => r.kind === "date"), "plan list: without a plan, only saved dates");
 console.log("\nYour Path checks passed.");
