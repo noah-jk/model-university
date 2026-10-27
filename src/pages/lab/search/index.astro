@@ -11,6 +11,7 @@ const { Content } = page;
 const path = "/lab/search/";
 const enabled = siteConfig.features.aiSearch;
 const { tier, model } = siteConfig.aiSearch;
+const summaries = enabled && siteConfig.features.aiSummary;
 // Roughly what each search sends: the instructions and tools, at about four characters a token
 const inputTokens = Math.round((systemPrompt().length + JSON.stringify(toolSpecs).length) / 4 / 100) * 100;
 ---
@@ -59,11 +60,16 @@ const inputTokens = Math.round((systemPrompt().length + JSON.stringify(toolSpecs
       the free tier that costs nothing. At Gemini 3.8 Flash's paid rates as of October 2026 ($0.75 per million tokens in, $3.75 per million out), it's about
       $0.002 a search, or $2 for every 1,000. Google's price list shows those rates doubling on January 1, 2027. Removing a chip and keyword searches don't use
       the model, so they cost nothing.
+      {
+        summaries &&
+          " An AI summary is a second, smaller request (the search and up to eight records in, about 100 tokens out), only for searches that read like a question: roughly another $0.001."
+      }
     </p>
+    {!summaries && <p class="panel">AI summaries are switched off on this site. Set <code>aiSummary: true</code> in <code>site.config.ts</code> to turn them on.</p>}
 
     <p class="hint">
       The code is in <code>src/lib/search/</code> (planning, results, and the results HTML), <code>src/lib/tools.ts</code> (the tools shared with the MCP server),
-      <code>src/lib/llm/</code> (the model, behind a small interface so another can be swapped in), and <code>netlify/functions/search.mts</code>.
+      <code>src/lib/llm/</code> (the model, behind a small interface so another can be swapped in), and <code>netlify/functions/search.mts</code>. Summaries are in <code>src/lib/search/summary.ts</code> and <code>netlify/functions/summary.mts</code>.
     </p>
   </article>
 </BaseLayout>

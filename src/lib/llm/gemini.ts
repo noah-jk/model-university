@@ -7,7 +7,7 @@
 // reads it (see CLAUDE.md).
 
 import { FunctionCallingConfigMode, GoogleGenAI, ThinkingLevel } from "@google/genai";
-import type { Planner } from "./types.ts";
+import type { Planner, Summarizer } from "./types.ts";
 
 export function geminiPlanner(apiKey: string, model: string): Planner {
   const ai = new GoogleGenAI({ apiKey });
@@ -28,6 +28,33 @@ export function geminiPlanner(apiKey: string, model: string): Planner {
         },
       });
       return (response.functionCalls ?? []).map((call) => ({ tool: call.name ?? "", args: call.args ?? {} }));
+    },
+  };
+}
+
+// The AI summary: one request that must answer with JSON in a fixed shape
+export function geminiSummarizer(apiKey: string, model: string): Summarizer {
+  const ai = new GoogleGenAI({ apiKey });
+  return {
+    name: model,
+    async summarize({ system, prompt, signal }) {
+      const response = await ai.models.generateContent({
+        model,
+        contents: [{ role: "user", parts: [{ text: prompt }] }],
+        config: {
+          systemInstruction: system,
+          responseMimeType: "application/json",
+          responseJsonSchema: {
+            type: "object",
+            properties: { text: { type: "string" }, sources: { type: "array", items: { type: "integer" } } },
+            required: ["text", "sources"],
+          },
+          thinkingConfig: { thinkingLevel: ThinkingLevel.MINIMAL },
+          maxOutputTokens: 300,
+          abortSignal: signal,
+        },
+      });
+      return JSON.parse(response.text ?? "null");
     },
   };
 }
