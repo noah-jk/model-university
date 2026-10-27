@@ -5,6 +5,7 @@ import { handleSearch } from "../src/lib/search/handler.ts";
 import { search } from "../src/lib/search/search.ts";
 import type { Planner } from "../src/lib/llm/types.ts";
 import type { SearchResponse } from "../src/lib/search/types.ts";
+import { SEARCH_SUGGESTIONS } from "../src/lib/search/suggestions.ts";
 
 const fake = (plan: Planner["plan"]): Planner => ({ name: "fake", plan });
 const logs: Record<string, unknown>[] = [];
@@ -70,6 +71,12 @@ check(dropped.body.results.length >= good.body.results.length, "fewer filters, a
 // Long queries are rejected
 const long = await post({ query: "x".repeat(201) });
 check(long.status === 400 && /200 characters/.test(long.body.error ?? ""), "queries over 200 characters are rejected");
+
+// The search overlay's suggested searches all find something, even without the model
+for (const suggestion of SEARCH_SUGGESTIONS) {
+  const { response } = await search({ query: suggestion }, { base: "http://localhost:8888" });
+  check(response.results.length > 0, `suggestion finds results with keyword search: "${suggestion}" (${response.results.length}: ${response.results.slice(0, 2).map((r) => r.title).join(", ")})`);
+}
 
 // Logs hold counts and timing only
 check(logs.length > 0 && logs.every((entry) => !JSON.stringify(entry).includes("nursing") && !("ip" in entry)), "logs never include the query or an IP");

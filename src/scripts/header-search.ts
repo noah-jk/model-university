@@ -1,24 +1,38 @@
-// The header's Search button opens a search field in its place; Close or
-// Escape puts the button back and returns focus to it.
+// The header's Search buttons (in the utility row, and in the Menu on small
+// screens) open the search overlay (src/components/SearchOverlay.astro).
+// Closing it, with Close, Escape, or a click outside, returns focus to the
+// button that opened it.
 
-const toggle = document.querySelector<HTMLButtonElement>("[data-search-toggle]");
-const form = document.getElementById("header-search-form") as HTMLFormElement | null;
+const dialog = document.getElementById("search-dialog") as HTMLDialogElement | null;
+const openers = [...document.querySelectorAll<HTMLButtonElement>("[data-search-open]")];
 
-if (toggle && form) {
-  const input = form.querySelector("input")!;
-  const setOpen = (open: boolean) => {
-    toggle.hidden = open;
-    form.hidden = !open;
-    toggle.setAttribute("aria-expanded", String(open));
-    if (open) input.focus();
-    else toggle.focus();
-  };
-  toggle.addEventListener("click", () => setOpen(true));
-  form.querySelector("[data-search-close]")!.addEventListener("click", () => setOpen(false));
-  form.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") setOpen(false);
+if (dialog && openers.length) {
+  const input = dialog.querySelector("input")!;
+  let opener: HTMLElement | undefined;
+
+  openers.forEach((button) =>
+    button.addEventListener("click", () => {
+      opener = button;
+      dialog.showModal();
+      // The page behind doesn't scroll while the overlay is open
+      document.documentElement.classList.add("search-open");
+      openers.forEach((b) => b.setAttribute("aria-expanded", "true"));
+      input.focus();
+    })
+  );
+  dialog.addEventListener("close", () => {
+    document.documentElement.classList.remove("search-open");
+    openers.forEach((b) => b.setAttribute("aria-expanded", "false"));
+    // The Menu may have closed meanwhile; fall back to the visible button
+    const target = opener?.offsetParent ? opener : openers.find((b) => b.offsetParent);
+    target?.focus();
   });
-  form.addEventListener("submit", (e) => {
+  dialog.querySelector("[data-search-close]")!.addEventListener("click", () => dialog.close());
+  // A click on the backdrop (the dialog itself, outside its content) closes it
+  dialog.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+  dialog.querySelector("form")!.addEventListener("submit", (e) => {
     if (!input.value.trim()) {
       e.preventDefault();
       input.focus();

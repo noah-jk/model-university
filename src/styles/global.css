@@ -146,6 +146,8 @@ th { font-weight: 600; }
 html:not(.js) .needs-js { display: none !important; }
 /* The opposite: shown only without JavaScript (e.g. a plain link a script replaces) */
 html.js .no-js-only { display: none !important; }
+/* The search overlay is open: the page behind it doesn't scroll */
+html.search-open { overflow: hidden; }
 
 /* Save to Workbench toggles (src/lib/workbench/toggle.ts) */
 .save-toggle { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 40px; padding: 0.4rem 0.95rem 0.4rem 0.8rem; font: 600 var(--step--1) / 1 var(--sans); color: var(--fir); background: transparent; border: 1.5px solid var(--fir); border-radius: 999px; cursor: pointer; }

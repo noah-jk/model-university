@@ -86,6 +86,17 @@ export async function search(request: SearchRequest, { base, planner, now = new 
       [effective, results] = [keywords, keywordResults];
     }
   }
+  // Keyword search found nothing either: its program filters may not fit (in
+  // "How do I apply as an undergrad?", "undergrad" isn't about programs), so
+  // try the same words across everything, without the filters
+  if (outcome !== "returned" && !results.length) {
+    const loose = applyDrops(keywordPlan(query, { filters: false }), drop);
+    const looseResults = runPlan(loose, base, now);
+    if (looseResults.length) {
+      if (outcome === "model") outcome = "no-results";
+      [effective, results] = [loose, looseResults];
+    }
+  }
   const fallback = outcome === "returned" ? Boolean(request.fallback) : outcome !== "model";
 
   const response: SearchResponse = {
