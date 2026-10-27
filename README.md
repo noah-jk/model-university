@@ -82,9 +82,9 @@ Each feature is a switch in `site.config.ts`. When a switch is off, its routes a
 | `jsonFeeds` | `/data/programs.json`, `/data/courses.json`, `/data/services.json` |
 | `markdownPages` | `…/index.md` copies of program, course, and service pages |
 | `askAi` | "Ask AI" menus on the home page and section overview pages (academics, programs, courses, admissions, services, faculty, events, news) |
+| `aiSummary` | AI summary above the results of question-like searches (needs `aiSearch`): `/api/search/summary`, a second model call over the catalog records behind the first eight results, checked for citations and length before it's shown. |
 | `personalization` | Session-based personalization: the application journey and the Recents panel in the header, the program list's order, the journey forms' prefilling, and the "Under the hood" panel. Uses sessionStorage only. |
 | `workbench` | Your Path: `/your-path/` (and a redirect from `/workbench/`), `/data/workbench-index.json`, `/data/enrollment.json`, Save to Your Path toggles, and the header link with its count. Uses localStorage only. |
-| `aiSummary` | AI summary above the results of question-like searches (needs `aiSearch`): `/api/search/summary`, a second model call over the catalog records behind the first eight results, checked for citations and length before it's shown. |
 | `aiSearch` | Natural-language search: `/search/`, `/api/search`, and Search in the header. The model and tier are set under `aiSearch` in `site.config.ts`. |
 
 ### Personalization (Lab)
@@ -115,8 +115,8 @@ To avoid layout shift, the program list is reordered by a small inline script be
 - Every result is built from the catalog record by `resultFor(kind, ref)` in `results.ts`. `kind` (program, course, faculty, event, service, news) and `ref` (the catalog id) match Your Path's saved items.
 - `src/lib/search/render.ts` renders results for both the server and the browser. Each result has its Save to Your Path toggle there.
 - Keyword search (`keywordPlan`) takes over when there's no key, the visitor is over 10 searches a minute, the model takes over 8 seconds or fails, plans nothing usable, or its plan finds nothing. The response then has `fallback: true`.
-- AI summary (`aiSummary`): `src/lib/search/summary-rule.ts` decides when (a question-like search, planned by the model, with at least two results and no direct answer); `summary.ts` builds numbered records from the results' ids, the prompt, and the checks (it must cite only those records, stay under 280 characters, and contain no links); `summary-handler.ts` and `netlify/functions/summary.mts` serve it, sharing search's rate limit (`netlify/lib/rate-limit.ts`). The page keeps the panel's space from the start, so results don't move.
 - The key is `GEMINI_API_KEY` in Netlify's environment variables, read only in `netlify/functions/search.mts`. See `CLAUDE.md`.
+- AI summary (`aiSummary`): `src/lib/search/summary-rule.ts` decides when (a question-like search, planned by the model, with at least two results and no direct answer); `summary.ts` builds numbered records from the results' ids, the prompt, and the checks (it must cite only those records, stay under 280 characters, and contain no links); `summary-handler.ts` and `netlify/functions/summary.mts` serve it, sharing search's rate limit (`netlify/lib/rate-limit.ts`). The page keeps the panel's space from the start, so results don't move.
 
 ### Enrollment rules
 
