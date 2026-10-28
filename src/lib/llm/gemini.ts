@@ -50,7 +50,8 @@ export function geminiSummarizer(apiKey: string, model: string): Summarizer {
             required: ["text", "sources"],
           },
           thinkingConfig: { thinkingLevel: ThinkingLevel.MINIMAL },
-          maxOutputTokens: 300,
+          // Room for any thinking as well as the JSON, so the JSON isn't cut off
+          maxOutputTokens: 1024,
           abortSignal: signal,
         },
       });

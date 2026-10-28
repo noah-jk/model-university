@@ -3,20 +3,23 @@
 // wires those in.
 //
 // Request:  { query, results: [{ kind, ref }] } (the results on the page, by id)
-// Response: { summary: { text, sources: [{ title, url }] } | null }
+// Response: { summary: { text, sources: [{ title, url }] } | null, reason }
 // A null summary isn't an error: the page says there's no summary and search
-// carries on.
+// carries on. `reason` says why there's none ("no-key", "rejected",
+// "timeout", …), so it can be seen in the browser's network panel; it never
+// includes the query or anything the model wrote.
 
 import { z } from "zod";
 import siteConfig from "../../../site.config.ts";
 import type { Summarizer } from "../llm/types.ts";
 import { MAX_QUERY } from "./search.ts";
-import { checkSummary, readsLikeQuestion, SUMMARY_RECORDS, SUMMARY_SYSTEM, SUMMARY_TIMEOUT_MS, summaryPrompt, summaryRecords } from "./summary.ts";
+import { checkSummary, readsLikeQuestion, SUMMARY_SYSTEM, SUMMARY_TIMEOUT_MS, summaryPrompt, summaryRecords } from "./summary.ts";
 import { KINDS } from "./types.ts";
 
 const requestSchema = z.object({
   query: z.string().trim().min(1).max(MAX_QUERY),
-  results: z.array(z.object({ kind: z.enum(KINDS), ref: z.string().max(160) })).min(2).max(SUMMARY_RECORDS * 2),
+  // The page sends the results it shows; only the first SUMMARY_RECORDS are used
+  results: z.array(z.object({ kind: z.enum(KINDS), ref: z.string().max(160) })).min(2).max(100),
 });
 
 const HEADERS: Record<string, string> = {
@@ -46,7 +49,7 @@ export async function handleSummary(req: Request, { getSummarizer, log = (e) => 
   const started = Date.now();
   const done = (outcome: SummaryOutcome, summary: unknown = null, records = 0) => {
     log({ event: "summary", outcome, ms: Date.now() - started, records });
-    return reply({ summary });
+    return reply(summary ? { summary } : { summary: null, reason: outcome });
   };
 
   const { query, results } = body.data;

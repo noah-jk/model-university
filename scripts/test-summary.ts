@@ -49,7 +49,7 @@ const fake = (summarize: Summarizer["summarize"]): Summarizer => ({ name: "fake"
 async function post(body: unknown, summarizer?: Summarizer, timeoutMs?: number) {
   const req = new Request(`${base}/api/search/summary`, { method: "POST", body: JSON.stringify(body) });
   const res = await handleSummary(req, { getSummarizer: async () => (summarizer ? { summarizer } : { unavailable: "no-key" }), log: (e) => logs.push(e), timeoutMs });
-  return { status: res.status, body: (await res.json()) as { summary: { text: string; sources: { title: string; url: string }[] } | null; error?: string } };
+  return { status: res.status, body: (await res.json()) as { summary: { text: string; sources: { title: string; url: string }[] } | null; error?: string; reason?: string } };
 }
 const query = "what science programs are offered";
 let seen = "";
@@ -62,6 +62,12 @@ check((await post({ query, results })).body.summary === null, "endpoint: no key,
 check((await post({ query, results }, fake(() => new Promise(() => {})), 50)).body.summary === null, "endpoint: slow model times out");
 check((await post({ query, results }, fake(async () => { throw new Error("boom"); }))).body.summary === null, "endpoint: a model error gives no summary");
 check((await post({ query, results: [results[0]] })).status === 400, "endpoint: needs at least two results");
+const many = Array.from({ length: 30 }, (_, i) => ({ kind: "program", ref: i % 2 ? "computer-science-bs" : "data-science-bs" }));
+let manyPrompt = "";
+const manyResult = await post({ query, results: many }, fake(async ({ prompt }) => ((manyPrompt = prompt), { text: "There are bachelor's degrees in computer science and data science.", sources: [1] })));
+check(manyResult.status === 200 && manyResult.body.summary && !manyPrompt.includes("[9]"), "endpoint: many results are fine, and only the first eight are used");
+const reasons = await post({ query, results }, fake(async () => ({ text: "Uncited and made up summary text.", sources: [] })));
+check(reasons.body.summary === null && (reasons.body as { reason?: string }).reason === "rejected" && (await post({ query, results })).body.reason === "no-key", "endpoint: says why there's no summary");
 check(logs.length >= 6 && logs.every((e) => !JSON.stringify(e).includes("science") && !("ip" in e)) && logs.some((e) => e.outcome === "summary") && logs.some((e) => e.outcome === "timeout"), "logs: outcome, timing, and counts only");
 
 console.log("\nSummary checks passed.");

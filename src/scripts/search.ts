@@ -6,7 +6,7 @@
 
 import siteConfig from "../../site.config.ts";
 import { renderResults, searchHref, statusText } from "../lib/search/render.ts";
-import { shouldSummarize } from "../lib/search/summary-rule.ts";
+import { shouldSummarize, SUMMARY_RECORDS } from "../lib/search/summary-rule.ts";
 import type { InterestProfile, SearchResponse } from "../lib/search/types.ts";
 import { loadSession, preferred } from "./personalize.ts";
 
@@ -77,7 +77,7 @@ async function summarize(response: SearchResponse) {
     const res = await fetch("/api/search/summary", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: response.query, results: response.results.map(({ kind, ref }) => ({ kind, ref })) }),
+      body: JSON.stringify({ query: response.query, results: response.results.slice(0, SUMMARY_RECORDS).map(({ kind, ref }) => ({ kind, ref })) }),
       signal: summaryRequest.signal,
     });
     const { summary } = res.ok ? ((await res.json()) as { summary: { text: string; sources: { title: string; url: string }[] } | null }) : { summary: null };

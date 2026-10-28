@@ -13,10 +13,10 @@ import type { Kind } from "./types.ts";
 
 export const SUMMARY_TARGET = 200; // what the model is asked for, in characters
 export const SUMMARY_MAX = 280; // longer than this is dropped, not cut
-export const SUMMARY_RECORDS = 8; // the first results, at most
 export const SUMMARY_TIMEOUT_MS = 6000;
 
-export { readsLikeQuestion, shouldSummarize } from "./summary-rule.ts";
+import { SUMMARY_RECORDS } from "./summary-rule.ts";
+export { readsLikeQuestion, shouldSummarize, SUMMARY_RECORDS } from "./summary-rule.ts";
 
 // What the model is told
 export const SUMMARY_SYSTEM = `You summarize search results for a university website. Use only the numbered records you're given.

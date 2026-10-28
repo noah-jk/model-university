@@ -4,6 +4,9 @@
 
 import type { SearchResponse } from "./types.ts";
 
+// How many results a summary is written from: the first ones on the page
+export const SUMMARY_RECORDS = 8;
+
 const QUESTION_WORDS = /^(what|which|how|who|whom|where|when|why|can|could|do|does|did|is|are|should|will|would)\b/i;
 
 // Does the search read like a question or a request, rather than a topic?
