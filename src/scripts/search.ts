@@ -6,6 +6,7 @@
 
 import siteConfig from "../../site.config.ts";
 import { renderResults, searchHref, statusText } from "../lib/search/render.ts";
+import { shouldSummarize, SUMMARY_RECORDS } from "../lib/search/summary-rule.ts";
 import type { InterestProfile, SearchResponse } from "../lib/search/types.ts";
 import { loadSession, preferred } from "./personalize.ts";
 
@@ -43,9 +44,54 @@ function describeInterests() {
     : "Nothing to send yet: browse a few programs or courses first.";
 }
 
+// The AI summary (see src/lib/search/summary.ts). The page keeps its space
+// for a question-like search; after the results arrive, it either asks for a
+// summary of them or, if the rule says not to, removes the panel in the same
+// moment the results change.
+const summaryPanel = document.querySelector<HTMLElement>("[data-ai-summary]");
+let summaryRequest: AbortController | undefined;
+
+const escapeHtml = (text: string) => text.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+
+function setSummary(text: string, sources: { title: string; url: string }[] = []) {
+  if (!summaryPanel) return;
+  summaryPanel.querySelector("[data-summary-text]")!.textContent = text;
+  const list = summaryPanel.querySelector<HTMLElement>("[data-summary-sources]")!;
+  list.hidden = !sources.length;
+  list.innerHTML = sources.length ? `Sources: ${sources.map((s) => `<a href="${escapeHtml(s.url)}">${escapeHtml(s.title)}</a>`).join('<span aria-hidden="true"> · </span>')}` : "";
+  summaryPanel.removeAttribute("aria-busy");
+}
+
+async function summarize(response: SearchResponse) {
+  if (!summaryPanel) return;
+  summaryRequest?.abort();
+  if (!shouldSummarize(response.query, response)) {
+    summaryPanel.hidden = true;
+    return;
+  }
+  summaryPanel.hidden = false;
+  setSummary("Writing a summary…");
+  summaryPanel.setAttribute("aria-busy", "true");
+  summaryRequest = new AbortController();
+  try {
+    const res = await fetch("/api/search/summary", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: response.query, results: response.results.slice(0, SUMMARY_RECORDS).map(({ kind, ref }) => ({ kind, ref })) }),
+      signal: summaryRequest.signal,
+    });
+    const { summary } = res.ok ? ((await res.json()) as { summary: { text: string; sources: { title: string; url: string }[] } | null }) : { summary: null };
+    if (summary) setSummary(summary.text, summary.sources);
+    else setSummary("No summary for this search.");
+  } catch (error) {
+    if ((error as Error).name !== "AbortError") setSummary("No summary for this search.");
+  }
+}
+
 function show(response: SearchResponse) {
   current = response;
   output.innerHTML = renderResults(response);
+  summarize(response);
   // Save to Workbench toggles in the results catch up (src/scripts/workbench/save.ts)
   window.dispatchEvent(new Event("content:rendered"));
   delete area.dataset.pending;
