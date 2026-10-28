@@ -72,6 +72,18 @@ check(dropped.body.results.length >= good.body.results.length, "fewer filters, a
 const long = await post({ query: "x".repeat(201) });
 check(long.status === 400 && /200 characters/.test(long.body.error ?? ""), "queries over 200 characters are rejected");
 
+// A keyword answer says why, for the network panel
+const keywordOnly = await post({ query: "nursing" });
+check(keywordOnly.body.fallback && keywordOnly.body.reason === "no-key", "keyword fallback says why (no key)");
+const broken = await post({ query: "nursing" }, fake(async () => { throw new Error("quota"); }));
+check(broken.body.fallback && broken.body.reason === "error", "keyword fallback says why (model error)");
+check(!("reason" in good.body), "a model answer has no reason");
+
+// Curly apostrophes (as phones type them) work like straight ones
+const curly = await post({ query: "What online master’s programs do you offer?" });
+const straight = await post({ query: "What online master's programs do you offer?" });
+check(curly.body.results.length > 0 && curly.body.results.map((r) => r.ref).join() === straight.body.results.map((r) => r.ref).join(), "curly and straight apostrophes find the same results");
+
 // The search overlay's suggested searches all find something, even without the model
 for (const suggestion of SEARCH_SUGGESTIONS) {
   const { response } = await search({ query: suggestion }, { base: "http://localhost:8888" });

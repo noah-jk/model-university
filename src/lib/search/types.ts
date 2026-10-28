@@ -35,6 +35,10 @@ export type SearchResponse = {
   answer?: { text: string; source: { title: string; url: string } };
   // True when keyword search answered instead of the model
   fallback: boolean;
+  // Why, when it did: "no-key", "rate-limited", "timeout", "error",
+  // "empty-plan" (the model planned nothing usable), or "no-results" (the
+  // model's searches found nothing). For the browser's network panel.
+  reason?: string;
   // The searches that ran, after any dropped filters. Send it back with
   // more ?drop= keys to remove a chip without asking the model again.
   plan: PlannedCall[];
