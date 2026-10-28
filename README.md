@@ -84,7 +84,7 @@ Each feature is a switch in `site.config.ts`. When a switch is off, its routes a
 | `askAi` | "Ask AI" menus on the home page and section overview pages (academics, programs, courses, admissions, services, faculty, events, news) |
 | `personalization` | Session-based personalization: the application journey and the Recents panel in the header, the program list's order, the journey forms' prefilling, and the "Under the hood" panel. Uses sessionStorage only. |
 | `workbench` | Your Path: `/your-path/` (and a redirect from `/workbench/`), `/data/workbench-index.json`, `/data/enrollment.json`, Save to Your Path toggles, and the header link with its count. Uses localStorage only. |
-| `aiSearch` | Natural-language search: `/search/`, `/api/search`, and Search in the header. The model and tier are set under `aiSearch` in `site.config.ts`. |
+| `aiSearch` | Natural-language search: `/search/`, `/api/search`, and the Search buttons in the header, which open a search overlay with suggested searches. The model and tier are set under `aiSearch` in `site.config.ts`. |
 
 ### Personalization (Lab)
 
@@ -113,7 +113,8 @@ To avoid layout shift, the program list is reordered by a small inline script be
 - `src/lib/search/plan.ts` checks the plan against the tools' schemas (at most 4 calls), runs it, and turns its filters into chips. Removing a chip sends the plan back with `drop`, and it runs again without the model.
 - Every result is built from the catalog record by `resultFor(kind, ref)` in `results.ts`. `kind` (program, course, faculty, event, service, news) and `ref` (the catalog id) match Your Path's saved items.
 - `src/lib/search/render.ts` renders results for both the server and the browser. Each result has its Save to Your Path toggle there.
-- Keyword search (`keywordPlan`) takes over when there's no key, the visitor is over 10 searches a minute, the model takes over 8 seconds or fails, plans nothing usable, or its plan finds nothing. The response then has `fallback: true`.
+- The header's Search buttons (in the utility row, and in the Menu on small screens) open `SearchOverlay.astro`, a native `<dialog>` with a large field and the suggested searches in `src/lib/search/suggestions.ts` (each checked in `test-search.ts` to find results, even through keyword search). Without JavaScript they're links to `/search/`.
+- Keyword search (`keywordPlan`) takes over when there's no key, the visitor is over 10 searches a minute, the model takes over 8 seconds or fails, plans nothing usable, or its plan finds nothing. The response then has `fallback: true`. If keyword search's program filters find nothing ("How do I apply as an undergrad?"), it tries the other words across everything.
 - The key is `GEMINI_API_KEY` in Netlify's environment variables, read only in `netlify/functions/search.mts`. See `CLAUDE.md`.
 
 ### Enrollment rules

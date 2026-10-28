@@ -2,6 +2,7 @@
 import siteConfig from "../../site.config.ts";
 import { JOURNEY, RECENTS_LABEL } from "../lib/personalization-settings.ts";
 import Recents from "./Recents.astro";
+import SearchOverlay from "./SearchOverlay.astro";
 import WorkbenchLink from "./workbench/HeaderLink.astro";
 import { WORKBENCH_PATH } from "../lib/workbench/types.ts";
 
@@ -36,8 +37,8 @@ const utilityNav = [
 // The personalization experiment's Recents panel opens from the utility row
 // (and from the Menu on small screens, where the utility row is hidden).
 const recents = siteConfig.features.personalization;
-// Search: a button in the utility row that opens a field (a plain link to
-// /search/ without JavaScript), and a field in the Menu on small screens.
+// Search: a button in the utility row, and one in the Menu on small screens,
+// that open the search overlay (plain links to /search/ without JavaScript)
 const search = siteConfig.features.aiSearch;
 // The workbench link sits next to Recents (and in the Menu on small screens)
 const workbench = siteConfig.features.workbench;
@@ -72,21 +73,9 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
               <a class="search-toggle no-js-only" href="/search/">
                 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d={searchIcon} /></svg>Search
               </a>
-              <button type="button" class="search-toggle needs-js" aria-expanded="false" aria-controls="header-search-form" data-search-toggle>
+              <button type="button" class="search-toggle needs-js" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-dialog" data-search-open>
                 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d={searchIcon} /></svg>Search
               </button>
-              <form id="header-search-form" class="search-box" role="search" method="get" action="/search/" hidden>
-                <label for="header-search-q" class="visually-hidden">Search {siteConfig.shortName}</label>
-                <input id="header-search-q" name="q" type="search" maxlength="200" autocomplete="off" placeholder="Search in your own words" />
-                <button type="submit" class="go">
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d={searchIcon} /></svg>
-                  <span class="visually-hidden">Search</span>
-                </button>
-                <button type="button" class="close" data-search-close>
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18" /></svg>
-                  <span class="visually-hidden">Close search</span>
-                </button>
-              </form>
             </li>
           )
         }
@@ -98,14 +87,12 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
       <ul>
         {search && (
           <li class="small-screens menu-search">
-            <form class="search-box" role="search" method="get" action="/search/">
-              <label for="menu-search-q" class="visually-hidden">Search {siteConfig.shortName}</label>
-              <input id="menu-search-q" name="q" type="search" maxlength="200" autocomplete="off" placeholder="Search in your own words" />
-              <button type="submit" class="go">
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d={searchIcon} /></svg>
-                <span class="visually-hidden">Search</span>
-              </button>
-            </form>
+            <a class="search-toggle no-js-only" href="/search/">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d={searchIcon} /></svg>Search
+            </a>
+            <button type="button" class="search-toggle needs-js" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-dialog" data-search-open>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d={searchIcon} /></svg>Search
+            </button>
           </li>
         )}
         {
@@ -149,6 +136,8 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
 <script>
   import "../scripts/header-cta.ts";
 </script>
+
+{search && <SearchOverlay />}
 
 {
   search && (
@@ -293,24 +282,10 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
   .search-toggle { display: inline-flex; align-items: center; gap: 0.4rem; background: color-mix(in srgb, var(--fir-deep), white 12%); color: var(--on-dark); font: inherit; padding: 0.3rem 0.85rem; border: 0; border-radius: 999px; cursor: pointer; text-decoration: none; transition: background 0.15s; }
   .search-toggle:hover { background: color-mix(in srgb, var(--fir-deep), white 22%); }
   .search-toggle:focus-visible { outline: 2px solid #dce5c3; outline-offset: 2px; }
-  .search-toggle svg, .search-box svg { width: 1rem; height: 1rem; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
-  .search-box { display: flex; align-items: center; gap: 0.25rem; background: #fff; border-radius: 999px; padding: 0.15rem 0.2rem 0.15rem 0.85rem; }
-  .search-box:focus-within { outline: 2px solid #dce5c3; outline-offset: 2px; }
-  .search-box input { width: 15rem; min-width: 0; border: 0; background: transparent; color: #142b26; font: inherit; padding: 0.3rem 0; }
-  .search-box input::placeholder { color: #55605c; opacity: 1; }
-  .search-box input:focus { outline: none; }
-  .search-box button { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border: 0; border-radius: 999px; background: none; color: #142b26; cursor: pointer; }
-  .search-box button:hover { background: #dce5c3; }
-  .search-box button:focus-visible { outline: 2px solid #142b26; outline-offset: 0; }
-  .search-box .go { background: #142b26; color: #f2f4f1; }
-  .search-box .go:hover { background: #1d3b34; }
-  .search-box .go:focus-visible { outline-color: #a8324a; outline-offset: 2px; }
+  .search-toggle svg { width: 1rem; height: 1rem; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
   @media (prefers-reduced-motion: reduce) { .search-toggle { transition: none; } }
   @media (max-width: 47.99rem) {
     .main > ul > li.menu-search { border-top: 0; padding-block: 0 0.75rem; }
-    .menu-search .search-box { flex: 1; padding-block: 0.3rem; }
-    .menu-search .search-box input { width: auto; flex: 1; min-height: 40px; font-size: var(--step-0); }
-    .menu-search .search-box button { width: 2.75rem; height: 2.75rem; }
   }
   .demo-note { background: var(--lichen); color: var(--basalt); font-size: var(--step--1); }
   .demo-note p { margin-block: 0; padding-block: 0.45rem; max-width: none; }

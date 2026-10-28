@@ -171,18 +171,20 @@ const OPEN_QUESTION = /\bopen\b/;
 // Filler beyond the catalog's stop words (src/lib/words.ts)
 const FILLER = new Set([
   ...STOP_WORDS,
-  ..."cascadia state university near need now open please list right start starts starting today next this week month want".split(" "),
+  ..."as cascadia state university near need now open please list right start starts starting today next this week month want".split(" "),
 ]);
 
-export function keywordPlan(query: string): PlannedCall[] {
+// With `filters: false`, words like "undergrad" or "online" are left out
+// instead of becoming program filters, so the rest is searched everywhere
+export function keywordPlan(query: string, { filters: useFilters = true } = {}): PlannedCall[] {
   let text = ` ${query.toLowerCase()} `;
   const filters: Record<string, unknown> = {};
   for (const [pattern, arg, value] of PATTERNS) {
     if (arg in filters || !pattern.test(text)) continue;
-    filters[arg] = value;
+    if (useFilters) filters[arg] = value;
     text = text.replace(pattern, " ");
   }
-  const budget = text.match(BUDGET);
+  const budget = useFilters && text.match(BUDGET);
   if (budget) {
     filters.max_total_tuition_usd = Number(budget[1].replace(/,/g, "")) * (budget[2] ? 1000 : 1);
     text = text.replace(BUDGET, " ");

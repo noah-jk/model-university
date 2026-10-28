@@ -1,0 +1,74 @@
+---
+// The search overlay: a large field and some common searches, over the page.
+// It's a native <dialog> opened with showModal(), so focus stays inside, the
+// page behind is inert, and Escape closes it. The header's Search buttons
+// open it (src/scripts/header-search.ts). Without JavaScript those buttons
+// are links to /search/, so this is never shown.
+import siteConfig from "../../site.config.ts";
+import { SEARCH_SUGGESTIONS, suggestionHref } from "../lib/search/suggestions.ts";
+
+const searchIcon = "M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM15.2 15.2 20 20";
+---
+
+<dialog id="search-dialog" class="search-dialog" aria-labelledby="search-dialog-label">
+  <div class="inner">
+    <button type="button" class="close" data-search-close>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18" /></svg>
+      Close
+    </button>
+    <form class="search-form" role="search" method="get" action="/search/">
+      <label for="search-dialog-q" id="search-dialog-label">Search {siteConfig.shortName}</label>
+      <div class="field">
+        <input id="search-dialog-q" name="q" type="search" maxlength="200" autocomplete="off" placeholder="Search in your own words" />
+        <button type="submit" class="go">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d={searchIcon} /></svg>
+          <span class="visually-hidden">Search</span>
+        </button>
+      </div>
+    </form>
+    <h2 id="search-suggestions-title" class="suggestions-title">Try asking</h2>
+    <ul class="suggestions" aria-labelledby="search-suggestions-title">
+      {
+        SEARCH_SUGGESTIONS.map((query) => (
+          <li>
+            <a href={suggestionHref(query)}>{query}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</dialog>
+
+<style>
+  .search-dialog { width: min(100% - 2rem, 46rem); max-width: none; margin: 12vh auto auto; padding: 0; border: 0; border-radius: var(--radius-l); background: var(--paper); color: var(--basalt); box-shadow: 0 20px 60px rgb(0 0 0 / 0.35); }
+  .search-dialog::backdrop { background: rgb(10 25 22 / 0.7); }
+  @media (prefers-reduced-motion: no-preference) {
+    .search-dialog[open] { animation: search-in 0.16s ease-out; }
+    .search-dialog[open]::backdrop { animation: search-in 0.16s ease-out; }
+  }
+  @keyframes search-in { from { opacity: 0; } }
+  .inner { display: grid; gap: 1rem; padding: clamp(1.25rem, 4vw, 2.25rem); }
+  .close { justify-self: end; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 40px; padding: 0.3rem 0.85rem; font: 600 var(--step--1) / 1 var(--sans); color: var(--fir); background: transparent; border: 1.5px solid var(--line); border-radius: 999px; cursor: pointer; }
+  .close:hover { border-color: var(--fir); }
+  .close svg, .go svg { width: 1.1rem; height: 1.1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+  .search-form { display: grid; gap: 0.5rem; }
+  .search-form label { font-family: var(--serif); font-size: var(--step-2); }
+  .field { display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.35rem 0.3rem 1.1rem; background: var(--fog); border: 2px solid var(--fir); border-radius: 999px; }
+  .field:focus-within { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .field input { flex: 1; min-width: 0; min-height: 48px; border: 0; background: transparent; color: var(--basalt); font: var(--step-1) var(--sans); }
+  .field input::placeholder { color: var(--muted); opacity: 1; }
+  .field input:focus { outline: none; }
+  .go { display: inline-flex; align-items: center; justify-content: center; width: 3rem; height: 3rem; flex: none; border: 0; border-radius: 999px; background: var(--fir); color: var(--fog); cursor: pointer; }
+  .go:hover { background: var(--fir-deep); }
+  .suggestions-title { margin: 0.5rem 0 0; font: 600 var(--step--1) / 1.2 var(--sans); color: var(--muted); }
+  .suggestions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
+  .suggestions li { margin: 0; }
+  .suggestions a { display: inline-flex; align-items: center; min-height: 40px; padding: 0.35rem 0.95rem; border: 1.5px solid var(--line); border-radius: 999px; color: var(--basalt); text-decoration: none; font-size: var(--step--1); }
+  .suggestions a:hover { border-color: var(--fir); background: var(--fog); }
+  /* Phones: the whole screen, with the field at the top so the keyboard doesn't cover it */
+  @media (max-width: 40rem) {
+    .search-dialog { width: 100%; height: 100%; max-height: none; margin: 0; border-radius: 0; }
+    .inner { align-content: start; }
+    .field input { font-size: var(--step-0); }
+  }
+</style>
