@@ -9,6 +9,13 @@
 import { FunctionCallingConfigMode, GoogleGenAI, ThinkingLevel } from "@google/genai";
 import type { Planner, Summarizer } from "./types.ts";
 
+// How much the model thinks before answering. Picking searches and writing a
+// two-sentence summary need little, and thinking adds time and cost. LOW is
+// the least this model accepts: it rejects MINIMAL with a 400 ("Thinking
+// level MINIMAL is not supported for this model"), which sent every search to
+// keyword search.
+const THINKING = { thinkingLevel: ThinkingLevel.LOW };
+
 export function geminiPlanner(apiKey: string, model: string): Planner {
   const ai = new GoogleGenAI({ apiKey });
   return {
@@ -21,8 +28,7 @@ export function geminiPlanner(apiKey: string, model: string): Planner {
           systemInstruction: system,
           tools: [{ functionDeclarations: tools.map(({ name, description, parameters }) => ({ name, description, parametersJsonSchema: parameters })) }],
           toolConfig: { functionCallingConfig: { mode: FunctionCallingConfigMode.ANY } },
-          // Picking searches needs little reasoning, and thinking adds time and cost
-          thinkingConfig: { thinkingLevel: ThinkingLevel.MINIMAL },
+          thinkingConfig: THINKING,
           maxOutputTokens: 1024,
           abortSignal: signal,
         },
@@ -49,7 +55,7 @@ export function geminiSummarizer(apiKey: string, model: string): Summarizer {
             properties: { text: { type: "string" }, sources: { type: "array", items: { type: "integer" } } },
             required: ["text", "sources"],
           },
-          thinkingConfig: { thinkingLevel: ThinkingLevel.MINIMAL },
+          thinkingConfig: THINKING,
           // Room for any thinking as well as the JSON, so the JSON isn't cut off
           maxOutputTokens: 1024,
           abortSignal: signal,

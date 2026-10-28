@@ -56,13 +56,13 @@ const inputTokens = Math.round((systemPrompt().length + JSON.stringify(toolSpecs
 
     <h2>What it costs</h2>
     <p>
-      Each search is one request to the model: about {inputTokens.toLocaleString("en-US")} tokens in (mostly the instructions and tools) and under 200 tokens out. On
+      Each search is one request to the model: about {inputTokens.toLocaleString("en-US")} tokens in (mostly the instructions and tools) and a few hundred out: the searches it picks, plus its brief thinking, which is billed as output. On
       the free tier that costs nothing. At Gemini 3.8 Flash's paid rates as of October 2026 ($0.75 per million tokens in, $3.75 per million out), it's about
-      $0.002 a search, or $2 for every 1,000. Google's price list shows those rates doubling on January 1, 2027. Removing a chip and keyword searches don't use
+      $0.003 a search, or $3 for every 1,000. Google's price list shows those rates doubling on January 1, 2027. Removing a chip and keyword searches don't use
       the model, so they cost nothing.
       {
         summaries &&
-          " An AI summary is a second, smaller request (the search and up to eight records in, about 100 tokens out), only for searches that read like a question: roughly another $0.001."
+          " An AI summary is a second, smaller request (the search and up to eight records in, a few hundred tokens out with its thinking), only for searches that read like a question: roughly another $0.002."
       }
     </p>
     {!summaries && <p class="panel">AI summaries are switched off on this site. Set <code>aiSummary: true</code> in <code>site.config.ts</code> to turn them on.</p>}
