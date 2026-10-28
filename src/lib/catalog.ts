@@ -16,7 +16,7 @@ import type { College, Course, Department, Event, FacultyMember, NewsIndexEntry,
 import { eventWhen } from "./dates.ts";
 import { campusTime, isOpen } from "./hours.ts";
 import { absoluteUrl, pagePath } from "./urls.ts";
-import { STOP_WORDS, stem } from "./words.ts";
+import { STOP_WORDS, stem, straightQuotes } from "./words.ts";
 
 export const colleges = collegesData as College[];
 export const departments = departmentsData as Department[];
@@ -109,7 +109,7 @@ export function relatedDepartmentNames(related: Related) {
 
 // Search ---------------------------------------------------------------------
 
-const norm = (s: unknown) => String(s ?? "").toLowerCase();
+const norm = (s: unknown) => straightQuotes(String(s ?? "")).toLowerCase();
 // The words of a query worth matching, as stems
 const tokens = (q?: string) => [...new Set(norm(q).split(/[^a-z0-9']+/).filter((t) => t.length > 1 && !STOP_WORDS.has(t)).map(stem))];
 

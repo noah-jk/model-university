@@ -3,6 +3,10 @@
 
 // Words that say nothing about what someone is looking for: "what science
 // programs do you offer?" is a search for "science".
+// Curly quotes and apostrophes (which phones type) as straight ones, so
+// "master’s" matches like "master's"
+export const straightQuotes = (text: string) => text.replace(/[\u2018\u2019\u02bc\u2032]/g, "'").replace(/[\u201c\u201d\u2033]/g, '"');
+
 export const STOP_WORDS = new Set(
   ("a about an and any anything are at available be can choices did do does find for from get has have how i in is it kind kinds me my of offer offered " +
     "offering offers on options or our provide provided provides show some something that the there to type types us we what when where which who with you your")

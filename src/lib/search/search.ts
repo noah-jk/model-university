@@ -7,6 +7,7 @@
 // plan instead (fallback: true). Search never fails
 // because of the model.
 
+import { badRequestDetail, errorCode } from "../llm/errors.ts";
 import type { Planner } from "../llm/types.ts";
 import { answerFor, applyDrops, chipsFor, keywordPlan, MAX_RETURNED_CALLS, runPlan, validatePlan } from "./plan.ts";
 import { profileContext, systemPrompt, toolSpecs } from "./prompt.ts";
@@ -59,6 +60,10 @@ export async function search(request: SearchRequest, { base, planner, now = new 
   const drop = request.drop ?? [];
   let plan: PlannedCall[] = [];
   let outcome: Outcome;
+  // For a model error: its status, like "429 RESOURCE_EXHAUSTED", and for a
+  // 400, what Google said it rejected (see llm/errors.ts)
+  let modelError: string | undefined;
+  let modelDetail: string | undefined;
 
   if (request.plan !== undefined) {
     plan = validatePlan(request.plan, MAX_RETURNED_CALLS);
@@ -71,6 +76,10 @@ export async function search(request: SearchRequest, { base, planner, now = new 
       outcome = plan.length ? "model" : "empty-plan";
     } catch (error) {
       outcome = (error as Error).message === "timeout" ? "timeout" : "error";
+      if (outcome === "error") {
+        modelError = errorCode(error);
+        modelDetail = badRequestDetail(error, [query]);
+      }
     }
   }
   if (outcome !== "model" && outcome !== "returned") plan = keywordPlan(query);
@@ -108,5 +117,5 @@ export async function search(request: SearchRequest, { base, planner, now = new 
     plan: effective,
     drop,
   };
-  return { response, outcome };
+  return { response, outcome, modelError, modelDetail };
 }

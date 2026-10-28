@@ -11,6 +11,7 @@
 
 import { z } from "zod";
 import siteConfig from "../../../site.config.ts";
+import { badRequestDetail, errorCode } from "../llm/errors.ts";
 import type { Summarizer } from "../llm/types.ts";
 import { MAX_QUERY } from "./search.ts";
 import { checkSummary, readsLikeQuestion, SUMMARY_SYSTEM, SUMMARY_TIMEOUT_MS, summaryPrompt, summaryRecords } from "./summary.ts";
@@ -47,9 +48,9 @@ export async function handleSummary(req: Request, { getSummarizer, log = (e) => 
   if (!body.success) return reply({ error: "Send a query and at least two results." }, 400);
 
   const started = Date.now();
-  const done = (outcome: SummaryOutcome, summary: unknown = null, records = 0) => {
-    log({ event: "summary", outcome, ms: Date.now() - started, records });
-    return reply(summary ? { summary } : { summary: null, reason: outcome });
+  const done = (outcome: SummaryOutcome, summary: unknown = null, records = 0, error?: string, detail?: string) => {
+    log({ event: "summary", outcome, ms: Date.now() - started, records, ...(error && { error }), ...(detail && { detail }) });
+    return reply(summary ? { summary } : { summary: null, reason: outcome, ...(error && { error }) });
   };
 
   const { query, results } = body.data;
@@ -72,7 +73,14 @@ export async function handleSummary(req: Request, { getSummarizer, log = (e) => 
     const summary = checkSummary(raw, records);
     return summary ? done("summary", summary, records.length) : done("rejected", null, records.length);
   } catch (error) {
-    return done((error as Error).message === "timeout" ? "timeout" : "error", null, records.length);
+    const timedOut = (error as Error).message === "timeout";
+    return done(
+      timedOut ? "timeout" : "error",
+      null,
+      records.length,
+      timedOut ? undefined : errorCode(error),
+      timedOut ? undefined : badRequestDetail(error, [query, ...records.map((r) => r.title)])
+    );
   } finally {
     clearTimeout(timer);
   }

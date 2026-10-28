@@ -8,7 +8,7 @@
 import { z } from "zod";
 import { usd } from "../format.ts";
 import { toolNamed } from "../tools.ts";
-import { STOP_WORDS } from "../words.ts";
+import { STOP_WORDS, straightQuotes } from "../words.ts";
 import { hoursAnswer, resultFor } from "./results.ts";
 import type { Chip, Kind, PlannedCall, SearchResponse, SearchResult } from "./types.ts";
 
@@ -177,7 +177,7 @@ const FILLER = new Set([
 // With `filters: false`, words like "undergrad" or "online" are left out
 // instead of becoming program filters, so the rest is searched everywhere
 export function keywordPlan(query: string, { filters: useFilters = true } = {}): PlannedCall[] {
-  let text = ` ${query.toLowerCase()} `;
+  let text = ` ${straightQuotes(query).toLowerCase()} `;
   const filters: Record<string, unknown> = {};
   for (const [pattern, arg, value] of PATTERNS) {
     if (arg in filters || !pattern.test(text)) continue;
