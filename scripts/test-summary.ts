@@ -60,7 +60,9 @@ check((await post({ query: "chemistry", results }, fake(async () => ({ text: "Ch
 check((await post({ query, results }, fake(async () => ({ text: "Made up and uncited summary text here.", sources: [9] })))).body.summary === null, "endpoint: a summary that fails the checks isn't shown");
 check((await post({ query, results })).body.summary === null, "endpoint: no key, no summary");
 check((await post({ query, results }, fake(() => new Promise(() => {})), 50)).body.summary === null, "endpoint: slow model times out");
-check((await post({ query, results }, fake(async () => { throw new Error("boom"); }))).body.summary === null, "endpoint: a model error gives no summary");
+const notFound = Object.assign(new Error('{"error":{"code":404,"message":"models/x is not found","status":"NOT_FOUND"}}'), { status: 404 });
+const failed = await post({ query, results }, fake(async () => { throw notFound; }));
+check(failed.body.summary === null && failed.body.reason === "error" && (failed.body as { error?: string }).error === "404 NOT_FOUND", "endpoint: a model error gives no summary, and its status");
 check((await post({ query, results: [results[0]] })).status === 400, "endpoint: needs at least two results");
 const many = Array.from({ length: 30 }, (_, i) => ({ kind: "program", ref: i % 2 ? "computer-science-bs" : "data-science-bs" }));
 let manyPrompt = "";

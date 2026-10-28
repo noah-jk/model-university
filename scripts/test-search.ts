@@ -75,8 +75,10 @@ check(long.status === 400 && /200 characters/.test(long.body.error ?? ""), "quer
 // A keyword answer says why, for the network panel
 const keywordOnly = await post({ query: "nursing" });
 check(keywordOnly.body.fallback && keywordOnly.body.reason === "no-key", "keyword fallback says why (no key)");
-const broken = await post({ query: "nursing" }, fake(async () => { throw new Error("quota"); }));
-check(broken.body.fallback && broken.body.reason === "error", "keyword fallback says why (model error)");
+const quota = Object.assign(new Error('{"error":{"code":429,"message":"You exceeded your current quota for nursing","status":"RESOURCE_EXHAUSTED"}}'), { status: 429 });
+const broken = await post({ query: "nursing" }, fake(async () => { throw quota; }));
+check(broken.body.fallback && broken.body.reason === "error" && broken.body.error === "429 RESOURCE_EXHAUSTED", "keyword fallback says why (model error, with its status)");
+check(logs.some((e) => e.error === "429 RESOURCE_EXHAUSTED") && !logs.some((e) => JSON.stringify(e).includes("exceeded")), "logs carry the model's status, never its message");
 check(!("reason" in good.body), "a model answer has no reason");
 
 // Curly apostrophes (as phones type them) work like straight ones

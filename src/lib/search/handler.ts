@@ -45,16 +45,17 @@ export async function handleSearch(req: Request, { getPlanner, log = (e) => cons
 
   const started = Date.now();
   const { planner, unavailable } = body.data.plan === undefined ? await getPlanner() : {};
-  const { response, outcome } = await search(body.data, { base: new URL(req.url).origin, planner });
+  const { response, outcome, modelError } = await search(body.data, { base: new URL(req.url).origin, planner });
   const why = unavailable ?? outcome;
   log({
     event: "search",
     outcome: why as Outcome | typeof unavailable,
+    ...(modelError && { error: modelError }),
     ms: Date.now() - started,
     calls: response.plan.length,
     results: response.results.length,
     fallback: response.fallback,
     profile: Boolean(body.data.profile),
   });
-  return reply(response.fallback && outcome !== "returned" ? { ...response, reason: why } : response);
+  return reply(response.fallback && outcome !== "returned" ? { ...response, reason: why, ...(modelError && { error: modelError }) } : response);
 }
