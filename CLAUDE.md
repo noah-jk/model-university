@@ -37,7 +37,7 @@ API keys live only in Netlify environment variables. Never write a key into any 
 
 - Nothing leaves the browser unless the person opts in, and the page says exactly what will be sent.
 - Per-tab signals (personalization) live in sessionStorage; things people choose to keep (the workbench) live in localStorage. One module owns each storage key; nothing else reads or writes it.
-- Server logs record counts and timing only: never query text, form answers, or IP addresses.
+- Server logs record counts and timing only: never query text, form answers, or IP addresses. The one exception: when a model rejects a request as malformed (a 400), its error message is logged with the request's text removed and cut to 200 characters (`badRequestDetail()` in `src/lib/llm/errors.ts`), so we can see which setting it rejected.
 - Store references to catalog content (`kind` + id), never copies, so pages always show live data.
 
 ## Content, schemas, and URLs

@@ -81,6 +81,15 @@ check(broken.body.fallback && broken.body.reason === "error" && broken.body.erro
 check(logs.some((e) => e.error === "429 RESOURCE_EXHAUSTED") && !logs.some((e) => JSON.stringify(e).includes("exceeded")), "logs carry the model's status, never its message");
 check(!("reason" in good.body), "a model answer has no reason");
 
+// A 400 says which setting Google rejected, in the logs only, without the search
+const bad = Object.assign(new Error('{"error":{"code":400,"message":"Thinking level MINIMAL is not supported for this model. Request was about: nursing","status":"INVALID_ARGUMENT"}}'), { status: 400 });
+logs.length = 0;
+const badRequest = await post({ query: "nursing" }, fake(async () => { throw bad; }));
+const badLog = logs.find((e) => e.event === "search")!;
+check(badRequest.body.error === "400 INVALID_ARGUMENT" && !("detail" in badRequest.body), "a 400's status goes in the response, its message doesn't");
+check(badLog.detail === "Thinking level MINIMAL is not supported for this model. Request was about: [request text]", `a 400's message is logged, with the search removed: ${badLog.detail}`);
+check(!JSON.stringify(logs).includes("nursing"), "the search never reaches the logs");
+
 // Curly apostrophes (as phones type them) work like straight ones
 const curly = await post({ query: "What online master’s programs do you offer?" });
 const straight = await post({ query: "What online master's programs do you offer?" });
