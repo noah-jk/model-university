@@ -138,7 +138,7 @@ It's built in three layers:
 
 - **Profile** (`src/lib/workbench/profile.ts`): student type, level, and start term. What the student chooses is stored and always wins. Otherwise `resolveProfile()` suggests a value from strong signals only (the request-info form, a saved program or office, or two views of pages for one kind of student, listed in `TYPE_SIGNALS`), worked out fresh on every page and never stored. Saved programs at both levels mean it asks instead.
 - **Rules**: `content/enrollment/`, above.
-- **Plan** (`src/lib/workbench/plan.ts`): `planFor()` gives the steps (with dates for the start term, status, and the next one), offices, targeted events, and calendar entries; `planSteps()` needs only the rules, for MCP; `pathTimeline()` lists every date once, with its source; and `pathList()` puts steps and dates in one list for the Your plan tab (steps keep their rule order, other dates fit in by date, and done or passed rows fold away). Nothing in the plan is stored. No DOM code.
+- **Plan** (`src/lib/workbench/plan.ts`): `planFor()` gives the steps (with dates for the start term, status, and the next one), offices, targeted events, and calendar entries; `planSteps()` needs only the rules, for MCP; `pathTimeline()` lists every date once, with its source; and `pathList()` puts steps and dates in one list for the Your plan tab (steps keep their rule order, other dates fit in by date, and done or passed rows fold away; for someone applying, rows for admitted students, by each step's `phase`, are kept apart); `justApplied()` marks the moment after applying. Nothing in the plan is stored. No DOM code.
 
 The rest:
 

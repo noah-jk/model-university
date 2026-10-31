@@ -15,8 +15,9 @@ import { upcomingTerms } from "../../lib/terms.ts";
 import { ALL_STUDENT_TYPES, STUDENT_LEVELS, STUDENT_TYPES } from "../../lib/vocab.ts";
 import { workbench } from "../../lib/workbench/store.ts";
 import { saveToggle } from "../../lib/workbench/toggle.ts";
+import { ADMITTED_GROUP, admittedLead, APPLIED } from "../../lib/workbench/handoffs.ts";
 import { changesSinceSaved, compareTable, factsFor, fingerprint, lookup, matchPrograms, MAX_COMPARE, nameOf, termOptions } from "../../lib/workbench/derive.ts";
-import { pathIcs, pathList, pathTimeline, planFor, programsByPlan, type PathEntry, type PathRow, type Plan, type PlanStep } from "../../lib/workbench/plan.ts";
+import { justApplied, pathIcs, pathList, pathTimeline, planFor, programsByPlan, type PathEntry, type PathRow, type Plan, type PlanStep } from "../../lib/workbench/plan.ts";
 import { describeStudents, resolveProfile, validType, type ResolvedProfile } from "../../lib/workbench/profile.ts";
 import { CONTENT_KINDS, GROUPS, MAX_NOTE, WORKBENCH_LABEL, type ContentKind, type IndexProgram, type PlanChoices, type Workbench, type WorkbenchIndex, type WorkbenchItem } from "../../lib/workbench/types.ts";
 import { loadSession, recentPages } from "../personalize.ts";
@@ -212,13 +213,45 @@ function officesAside(plan: Plan) {
   </aside>`;
 }
 
+// Just after applying, the list opens on this (#47), until a later step is done
+function appliedPanel(plan: Plan) {
+  const moment = justApplied(plan.steps);
+  if (!moment) return "";
+  const next = moment.next && `Next: ${moment.next.step.short ?? moment.next.step.title}.`;
+  return `<div class="applied" data-applied>
+    <p class="applied-title"><span class="applied-icon" aria-hidden="true">✓</span> ${esc(APPLIED.heading)}</p>
+    <p>${esc(APPLIED.text)}${next ? ` ${esc(next)}` : ""}</p>
+  </div>`;
+}
+
+// Steps and dates for admitted students, folded until the student reaches
+// them. Opening or closing it by hand holds for this visit (admittedChoice).
+let admittedChoice: boolean | undefined;
+function admittedGroup(admitted: PathRow[], reached: boolean, row: (r: PathRow) => string) {
+  if (!admitted.length) return "";
+  const titles = admitted.filter((r): r is Extract<PathRow, { kind: "step" }> => r.kind === "step").map((r) => r.step.step.title);
+  const open = admittedChoice ?? reached;
+  return `<details class="note admitted" data-admitted data-focus-key="admitted"${open ? " open" : ""}>
+    <summary>${esc(ADMITTED_GROUP)}</summary>
+    ${titles.length ? `<p class="admitted-lead">${esc(admittedLead(titles))}</p>` : ""}
+    <ol class="path-list">${admitted.map(row).join("")}</ol>
+  </details>`;
+}
+
+// A click on the summary (mouse or keyboard) is the student's own choice;
+// toggle events also fire when a render opens it
+root.addEventListener("click", (e) => {
+  const summary = (e.target as Element).closest("[data-admitted] > summary");
+  if (summary) admittedChoice = !(summary.parentElement as HTMLDetailsElement).open;
+});
+
 function renderPlan(w: Workbench, plan: Plan | undefined, profile: ResolvedProfile) {
   const term = profile.startTerm.value;
   entries = pathTimeline(plan, rules!, index!, w, term, plan ? profile.level.value : undefined);
-  const { rows, folded } = pathList(plan, entries);
+  const { rows, folded, admitted, admittedOpen } = pathList(plan, entries);
   const numbers = new Map(plan?.steps.map((s, i) => [s.step.id, i + 1]));
   const row = (r: PathRow) => (r.kind === "step" ? stepRow(r.step, numbers.get(r.step.step.id)!) : dateRow(r.entry));
-  if (!plan && !rows.length && !folded.length) {
+  if (!plan && !rows.length && !folded.length && !admitted.length) {
     panels.plan.innerHTML = `<p>Choose your student type and level above to see every step, date, and office for ${esc(term)}. Programs and events you save show their dates here too.</p>`;
     return;
   }
@@ -231,7 +264,9 @@ function renderPlan(w: Workbench, plan: Plan | undefined, profile: ResolvedProfi
       <h2 class="visually-hidden" id="plan-title" tabindex="-1" data-focus-key="plan-heading">Your plan</h2>
       <p class="plan-for">${plan ? `${esc(plan.reason)}.` : `Choose your student type and level above to see your steps. Until then, here are the dates of what you've saved.`}</p>
       ${doneAndPassed}
+      ${plan ? appliedPanel(plan) : ""}
       <ol class="path-list">${rows.map(row).join("")}</ol>
+      ${admittedGroup(admitted, admittedOpen, row)}
     </div>
     ${plan ? officesAside(plan) : ""}
   </div>`;
@@ -888,7 +923,8 @@ root.addEventListener("change", (event) => {
     // on to the next step; one unchecked comes back into the list, with focus
     pendingFocus = input.checked ? (next ? `step:${next.step.id}` : "plan-heading") : `step:${stepId}`;
     workbench.setCompleted(stepId, input.checked);
-    if (plan) announce(`${input.checked ? "Marked done" : "Marked not done"}: ${title}.${next ? ` Next: ${next.step.title}.` : " You've done every step."}`);
+    const applied = input.checked && plan?.steps.find((s) => s.step.id === stepId)?.step.journey === "apply" ? ` ${APPLIED.announce}` : "";
+    if (plan) announce(`${input.checked ? "Marked done" : "Marked not done"}: ${title}.${applied}${next ? ` Next: ${next.step.title}.` : " You've done every step."}`);
     return;
   }
 

@@ -15,6 +15,7 @@
       "New graduate student"
     ],
     "order": 10,
+    "phase": "apply",
     "url": "/academics/programs/",
     "journey": "explore"
   },
@@ -32,6 +33,7 @@
       "International"
     ],
     "order": 20,
+    "phase": "apply",
     "office": "admissions",
     "url": "/admissions/request-info/",
     "journey": "requestInfo"
@@ -48,6 +50,7 @@
       "International"
     ],
     "order": 20,
+    "phase": "apply",
     "office": "graduate-school-office",
     "url": "/admissions/request-info/",
     "journey": "requestInfo"
@@ -68,6 +71,7 @@
       "New graduate student"
     ],
     "order": 30,
+    "phase": "apply",
     "office": "admissions",
     "url": "/admissions/visit/schedule/",
     "journey": "visit"
@@ -86,6 +90,7 @@
       "International"
     ],
     "order": 40,
+    "phase": "apply",
     "due": {
       "program_deadline": true
     },
@@ -106,6 +111,7 @@
       "International"
     ],
     "order": 40,
+    "phase": "apply",
     "due": {
       "program_deadline": true
     },
@@ -126,6 +132,7 @@
       "Returning adult"
     ],
     "order": 45,
+    "phase": "apply",
     "due": {
       "program_deadline": true
     },
@@ -144,6 +151,7 @@
       "International"
     ],
     "order": 45,
+    "phase": "apply",
     "due": {
       "program_deadline": true
     },
@@ -166,6 +174,7 @@
       "Current student"
     ],
     "order": 50,
+    "phase": "apply",
     "due": {
       "calendar": "fafsa-priority"
     },
@@ -185,6 +194,7 @@
       "International"
     ],
     "order": 55,
+    "phase": "apply",
     "due": {
       "calendar": "i20-documents"
     },
@@ -201,6 +211,7 @@
       "First-year"
     ],
     "order": 60,
+    "phase": "admitted",
     "due": {
       "before_term_start_days": 60
     },
@@ -219,6 +230,7 @@
       "International"
     ],
     "order": 60,
+    "phase": "admitted",
     "due": {
       "before_term_start_days": 90
     },
@@ -236,6 +248,7 @@
       "Transfer"
     ],
     "order": 65,
+    "phase": "admitted",
     "due": {
       "before_term_start_days": 45
     },
@@ -253,6 +266,7 @@
       "Returning adult"
     ],
     "order": 65,
+    "phase": "admitted",
     "due": {
       "before_term_start_days": 30
     },
@@ -272,6 +286,7 @@
       "International"
     ],
     "order": 70,
+    "phase": "admitted",
     "due": {
       "calendar": "enrollment-deposit"
     },
@@ -290,6 +305,7 @@
       "International"
     ],
     "order": 70,
+    "phase": "admitted",
     "due": {
       "calendar": "enrollment-deposit"
     },
@@ -308,6 +324,7 @@
       "International"
     ],
     "order": 75,
+    "phase": "admitted",
     "due": {
       "before_term_start_days": 60
     },
@@ -326,6 +343,7 @@
       "International"
     ],
     "order": 80,
+    "phase": "admitted",
     "due": {
       "calendar": "orientation-first-year"
     },
@@ -344,6 +362,7 @@
       "Returning adult"
     ],
     "order": 80,
+    "phase": "admitted",
     "due": {
       "calendar": "orientation-transfer"
     },
@@ -362,6 +381,7 @@
       "International"
     ],
     "order": 80,
+    "phase": "admitted",
     "due": {
       "calendar": "orientation-graduate"
     },
@@ -379,6 +399,7 @@
       "Current student"
     ],
     "order": 82,
+    "phase": "admitted",
     "due": {
       "calendar": "registration-opens"
     },
@@ -396,6 +417,7 @@
       "Current student"
     ],
     "order": 84,
+    "phase": "admitted",
     "due": {
       "calendar": "classes-begin"
     },
@@ -418,6 +440,7 @@
       "Current student"
     ],
     "order": 90,
+    "phase": "admitted",
     "due": {
       "calendar": "tuition-due"
     },
@@ -436,6 +459,7 @@
       "Current student"
     ],
     "order": 95,
+    "phase": "admitted",
     "due": {
       "calendar": "last-day-to-add"
     },

@@ -2,7 +2,7 @@
 // scripts/check-content.ts uses them to validate data outside Astro.
 
 import { z } from "astro/zod";
-import { ALL_STUDENT_TYPES, AUDIENCES, CAMPUSES, COURSE_LEVELS, EVENT_CATEGORIES, FACULTY_TITLES, MODALITIES, PROGRAM_LEVELS, SERVICE_CATEGORIES, STUDENT_LEVELS, TERMS } from "./vocab.ts";
+import { ALL_STUDENT_TYPES, AUDIENCES, CAMPUSES, COURSE_LEVELS, EVENT_CATEGORIES, FACULTY_TITLES, MODALITIES, PROGRAM_LEVELS, SERVICE_CATEGORIES, STEP_PHASES, STUDENT_LEVELS, TERMS } from "./vocab.ts";
 
 const id = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Use lowercase letters and numbers joined by hyphens");
 const text = z.string().min(1);
@@ -196,6 +196,7 @@ export const enrollmentStep = z.object({
   levels,
   student_types: studentTypes,
   order: z.number().int(),
+  phase: z.enum(STEP_PHASES), // "admitted" steps fold under "For admitted students" on Your Path
   due: z
     .union([
       z.object({ calendar: id }).strict(), // a calendar entry's key, for the start term

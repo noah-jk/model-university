@@ -75,6 +75,7 @@ export function enrollmentSteps({ level, type, term, program }: StepsQuery, base
         ...(s.note && { note: programNote }),
         passed: Boolean(s.date && s.date < today),
         journey: Boolean(step.journey),
+        phase: step.phase,
         ...(url && { url: absoluteUrl(url, base) }),
         ...(step.office && serviceNamed(step.office) && { office: { id: step.office, name: serviceNamed(step.office)!.name, url: serviceUrl(step.office, base) } }),
       };

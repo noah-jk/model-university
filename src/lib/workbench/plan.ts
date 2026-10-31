@@ -6,7 +6,7 @@
 import siteConfig from "../../../site.config.ts";
 import { appliesTo, type RulesLookup } from "../enrollment-rules.ts";
 import type { CalendarEntry, EnrollmentStep } from "../schemas.ts";
-import { LEVEL_OF_PROGRAM } from "../vocab.ts";
+import { LEVEL_OF_PROGRAM, type StepPhase } from "../vocab.ts";
 import { deadlineDate, termName } from "./derive.ts";
 import { describeStudents, type ResolvedProfile } from "./profile.ts";
 import type { IndexEvent, Workbench, WorkbenchIndex, WorkbenchItem } from "./types.ts";
@@ -137,6 +137,15 @@ export function planFor(profile: ResolvedProfile, rules: RulesLookup, index: Wor
 // next-step tile show on every page, without the catalog index
 export const nextOf = (steps: PlanStep[]) => steps.find((s) => s.next);
 
+// Just after applying: the apply step is done and nothing after it is yet.
+// Your Path and the handoffs mark the moment, since applying is the biggest
+// step and what's left can look long. Returns the next step, if any.
+export function justApplied(steps: PlanStep[]) {
+  const at = steps.findIndex((s) => s.step.journey === "apply");
+  if (at < 0 || steps[at].status !== "done" || steps.slice(at + 1).some((s) => s.status === "done")) return undefined;
+  return { next: nextOf(steps) };
+}
+
 // Timeline -------------------------------------------------------------------------
 
 export type PathEntry = {
@@ -151,9 +160,15 @@ export type PathEntry = {
   url?: string;
   id: string; // stable, for focus and calendar files
   done?: boolean;
+  // Calendar dates for admitted students fold with those steps on Your Path
+  phase?: StepPhase;
   past: boolean;
   next: boolean;
 };
+
+// Calendar dates that matter before a decision; the rest (orientation,
+// registration, tuition) are for admitted students
+const BEFORE_DECISION = new Set(["fafsa-priority", "admission-decisions"]);
 
 const KIND_OF_STEP = (s: PlanStep, rules: RulesLookup, term: string): PathEntry["kind"] => (s.calendarKey ? (rules.calendarEntry(s.calendarKey, term)?.kind ?? "deadline") : "deadline");
 const campusDay = (iso: string) => new Date(iso).toLocaleDateString("en-CA", { timeZone: siteConfig.timezone });
@@ -172,7 +187,7 @@ export function pathTimeline(plan: Plan | undefined, rules: RulesLookup, index: 
     entries.push({ id: `step:${s.step.id}`, date: s.date, kind: KIND_OF_STEP(s, rules, term), title: s.step.title, source: s.dateSource ?? "your plan", url: s.step.url ?? serviceUrl(s.step.office), done: s.status === "done" });
   }
   for (const e of plan?.calendar ?? []) {
-    entries.push({ id: `calendar:${e.id}`, date: e.date, ...(e.end && { end: e.end }), kind: e.kind, title: e.title, source: "academic calendar", url: e.url ?? serviceUrl(e.service) });
+    entries.push({ id: `calendar:${e.id}`, date: e.date, ...(e.end && { end: e.end }), kind: e.kind, title: e.title, source: "academic calendar", url: e.url ?? serviceUrl(e.service), phase: BEFORE_DECISION.has(e.key) ? "apply" : "admitted" });
   }
   const usedProgram = plan?.steps.find((s) => s.programRef)?.programRef;
   for (const item of programsByPlan(workbench, index, planLevel).inPlan) {
@@ -199,7 +214,10 @@ export function pathTimeline(plan: Plan | undefined, rules: RulesLookup, index: 
 // step (a calendar milestone, a saved event, the visit, another saved
 // program's deadline)
 export type PathRow = { kind: "step"; step: PlanStep; entry?: PathEntry } | { kind: "date"; entry: PathEntry };
-export type PathList = { rows: PathRow[]; folded: PathRow[] };
+// For someone applying, steps and calendar dates for admitted students
+// (`admitted`) are kept apart from the rest, open once the next step is
+// among them or one of them is done
+export type PathList = { rows: PathRow[]; folded: PathRow[]; admitted: PathRow[]; admittedOpen: boolean };
 
 // Steps and dates in one list, each once. Steps keep their rule order: each
 // counts as "due" no earlier than the step before it, so an early date (like
@@ -224,7 +242,15 @@ export function pathList(plan: Plan | undefined, entries: PathEntry[]): PathList
   keyed.sort((a, b) => a.key.localeCompare(b.key) || a.order - b.order);
   const rows = keyed.map((k) => k.row);
   const isFolded = (r: PathRow) => (r.kind === "step" ? r.step.status === "done" : r.entry.past);
-  return { rows: rows.filter((r) => !isFolded(r)), folded: rows.filter(isFolded) };
+  const open = rows.filter((r) => !isFolded(r));
+  const folded = rows.filter(isFolded);
+  // Current students have no decision to wait for, so their list stays whole
+  const applying = plan?.steps.some((s) => s.step.journey === "apply");
+  if (!applying) return { rows: open, folded, admitted: [], admittedOpen: false };
+  const forAdmitted = (r: PathRow) => (r.kind === "step" ? r.step.step.phase : r.entry.phase) === "admitted";
+  const steps = plan!.steps.filter((s) => s.step.phase === "admitted");
+  const admittedOpen = steps.some((s) => s.next || s.status === "done");
+  return { rows: open.filter((r) => !forAdmitted(r)), folded, admitted: open.filter(forAdmitted), admittedOpen };
 }
 
 // An .ics file for one timeline entry: timed events keep their times; other

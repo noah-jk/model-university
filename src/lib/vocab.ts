@@ -28,6 +28,10 @@ export const STUDENT_TYPES = {
 } as const satisfies Record<(typeof STUDENT_LEVELS)[number], readonly string[]>;
 export const ALL_STUDENT_TYPES = [...new Set(Object.values(STUDENT_TYPES).flat())] as [string, ...string[]];
 // Which student level each program level belongs to
+// Where an enrollment step falls: before an admission decision, or after
+export const STEP_PHASES = ["apply", "admitted"] as const;
+export type StepPhase = (typeof STEP_PHASES)[number];
+
 export const LEVEL_OF_PROGRAM: Record<(typeof PROGRAM_LEVELS)[number], (typeof STUDENT_LEVELS)[number]> = {
   "Bachelor's": "Undergraduate",
   Minor: "Undergraduate",
