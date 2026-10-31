@@ -85,6 +85,8 @@ Each feature is a switch in `site.config.ts`. When a switch is off, its routes a
 | `aiSummary` | AI summary above the results of question-like searches (needs `aiSearch`): `/api/search/summary`, a second model call over the catalog records behind the first eight results, checked for citations and length before it's shown. |
 | `personalization` | Session-based personalization: the application journey and the Recents panel in the header, the program list's order, the journey forms' prefilling, and the "Under the hood" panel. Uses sessionStorage only. |
 | `workbench` | Your Path: `/your-path/` (and a redirect from `/workbench/`), `/data/workbench-index.json`, `/data/enrollment.json`, Save to Your Path toggles, and the header link with its count. Uses localStorage only. |
+| `pathSharing` | Keep and share your path (needs `workbench`): a path link that holds Your Path after the `#` (`src/lib/workbench/share.ts`), opening it (asking before replacing a path), print, and an email draft in the student's own mail app. Nothing is sent. |
+| `pathAccountDemo` | A demo of keeping Your Path in an account with a sign-in link (needs `pathSharing`). Nothing is sent and no account is made. |
 | `aiSearch` | Natural-language search: `/search/`, `/api/search`, and the Search buttons in the header, which open a search overlay with suggested searches. The model and tier are set under `aiSearch` in `site.config.ts`. |
 
 ### Personalization (Lab)
@@ -142,6 +144,7 @@ It's built in three layers:
 
 The rest:
 
+- **Sharing** (`src/lib/workbench/share.ts`): the path link's format (`encodePath`, `decodePath`, which drops anything that doesn't look like ours) and the email draft (`pathEmail`, kept under `MAILTO_BUDGET`). No DOM code, so the MCP server can read links too (#52). `src/scripts/workbench/keep.ts` runs the Keep and share section and opens links.
 - `src/lib/workbench/types.ts`: the data model (version 2). Items are references (`kind` and `ref`, the catalog id), never copies, so the page always shows live data. Alongside them: `profile` (the student's choices), `completed` (step ids, so they stay done when the term changes), `dismissed` (`kind:id`), `hiddenHandoffs` (for #18), and `badge` (the header count, and whether there was a plan, as the last page saw them). `"answer"` items are reserved: kept in storage, not shown.
 - `src/lib/workbench/store.ts`: the only code that reads or writes it. localStorage under `cascadia:workbench`, a `workbench:change` event after every write, `storage` events for other tabs, a memory fallback (with a notice) when storage is blocked, `migrate()` (version 1 moves its start term into `profile`), `prune()` for ids the rules or catalog no longer have, and `serialize()` / `deserialize()` for share links. At most 100 items and 1,000 characters a note.
 - `src/lib/workbench/derive.ts`: the comparison, Compare's program search (`matchPrograms()`), key facts, and change detection. Programs watch tuition, deadlines, and start terms; events watch their date and location.

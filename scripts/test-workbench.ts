@@ -3,7 +3,10 @@
 
 import * as catalog from "../src/lib/catalog.ts";
 import { buildIndex } from "../src/lib/workbench/index-data.ts";
-import { createStore, deserialize, migrate } from "../src/lib/workbench/store.ts";
+import { createStore, migrate } from "../src/lib/workbench/store.ts";
+import { codeFrom, decodePath, describeShared, MAILTO_BUDGET, pathEmail, pathLink } from "../src/lib/workbench/share.ts";
+import { planSteps } from "../src/lib/workbench/plan.ts";
+import { rules } from "../src/lib/enrollment.ts";
 import { changesSinceSaved, compareTable, deadlineDate, fingerprint, matchPrograms } from "../src/lib/workbench/derive.ts";
 import { MAX_ITEMS, MAX_NOTE, STORAGE_KEY } from "../src/lib/workbench/types.ts";
 
@@ -134,7 +137,7 @@ const corrupt = fakeStorage();
 corrupt.setItem(STORAGE_KEY, "{oops");
 check(quietly(() => newStore(corrupt).get()).items.length === 0, "migrate: corrupt storage gives an empty workbench, not an error");
 
-// Serialize ----------------------------------------------------------------------
+// Path links (#51) -------------------------------------------------------------------
 
 const shared = newStore();
 shared.add("program", "nursing-msn");
@@ -142,16 +145,52 @@ shared.add("event", catalog.events[0].id);
 shared.setNote(shared.get().items[0].id, "Top choice — ask about cost?");
 shared.addNote("Talk to Maya's counselor");
 shared.setStartTerm("Winter 2027");
-const text = shared.serialize();
-const back = deserialize(text, () => `copy-${++n}`);
-check(/^[A-Za-z0-9_-]+$/.test(text), "serialize: URL-safe text");
+shared.setChoice("level", "Graduate");
+shared.setChoice("studentType", "New graduate student");
+shared.setCompleted("explore-programs", true);
+shared.setVisit("2026-12-04");
+shared.hideHandoff("home");
+const plain = shared.code();
+const withNotes = shared.code({ notes: true });
+const fixed = { newId: () => `copy-${++n}`, now: new Date("2026-10-30T12:00:00Z") };
+const back = decodePath(plain, fixed)!;
+check(/^[A-Za-z0-9_-]+$/.test(plain), "path link: URL-safe code");
 check(
-  back.profile.startTerm === "Winter 2027" &&
-    JSON.stringify(back.items.map((i) => [i.kind, i.ref ?? i.text, i.note])) === JSON.stringify(shared.get().items.map((i) => [i.kind, i.ref ?? i.text, i.note])) &&
-    back.items.every((i) => i.source === "shared"),
-  "serialize → deserialize: same items, notes, and start term"
+  back.profile.startTerm === "Winter 2027" && back.profile.level === "Graduate" && back.profile.studentType === "New graduate student" && back.completed.join() === "explore-programs" && back.visit?.date === "2026-12-04",
+  "path link: choices, checked steps, and the visit come back"
 );
-check(quietly(() => deserialize("garbage!")).items.length === 0, "deserialize: bad text gives an empty workbench");
+check(back.items.map((i) => `${i.kind}:${i.ref}`).join() === shared.get().items.filter((i) => i.kind !== "note").map((i) => `${i.kind}:${i.ref}`).join() && back.items.every((i) => !i.note && i.source === "shared"), "path link: saved items as references, no notes unless asked");
+const backNotes = decodePath(withNotes, fixed)!;
+check(backNotes.items.some((i) => i.kind === "note" && i.text === "Talk to Maya's counselor") && backNotes.items[0].note === "Top choice — ask about cost?", "path link: notes when asked, Unicode intact");
+check(plain.length < withNotes.length && plain.length < 400, `path link: small (${plain.length} characters)`);
+const link = pathLink(plain, "https://example.edu");
+check(link === `https://example.edu/your-path/#path=${plain}` && codeFrom(link) === plain && codeFrom(` ${plain} `) === plain, "path link: link and code read back");
+check(decodePath("garbage!") === undefined && decodePath(btoa('{"v":9,"i":[]}')) === undefined, "path link: a code that isn't ours gives nothing");
+const hostile = btoa(JSON.stringify({ v: 2, t: "Someday", l: "Wizard", y: "<b>x</b>", c: ["fafsa", "../etc", 5], d: "tomorrow", i: [["program", "nursing-msn"], ["program", "nursing-msn"], ["script", "x"], ["course", "<img src=x>"], ["note", ""], "junk"] })).replace(/=+$/, "");
+const cleaned = decodePath(hostile)!;
+check(JSON.stringify(cleaned.profile) === "{}" && cleaned.completed.join() === "fafsa" && !cleaned.visit && cleaned.items.length === 1, "path link: anything that doesn't look like ours is left out");
+const firstFormat = btoa(JSON.stringify({ v: 1, t: "Fall 2027", i: [["program", "nursing-msn", "old note"]] }));
+check(decodePath(firstFormat)?.profile.startTerm === "Fall 2027" && decodePath(firstFormat)?.items.length === 1, "path link: reads the first share format too");
+const many = { v: 2, i: Array.from({ length: MAX_ITEMS + 20 }, (_, k) => ["note", `n${k}`]) };
+check(decodePath(btoa(JSON.stringify(many)))!.items.length === MAX_ITEMS, "path link: at most MAX_ITEMS items");
+check(describeShared(back) === "New graduate student, graduate, starting Winter 2027; 2 saved items; 1 step checked off", "path link: says what's in it");
+const keeper = newStore();
+keeper.hideHandoff("home");
+keeper.add("program", "computer-science-bs");
+keeper.replaceWith(back);
+const replaced = keeper.get();
+check(replaced.items.length === 2 && replaced.profile.level === "Graduate" && replaced.hiddenHandoffs.includes("home") && replaced.visit?.date === "2026-12-04", "path link: replaces the path, keeps this device's hidden tips");
+
+// Email
+const emailNow = new Date("2026-10-16T12:00:00-07:00");
+const steps = planSteps(rules, "Undergraduate", "First-year", "Fall 2027", { completed: ["explore-programs"], journeyDone: [], programDeadlines: [], now: emailNow });
+const email = pathEmail({ reason: "For first-year students starting Fall 2027", steps, link });
+check(email.subject === "My path to Cascadia State" && email.body.startsWith("For first-year students starting Fall 2027.\n\n1. Explore programs: done\n"), "email: who it's for, then the steps");
+check(/\nAfter I'm admitted:\n\d+\. Apply for housing/.test(email.body) && /Submit your FAFSA or WASFA: due February 15, 2027/.test(email.body), "email: admitted steps grouped, dates shown");
+check(email.body.endsWith(link) && email.href.length <= MAILTO_BUDGET && !/[<>*#]|!/.test(email.body.replace(link, "")), `email: plain text with the link, ${email.href.length} characters`);
+const longLink = pathLink("x".repeat(3000), "https://example.edu");
+const fallback = pathEmail({ reason: "For first-year students starting Fall 2027", steps, link: longLink });
+check(!fallback.body.includes(longLink) && /too long for an email/.test(fallback.body) && fallback.href.length <= MAILTO_BUDGET, "email: a link too long for a mailto: is left for the student to paste");
 
 // Derive ----------------------------------------------------------------------
 

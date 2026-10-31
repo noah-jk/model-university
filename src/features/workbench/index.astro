@@ -8,6 +8,7 @@
 import siteConfig from "../../../site.config.ts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import NextStep from "../../components/NextStep.astro";
+import KeepPath from "../../components/workbench/KeepPath.astro";
 import { WORKBENCH_LABEL } from "../../lib/workbench/types.ts";
 
 const personalization = siteConfig.features.personalization;
@@ -95,6 +96,8 @@ const tabs = [
         </section>
       )
     }
+
+    <KeepPath />
   </div>
 
   <div class="undo-bar" data-undo hidden>
@@ -294,4 +297,19 @@ const tabs = [
   .undo-bar .button { background: #dce5c3; border-color: #dce5c3; color: #142b26; }
   .undo-bar .button:focus-visible { outline-color: #fff; }
   @media (max-width: 47.99rem) { .undo-bar { bottom: calc(6rem + env(safe-area-inset-bottom)); border-radius: var(--radius-l); } }
+
+  /* Printing: the plan alone, every step and date, offices with their addresses */
+  @media print {
+    :global(body > :not(main)), :global(.skip-link) { display: none !important; }
+    .lede, .where, .profile-bar, .tabs, .dismissed, .wb-next, .undo-bar, .workbench :global(.loading) { display: none !important; }
+    .workbench :global([role="tabpanel"]) { display: none !important; }
+    .workbench :global(#panel-plan) { display: block !important; }
+    .workbench :global(.plan-layout) { display: block; }
+    .workbench :global(.plan-offices) { margin-top: 1.5rem; break-inside: avoid; }
+    .workbench :global(button), .workbench :global(.row-actions), .workbench :global(.links) { display: none !important; }
+    .workbench :global(details > summary) { list-style: none; text-decoration: none; color: var(--basalt); font-weight: 600; }
+    .workbench :global(details > summary::after) { content: none; }
+    .workbench :global(.path-list li) { break-inside: avoid; }
+    .workbench :global([data-print-url])::after { content: " (" attr(data-print-url) ")"; font-size: 9pt; color: var(--muted); }
+  }
 </style>
