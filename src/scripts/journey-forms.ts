@@ -5,9 +5,14 @@
 //
 // Errors follow a common accessible pattern: a summary at the top that links
 // to each problem and gets focus, plus a message next to each field.
+//
+// A form in steps ([data-form-step], request info) shows one at a time:
+// submitting checks only the fields in view, then moves on, until the last.
 
 import siteConfig from "../../site.config.ts";
+import { listText } from "../lib/format.ts";
 import { requestInfoCopy, VISIT_COPY } from "../lib/workbench/handoffs.ts";
+import { WORKBENCH_LABEL } from "../lib/workbench/types.ts";
 import { workbench } from "../lib/workbench/store.ts";
 import { pathSummary } from "./workbench/handoffs.ts";
 import { loadSession, markPersonalized, nextStep, recordForm, type Forms, type Session } from "./personalize.ts";
@@ -69,12 +74,12 @@ function linkLevelAndProgram(form: HTMLFormElement) {
       narrow();
     }
   });
-  // ?program=<id> in the address, e.g. from a program page's "Request information" link
+  // ?program=<id> in the address, e.g. from an older link to the request-info page
   const requested = new URLSearchParams(location.search).get("program");
   if (requested && program.querySelector(`option[value="${CSS.escape(requested)}"]`)) {
     program.value = requested;
     program.dispatchEvent(new Event("change"));
-  }
+  } else if (level.value) narrow(); // picked by the page, e.g. a program page
 }
 
 // Fill in name, email, and phone from an earlier form in this tab
@@ -91,6 +96,48 @@ function prefill(form: HTMLFormElement, session: Session) {
   }
 }
 
+// Fill in the student type and start term from what the student chose on
+// Your Path, or else said in an earlier request, and say where everything
+// that's filled in came from (the page picks the level and program)
+function prefillInterests(form: HTMLFormElement, session: Session) {
+  const note = form.querySelector<HTMLDetailsElement>("[data-filled-in]");
+  if (!note) return;
+  const chosen = siteConfig.features.workbench ? workbench.get().profile : {};
+  const earlier = session.forms.requestInfo;
+  const filled: string[] = [];
+  const sources = new Set<string>();
+  const level = form.elements.namedItem("level") as HTMLSelectElement;
+  if (level.querySelector("option[selected]")) sources.add("this program's page");
+  for (const name of ["studentType", "startTerm"] as const) {
+    const field = form.elements.namedItem(name) as HTMLSelectElement;
+    const value = chosen[name] ?? earlier?.[name];
+    const option = value ? field.querySelector<HTMLOptionElement>(`option[value="${CSS.escape(value)}"]`) : null;
+    if (field.value || !option || option.disabled) continue;
+    field.value = value!;
+    filled.push(labelFor(field).toLowerCase());
+    sources.add(chosen[name] ? `your choices on ${WORKBENCH_LABEL}` : "your earlier request");
+  }
+  if (!sources.size) return;
+  const from = listText([...sources]);
+  note.querySelector("[data-filled-in-text]")!.textContent = `Filled in from ${from}. Change anything that isn't right.`;
+  note.hidden = false;
+  if (filled.length) markPersonalized(form, `${form.querySelector("h2, h3")?.textContent} form: filled in your ${filled.join(" and ")}, from ${from}.`);
+}
+
+// Steps: show one, and say which in the step count (which gets focus on a move)
+function showStep(form: HTMLFormElement, n: number, { focus = true } = {}) {
+  const steps = [...form.querySelectorAll<HTMLElement>("[data-form-step]")];
+  steps.forEach((step, i) => (step.hidden = i !== n - 1));
+  const count = form.querySelector<HTMLElement>("[data-step-count]")!;
+  const names = JSON.parse(count.dataset.stepNames!) as string[];
+  count.textContent = `Step ${n} of ${names.length}: ${names[n - 1]}`;
+  form.querySelector<HTMLElement>("[data-step-back]")!.hidden = n === 1;
+  const submit = form.querySelector<HTMLButtonElement>("[data-submit]")!;
+  submit.textContent = n === names.length ? submit.dataset.submit! : "Continue";
+  form.dataset.step = String(n);
+  if (focus) count.focus();
+}
+
 function answersFrom(form: HTMLFormElement, kind: Kind): Forms[Kind] {
   const data = Object.fromEntries([...new FormData(form)].map(([k, v]) => [k, String(v).trim()]));
   const at = new Date().toISOString();
@@ -102,12 +149,12 @@ function answersFrom(form: HTMLFormElement, kind: Kind): Forms[Kind] {
   const program = option?.value
     ? { id: option.value, name: option.text.trim(), department: option.dataset.department!, college: option.dataset.college!, level: option.dataset.level!, modality: option.dataset.modality! }
     : undefined;
-  return { ...contact, level: data.level, ...(data.studentType && { studentType: data.studentType }), startTerm: data.startTerm, ...(program && { program }), at };
+  return { ...contact, level: data.level, ...(data.studentType && { studentType: data.studentType }), startTerm: data.startTerm, ...(program && { program }), ...(data.military && { military: true }), at };
 }
 
 const thanks: Record<Kind, (session: Session) => string> = {
   requestInfo: ({ forms }) =>
-    `We'll send information about ${forms.requestInfo?.program?.name ?? `${forms.requestInfo?.level} programs`} starting ${forms.requestInfo?.startTerm}.`,
+    `We'll send information about ${forms.requestInfo?.program?.name ?? `${forms.requestInfo?.level} programs`} starting ${forms.requestInfo?.startTerm}.${forms.requestInfo?.military ? " We'll include information from Veterans Services." : ""}`,
   visit: ({ forms }) => {
     const date = new Date(`${forms.visit!.date}T12:00:00`).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
     const guests = forms.visit!.guests;
@@ -143,7 +190,8 @@ document.querySelectorAll<HTMLFormElement>("form[data-journey-form]").forEach((f
   const kind = form.dataset.journeyForm as Kind;
   const wrapper = form.parentElement!;
   const summary = form.querySelector<HTMLElement>(".error-summary")!;
-  const fields = [...form.querySelectorAll<Field>("input, select")];
+  // Checkboxes are optional, so there's nothing to check
+  const fields = [...form.querySelectorAll<Field>("input:not([type=checkbox]), select")];
 
   // No visits in the past (by local time)
   const visitDate = form.elements.namedItem("date") as HTMLInputElement | null;
@@ -151,6 +199,14 @@ document.querySelectorAll<HTMLFormElement>("form[data-journey-form]").forEach((f
 
   linkLevelAndProgram(form);
   prefill(form, loadSession());
+  prefillInterests(form, loadSession());
+  const stepped = form.querySelector("[data-form-step]") !== null;
+  const lastStep = form.querySelectorAll("[data-form-step]").length;
+  form.querySelector("[data-step-back]")?.addEventListener("click", () => {
+    showStep(form, Number(form.dataset.step) - 1, { focus: false });
+    summary.hidden = true;
+    (form.elements.namedItem("email") as HTMLInputElement).focus();
+  });
 
   // Clear a field's error as soon as it's fixed
   fields.forEach((field) =>
@@ -161,7 +217,9 @@ document.querySelectorAll<HTMLFormElement>("form[data-journey-form]").forEach((f
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const problems = fields.map((field) => ({ field, message: problemWith(field) }));
+    // Only the fields in view: in a form in steps, the rest are hidden
+    const inView = fields.filter((field) => !field.closest("[hidden]"));
+    const problems = inView.map((field) => ({ field, message: problemWith(field) }));
     problems.forEach(({ field, message }) => setError(field, message));
     const invalid = problems.filter((p) => p.message);
     if (invalid.length) {
@@ -184,6 +242,8 @@ document.querySelectorAll<HTMLFormElement>("form[data-journey-form]").forEach((f
       return;
     }
     summary.hidden = true;
+    const step = Number(form.dataset.step ?? 1);
+    if (stepped && step < lastStep) return showStep(form, step + 1);
     const session = recordForm(kind, answersFrom(form, kind));
     // Sending the visit form puts the visit on Your Path's timeline (only its date is kept)
     if (kind === "visit" && siteConfig.features.workbench) workbench.setVisit(session.forms.visit!.date);

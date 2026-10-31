@@ -8,6 +8,7 @@ import { pageMeta } from "../../../../lib/personalization.ts";
 import AtAGlance from "../../../../components/AtAGlance.astro";
 import Breadcrumb from "../../../../components/Breadcrumb.astro";
 import JourneyActions from "../../../../components/JourneyActions.astro";
+import RequestInfoForm from "../../../../components/forms/RequestInfoForm.astro";
 import EventList from "../../../../components/EventList.astro";
 import { collegeOf, departmentOf, eventsForProgram, hasEnded, relatedCourses, relatedPrograms } from "../../../../lib/catalog.ts";
 import { listText, usd } from "../../../../lib/format.ts";
@@ -36,7 +37,7 @@ const upcoming = eventsForProgram(p).filter((e) => !hasEnded(e));
       <SaveButton kind="program" id={p.id} />
       <ProgramPathHint program={p} />
       <p class="lede">{p.description}</p>
-      <JourneyActions programId={p.id} />
+      <JourneyActions formId="request-info" />
 
       <h2>What you'll learn</h2>
       <ul>{p.outcomes.map((o) => <li>{o}</li>)}</ul>
@@ -89,24 +90,32 @@ const upcoming = eventsForProgram(p).filter((e) => !hasEnded(e));
       }
     </article>
 
-    <AtAGlance
-      heading="At a glance"
-      facts={[
-        ["Credential", p.credential],
-        ["College", collegeOf(p).name],
-        ["Department", department.name],
-        ["Format", p.modality],
-        ["Campus", p.campus],
-        ["Starts", p.start_terms.join(", ")],
-        ["Length", p.duration],
-        ["Credits", String(p.credits)],
-        ["Tuition", `${usd(p.tuition_per_credit_usd)} per credit, about ${usd(p.estimated_total_tuition_usd)} total`],
-        ["Transfer credit", p.accepts_transfer_credit ? "Accepted" : "Not accepted"],
-      ]}
-    />
+    <div class="sidebar">
+      <AtAGlance
+        heading="At a glance"
+        facts={[
+          ["Credential", p.credential],
+          ["College", collegeOf(p).name],
+          ["Department", department.name],
+          ["Format", p.modality],
+          ["Campus", p.campus],
+          ["Starts", p.start_terms.join(", ")],
+          ["Length", p.duration],
+          ["Credits", String(p.credits)],
+          ["Tuition", `${usd(p.tuition_per_credit_usd)} per credit, about ${usd(p.estimated_total_tuition_usd)} total`],
+          ["Transfer credit", p.accepts_transfer_credit ? "Accepted" : "Not accepted"],
+        ]}
+      />
+      <RequestInfoForm id="request-info" program={p} compact />
+    </div>
   </div>
 </BaseLayout>
 
 <script>
   import "../../../../scripts/past-events.ts";
 </script>
+
+<style>
+  /* At a glance, then the request-info form */
+  .sidebar { display: grid; gap: 1.5rem; align-content: start; }
+</style>

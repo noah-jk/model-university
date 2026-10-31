@@ -15,14 +15,14 @@ The site keeps track of where you are in the application journey that most stude
 
 **Recents**, in the header, shows the last four pages you viewed and your next step, with a button that takes you there. If you skip ahead, say by scheduling a visit first, the next step is the earliest one you haven't done.
 
-Along the way, the site adds up a simple interest profile: which departments, colleges, program levels, and formats come up most in what you view and in the program you name on the request-information form. What you say in a form always comes before what you view: if you name a program on the request-information form, its college and department are your preference, however many pages you've viewed in other areas. Otherwise the most-viewed one is. The home page headline and photo follow your preferred college. The program list uses it to put your preferred department first, only as the page loads and never while you're reading. The forms use it too: after you've filled in one, the other fills in your name and email.
+Along the way, the site adds up a simple interest profile: which departments, colleges, program levels, and formats come up most in what you view and in the program you name on the request-information form. What you say in a form always comes before what you view: if you name a program on the request-information form, its college and department are your preference, however many pages you've viewed in other areas. Otherwise the most-viewed one is. The home page headline and photo follow your preferred college. The program list uses it to put your preferred department first, only as the page loads and never while you're reading. The forms use it too: after you've filled in one, the other fills in your name and email. On a program page, the request-information form picks that program and fills in your student type and start term from your choices on Your Path (or an earlier request), with a "Why is this filled in?" note that says so.
 
 Each of these has a "Why am I seeing this?" note that names the reason, such as "You've looked at 3 programs, mostly in Nursing."
 
 ## What's stored
 
 - **Pages you view**: for each program, course, faculty, service, event, and news page, its type, name, address, and time, plus its department, college, level, and format when it has them.
-- **Your form answers**: name and email from both forms; degree level, program of interest, and start term from the request-information form; and visit date, number of guests, and phone number (if you give one) from the visit form.
+- **Your form answers**: name and email from both forms; degree level, student type, program of interest, start term, and whether you're military-connected from the request-information form; and visit date, number of guests, and phone number (if you give one) from the visit form.
 - **When you clicked Apply**, if you did.
 
 There's no tracking of searches, scrolling, or anything else.

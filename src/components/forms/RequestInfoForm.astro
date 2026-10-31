@@ -1,10 +1,15 @@
 ---
-// Request information: a step in the application journey. Place it on any
-// page; pass a different `id` if a page has more than one. A ?program=<id>
-// in the page address picks that program (and its level) in advance.
+// Request information: a step in the application journey, in two steps
+// (name and email, then interests). Place it on any page; pass a different
+// `id` if a page has more than one. On a program page, pass `program` to
+// pick it (and its level) in advance; a ?program=<id> in the page address
+// does the same. A minor picks Bachelor's, since minors are added after
+// enrolling. src/scripts/journey-forms.ts fills in the student type and
+// start term from Your Path or an earlier form, and says so.
 import JourneyForm from "./JourneyForm.astro";
 import Field from "./Field.astro";
 import { collegeOf, departmentOf, programs } from "../../lib/catalog.ts";
+import type { Program } from "../../lib/schemas.ts";
 import { upcomingTerms } from "../../lib/terms.ts";
 import { LEVEL_OF_PROGRAM, STUDENT_LEVELS, STUDENT_TYPES } from "../../lib/vocab.ts";
 
@@ -12,8 +17,11 @@ interface Props {
   id?: string;
   heading?: string;
   headingLevel?: 2 | 3;
+  program?: Pick<Program, "id" | "level">;
+  // Narrow layout, for a sidebar
+  compact?: boolean;
 }
-const { id = "request-info", heading = "Request information", headingLevel = 2 } = Astro.props;
+const { id = "request-info", heading = "Request information", headingLevel = 2, program, compact = false } = Astro.props;
 
 // Levels you can apply to (minors are added after enrolling)
 const levels = ["Bachelor's", "Master's", "Doctorate", "Certificate"];
@@ -21,6 +29,8 @@ const programsByLevel = levels.map((level) => ({
   level,
   programs: programs.filter((p) => p.level === level).sort((a, b) => a.name.localeCompare(b.name)),
 }));
+const chosenLevel = program && (program.level === "Minor" ? "Bachelor's" : program.level);
+const chosenProgram = program && levels.includes(program.level) ? program.id : undefined;
 
 // Student types for someone applying (current students don't request info),
 // each with the levels it applies to, so picking a degree level narrows them
@@ -30,53 +40,66 @@ const studentTypes = [...new Set(STUDENT_LEVELS.flatMap((l) => STUDENT_TYPES[l] 
 const levelOf = Object.fromEntries(levels.map((l) => [l, LEVEL_OF_PROGRAM[l as keyof typeof LEVEL_OF_PROGRAM]]));
 ---
 
-<JourneyForm id={id} kind="requestInfo" heading={heading} headingLevel={headingLevel} submitLabel="Request information">
-  <div class="row">
-    <Field formId={id} name="firstName" label="First name" autocomplete="given-name" required missing="Enter your first name" />
-    <Field formId={id} name="lastName" label="Last name" autocomplete="family-name" required missing="Enter your last name" />
+<JourneyForm id={id} kind="requestInfo" heading={heading} headingLevel={headingLevel} submitLabel="Request information" steps={["Your name and email", "What you're interested in"]} compact={compact}>
+  <div data-form-step="1">
+    <div class="row">
+      <Field formId={id} name="firstName" label="First name" autocomplete="given-name" required missing="Enter your first name" />
+      <Field formId={id} name="lastName" label="Last name" autocomplete="family-name" required missing="Enter your last name" />
+    </div>
+    <Field
+      formId={id}
+      name="email"
+      label="Email"
+      type="email"
+      autocomplete="email"
+      spellcheck="false"
+      required
+      missing="Enter your email address"
+      invalid="Enter an email address like name@example.com"
+      pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+    />
   </div>
-  <Field
-    formId={id}
-    name="email"
-    label="Email"
-    type="email"
-    autocomplete="email"
-    spellcheck="false"
-    required
-    missing="Enter your email address"
-    invalid="Enter an email address like name@example.com"
-    pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
-  />
-  <Field formId={id} name="level" label="Degree level" select required missing="Choose a degree level">
-    <option value="">Choose a level</option>
-    {levels.map((level) => <option value={level} data-student-level={levelOf[level]}>{level}</option>)}
-  </Field>
-  <Field formId={id} name="studentType" label="Which describes you?" select required missing="Choose which describes you">
-    <option value="">Choose one</option>
-    {studentTypes.map(({ type, levels }) => <option value={type} data-student-levels={levels.join(" ")}>{type}</option>)}
-  </Field>
-  <Field formId={id} name="program" label="Program of interest" hint="Choose a degree level first to narrow the list." select>
-    <option value="">No preference yet</option>
-    {
-      programsByLevel.map(({ level, programs }) => (
-        <optgroup label={level}>
-          {programs.map((p) => (
-            <option
-              value={p.id}
-              data-level={p.level}
-              data-department={departmentOf(p).field}
-              data-college={collegeOf(p).name}
-              data-modality={p.modality}
-            >
-              {p.name}
-            </option>
-          ))}
-        </optgroup>
-      ))
-    }
-  </Field>
-  <Field formId={id} name="startTerm" label="When would you like to start?" select required missing="Choose a start term">
-    <option value="">Choose a term</option>
-    {upcomingTerms().map((term) => <option value={term}>{term}</option>)}
-  </Field>
+  <div data-form-step="2" hidden>
+    <details class="note filled-in" data-filled-in hidden>
+      <summary>Why is this filled in?</summary>
+      <p data-filled-in-text></p>
+    </details>
+    <Field formId={id} name="level" label="Degree level" select required missing="Choose a degree level">
+      <option value="">Choose a level</option>
+      {levels.map((level) => <option value={level} data-student-level={levelOf[level]} selected={level === chosenLevel}>{level}</option>)}
+    </Field>
+    <Field formId={id} name="studentType" label="Which describes you?" select required missing="Choose which describes you">
+      <option value="">Choose one</option>
+      {studentTypes.map(({ type, levels }) => <option value={type} data-student-levels={levels.join(" ")}>{type}</option>)}
+    </Field>
+    <Field formId={id} name="program" label="Program of interest" hint="Choose a degree level first to narrow the list." select>
+      <option value="">No preference yet</option>
+      {
+        programsByLevel.map(({ level, programs }) => (
+          <optgroup label={level}>
+            {programs.map((p) => (
+              <option
+                value={p.id}
+                selected={p.id === chosenProgram}
+                data-level={p.level}
+                data-department={departmentOf(p).field}
+                data-college={collegeOf(p).name}
+                data-modality={p.modality}
+              >
+                {p.name}
+              </option>
+            ))}
+          </optgroup>
+        ))
+      }
+    </Field>
+    <Field formId={id} name="startTerm" label="When would you like to start?" select required missing="Choose a start term">
+      <option value="">Choose a term</option>
+      {upcomingTerms().map((term) => <option value={term}>{term}</option>)}
+    </Field>
+    <div class="field check-field">
+      <input type="checkbox" id={`${id}-military`} name="military" value="yes" />
+      <label for={`${id}-military`}>I'm a veteran, service member, or military family member</label>
+    </div>
+  </div>
 </JourneyForm>

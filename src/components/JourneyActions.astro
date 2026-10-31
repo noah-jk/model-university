@@ -2,25 +2,31 @@
 // Calls to action for the application journey: request information, visit,
 // and apply. Every apply link carries data-journey-apply, which marks the
 // "apply" step when clicked (see src/scripts/personalize.ts).
+//
+// On a page with its own request-info form (`formId`), the request-info
+// link jumps to it, on narrow screens only, where the form comes after the
+// page's content; on wide screens the form is in view beside it.
 import { JOURNEY } from "../lib/personalization-settings.ts";
 
 interface Props {
-  // On a program page: preselect this program in the request-info form
-  programId?: string;
+  // The id of the request-info form on this page
+  formId?: string;
 }
-const { programId } = Astro.props;
+const { formId } = Astro.props;
 const href = (step: string) => {
   const base = JOURNEY.find((j) => j.step === step)!.href;
-  return step === "requestInfo" && programId ? `${base}?program=${encodeURIComponent(programId)}` : base;
+  return step === "requestInfo" && formId ? `#${formId}` : base;
 };
 ---
 
 <div class="journey-actions">
-  <a class="button" href={href("requestInfo")}>Request information</a>
+  <a class:list={["button", { "jump-to-form": formId }]} href={href("requestInfo")}>Request information</a>
   <a class="button secondary" href={href("visit")}>Schedule a visit</a>
   <a class="button secondary" href={href("apply")} data-journey-apply>Apply</a>
 </div>
 
 <style>
   .journey-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-block: 1.25rem 0.5rem; }
+  /* Matches .detail in global.css, which puts the sidebar beside the content from 900px */
+  @media (min-width: 900px) { .jump-to-form { display: none; } }
 </style>

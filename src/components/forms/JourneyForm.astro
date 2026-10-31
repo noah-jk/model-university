@@ -6,6 +6,9 @@
 //
 // Nothing is sent anywhere. On submit, src/scripts/journey-forms.ts checks the
 // fields, saves the answers to this tab's session, and shows the next step.
+//
+// With `steps` (one name per step), the slot holds a [data-form-step] block
+// for each, shown one at a time: "Continue" checks the step and moves on.
 import siteConfig from "../../../site.config.ts";
 import type { JourneyStep } from "../../lib/personalization-settings.ts";
 import { WORKBENCH_LABEL, WORKBENCH_PATH } from "../../lib/workbench/types.ts";
@@ -16,16 +19,26 @@ interface Props {
   heading: string;
   submitLabel: string;
   headingLevel?: 2 | 3;
+  steps?: string[];
+  // Narrow layout, for a sidebar
+  compact?: boolean;
 }
 
-const { id, kind, heading, submitLabel, headingLevel = 2 } = Astro.props;
+const { id, kind, heading, submitLabel, headingLevel = 2, steps, compact = false } = Astro.props;
 const Heading = `h${headingLevel}` as "h2" | "h3";
 const yourPath = siteConfig.features.workbench;
 ---
 
-<div class="journey-form" id={id}>
+<div class:list={["journey-form", { compact }]} id={id}>
   <form class="needs-js" data-journey-form={kind} novalidate aria-labelledby={`${id}-title`}>
     <Heading id={`${id}-title`}>{heading}</Heading>
+    {
+      steps && (
+        <p class="step-count" tabindex="-1" data-step-count data-step-names={JSON.stringify(steps)}>
+          Step 1 of {steps.length}: {steps[0]}
+        </p>
+      )
+    }
     <div class="error-summary" tabindex="-1" aria-labelledby={`${id}-summary-title`} hidden>
       <p id={`${id}-summary-title`} class="summary-title">Please fix the following:</p>
       <ul></ul>
@@ -36,7 +49,16 @@ const yourPath = siteConfig.features.workbench;
       {kind === "visit" && yourPath && `The visit date is also kept on ${WORKBENCH_LABEL}, in this browser, until you remove it. `}
       <a class="note-link" href="/lab/personalization/">How this works</a>
     </p>
-    <button class="button" type="submit">{submitLabel}</button>
+    <p class="form-actions">
+      {steps && (
+        <button class="button secondary" type="button" data-step-back hidden>
+          Back
+        </button>
+      )}
+      <button class="button" type="submit" data-submit={submitLabel}>
+        {steps ? "Continue" : submitLabel}
+      </button>
+    </p>
   </form>
   <div class="success" hidden>
     <Heading class="success-title" tabindex="-1"></Heading>
@@ -61,10 +83,23 @@ const yourPath = siteConfig.features.workbench;
 </script>
 
 <style>
-  .journey-form { max-width: 40rem; }
+  /* Sized by its own width, so it fits a sidebar as well as a page */
+  .journey-form { max-width: 40rem; container-type: inline-size; }
   form, .success { background: var(--paper); border: 1px solid var(--line); border-left: 6px solid var(--fir); border-radius: var(--radius-s); padding: clamp(1.25rem, 3vw, 2rem); }
   h2, h3 { font-size: var(--step-2); margin-top: 0; }
   h2:focus, h3:focus { outline: none; }
+  .compact form, .compact .success { padding: 1.25rem; }
+  .compact h2, .compact h3 { font-size: var(--step-1); }
+  .step-count { margin: -0.5rem 0 1rem; font-size: var(--step--1); font-weight: 600; color: var(--muted); }
+  .step-count:focus { outline: none; }
+  .step-count:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .form-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0; }
+  .form-actions [hidden] { display: none; }
+  form :global(.filled-in) { margin: -0.25rem 0 1rem; }
+  form :global(.filled-in[hidden]) { display: none; }
+  form :global(.check-field) { display: flex; align-items: flex-start; gap: 0.6rem; }
+  form :global(.check-field input) { width: 1.25rem; height: 1.25rem; min-height: 0; margin: 0.2rem 0 0; flex: none; accent-color: var(--fir); }
+  form :global(.check-field label) { margin: 0; }
   form :global(.field) { margin-bottom: 1.1rem; }
   form :global(.field label) { display: block; font-weight: 600; margin-bottom: 0.3rem; }
   form :global(.optional) { font-weight: 400; color: var(--muted); }
@@ -76,7 +111,7 @@ const yourPath = siteConfig.features.workbench;
   form :global(fieldset) { border: 0; padding: 0; margin: 0 0 0.5rem; }
   form :global(legend) { font-family: var(--serif); font-size: var(--step-1); padding: 0; margin-bottom: 0.75rem; }
   /* Two fields side by side on wider screens, e.g. first and last name */
-  @media (min-width: 36rem) { form :global(.row) { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; } }
+  @container (min-width: 30rem) { form :global(.row) { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; } }
   .error-summary { border: 2px solid var(--salmonberry); border-radius: var(--radius-s); padding: 0.75rem 1rem; margin-bottom: 1.25rem; }
   .error-summary:focus { outline: 3px solid var(--focus); outline-offset: 2px; }
   .summary-title { font-weight: 600; margin: 0 0 0.25rem; }
