@@ -34,6 +34,8 @@ export type RequestInfoAnswers = {
   studentType?: string;
   program?: { id: string; name: string; department: string; college: string; level: string; modality: string };
   startTerm: string;
+  // Veteran, service member, or military family
+  military?: boolean;
   at: string;
 };
 export type VisitAnswers = {
