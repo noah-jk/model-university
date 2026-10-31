@@ -86,6 +86,7 @@ for (const step of enrollment.steps) {
   checkService(where, step.office);
   checkLink(where, step.url);
   if (!appliesToSomeone(step)) errors.push(`${where}: applies to no student type and level`);
+  if (step.journey && step.phase !== "apply") errors.push(`${where}: application-journey steps come before a decision (phase "apply")`);
   // A calendar date must exist for every term the calendar covers
   const key = (step.due as { calendar?: string } | undefined)?.calendar;
   if (key) for (const term of calendarTerms) if (!calendarEntry(key, term)) errors.push(`${where}: no "${key}" calendar entry for ${term}`);
@@ -100,6 +101,9 @@ for (const [level, type] of levelTypes) {
   if (type !== "Current student") {
     const journey = list.slice(0, JOURNEY_STEPS.length).map((s) => s.journey);
     if (journey.join() !== JOURNEY_STEPS.join()) errors.push(`enrollment: ${type} (${level}) should start with the journey steps (${JOURNEY_STEPS.join(", ")}), not ${journey.join(", ")}`);
+    // Your Path splits the list in two, so no step before a decision can come after one for admitted students
+    const firstAdmitted = list.findIndex((s) => s.phase === "admitted");
+    if (firstAdmitted >= 0 && list.slice(firstAdmitted).some((s) => s.phase === "apply")) errors.push(`enrollment: ${type} (${level}) has an "apply" step after an "admitted" one`);
   }
 }
 

@@ -268,6 +268,15 @@ const tabs = [
   .workbench :global(.plan-offices .offices) { grid-template-columns: 1fr; }
   .workbench :global(.folded) { margin-bottom: 0.75rem; }
   .workbench :global(.folded .path-list) { margin-top: 0.5rem; }
+  /* Steps for admitted students, folded below the rest until they're reached */
+  .workbench :global(.admitted) { margin-top: 1rem; }
+  .workbench :global(.admitted > summary) { font-size: var(--step-0); }
+  .workbench :global(.admitted .path-list) { margin-top: 0.5rem; }
+  /* Just after applying */
+  .workbench :global(.applied) { margin-bottom: 0.75rem; padding: 0.85rem 1rem; border: 1px solid var(--line); border-left: 6px solid var(--fir); border-radius: var(--radius-s); background: var(--paper); }
+  .workbench :global(.applied p) { margin: 0; max-width: var(--measure); }
+  .workbench :global(.applied .applied-title) { margin-bottom: 0.25rem; font-family: var(--serif); font-size: var(--step-1); font-weight: 700; }
+  .workbench :global(.applied-icon) { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; margin-right: 0.35rem; border-radius: 999px; background: var(--fir); color: var(--fog); font: 700 var(--step--1) / 1 var(--sans); vertical-align: 0.15em; }
   /* A date that isn't a step: lighter, with a small marker instead of a number */
   .workbench :global(.path-list li.date-row) { gap: 0.2rem; padding-block: 0.7rem; }
   .workbench :global(.path-list li.date-row::before) { content: ""; position: absolute; left: 1.35rem; top: 1.05rem; width: 0.6rem; height: 0.6rem; border-radius: 999px; border: 2px solid var(--fir); }

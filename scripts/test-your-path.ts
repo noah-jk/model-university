@@ -6,9 +6,9 @@ import * as catalog from "../src/lib/catalog.ts";
 import { rules } from "../src/lib/enrollment.ts";
 import { buildIndex } from "../src/lib/workbench/index-data.ts";
 import { deadlineDate } from "../src/lib/workbench/derive.ts";
-import { pathIcs, pathList, pathTimeline, planFor, planSteps, programsByPlan } from "../src/lib/workbench/plan.ts";
+import { justApplied, pathIcs, pathList, pathTimeline, planFor, planSteps, programsByPlan } from "../src/lib/workbench/plan.ts";
 import { describeStudents, resolveProfile, type Signals } from "../src/lib/workbench/profile.ts";
-import { admissionsCopy, aidLine, homeCopy, pathLink, programSaved, requestInfoCopy, tuitionCopy, typeCopy, VISIT_COPY } from "../src/lib/workbench/handoffs.ts";
+import { ADMITTED_GROUP, admissionsCopy, admittedLead, aidLine, APPLIED, homeCopy, nextLine, pathLink, programSaved, requestInfoCopy, tuitionCopy, typeCopy, VISIT_COPY } from "../src/lib/workbench/handoffs.ts";
 import type { PlanChoices, Workbench, WorkbenchItem } from "../src/lib/workbench/types.ts";
 
 const check = (ok: unknown, message: string) => {
@@ -186,7 +186,9 @@ check(!allCopy.some((t) => /\d+ (of \d+ )?steps?\b/.test(t)), "handoff copy: no 
 const listWb = workbenchWith([program(bachelors), program(bachelors2), event(noProgram.events[0].id)], {}, { completed: ["explore-programs"] });
 const listPlan = planFor(transfer, rules, index, listWb, [], now)!;
 const listEntries = pathTimeline(listPlan, rules, index, listWb, "Winter 2027", "Undergraduate", now);
-const { rows, folded } = pathList(listPlan, listEntries);
+const { rows: before, folded, admitted } = pathList(listPlan, listEntries);
+// The two groups (#47) read as one list, in order
+const rows = [...before, ...admitted];
 const all = [...folded, ...rows];
 const stepIds = all.filter((r) => r.kind === "step").map((r) => (r.kind === "step" ? r.step.step.id : ""));
 check(stepIds.slice().sort().join() === listPlan.steps.map((s) => s.step.id).sort().join(), "plan list: every step once");
@@ -203,4 +205,35 @@ const classes = rows.findIndex((r) => r.kind === "date" && /Classes begin/.test(
 const tuition = rows.findIndex((r) => r.kind === "step" && r.step.step.id === "pay-tuition");
 check(classes > -1 && tuition > classes && keyOf(rows[tuition]) >= keyOf(rows[classes]), "plan list: other dates fit in among the steps by date");
 check(pathList(undefined, pathTimeline(undefined, rules, index, listWb, "Winter 2027", undefined, now)).rows.every((r) => r.kind === "date"), "plan list: without a plan, only saved dates");
+
+// Steps for admitted students (#47) -----------------------------------------------------
+
+const phaseOf = (r: (typeof rows)[number]) => (r.kind === "step" ? r.step.step.phase : r.entry.phase);
+check(before.every((r) => phaseOf(r) !== "admitted") && admitted.length > 0 && admitted.every((r) => phaseOf(r) === "admitted"), "admitted group: steps and dates for admitted students are kept apart");
+check(before.some((r) => r.kind === "step" && r.step.step.id === "fafsa") && admitted.some((r) => r.kind === "step" && r.step.step.id === "enrollment-deposit"), "admitted group: FAFSA stays before a decision; the deposit is for admitted students");
+check(admitted.some((r) => r.kind === "date" && /Classes begin/.test(r.entry.title)) && before.some((r) => r.kind === "date" && /decision/i.test(r.entry.title)), "admitted group: institution dates go with it, admission decisions don't");
+check(!pathList(listPlan, listEntries).admittedOpen, "admitted group: closed before it's reached");
+const applyDone = ["explore-programs", "request-info", "visit-campus", "apply", "send-transcripts", "fafsa"];
+const reachedWb = workbenchWith(listWb.items, {}, { completed: applyDone });
+const reachedPlan = planFor(transfer, rules, index, reachedWb, [], now)!;
+const reached = pathList(reachedPlan, pathTimeline(reachedPlan, rules, index, reachedWb, "Winter 2027", "Undergraduate", now));
+check(reached.admittedOpen && !reached.rows.some((r) => r.kind === "step"), "admitted group: open once the next step is in it");
+const skippedWb = workbenchWith(listWb.items, {}, { completed: ["housing", "credit-evaluation"] });
+const skippedPlan = planFor(transfer, rules, index, skippedWb, [], now)!;
+check(pathList(skippedPlan, pathTimeline(skippedPlan, rules, index, skippedWb, "Winter 2027", "Undergraduate", now)).admittedOpen, "admitted group: open once one of its steps is done");
+const current = planFor(resolve({ level: "Undergraduate", studentType: "Current student", startTerm: "Winter 2027" }), rules, index, workbenchWith([]), [], now)!;
+const currentList = pathList(current, pathTimeline(current, rules, index, workbenchWith([]), "Winter 2027", "Undergraduate", now));
+check(currentList.admitted.length === 0 && currentList.rows.some((r) => r.kind === "step"), "admitted group: current students keep one list");
+check(admittedLead(["Apply for housing", "Confirm your place", "Pay tuition"]) === "After you're admitted: apply for housing, confirm your place, and pay tuition." && ADMITTED_GROUP === "For admitted students", "admitted group: its lead names the steps without counting them");
+
+// Just after applying
+const stepsWith = (completed: string[]) => planSteps(rules, "Undergraduate", "First-year", "Fall 2027", { completed, journeyDone: [], programDeadlines: [], now });
+const beforeApply = ["explore-programs", "request-info", "visit-campus"];
+check(!justApplied(stepsWith(beforeApply)), "applied: not before applying");
+const applied = justApplied(stepsWith([...beforeApply, "apply"]));
+check(applied?.next?.step.id === "fafsa", "applied: just after applying, with the next step");
+check(!justApplied(stepsWith([...beforeApply, "apply", "fafsa"])), "applied: gone once a later step is done");
+check(justApplied(planSteps(rules, "Undergraduate", "First-year", "Fall 2027", { completed: beforeApply, journeyDone: ["apply"], programDeadlines: [], now })) !== undefined, "applied: the Apply link counts too");
+check(/^You've applied\. Next: Submit your FAFSA/.test(nextLine(stepsWith([...beforeApply, "apply"]))) && /^Next: /.test(nextLine(stepsWith(beforeApply))), "applied: handoffs say so, then go back to just the next step");
+check(![APPLIED.heading, APPLIED.text, APPLIED.announce].some((t) => t.includes("!")), "applied: no exclamation points");
 console.log("\nYour Path checks passed.");

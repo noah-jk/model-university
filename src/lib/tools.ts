@@ -189,7 +189,7 @@ export const tools: Tool[] = [
     name: "get_enrollment_steps",
     title: "Get enrollment steps",
     description:
-      "Everything one kind of student does to enroll, in order, with due dates for their start term, the office that helps with each step, and page urls; plus the offices for them, each with why. Prospective students start with the application journey (explore programs, request information, visit, apply). Pass program_id to fill in that program's application deadline; otherwise the apply step's deadline depends on the program. Ask the person's student type and level if you don't know them.",
+      "Everything one kind of student does to enroll, in order, with due dates for their start term, the office that helps with each step, and page urls; plus the offices for them, each with why. Prospective students start with the application journey (explore programs, request information, visit, apply). Each step's phase says whether it comes before an admission decision ('apply') or after ('admitted'). Pass program_id to fill in that program's application deadline; otherwise the apply step's deadline depends on the program. Ask the person's student type and level if you don't know them.",
     input: {
       student_type: studentType,
       level: studentLevel,

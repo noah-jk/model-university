@@ -7,7 +7,8 @@
 // Each panel has two states: "start" (no plan yet) and "continue" (a plan
 // exists). Numbers and dates come from the plan, never fixed text.
 
-import type { PlanStep } from "./plan.ts";
+import { justApplied, type PlanStep } from "./plan.ts";
+import { listText } from "../format.ts";
 import { describeStudents } from "./profile.ts";
 import { WORKBENCH_LABEL, WORKBENCH_PATH } from "./types.ts";
 
@@ -48,12 +49,24 @@ const continueAction = { label: "Continue your path", href: WORKBENCH_PATH };
 
 // "Next: Submit your FAFSA, due Feb 15, 2027." A date shows only when the
 // steps have one (the full rules) and it hasn't passed.
+// Just after applying, it says so first (#47).
 export function nextLine(steps: PlanStep[]) {
   const next = steps.find((s) => s.next);
   if (!next) return "You've done every step.";
   const title = next.step.short ?? next.step.title;
-  return `Next: ${title}${next.date && next.status !== "overdue" ? `, due ${shortDate(next.date)}` : ""}.`;
+  return `${justApplied(steps) ? "You've applied. " : ""}Next: ${title}${next.date && next.status !== "overdue" ? `, due ${shortDate(next.date)}` : ""}.`;
 }
+
+// Your Path, just after applying: a panel at the top of the list, until a later step is done
+export const APPLIED = {
+  heading: "You've applied.",
+  text: "That was the biggest step. What's left is mostly paperwork while we review your application.",
+  announce: "You've applied, the biggest step.",
+};
+
+// Your Path: steps for admitted students fold under this, with a line naming them
+export const ADMITTED_GROUP = "For admitted students";
+export const admittedLead = (titles: string[]) => `After you're admitted: ${listText(titles.map((t) => t.charAt(0).toLowerCase() + t.slice(1)))}.`;
 
 // No step counts: a long list left can feel overwhelming (#25). Just what's next.
 const status = (s: PathSummary) => nextLine(s.steps!);

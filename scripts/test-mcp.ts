@@ -142,6 +142,8 @@ if (!same) throw new Error("get_enrollment_steps: steps differ from Your Path's 
 if (!transfer.steps[0].journey || !transfer.offices.some((o: { id: string }) => o.id === "transfer-center")) throw new Error("get_enrollment_steps: journey first, and the Transfer Center among the offices");
 const apply = transfer.steps.find((s: { id: string }) => s.id === "apply");
 if (apply.due_date !== null || !/get_program/.test(apply.note)) throw new Error("get_enrollment_steps: without a program, the apply step points to get_program");
+const phases = transfer.steps.map((s: { phase: string }) => s.phase);
+if (phases[0] !== "apply" || phases.at(-1) !== "admitted" || phases.lastIndexOf("apply") > phases.indexOf("admitted")) throw new Error("get_enrollment_steps: each step has its phase, apply steps first");
 console.log(`✓ get_enrollment_steps: ${transfer.steps.length} steps for ${transfer.for}, matching Your Path, ${transferUrls} absolute urls`);
 
 const withProgram = await tool("get_enrollment_steps", { student_type: "Transfer", level: "Undergraduate", term: "Winter 2027", program_id: "computer-science-bs" });
