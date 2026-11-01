@@ -124,20 +124,43 @@ function stepLine(s: PlanStep, n: number) {
   return `${n}. ${s.step.title}${status}`;
 }
 
-// A plain-text email the student sends from their own mail app: who the plan
-// is for, the steps with due dates, and the link. If the link would make the
-// mailto: too long (many saved items), the draft says to paste it in instead.
-export function pathEmail({ reason, steps, link }: { reason: string; steps: PlanStep[]; link: string }) {
-  const subject = `My path to ${siteConfig.shortName}`;
+// The steps, numbered, with "After I'm admitted:" before those steps
+function stepLines(steps: PlanStep[]) {
   const applying = steps.some((s) => s.step.journey === "apply");
   const lines: string[] = [];
   steps.forEach((s, i) => {
     if (applying && s.step.phase === "admitted" && steps[i - 1]?.step.phase !== "admitted") lines.push("", "After I'm admitted:");
     lines.push(stepLine(s, i + 1));
   });
+  return lines;
+}
+
+// A plain-text email the student sends from their own mail app: who the plan
+// is for, the steps with due dates, and the link. If the link would make the
+// mailto: too long (many saved items), the draft says to paste it in instead.
+export function pathEmail({ reason, steps, link }: { reason: string; steps: PlanStep[]; link: string }) {
+  const subject = `My path to ${siteConfig.shortName}`;
+  const lines = stepLines(steps);
   const body = (end: string) => [`${reason}.`, "", ...lines, "", end].join("\n");
   const withLink = body(`See the whole plan, with dates and offices: ${link}`);
   const mailto = (text: string) => `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
   const text = mailto(withLink).length <= MAILTO_BUDGET ? withLink : body(`(The link to the whole plan is too long for an email. Copy it from ${WORKBENCH_LABEL} and paste it here.)`);
   return { subject, body: text, href: mailto(text) };
+}
+
+// For your AI ----------------------------------------------------------------------
+
+// What "Copy for your AI" copies (#52): a short request, the plan as text
+// (so any AI can help, connected or not), what's saved, and the link, with
+// the MCP server's address for AIs that can read the link themselves. Notes
+// only when the student included them in the link.
+export function aiPrompt({ reason, steps, saved, notes = [], link, mcpUrl }: { reason?: string; steps?: PlanStep[]; saved: { name: string; note?: string }[]; notes?: string[]; link: string; mcpUrl?: string }) {
+  const parts = [`Help me with my plan to enroll at ${siteConfig.name}. Here's my plan from its ${WORKBENCH_LABEL} page.`];
+  if (reason && steps) parts.push(`${reason}.\n\n${stepLines(steps).join("\n")}`);
+  else parts.push("I haven't chosen my student type and level yet.");
+  if (saved.length) parts.push(`What I've saved:\n${saved.map((s) => `- ${s.name}${s.note ? ` (my note: ${s.note})` : ""}`).join("\n")}`);
+  if (notes.length) parts.push(`My notes:\n${notes.map((n) => `- ${n}`).join("\n")}`);
+  parts.push(`My path link: ${link}`);
+  if (mcpUrl) parts.push(`If you can connect to MCP servers, ${siteConfig.shortName}'s is at ${mcpUrl}. Its get_your_path tool reads my path link and gives every step, date, and office, with links.`);
+  return parts.join("\n\n");
 }

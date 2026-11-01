@@ -47,9 +47,10 @@ The path is written after the `#` in the link, which browsers never send to a se
 
 **Print your path** prints every step and date, with the offices' addresses, and the link at the bottom. **Email your path** opens your own mail app with who the plan is for, your steps and dates, and the link, so you choose who gets it; this site sends nothing. A very long link (many saved items) is left for you to paste in, since some mail apps cut long drafts.
 
+**Copy for your AI** copies your plan as text for the AI assistant you use: who it's for, your steps and dates, the names of what you've saved, and your path link (your notes only if you include them). It also gives the address of the university's MCP server: an assistant that can connect to it uses the `get_your_path` tool to read your link and look up every step, date, and office, with links. Nothing is sent when you copy; you choose where to paste it. The server reads the link to answer and doesn't keep or log it.
+
 On a real university site, you'd keep your path in an account instead, so it follows you to any device. **Keep it in an account** shows how that would start: you'd get a sign-in link by email rather than make a password. Here it's a demo, so nothing is sent and no account is made. An account would keep the same things as the path link, plus your notes, and you could delete it at any time.
 
 ## Coming next
 
-- Copy your plan for your own AI assistant, or let it read your path link through the university's MCP server.
 - Hand your plan to an advisor or admissions.
