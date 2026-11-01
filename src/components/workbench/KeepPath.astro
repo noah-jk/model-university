@@ -1,7 +1,8 @@
 ---
 // Keep and share your path (#51): a link that holds the path (copy it, or
-// include notes), print, email, and, as a demo of what production would do,
-// an account kept with a sign-in link. The link's format is in
+// include notes), print, email, a copy of the plan for the student's own AI
+// (#52), and, as a demo of what production would do, an account kept with a
+// sign-in link. The link's format is in
 // src/lib/workbench/share.ts; src/scripts/workbench/keep.ts makes it work.
 // Renders nothing when pathSharing is off; the account form needs
 // pathAccountDemo too. Only on Your Path, which needs JavaScript.
@@ -52,6 +53,24 @@ const accountDemo = sharing && siteConfig.features.pathAccountDemo;
         </a>
       </p>
       <p class="keep-hint">Email opens your own mail app with your steps, dates, and the link, so you choose who it goes to. Nothing is sent from this site.</p>
+
+      <div class="keep-ai">
+        <h3>Ask your own AI</h3>
+        <p>Copy your plan to paste into the AI assistant you use, and ask it what to do next.</p>
+        <div class="keep-ai-row">
+          <button type="button" class="button secondary" data-keep-ai>
+            Copy for your AI
+          </button>
+          <details class="note">
+            <summary>What's copied?</summary>
+            <p>
+              A short request, who your plan is for, your steps with their dates, the names of what you've saved, and your path link
+              {siteConfig.features.mcp && ", plus the address of our MCP server, so an AI that can connect to it can read your link and look up every step and office"}.
+              Your notes only if you check Include my notes. Nothing is sent: it goes to your clipboard, and you choose where to paste it.
+            </p>
+          </details>
+        </div>
+      </div>
 
       {
         accountDemo && (
@@ -110,8 +129,11 @@ const accountDemo = sharing && siteConfig.features.pathAccountDemo;
   .keep-check input { width: 1.2rem; height: 1.2rem; margin: 0; accent-color: var(--fir); }
   .keep-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.25rem 0 0.4rem; }
   .keep-hint { margin: 0; font-size: var(--step--1); color: var(--muted); max-width: var(--measure); }
+  .keep-ai { margin-top: 2rem; }
+  .keep-ai h3, .keep-account h3 { margin: 0 0 0.35rem; font-size: var(--step-1); }
+  .keep-ai > p { max-width: var(--measure); }
+  .keep-ai-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
   .keep-account { margin-top: 2rem; padding: 1rem 1.25rem; border: 1px dashed var(--muted); border-radius: var(--radius-s); background: var(--paper); }
-  .keep-account h3 { margin: 0 0 0.35rem; font-size: var(--step-1); }
   .keep-account > p { max-width: var(--measure); }
   .keep-account .error { margin: 0 0 0.35rem; font-weight: 600; color: var(--salmonberry); }
   .keep-account [aria-invalid="true"] { border-color: var(--salmonberry); border-width: 2px; }

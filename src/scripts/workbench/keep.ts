@@ -1,13 +1,13 @@
 // Keep and share your path, on Your Path (src/components/workbench/KeepPath.astro):
-// the path link (kept current as the path changes), copy, print, email, the
-// account demo, and opening a path link. page.ts calls these; the link's
+// the path link (kept current as the path changes), copy, print, email,
+// "Copy for your AI", the account demo, and opening a path link. page.ts calls these; the link's
 // format is in src/lib/workbench/share.ts.
 
 import siteConfig from "../../../site.config.ts";
 import { announce } from "../enhance.ts";
 import { longDay } from "../../lib/dates.ts";
 import type { Plan } from "../../lib/workbench/plan.ts";
-import { codeFrom, decodePath, describeShared, LINK_KEY, pathEmail, pathLink } from "../../lib/workbench/share.ts";
+import { aiPrompt, codeFrom, decodePath, describeShared, LINK_KEY, pathEmail, pathLink } from "../../lib/workbench/share.ts";
 import { workbench } from "../../lib/workbench/store.ts";
 import { WORKBENCH_LABEL } from "../../lib/workbench/types.ts";
 
@@ -19,10 +19,16 @@ const email = section?.querySelector<HTMLAnchorElement>("[data-keep-email]");
 const currentLink = () => pathLink(workbench.code({ notes: Boolean(notes?.checked) }), location.origin);
 
 // The link and the email draft follow the path: page.ts calls this on every
-// render. Without a plan yet, the email is just the link.
+// render, with the names of what's saved (for "Copy for your AI"). Without a
+// plan yet, the email is just the link.
+type Saved = { name: string; note?: string };
 let latestPlan: Plan | undefined;
-export function renderKeep(plan: Plan | undefined) {
+let latestSaved: Saved[] = [];
+let latestNotes: string[] = [];
+export function renderKeep(plan: Plan | undefined, saved: Saved[] = latestSaved, freeNotes: string[] = latestNotes) {
   latestPlan = plan;
+  latestSaved = saved;
+  latestNotes = freeNotes;
   if (!section) return;
   const link = currentLink();
   field!.value = link;
@@ -47,6 +53,24 @@ if (section) {
       field!.focus();
       field!.select();
       announce("The link is selected. Copy it with your keyboard or menu.");
+    }
+  });
+
+  // Your plan as text for any AI, with notes only when the link includes them
+  section.querySelector("[data-keep-ai]")!.addEventListener("click", async () => {
+    const withNotes = Boolean(notes!.checked);
+    const text = aiPrompt({
+      ...(latestPlan && { reason: latestPlan.reason, steps: latestPlan.steps }),
+      saved: latestSaved.map((s) => ({ name: s.name, ...(withNotes && s.note && { note: s.note }) })),
+      notes: withNotes ? latestNotes : [],
+      link: currentLink(),
+      ...(siteConfig.features.mcp && { mcpUrl: `${location.origin}/mcp` }),
+    });
+    try {
+      await navigator.clipboard.writeText(text);
+      announce("Copied your plan for your AI. Paste it into the assistant you use.");
+    } catch {
+      announce("Your browser didn't allow copying. Copy your path link instead, and paste it into your AI.");
     }
   });
 

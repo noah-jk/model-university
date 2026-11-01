@@ -632,7 +632,11 @@ function render() {
   for (const [id, n] of Object.entries(counts)) root.querySelector(`[data-tab-count="${id}"]`)!.textContent = n ? String(n) : "";
   renderDismissed(w);
   renderNextStep(plan);
-  renderKeep(plan);
+  renderKeep(
+    plan,
+    w.items.filter((i) => isContent(i) && index && lookup(index, i)).map((i) => ({ name: nameFor(i, w), ...(i.note && { note: i.note }) })),
+    w.items.filter((i) => i.kind === "note" && i.text).map((i) => i.text!)
+  );
 
   for (const key of openWhy) root.querySelector<HTMLDetailsElement>(`details[data-focus-key="${key}"]`)?.setAttribute("open", "");
   if (activeKey) {

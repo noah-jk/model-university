@@ -4,9 +4,11 @@
 // both describe the catalog in the same words and answer from the same code.
 
 import { z } from "zod";
+import siteConfig from "../../site.config.ts";
 import * as catalog from "./catalog.ts";
 import * as enrollment from "./enrollment.ts";
 import { listText } from "./format.ts";
+import { yourPath } from "./workbench/path-answer.ts";
 import { ALL_STUDENT_TYPES, AUDIENCES, CAMPUSES, COURSE_LEVELS, EVENT_CATEGORIES, LEVEL_OF_PROGRAM, MODALITIES, PROGRAM_LEVELS, SERVICE_CATEGORIES, STUDENT_LEVELS, STUDENT_TYPES, TERMS } from "./vocab.ts";
 
 type StudentLevel = (typeof STUDENT_LEVELS)[number];
@@ -223,6 +225,26 @@ export const tools: Tool[] = [
       return enrollment.academicCalendar({ term, type: student_type, levels }, base);
     },
   }),
+  // Your Path, from a path link the student shares (#52)
+  ...(siteConfig.features.workbench && siteConfig.features.pathSharing
+    ? [
+        tool({
+          name: "get_your_path",
+          title: "Read a student's Your Path link",
+          description:
+            "The plan behind a Your Path link a student shares with you (a url with #path= in it, or just the code after it): their student type, level, and start term; every step in order with its status (done, overdue, upcoming), due date, phase ('apply' or 'admitted'), and which is next; the offices for them; other dates (the academic calendar, their saved programs' deadlines, saved events, their campus visit); and what they've saved, with page urls and any notes they chose to include. Use it when the person pastes their path link. Talk them through what's next and what's overdue, and link each step's page. The link is all they've shared: don't ask for more personal details.",
+          input: {
+            link: z.string().min(1).max(20000).describe("The path link, e.g. https://…/your-path/#path=eyJ2Ijoy…, or the code after #path="),
+          },
+          run: ({ link }, base) => {
+            const answer = yourPath(link, base);
+            if (!answer) throw new ToolError("That isn't a complete Your Path link. Ask the person to use Copy your path link on Your Path and paste the whole link.");
+            if (!enrollment.calendarTerms.includes(answer.term)) throw new ToolError(`This path is for ${answer.term}, which the academic calendar doesn't cover (${enrollment.calendarTerms[0]} to ${enrollment.calendarTerms.at(-1)}). Ask the person to choose a later start term on Your Path and share a new link.`);
+            return answer;
+          },
+        }),
+      ]
+    : []),
 ];
 
 export const toolNamed = (name: string) => tools.find((t) => t.name === name);

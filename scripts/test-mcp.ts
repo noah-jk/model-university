@@ -8,6 +8,8 @@ import { rules } from "../src/lib/enrollment.ts";
 import { buildIndex } from "../src/lib/workbench/index-data.ts";
 import { planFor } from "../src/lib/workbench/plan.ts";
 import { resolveProfile } from "../src/lib/workbench/profile.ts";
+import { encodePath, pathLink } from "../src/lib/workbench/share.ts";
+import type { Workbench } from "../src/lib/workbench/types.ts";
 
 let id = 0;
 async function call(method: string, params: Record<string, unknown>): Promise<any> {
@@ -172,6 +174,43 @@ const transferCalendar = await tool("get_academic_calendar", { term: "Winter 202
 const keys = (r: { dates: { key: string }[] }) => r.dates.map((d) => d.key);
 if (!keys(intlCalendar).includes("i20-documents") || keys(intlCalendar).includes("fafsa-priority") || keys(transferCalendar).includes("orientation-first-year")) throw new Error("get_academic_calendar: filtered for the student");
 console.log(`✓ get_academic_calendar: ${winter.dates.length} dates for Winter 2027, ${intlCalendar.dates.length} for international students`);
+
+// Your Path from a path link (#52) ----------------------------------------------------
+const pathWorkbench: Workbench = {
+  version: 2,
+  items: [
+    { id: "a", kind: "program", ref: "computer-science-bs", note: "Top choice", source: "saved", addedAt: "" },
+    { id: "b", kind: "service", ref: "transfer-center", source: "saved", addedAt: "" },
+    { id: "c", kind: "note", text: "Ask about evening classes", source: "saved", addedAt: "" },
+  ],
+  profile: { studentType: "Transfer", level: "Undergraduate", startTerm: "Fall 2027" },
+  dismissed: [],
+  completed: ["explore-programs", "request-info"],
+  hiddenHandoffs: [],
+  visit: { date: "2027-02-12" },
+  updatedAt: "",
+};
+const pathCode = encodePath(pathWorkbench);
+const mine = await tool("get_your_path", { link: pathLink(pathCode, "https://example.edu") });
+const pathUrls = allAbsolute("get_your_path", mine);
+const samePlan = planFor(resolveProfile(pathWorkbench.profile, { views: [], items: pathWorkbench.items }, ["Fall 2027"]), rules, buildIndex(), pathWorkbench, [])!;
+const status = (id: string) => mine.steps.find((s: { id: string }) => s.id === id)?.status;
+if (mine.for !== "transfer undergraduates starting Fall 2027" || mine.term_source !== "chosen by the student") throw new Error(`get_your_path: who and when: ${mine.for}, ${mine.term_source}`);
+if (mine.steps.map((s: { id: string }) => s.id).join() !== samePlan.steps.map((s) => s.step.id).join() || status("request-info") !== "done" || mine.steps.find((s: { next?: boolean }) => s.next)?.id !== "visit-campus") throw new Error("get_your_path: the same steps as Your Path, with what's done and what's next");
+if (!mine.steps.every((s: { phase: string }) => s.phase) || !mine.offices.length) throw new Error("get_your_path: phases and offices");
+if (!mine.dates.some((d: { title: string; date: string }) => d.title === "Your campus visit" && d.date === "2027-02-12")) throw new Error("get_your_path: the visit is among the dates");
+const savedProgram = mine.saved.find((s: { id?: string }) => s.id === "computer-science-bs");
+if (savedProgram?.name !== "Computer Science, BS" || savedProgram.student_note || mine.saved.some((s: { kind: string }) => s.kind === "note")) throw new Error("get_your_path: saved items by name, no notes unless the link has them");
+if (!mine.your_path_url.endsWith(`/your-path/#path=${pathCode}`)) throw new Error("get_your_path: gives the link back");
+const withNotesPath = await tool("get_your_path", { link: encodePath(pathWorkbench, { notes: true }) });
+if (withNotesPath.saved.find((s: { id?: string }) => s.id === "computer-science-bs")?.student_note !== "Top choice" || !withNotesPath.saved.some((s: { text?: string }) => s.text === "Ask about evening classes")) throw new Error("get_your_path: notes when the link has them, from a bare code");
+console.log(`✓ get_your_path: ${mine.steps.length} steps for ${mine.for}, next ${mine.steps.find((s: { next?: boolean }) => s.next).id}, ${mine.saved.length} saved, ${pathUrls} absolute urls`);
+
+const noType = await tool("get_your_path", { link: encodePath({ ...pathWorkbench, profile: {}, items: [{ id: "d", kind: "course", ref: course.id, source: "saved", addedAt: "" }] }) });
+if (noType.steps || !/Ask them/.test(noType.note) || noType.saved.length !== 1) throw new Error("get_your_path: without a type and level, says to ask, and still lists what's saved");
+const badLink = await toolError("get_your_path", { link: "https://example.edu/your-path/#path=nope" });
+const pastTerm = await toolError("get_your_path", { link: encodePath({ ...pathWorkbench, profile: { ...pathWorkbench.profile, startTerm: "Fall 2020" } }) });
+console.log(`✓ get_your_path errors: ${JSON.stringify(badLink.slice(0, 50))} | ${JSON.stringify(pastTerm.slice(0, 50))}`);
 
 if (!prompts.some((p: { name: string }) => p.name === "plan-my-path")) throw new Error("prompts/list: missing plan-my-path");
 const planPrompt = (await call("prompts/get", { name: "plan-my-path", arguments: { student_type: "Transfer", level: "Undergraduate", start_term: "Winter 2027", program: "Nursing, BS" } })).messages[0].content.text;

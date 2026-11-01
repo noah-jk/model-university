@@ -4,7 +4,7 @@
 import * as catalog from "../src/lib/catalog.ts";
 import { buildIndex } from "../src/lib/workbench/index-data.ts";
 import { createStore, migrate } from "../src/lib/workbench/store.ts";
-import { codeFrom, decodePath, describeShared, MAILTO_BUDGET, pathEmail, pathLink } from "../src/lib/workbench/share.ts";
+import { aiPrompt, codeFrom, decodePath, describeShared, MAILTO_BUDGET, pathEmail, pathLink } from "../src/lib/workbench/share.ts";
 import { planSteps } from "../src/lib/workbench/plan.ts";
 import { rules } from "../src/lib/enrollment.ts";
 import { changesSinceSaved, compareTable, deadlineDate, fingerprint, matchPrograms } from "../src/lib/workbench/derive.ts";
@@ -191,6 +191,13 @@ check(email.body.endsWith(link) && email.href.length <= MAILTO_BUDGET && !/[<>*#
 const longLink = pathLink("x".repeat(3000), "https://example.edu");
 const fallback = pathEmail({ reason: "For first-year students starting Fall 2027", steps, link: longLink });
 check(!fallback.body.includes(longLink) && /too long for an email/.test(fallback.body) && fallback.href.length <= MAILTO_BUDGET, "email: a link too long for a mailto: is left for the student to paste");
+
+// For your AI (#52)
+const prompt = aiPrompt({ reason: "For first-year students starting Fall 2027", steps, saved: [{ name: "Computer Science, BS", note: "Top choice" }, { name: "Transfer Center" }], notes: ["Ask about evening classes"], link, mcpUrl: "https://example.edu/mcp" });
+check(prompt.startsWith("Help me with my plan to enroll at Cascadia State University.") && /1\. Explore programs: done/.test(prompt) && /After I'm admitted:/.test(prompt), "AI prompt: a request, then the plan as text");
+check(/- Computer Science, BS \(my note: Top choice\)\n- Transfer Center/.test(prompt) && /My notes:\n- Ask about evening classes/.test(prompt) && prompt.includes(`My path link: ${link}`), "AI prompt: what's saved, notes, and the link");
+check(/https:\/\/example\.edu\/mcp\. Its get_your_path tool/.test(prompt) && !aiPrompt({ saved: [], link }).includes("MCP"), "AI prompt: the MCP server only when it's on");
+check(/haven't chosen my student type/.test(aiPrompt({ saved: [], link })) && !/[*#]|!/.test(prompt.replace(link, "")), "AI prompt: without a plan, says so; plain text");
 
 // Derive ----------------------------------------------------------------------
 
