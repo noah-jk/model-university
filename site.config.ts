@@ -36,6 +36,13 @@ const siteConfig = {
     // courses, and more, with notes, a comparison, and a deadline timeline.
     // Kept in localStorage; nothing is sent anywhere.
     workbench: true,
+    // Needs workbench: a path link that holds Your Path after the # (copy,
+    // bookmark, or share it, and open it to bring the path back), plus print
+    // and email. Nothing is sent anywhere; email opens the student's own app.
+    pathSharing: true,
+    // Needs pathSharing: a demo of keeping Your Path in an account with a
+    // sign-in link. Nothing is sent and no account is made.
+    pathAccountDemo: true,
   },
 
   // Settings for the aiSearch feature. The tier is shown on /lab/search/: on

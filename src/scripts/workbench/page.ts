@@ -24,6 +24,7 @@ import { loadSession, recentPages } from "../personalize.ts";
 import { renderNext } from "../next-step.ts";
 import { signalsFrom } from "./path-state.ts";
 import { syncToggles } from "./save.ts";
+import { openPathLink, renderKeep } from "./keep.ts";
 
 const personalization = siteConfig.features.personalization;
 const root = document.querySelector<HTMLElement>("[data-workbench]")!;
@@ -204,7 +205,7 @@ function officesAside(plan: Plan) {
     <ul class="offices">${plan.offices
       .map(
         (o) => `<li data-office="${esc(o.id)}">
-          <a href="${esc(o.url)}" data-focus-key="office:${esc(o.id)}:link">${esc(o.name)}</a>
+          <a href="${esc(o.url)}" data-focus-key="office:${esc(o.id)}:link" data-print-url="${esc(new URL(o.url, location.origin).href)}">${esc(o.name)}</a>
           <p>${esc(o.reason)}</p>
           <button type="button" data-dismiss="office:${esc(o.id)}" data-focus-key="office:${esc(o.id)}:dismiss">Dismiss${hidden(` ${o.name}`)}</button>
         </li>`
@@ -631,6 +632,7 @@ function render() {
   for (const [id, n] of Object.entries(counts)) root.querySelector(`[data-tab-count="${id}"]`)!.textContent = n ? String(n) : "";
   renderDismissed(w);
   renderNextStep(plan);
+  renderKeep(plan);
 
   for (const key of openWhy) root.querySelector<HTMLDetailsElement>(`details[data-focus-key="${key}"]`)?.setAttribute("open", "");
   if (activeKey) {
@@ -1004,6 +1006,8 @@ function focusMissing() {
 // Loading ------------------------------------------------------------------------
 
 const fromLink = location.hash.startsWith("#plan");
+// A path link (#path=…, #51) brings a whole path; #plan only fills in answers
+void openPathLink();
 const linkChanged = applyLink();
 
 window.addEventListener("workbench:change", render);

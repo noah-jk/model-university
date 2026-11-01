@@ -1,0 +1,132 @@
+---
+// Keep and share your path (#51): a link that holds the path (copy it, or
+// include notes), print, email, and, as a demo of what production would do,
+// an account kept with a sign-in link. The link's format is in
+// src/lib/workbench/share.ts; src/scripts/workbench/keep.ts makes it work.
+// Renders nothing when pathSharing is off; the account form needs
+// pathAccountDemo too. Only on Your Path, which needs JavaScript.
+import siteConfig from "../../../site.config.ts";
+import { WORKBENCH_LABEL } from "../../lib/workbench/types.ts";
+
+const sharing = siteConfig.features.workbench && siteConfig.features.pathSharing;
+const accountDemo = sharing && siteConfig.features.pathAccountDemo;
+---
+
+{
+  sharing && (
+    <section class="keep" aria-labelledby="keep-title" data-keep>
+      <h2 id="keep-title" tabindex="-1">Keep and share your path</h2>
+      <p class="keep-lead">
+        {WORKBENCH_LABEL} is kept only in this browser, so clearing it or switching devices starts over. A path link holds your whole path: bookmark it or send it to
+        yourself to bring it back, or share it with a parent or counselor.
+      </p>
+
+      <div class="keep-link">
+        <label for="keep-url">Your path link</label>
+        <div class="keep-row">
+          <input id="keep-url" type="text" readonly spellcheck="false" data-keep-url aria-describedby="keep-what" />
+          <button type="button" class="button" data-keep-copy>
+            Copy your path link
+          </button>
+        </div>
+        <p class="keep-check">
+          <input type="checkbox" id="keep-notes" data-keep-notes />
+          <label for="keep-notes">Include my notes</label>
+        </p>
+        <details class="note" id="keep-what">
+          <summary>What's in the link?</summary>
+          <p>
+            Your student type, level, and start term, the steps you've checked off, your visit date, and what you've saved, as links to those pages. Your notes only
+            if you check the box. Never your name, email, or phone. The path comes after the # in the link, which browsers don't send to our server, but anyone you
+            give the link to can see what's in it.
+          </p>
+        </details>
+      </div>
+
+      <p class="keep-actions">
+        <button type="button" class="button secondary" data-keep-print>
+          Print your path
+        </button>
+        <a class="button secondary" href="mailto:" data-keep-email>
+          Email your path
+        </a>
+      </p>
+      <p class="keep-hint">Email opens your own mail app with your steps, dates, and the link, so you choose who it goes to. Nothing is sent from this site.</p>
+
+      {
+        accountDemo && (
+          <form class="keep-account" data-keep-account novalidate aria-labelledby="keep-account-title">
+            <h3 id="keep-account-title">Keep it in an account</h3>
+            <p>
+              On a real university site, you'd keep your path in an account, so it follows you to any device. We'd email you a sign-in link instead of asking for a
+              password. This is a demo: nothing is sent, and no account is made.
+            </p>
+            <label for="keep-email">Email</label>
+            <p class="error" id="keep-email-error" hidden />
+            <div class="keep-row">
+              <input id="keep-email" type="email" autocomplete="email" spellcheck="false" required aria-describedby="keep-email-error" />
+              <button type="submit" class="button secondary">
+                Email me a sign-in link
+              </button>
+            </div>
+            <p class="keep-result" data-keep-account-result tabindex="-1" hidden />
+          </form>
+        )
+      }
+
+      <p class="print-note" data-print-note />
+    </section>
+  )
+}
+
+{
+  sharing && (
+    <dialog class="replace-dialog" aria-labelledby="replace-title" aria-describedby="replace-text" data-replace>
+      <h2 id="replace-title">Replace your path?</h2>
+      <p id="replace-text" data-replace-text />
+      <p class="replace-actions">
+        <button type="button" class="button" data-replace-yes>
+          Replace my path
+        </button>
+        <button type="button" class="button secondary" data-replace-no>
+          Keep mine
+        </button>
+      </p>
+    </dialog>
+  )
+}
+
+<style>
+  .keep { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); max-width: 46rem; }
+  .keep h2 { font-size: var(--step-2); margin: 0 0 0.5rem; }
+  .keep h2:focus { outline: none; }
+  .keep-lead { max-width: var(--measure); }
+  .keep-link { margin-block: 1rem; }
+  .keep-link > label, .keep-account > label { display: block; font-weight: 600; margin-bottom: 0.3rem; }
+  .keep-row { display: flex; flex-wrap: wrap; gap: 0.5rem 0.75rem; align-items: center; }
+  .keep-row input { flex: 1 1 16rem; min-width: 0; min-height: 44px; padding: 0.5rem 0.7rem; font: inherit; color: var(--basalt); background: var(--fog); border: 1.5px solid var(--muted); border-radius: var(--radius-s); }
+  .keep-row input[readonly] { font-size: var(--step--1); text-overflow: ellipsis; }
+  .keep-check { display: flex; align-items: center; gap: 0.5rem; margin: 0.6rem 0 0.4rem; }
+  .keep-check input { width: 1.2rem; height: 1.2rem; margin: 0; accent-color: var(--fir); }
+  .keep-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.25rem 0 0.4rem; }
+  .keep-hint { margin: 0; font-size: var(--step--1); color: var(--muted); max-width: var(--measure); }
+  .keep-account { margin-top: 2rem; padding: 1rem 1.25rem; border: 1px dashed var(--muted); border-radius: var(--radius-s); background: var(--paper); }
+  .keep-account h3 { margin: 0 0 0.35rem; font-size: var(--step-1); }
+  .keep-account > p { max-width: var(--measure); }
+  .keep-account .error { margin: 0 0 0.35rem; font-weight: 600; color: var(--salmonberry); }
+  .keep-account [aria-invalid="true"] { border-color: var(--salmonberry); border-width: 2px; }
+  .keep-result { margin: 0.75rem 0 0; font-weight: 600; }
+  .keep-result:focus { outline: none; }
+  .print-note { display: none; }
+
+  .replace-dialog { width: min(100% - 2rem, 32rem); padding: 1.5rem; border: 0; border-radius: var(--radius-l); background: var(--paper); color: var(--basalt); box-shadow: 0 20px 60px rgb(0 0 0 / 0.35); }
+  .replace-dialog::backdrop { background: rgb(10 25 22 / 0.7); }
+  .replace-dialog h2 { margin: 0 0 0.5rem; font-size: var(--step-2); }
+  .replace-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.25rem 0 0; }
+
+  @media print {
+    .keep > :not(.print-note) { display: none; }
+    .keep { margin-top: 1.5rem; padding-top: 0.75rem; }
+    .print-note { display: block; font-size: 10pt; overflow-wrap: anywhere; }
+  }
+</style>

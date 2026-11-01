@@ -39,7 +39,17 @@ Everything is in this browser's localStorage, under one key. Nothing is sent to 
 
 If your browser blocks localStorage (some private modes do), Your Path still works for the page you're on and tells you it won't be kept.
 
+## Keep and share your path
+
+Because Your Path lives in one browser, clearing it or switching devices would start over. At the bottom of Your Path, a **path link** holds your whole path: your student type, level, and start term, the steps you've checked off, your visit date, and what you've saved, as references to those pages (never copies, so they always show what's current). Your notes go in only if you check **Include my notes**. Your name, email, and phone are never in it; Your Path doesn't keep them.
+
+The path is written after the `#` in the link, which browsers never send to a server, so no log sees it. Anyone you give the link to can see what's in it, though, so share it like you'd share the plan itself. Opening the link brings the path back. If this browser already has a path, it asks before replacing it.
+
+**Print your path** prints every step and date, with the offices' addresses, and the link at the bottom. **Email your path** opens your own mail app with who the plan is for, your steps and dates, and the link, so you choose who gets it; this site sends nothing. A very long link (many saved items) is left for you to paste in, since some mail apps cut long drafts.
+
+On a real university site, you'd keep your path in an account instead, so it follows you to any device. **Keep it in an account** shows how that would start: you'd get a sign-in link by email rather than make a password. Here it's a demo, so nothing is sent and no account is made. An account would keep the same things as the path link, plus your notes, and you could delete it at any time.
+
 ## Coming next
 
-- Hand your plan to an advisor or admissions, or copy it for your own AI assistant.
-- Ask the university's MCP server for the plan for any kind of student.
+- Copy your plan for your own AI assistant, or let it read your path link through the university's MCP server.
+- Hand your plan to an advisor or admissions.

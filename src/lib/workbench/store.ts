@@ -10,6 +10,7 @@
 // The browser uses the shared `workbench` store below. Tests make their own
 // with createStore(), passing a fake storage.
 
+import { encodePath, type SharedPath } from "./share.ts";
 import { MAX_ITEMS, MAX_NOTE, STORAGE_KEY, type Interest, type ItemKind, type PlanChoices, type Workbench, type WorkbenchItem } from "./types.ts";
 
 type Storage = { getItem(key: string): string | null; setItem(key: string, value: string): void; removeItem(key: string): void };
@@ -55,54 +56,6 @@ export function migrate(stored: unknown): Workbench {
   }
   if (stored != null) console.warn("Workbench: saved data wasn't readable, so it was reset");
   return empty();
-}
-
-// Compact, URL-safe text for a workbench: the base for phase 3's share link.
-// Only what the items are and the notes on them; ids and dates are new on the
-// other end.
-type Compact = { v: 1; t?: string; i: [kind: ItemKind, refOrText: string, note?: string][] };
-
-const toBase64Url = (text: string) => {
-  const bytes = new TextEncoder().encode(text);
-  let binary = "";
-  for (const b of bytes) binary += String.fromCharCode(b);
-  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-};
-const fromBase64Url = (text: string) => {
-  const binary = atob(text.replace(/-/g, "+").replace(/_/g, "/"));
-  return new TextDecoder().decode(Uint8Array.from(binary, (c) => c.charCodeAt(0)));
-};
-
-export function serialize(workbench: Workbench) {
-  const compact: Compact = {
-    v: 1,
-    ...(workbench.profile.startTerm && { t: workbench.profile.startTerm }),
-    i: workbench.items.map((item) => {
-      const main = item.ref ?? item.text ?? "";
-      return item.note ? [item.kind, main, item.note] : [item.kind, main];
-    }),
-  };
-  return toBase64Url(JSON.stringify(compact));
-}
-
-export function deserialize(text: string, newId: () => string = () => crypto.randomUUID()): Workbench {
-  try {
-    const compact = JSON.parse(fromBase64Url(text)) as Compact;
-    if (compact.v !== 1 || !Array.isArray(compact.i)) throw new Error("unknown format");
-    const addedAt = new Date().toISOString();
-    const items = compact.i.slice(0, MAX_ITEMS).map(([kind, main, note]): WorkbenchItem => ({
-      id: newId(),
-      kind,
-      ...(kind === "note" || kind === "answer" ? { text: main.slice(0, MAX_NOTE) } : { ref: main }),
-      ...(note && { note: note.slice(0, MAX_NOTE) }),
-      source: "shared",
-      addedAt,
-    }));
-    return { ...empty(), items, profile: compact.t ? { startTerm: compact.t } : {}, updatedAt: addedAt };
-  } catch {
-    console.warn("Workbench: couldn't read that shared workbench");
-    return empty();
-  }
 }
 
 export type AddResult = { ok: true; item: WorkbenchItem } | { ok: false; reason: "full" | "exists" };
@@ -333,7 +286,21 @@ export function createStore(storage: Storage | null, { newId = (): string => cry
       });
     },
 
-    serialize: () => serialize(get()),
+    // The code for a path link (src/lib/workbench/share.ts)
+    code: (options: { notes?: boolean } = {}) => encodePath(get(), options),
+
+    // Opening a path link: its choices, steps, visit, and items replace this
+    // browser's. Hidden tips and dismissals stay; they're about this device.
+    replaceWith(shared: SharedPath) {
+      write((w) => {
+        w.items = shared.items;
+        w.profile = shared.profile;
+        w.completed = shared.completed;
+        if (shared.visit) w.visit = shared.visit;
+        else delete w.visit;
+        delete w.badge;
+      });
+    },
   };
 }
 
