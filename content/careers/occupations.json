@@ -1,0 +1,1862 @@
+[
+  {
+    "id": "software-developer",
+    "soc": "15-1252",
+    "title": "Software Developers",
+    "name": "Software developer",
+    "cips": [
+      "11.0701"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Design, build, and test the applications and systems people use every day.",
+    "titles": [
+      "Software engineer",
+      "Application developer",
+      "Full-stack developer"
+    ]
+  },
+  {
+    "id": "computer-research-scientist",
+    "soc": "15-1221",
+    "title": "Computer and Information Research Scientists",
+    "name": "Computer research scientist",
+    "cips": [
+      "11.0701"
+    ],
+    "education": "Master's degree",
+    "summary": "Invent new approaches to computing, from algorithms to machine learning.",
+    "titles": [
+      "Research scientist",
+      "Machine learning researcher"
+    ]
+  },
+  {
+    "id": "computer-systems-analyst",
+    "soc": "15-1211",
+    "title": "Computer Systems Analysts",
+    "name": "Computer systems analyst",
+    "cips": [
+      "11.0701",
+      "11.0103"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Study how an organization uses technology and design systems that work better.",
+    "titles": [
+      "Systems analyst",
+      "Business systems analyst"
+    ]
+  },
+  {
+    "id": "software-quality-assurance-analyst",
+    "soc": "15-1253",
+    "title": "Software Quality Assurance Analysts and Testers",
+    "name": "Software quality assurance analyst",
+    "cips": [
+      "11.0701"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Find problems in software before users do, and build the tests that catch them.",
+    "titles": [
+      "QA engineer",
+      "Test automation engineer"
+    ]
+  },
+  {
+    "id": "data-scientist",
+    "soc": "15-2051",
+    "title": "Data Scientists",
+    "name": "Data scientist",
+    "cips": [
+      "30.7001",
+      "40.0801"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Turn large data sets into answers, forecasts, and models that guide decisions.",
+    "titles": [
+      "Machine learning engineer",
+      "Analytics engineer"
+    ]
+  },
+  {
+    "id": "statistician",
+    "soc": "15-2041",
+    "title": "Statisticians",
+    "name": "Statistician",
+    "cips": [
+      "30.7001",
+      "27.0101"
+    ],
+    "education": "Master's degree",
+    "summary": "Design studies and surveys and analyze the results to answer real questions.",
+    "titles": [
+      "Biostatistician",
+      "Statistical analyst"
+    ]
+  },
+  {
+    "id": "database-architect",
+    "soc": "15-1243",
+    "title": "Database Architects",
+    "name": "Database architect",
+    "cips": [
+      "30.7001"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Design the databases and data platforms that organizations rely on.",
+    "titles": [
+      "Data architect",
+      "Data engineer"
+    ]
+  },
+  {
+    "id": "it-manager",
+    "soc": "11-3021",
+    "title": "Computer and Information Systems Managers",
+    "name": "IT manager",
+    "cips": [
+      "30.7001",
+      "11.1003",
+      "11.0103"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Lead technology teams and plan the systems an organization needs.",
+    "titles": [
+      "IT director",
+      "Chief information officer"
+    ]
+  },
+  {
+    "id": "information-security-analyst",
+    "soc": "15-1212",
+    "title": "Information Security Analysts",
+    "name": "Information security analyst",
+    "cips": [
+      "11.1003"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Protect networks and data, watch for attacks, and respond when they happen.",
+    "titles": [
+      "Security analyst",
+      "Penetration tester",
+      "Security engineer"
+    ]
+  },
+  {
+    "id": "network-architect",
+    "soc": "15-1241",
+    "title": "Computer Network Architects",
+    "name": "Network architect",
+    "cips": [
+      "11.1003",
+      "11.0103"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Design the networks that connect offices, campuses, and cloud services.",
+    "titles": [
+      "Cloud architect",
+      "Network engineer"
+    ]
+  },
+  {
+    "id": "mechanical-engineer",
+    "soc": "17-2141",
+    "title": "Mechanical Engineers",
+    "name": "Mechanical engineer",
+    "cips": [
+      "14.1901"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Design machines and devices, from engines to medical tools.",
+    "titles": [
+      "Design engineer",
+      "Product engineer"
+    ]
+  },
+  {
+    "id": "industrial-engineer",
+    "soc": "17-2112",
+    "title": "Industrial Engineers",
+    "name": "Industrial engineer",
+    "cips": [
+      "14.1901"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Make production and logistics faster, safer, and less wasteful.",
+    "titles": [
+      "Manufacturing engineer",
+      "Process engineer"
+    ]
+  },
+  {
+    "id": "aerospace-engineer",
+    "soc": "17-2011",
+    "title": "Aerospace Engineers",
+    "name": "Aerospace engineer",
+    "cips": [
+      "14.1901"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Design aircraft, spacecraft, and the systems that keep them flying.",
+    "titles": [
+      "Propulsion engineer",
+      "Flight test engineer"
+    ]
+  },
+  {
+    "id": "civil-engineer",
+    "soc": "17-2051",
+    "title": "Civil Engineers",
+    "name": "Civil engineer",
+    "cips": [
+      "14.0801"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Plan and build roads, bridges, water systems, and buildings.",
+    "titles": [
+      "Structural engineer",
+      "Transportation engineer"
+    ]
+  },
+  {
+    "id": "urban-planner",
+    "soc": "19-3051",
+    "title": "Urban and Regional Planners",
+    "name": "Urban planner",
+    "cips": [
+      "14.0801"
+    ],
+    "education": "Master's degree",
+    "summary": "Plan how land is used, so communities grow in ways that work.",
+    "titles": [
+      "Transportation planner",
+      "City planner"
+    ]
+  },
+  {
+    "id": "engineering-manager",
+    "soc": "11-9041",
+    "title": "Architectural and Engineering Managers",
+    "name": "Engineering manager",
+    "cips": [
+      "14.0801",
+      "14.1001"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Lead engineering teams and projects from design to delivery.",
+    "titles": [
+      "Project engineering manager",
+      "Director of engineering"
+    ]
+  },
+  {
+    "id": "electrical-engineer",
+    "soc": "17-2071",
+    "title": "Electrical Engineers",
+    "name": "Electrical engineer",
+    "cips": [
+      "14.1001"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Design electrical systems, from power grids to motors and controls.",
+    "titles": [
+      "Power systems engineer",
+      "Controls engineer"
+    ]
+  },
+  {
+    "id": "computer-hardware-engineer",
+    "soc": "17-2061",
+    "title": "Computer Hardware Engineers",
+    "name": "Computer hardware engineer",
+    "cips": [
+      "14.1001"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Design chips, circuit boards, and the devices built around them.",
+    "titles": [
+      "Hardware engineer",
+      "Embedded systems engineer"
+    ]
+  },
+  {
+    "id": "electronics-engineer",
+    "soc": "17-2072",
+    "title": "Electronics Engineers, Except Computer",
+    "name": "Electronics engineer",
+    "cips": [
+      "14.1001"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Design electronic equipment, from sensors to communications systems.",
+    "titles": [
+      "RF engineer",
+      "Signal processing engineer"
+    ]
+  },
+  {
+    "id": "systems-administrator",
+    "soc": "15-1244",
+    "title": "Network and Computer Systems Administrators",
+    "name": "Systems administrator",
+    "cips": [
+      "11.0103"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Keep an organization's computers, servers, and networks running.",
+    "titles": [
+      "Network administrator",
+      "Cloud engineer"
+    ]
+  },
+  {
+    "id": "it-support-specialist",
+    "soc": "15-1232",
+    "title": "Computer User Support Specialists",
+    "name": "IT support specialist",
+    "cips": [
+      "11.0103"
+    ],
+    "education": "Some college, no degree",
+    "summary": "Help people solve problems with their computers, software, and accounts.",
+    "titles": [
+      "Help desk technician",
+      "IT specialist"
+    ]
+  },
+  {
+    "id": "registered-nurse",
+    "soc": "29-1141",
+    "title": "Registered Nurses",
+    "name": "Registered nurse",
+    "cips": [
+      "51.3801"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Care for patients, coordinate treatment, and teach families about health.",
+    "titles": [
+      "RN",
+      "Clinical nurse"
+    ]
+  },
+  {
+    "id": "nurse-practitioner",
+    "soc": "29-1171",
+    "title": "Nurse Practitioners",
+    "name": "Nurse practitioner",
+    "cips": [
+      "51.3801"
+    ],
+    "education": "Master's degree",
+    "summary": "Diagnose and treat patients and prescribe medicine as advanced practice nurses.",
+    "titles": [
+      "Family nurse practitioner",
+      "NP"
+    ]
+  },
+  {
+    "id": "nursing-instructor",
+    "soc": "25-1072",
+    "title": "Nursing Instructors and Teachers, Postsecondary",
+    "name": "Nursing instructor",
+    "cips": [
+      "51.3801"
+    ],
+    "education": "Master's degree",
+    "summary": "Teach and mentor the next generation of nurses.",
+    "titles": [
+      "Nurse educator",
+      "Clinical instructor"
+    ]
+  },
+  {
+    "id": "health-services-manager",
+    "soc": "11-9111",
+    "title": "Medical and Health Services Managers",
+    "name": "Health services manager",
+    "cips": [
+      "51.3801",
+      "51.2201",
+      "51.0701"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Run clinics, departments, and health programs so care runs smoothly.",
+    "titles": [
+      "Healthcare administrator",
+      "Practice manager",
+      "Clinical nurse leader"
+    ]
+  },
+  {
+    "id": "epidemiologist",
+    "soc": "19-1041",
+    "title": "Epidemiologists",
+    "name": "Epidemiologist",
+    "cips": [
+      "51.2201"
+    ],
+    "education": "Master's degree",
+    "summary": "Track how diseases spread and find ways to prevent them.",
+    "titles": [
+      "Public health epidemiologist",
+      "Infection preventionist"
+    ]
+  },
+  {
+    "id": "health-educator",
+    "soc": "21-1091",
+    "title": "Health Education Specialists",
+    "name": "Health educator",
+    "cips": [
+      "51.2201",
+      "51.3101"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Teach communities about health and run programs that help people stay well.",
+    "titles": [
+      "Community health educator",
+      "Wellness coordinator"
+    ]
+  },
+  {
+    "id": "community-health-worker",
+    "soc": "21-1094",
+    "title": "Community Health Workers",
+    "name": "Community health worker",
+    "cips": [
+      "51.2201"
+    ],
+    "education": "High school diploma",
+    "summary": "Connect people in their own communities with care, coverage, and support.",
+    "titles": [
+      "Patient navigator",
+      "Outreach worker"
+    ]
+  },
+  {
+    "id": "child-and-family-social-worker",
+    "soc": "21-1021",
+    "title": "Child, Family, and School Social Workers",
+    "name": "Child and family social worker",
+    "cips": [
+      "44.0701"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Help children and families through hard times and connect them with services.",
+    "titles": [
+      "School social worker",
+      "Case manager"
+    ]
+  },
+  {
+    "id": "healthcare-social-worker",
+    "soc": "21-1022",
+    "title": "Healthcare Social Workers",
+    "name": "Healthcare social worker",
+    "cips": [
+      "44.0701"
+    ],
+    "education": "Master's degree",
+    "summary": "Help patients and families cope with illness and plan care after the hospital.",
+    "titles": [
+      "Medical social worker",
+      "Hospice social worker"
+    ]
+  },
+  {
+    "id": "mental-health-social-worker",
+    "soc": "21-1023",
+    "title": "Mental Health and Substance Abuse Social Workers",
+    "name": "Mental health social worker",
+    "cips": [
+      "44.0701"
+    ],
+    "education": "Master's degree",
+    "summary": "Support people with mental illness or addiction through counseling and services.",
+    "titles": [
+      "Clinical social worker",
+      "Behavioral health specialist"
+    ]
+  },
+  {
+    "id": "human-services-specialist",
+    "soc": "21-1093",
+    "title": "Social and Human Service Assistants",
+    "name": "Human services specialist",
+    "cips": [
+      "44.0701",
+      "45.1101"
+    ],
+    "education": "High school diploma",
+    "summary": "Help people find benefits, housing, and other services in the community.",
+    "titles": [
+      "Community organizer",
+      "Program assistant"
+    ]
+  },
+  {
+    "id": "exercise-physiologist",
+    "soc": "29-1128",
+    "title": "Exercise Physiologists",
+    "name": "Exercise physiologist",
+    "cips": [
+      "31.0505"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Design exercise programs that help patients recover and stay healthy.",
+    "titles": [
+      "Clinical exercise physiologist",
+      "Cardiac rehab specialist"
+    ]
+  },
+  {
+    "id": "athletic-trainer",
+    "soc": "29-9091",
+    "title": "Athletic Trainers",
+    "name": "Athletic trainer",
+    "cips": [
+      "31.0505"
+    ],
+    "education": "Master's degree",
+    "summary": "Prevent, treat, and rehabilitate injuries for athletes and active people.",
+    "titles": [
+      "Sports medicine trainer"
+    ]
+  },
+  {
+    "id": "fitness-trainer",
+    "soc": "39-9031",
+    "title": "Exercise Trainers and Group Fitness Instructors",
+    "name": "Fitness trainer",
+    "cips": [
+      "31.0505"
+    ],
+    "education": "High school diploma",
+    "summary": "Coach people through workouts and help them reach their fitness goals.",
+    "titles": [
+      "Strength coach",
+      "Personal trainer"
+    ]
+  },
+  {
+    "id": "physical-therapist",
+    "soc": "29-1123",
+    "title": "Physical Therapists",
+    "name": "Physical therapist",
+    "cips": [
+      "31.0505"
+    ],
+    "education": "Doctoral or professional degree",
+    "summary": "Help people recover movement and manage pain after injury or illness.",
+    "titles": [
+      "DPT",
+      "Rehabilitation therapist"
+    ]
+  },
+  {
+    "id": "dietitian",
+    "soc": "29-1031",
+    "title": "Dietitians and Nutritionists",
+    "name": "Dietitian",
+    "cips": [
+      "51.3101"
+    ],
+    "education": "Master's degree",
+    "summary": "Plan nutrition for patients and communities and teach healthy eating.",
+    "titles": [
+      "Registered dietitian",
+      "Clinical nutritionist"
+    ]
+  },
+  {
+    "id": "food-service-manager",
+    "soc": "11-9051",
+    "title": "Food Service Managers",
+    "name": "Food service manager",
+    "cips": [
+      "51.3101"
+    ],
+    "education": "High school diploma",
+    "summary": "Run kitchens and dining programs in hospitals, schools, and restaurants.",
+    "titles": [
+      "Dining services director"
+    ]
+  },
+  {
+    "id": "management-analyst",
+    "soc": "13-1111",
+    "title": "Management Analysts",
+    "name": "Management analyst",
+    "cips": [
+      "51.0701",
+      "52.0201"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Study how organizations work and recommend ways to improve them.",
+    "titles": [
+      "Management consultant",
+      "Operations analyst"
+    ]
+  },
+  {
+    "id": "speech-language-pathologist",
+    "soc": "29-1127",
+    "title": "Speech-Language Pathologists",
+    "name": "Speech-language pathologist",
+    "cips": [
+      "51.0203"
+    ],
+    "education": "Master's degree",
+    "summary": "Diagnose and treat speech, language, and swallowing disorders.",
+    "titles": [
+      "SLP",
+      "Speech therapist"
+    ]
+  },
+  {
+    "id": "audiologist",
+    "soc": "29-1181",
+    "title": "Audiologists",
+    "name": "Audiologist",
+    "cips": [
+      "51.0203"
+    ],
+    "education": "Doctoral or professional degree",
+    "summary": "Diagnose hearing and balance problems and fit hearing technology.",
+    "titles": [
+      "Clinical audiologist"
+    ]
+  },
+  {
+    "id": "health-sciences-professor",
+    "soc": "25-1071",
+    "title": "Health Specialties Teachers, Postsecondary",
+    "name": "Health sciences professor",
+    "cips": [
+      "51.0203",
+      "51.0701"
+    ],
+    "education": "Doctoral or professional degree",
+    "summary": "Teach health professions and lead research at colleges and universities.",
+    "titles": [
+      "Clinical professor"
+    ]
+  },
+  {
+    "id": "operations-manager",
+    "soc": "11-1021",
+    "title": "General and Operations Managers",
+    "name": "Operations manager",
+    "cips": [
+      "52.0201",
+      "52.0203"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Run the day-to-day work of a company or division.",
+    "titles": [
+      "General manager",
+      "Business operations manager"
+    ]
+  },
+  {
+    "id": "chief-executive",
+    "soc": "11-1011",
+    "title": "Chief Executives",
+    "name": "Chief executive",
+    "cips": [
+      "52.0201"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Set direction and lead whole organizations.",
+    "titles": [
+      "CEO",
+      "Executive director",
+      "Entrepreneur"
+    ]
+  },
+  {
+    "id": "project-manager",
+    "soc": "13-1082",
+    "title": "Project Management Specialists",
+    "name": "Project manager",
+    "cips": [
+      "52.0201",
+      "52.0203"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Plan projects, keep them on schedule, and bring teams together.",
+    "titles": [
+      "Program manager",
+      "Scrum master"
+    ]
+  },
+  {
+    "id": "accountant",
+    "soc": "13-2011",
+    "title": "Accountants and Auditors",
+    "name": "Accountant",
+    "cips": [
+      "52.0301"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Prepare and check financial records and help organizations follow the rules.",
+    "titles": [
+      "CPA",
+      "Auditor",
+      "Staff accountant"
+    ]
+  },
+  {
+    "id": "tax-preparer",
+    "soc": "13-2082",
+    "title": "Tax Preparers",
+    "name": "Tax preparer",
+    "cips": [
+      "52.0301"
+    ],
+    "education": "High school diploma",
+    "summary": "Prepare tax returns and help people and businesses plan for taxes.",
+    "titles": [
+      "Tax advisor",
+      "Enrolled agent"
+    ]
+  },
+  {
+    "id": "financial-manager",
+    "soc": "11-3031",
+    "title": "Financial Managers",
+    "name": "Financial manager",
+    "cips": [
+      "52.0301",
+      "52.0801"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Oversee budgets, investments, and financial reporting for organizations.",
+    "titles": [
+      "Controller",
+      "Treasurer",
+      "Finance director"
+    ]
+  },
+  {
+    "id": "financial-analyst",
+    "soc": "13-2051",
+    "title": "Financial and Investment Analysts",
+    "name": "Financial analyst",
+    "cips": [
+      "52.0801",
+      "45.0601"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Analyze companies and markets to guide investment and business decisions.",
+    "titles": [
+      "Investment analyst",
+      "Investment associate"
+    ]
+  },
+  {
+    "id": "financial-advisor",
+    "soc": "13-2052",
+    "title": "Personal Financial Advisors",
+    "name": "Financial advisor",
+    "cips": [
+      "52.0801"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Help people plan for retirement, college, and other financial goals.",
+    "titles": [
+      "Wealth advisor",
+      "Financial planner"
+    ]
+  },
+  {
+    "id": "marketing-manager",
+    "soc": "11-2021",
+    "title": "Marketing Managers",
+    "name": "Marketing manager",
+    "cips": [
+      "52.1401"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Plan campaigns and lead marketing teams that grow a brand.",
+    "titles": [
+      "Brand manager",
+      "Brand strategist"
+    ]
+  },
+  {
+    "id": "marketing-specialist",
+    "soc": "13-1161",
+    "title": "Market Research Analysts and Marketing Specialists",
+    "name": "Marketing specialist",
+    "cips": [
+      "52.1401"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Study customers and markets and turn insight into campaigns.",
+    "titles": [
+      "Digital marketer",
+      "Market research analyst"
+    ]
+  },
+  {
+    "id": "logistician",
+    "soc": "13-1081",
+    "title": "Logisticians",
+    "name": "Logistician",
+    "cips": [
+      "52.0203"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Coordinate how products move from suppliers to customers.",
+    "titles": [
+      "Logistics analyst",
+      "Supply chain analyst"
+    ]
+  },
+  {
+    "id": "distribution-manager",
+    "soc": "11-3071",
+    "title": "Transportation, Storage, and Distribution Managers",
+    "name": "Distribution manager",
+    "cips": [
+      "52.0203"
+    ],
+    "education": "High school diploma",
+    "summary": "Run warehouses, fleets, and distribution networks.",
+    "titles": [
+      "Logistics manager",
+      "Warehouse manager"
+    ]
+  },
+  {
+    "id": "purchasing-manager",
+    "soc": "11-3061",
+    "title": "Purchasing Managers",
+    "name": "Purchasing manager",
+    "cips": [
+      "52.0203"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Lead buying for an organization and manage supplier relationships.",
+    "titles": [
+      "Procurement manager"
+    ]
+  },
+  {
+    "id": "human-resources-specialist",
+    "soc": "13-1071",
+    "title": "Human Resources Specialists",
+    "name": "Human resources specialist",
+    "cips": [
+      "52.1001"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Recruit, hire, and support employees through their time at work.",
+    "titles": [
+      "HR generalist",
+      "Talent acquisition partner"
+    ]
+  },
+  {
+    "id": "human-resources-manager",
+    "soc": "11-3121",
+    "title": "Human Resources Managers",
+    "name": "Human resources manager",
+    "cips": [
+      "52.1001"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Lead hiring, pay, and workplace policy for an organization.",
+    "titles": [
+      "HR director",
+      "People operations manager"
+    ]
+  },
+  {
+    "id": "compensation-analyst",
+    "soc": "13-1141",
+    "title": "Compensation, Benefits, and Job Analysis Specialists",
+    "name": "Compensation analyst",
+    "cips": [
+      "52.1001"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Design pay and benefits programs that are fair and competitive.",
+    "titles": [
+      "Benefits analyst"
+    ]
+  },
+  {
+    "id": "training-specialist",
+    "soc": "13-1151",
+    "title": "Training and Development Specialists",
+    "name": "Training specialist",
+    "cips": [
+      "52.1001"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Design and lead training that helps employees grow.",
+    "titles": [
+      "Learning and development specialist",
+      "Instructional designer"
+    ]
+  },
+  {
+    "id": "editor",
+    "soc": "27-3041",
+    "title": "Editors",
+    "name": "Editor",
+    "cips": [
+      "23.0101"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Shape writing for publication, from books to websites.",
+    "titles": [
+      "Copy editor",
+      "Managing editor"
+    ]
+  },
+  {
+    "id": "writer",
+    "soc": "27-3043",
+    "title": "Writers and Authors",
+    "name": "Writer",
+    "cips": [
+      "23.0101"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Write books, articles, scripts, and content for organizations.",
+    "titles": [
+      "Content strategist",
+      "Copywriter"
+    ]
+  },
+  {
+    "id": "technical-writer",
+    "soc": "27-3042",
+    "title": "Technical Writers",
+    "name": "Technical writer",
+    "cips": [
+      "23.0101"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Explain complex products and processes in plain language.",
+    "titles": [
+      "Documentation specialist"
+    ]
+  },
+  {
+    "id": "high-school-teacher",
+    "soc": "25-2031",
+    "title": "Secondary School Teachers, Except Special and Career/Technical Education",
+    "name": "High school teacher",
+    "cips": [
+      "23.0101",
+      "54.0101",
+      "27.0101",
+      "16.0101"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Teach a subject to middle and high school students.",
+    "titles": [
+      "English teacher",
+      "Math teacher",
+      "Social studies teacher"
+    ]
+  },
+  {
+    "id": "archivist",
+    "soc": "25-4011",
+    "title": "Archivists",
+    "name": "Archivist",
+    "cips": [
+      "54.0101"
+    ],
+    "education": "Master's degree",
+    "summary": "Preserve and organize records and help people use them.",
+    "titles": [
+      "Records manager",
+      "Digital archivist"
+    ]
+  },
+  {
+    "id": "curator",
+    "soc": "25-4012",
+    "title": "Curators",
+    "name": "Curator",
+    "cips": [
+      "54.0101",
+      "45.0201"
+    ],
+    "education": "Master's degree",
+    "summary": "Build and care for museum collections and create exhibits.",
+    "titles": [
+      "Museum curator",
+      "Collections manager"
+    ]
+  },
+  {
+    "id": "historian",
+    "soc": "19-3093",
+    "title": "Historians",
+    "name": "Historian",
+    "cips": [
+      "54.0101"
+    ],
+    "education": "Master's degree",
+    "summary": "Research and write about the past for agencies, museums, and the public.",
+    "titles": [
+      "Public historian",
+      "Policy researcher"
+    ]
+  },
+  {
+    "id": "public-relations-specialist",
+    "soc": "27-3031",
+    "title": "Public Relations Specialists",
+    "name": "Public relations specialist",
+    "cips": [
+      "09.0100",
+      "45.1001"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Shape how organizations communicate with the media and the public.",
+    "titles": [
+      "Communications specialist",
+      "Media relations specialist"
+    ]
+  },
+  {
+    "id": "public-relations-manager",
+    "soc": "11-2032",
+    "title": "Public Relations Managers",
+    "name": "Public relations manager",
+    "cips": [
+      "09.0100"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Lead communications strategy and teams for an organization.",
+    "titles": [
+      "Communications director"
+    ]
+  },
+  {
+    "id": "journalist",
+    "soc": "27-3023",
+    "title": "News Analysts, Reporters, and Journalists",
+    "name": "Journalist",
+    "cips": [
+      "09.0100"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Report and tell stories about what's happening in communities and the world.",
+    "titles": [
+      "Reporter",
+      "Multimedia journalist"
+    ]
+  },
+  {
+    "id": "fine-artist",
+    "soc": "27-1013",
+    "title": "Fine Artists, Including Painters, Sculptors, and Illustrators",
+    "name": "Fine artist",
+    "cips": [
+      "50.0702"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Create original art for galleries, commissions, and publications.",
+    "titles": [
+      "Artist",
+      "Illustrator"
+    ]
+  },
+  {
+    "id": "art-director",
+    "soc": "27-1011",
+    "title": "Art Directors",
+    "name": "Art director",
+    "cips": [
+      "50.0702",
+      "50.0409"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Lead the visual style of campaigns, publications, and products.",
+    "titles": [
+      "Creative director"
+    ]
+  },
+  {
+    "id": "craft-artist",
+    "soc": "27-1012",
+    "title": "Craft Artists",
+    "name": "Craft artist",
+    "cips": [
+      "50.0702"
+    ],
+    "education": "High school diploma",
+    "summary": "Make functional and decorative art by hand, from ceramics to textiles.",
+    "titles": [
+      "Ceramicist",
+      "Gallery manager"
+    ]
+  },
+  {
+    "id": "graphic-designer",
+    "soc": "27-1024",
+    "title": "Graphic Designers",
+    "name": "Graphic designer",
+    "cips": [
+      "50.0409"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Design visuals for brands, publications, and digital products.",
+    "titles": [
+      "Visual designer",
+      "Brand designer"
+    ]
+  },
+  {
+    "id": "digital-interface-designer",
+    "soc": "15-1255",
+    "title": "Web and Digital Interface Designers",
+    "name": "Digital interface designer",
+    "cips": [
+      "50.0409"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Design websites and apps that are clear and easy to use.",
+    "titles": [
+      "UX designer",
+      "UI designer",
+      "Product designer"
+    ]
+  },
+  {
+    "id": "musician",
+    "soc": "27-2042",
+    "title": "Musicians and Singers",
+    "name": "Musician",
+    "cips": [
+      "50.0901"
+    ],
+    "education": "No formal educational credential",
+    "summary": "Perform music live and in recordings.",
+    "titles": [
+      "Performer",
+      "Session musician"
+    ]
+  },
+  {
+    "id": "composer-or-music-director",
+    "soc": "27-2041",
+    "title": "Music Directors and Composers",
+    "name": "Composer or music director",
+    "cips": [
+      "50.0901"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Write music and lead ensembles, choirs, and productions.",
+    "titles": [
+      "Composer",
+      "Conductor"
+    ]
+  },
+  {
+    "id": "sound-engineer",
+    "soc": "27-4014",
+    "title": "Sound Engineering Technicians",
+    "name": "Sound engineer",
+    "cips": [
+      "50.0901"
+    ],
+    "education": "Postsecondary certificate",
+    "summary": "Record, mix, and produce sound for music, film, and live events.",
+    "titles": [
+      "Audio producer",
+      "Recording engineer"
+    ]
+  },
+  {
+    "id": "music-professor",
+    "soc": "25-1121",
+    "title": "Art, Drama, and Music Teachers, Postsecondary",
+    "name": "Music professor",
+    "cips": [
+      "50.0901"
+    ],
+    "education": "Master's degree",
+    "summary": "Teach performance and music theory at colleges and conservatories.",
+    "titles": [
+      "Music educator"
+    ]
+  },
+  {
+    "id": "lawyer",
+    "soc": "23-1011",
+    "title": "Lawyers",
+    "name": "Lawyer",
+    "cips": [
+      "38.0101",
+      "45.1001"
+    ],
+    "education": "Doctoral or professional degree",
+    "summary": "Advise clients and represent them in legal matters.",
+    "titles": [
+      "Attorney",
+      "Public defender"
+    ]
+  },
+  {
+    "id": "paralegal",
+    "soc": "23-2011",
+    "title": "Paralegals and Legal Assistants",
+    "name": "Paralegal",
+    "cips": [
+      "38.0101",
+      "43.0104"
+    ],
+    "education": "Associate degree",
+    "summary": "Research cases and prepare documents for lawyers.",
+    "titles": [
+      "Legal assistant",
+      "Court administrator"
+    ]
+  },
+  {
+    "id": "philosophy-professor",
+    "soc": "25-1126",
+    "title": "Philosophy and Religion Teachers, Postsecondary",
+    "name": "Philosophy professor",
+    "cips": [
+      "38.0101"
+    ],
+    "education": "Doctoral or professional degree",
+    "summary": "Teach and write about ethics, logic, and the big questions.",
+    "titles": [
+      "Ethicist"
+    ]
+  },
+  {
+    "id": "interpreter-or-translator",
+    "soc": "27-3091",
+    "title": "Interpreters and Translators",
+    "name": "Interpreter or translator",
+    "cips": [
+      "16.0101"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Help people communicate across languages in speech and writing.",
+    "titles": [
+      "Translator",
+      "Medical interpreter"
+    ]
+  },
+  {
+    "id": "language-professor",
+    "soc": "25-1124",
+    "title": "Foreign Language and Literature Teachers, Postsecondary",
+    "name": "Language professor",
+    "cips": [
+      "16.0101"
+    ],
+    "education": "Doctoral or professional degree",
+    "summary": "Teach languages and literature at colleges and universities.",
+    "titles": [
+      "Language instructor"
+    ]
+  },
+  {
+    "id": "biologist",
+    "soc": "19-1029",
+    "title": "Biological Scientists, All Other",
+    "name": "Biologist",
+    "cips": [
+      "26.0101"
+    ],
+    "education": "Doctoral or professional degree",
+    "summary": "Study living things, from cells to ecosystems.",
+    "titles": [
+      "Research biologist"
+    ]
+  },
+  {
+    "id": "biological-technician",
+    "soc": "19-4021",
+    "title": "Biological Technicians",
+    "name": "Biological technician",
+    "cips": [
+      "26.0101",
+      "26.1302"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Run lab experiments and collect data for scientists.",
+    "titles": [
+      "Lab researcher",
+      "Research technician"
+    ]
+  },
+  {
+    "id": "medical-scientist",
+    "soc": "19-1042",
+    "title": "Medical Scientists, Except Epidemiologists",
+    "name": "Medical scientist",
+    "cips": [
+      "26.0101"
+    ],
+    "education": "Doctoral or professional degree",
+    "summary": "Research diseases and develop treatments.",
+    "titles": [
+      "Clinical researcher",
+      "Biomedical scientist"
+    ]
+  },
+  {
+    "id": "biochemist",
+    "soc": "19-1021",
+    "title": "Biochemists and Biophysicists",
+    "name": "Biochemist",
+    "cips": [
+      "26.0101",
+      "40.0501"
+    ],
+    "education": "Doctoral or professional degree",
+    "summary": "Study the chemistry of living things to develop medicines and products.",
+    "titles": [
+      "Biotech scientist"
+    ]
+  },
+  {
+    "id": "chemist",
+    "soc": "19-2031",
+    "title": "Chemists",
+    "name": "Chemist",
+    "cips": [
+      "40.0501"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Analyze substances and develop new materials, medicines, and products.",
+    "titles": [
+      "Analytical chemist",
+      "Pharmaceutical researcher"
+    ]
+  },
+  {
+    "id": "chemical-technician",
+    "soc": "19-4031",
+    "title": "Chemical Technicians",
+    "name": "Chemical technician",
+    "cips": [
+      "40.0501"
+    ],
+    "education": "Associate degree",
+    "summary": "Run tests and monitor chemical processes in labs and plants.",
+    "titles": [
+      "Quality control analyst",
+      "Lab technician"
+    ]
+  },
+  {
+    "id": "chemical-engineer",
+    "soc": "17-2041",
+    "title": "Chemical Engineers",
+    "name": "Chemical engineer",
+    "cips": [
+      "40.0501"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Design processes that turn raw materials into fuels, food, and medicines.",
+    "titles": [
+      "Process engineer"
+    ]
+  },
+  {
+    "id": "physicist",
+    "soc": "19-2012",
+    "title": "Physicists",
+    "name": "Physicist",
+    "cips": [
+      "40.0801"
+    ],
+    "education": "Doctoral or professional degree",
+    "summary": "Study matter and energy, from particles to the universe.",
+    "titles": [
+      "Research physicist",
+      "Engineering researcher"
+    ]
+  },
+  {
+    "id": "astronomer",
+    "soc": "19-2011",
+    "title": "Astronomers",
+    "name": "Astronomer",
+    "cips": [
+      "40.0801"
+    ],
+    "education": "Doctoral or professional degree",
+    "summary": "Study stars, planets, and galaxies.",
+    "titles": [
+      "Astrophysicist"
+    ]
+  },
+  {
+    "id": "actuary",
+    "soc": "15-2011",
+    "title": "Actuaries",
+    "name": "Actuary",
+    "cips": [
+      "27.0101"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Use math and statistics to measure risk for insurers and pension plans.",
+    "titles": [
+      "Pricing actuary"
+    ]
+  },
+  {
+    "id": "mathematician",
+    "soc": "15-2021",
+    "title": "Mathematicians",
+    "name": "Mathematician",
+    "cips": [
+      "27.0101"
+    ],
+    "education": "Master's degree",
+    "summary": "Develop mathematical theory and apply it to real problems.",
+    "titles": [
+      "Applied mathematician"
+    ]
+  },
+  {
+    "id": "operations-research-analyst",
+    "soc": "15-2031",
+    "title": "Operations Research Analysts",
+    "name": "Operations research analyst",
+    "cips": [
+      "27.0101",
+      "45.0601"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Use models and data to help organizations make better decisions.",
+    "titles": [
+      "Quantitative analyst",
+      "Decision scientist"
+    ]
+  },
+  {
+    "id": "environmental-scientist",
+    "soc": "19-2041",
+    "title": "Environmental Scientists and Specialists, Including Health",
+    "name": "Environmental scientist",
+    "cips": [
+      "03.0104"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Protect people and the environment by studying pollution and natural systems.",
+    "titles": [
+      "Environmental consultant",
+      "Sustainability specialist"
+    ]
+  },
+  {
+    "id": "conservation-scientist",
+    "soc": "19-1031",
+    "title": "Conservation Scientists",
+    "name": "Conservation scientist",
+    "cips": [
+      "03.0104",
+      "26.1302"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Manage forests, rangelands, and habitats so they stay healthy.",
+    "titles": [
+      "Habitat biologist",
+      "Restoration ecologist"
+    ]
+  },
+  {
+    "id": "environmental-technician",
+    "soc": "19-4042",
+    "title": "Environmental Science and Protection Technicians, Including Health",
+    "name": "Environmental technician",
+    "cips": [
+      "03.0104"
+    ],
+    "education": "Associate degree",
+    "summary": "Collect samples and monitor air, water, and soil.",
+    "titles": [
+      "Field technician"
+    ]
+  },
+  {
+    "id": "natural-sciences-manager",
+    "soc": "11-9121",
+    "title": "Natural Sciences Managers",
+    "name": "Natural sciences manager",
+    "cips": [
+      "03.0104"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Lead research labs and science programs.",
+    "titles": [
+      "Sustainability manager",
+      "Lab director"
+    ]
+  },
+  {
+    "id": "wildlife-biologist",
+    "soc": "19-1023",
+    "title": "Zoologists and Wildlife Biologists",
+    "name": "Wildlife biologist",
+    "cips": [
+      "26.1302"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Study animals and their habitats, in the field and the lab.",
+    "titles": [
+      "Marine biologist",
+      "Fisheries scientist"
+    ]
+  },
+  {
+    "id": "geoscientist",
+    "soc": "19-2042",
+    "title": "Geoscientists, Except Hydrologists and Geographers",
+    "name": "Geoscientist",
+    "cips": [
+      "40.0601"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Study the earth's structure, resources, and hazards.",
+    "titles": [
+      "Geologist",
+      "Hazards analyst"
+    ]
+  },
+  {
+    "id": "hydrologist",
+    "soc": "19-2043",
+    "title": "Hydrologists",
+    "name": "Hydrologist",
+    "cips": [
+      "40.0601"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Study how water moves through the ground and the environment.",
+    "titles": [
+      "Water resources scientist"
+    ]
+  },
+  {
+    "id": "geological-technician",
+    "soc": "19-4043",
+    "title": "Geological Technicians, Except Hydrologic Technicians",
+    "name": "Geological technician",
+    "cips": [
+      "40.0601"
+    ],
+    "education": "Associate degree",
+    "summary": "Support geologists with field samples, mapping, and lab tests.",
+    "titles": [
+      "Field geology technician"
+    ]
+  },
+  {
+    "id": "clinical-psychologist",
+    "soc": "19-3033",
+    "title": "Clinical and Counseling Psychologists",
+    "name": "Clinical psychologist",
+    "cips": [
+      "42.0101"
+    ],
+    "education": "Doctoral or professional degree",
+    "summary": "Assess and treat mental and emotional conditions.",
+    "titles": [
+      "Counseling psychologist"
+    ]
+  },
+  {
+    "id": "mental-health-counselor",
+    "soc": "21-1018",
+    "title": "Substance Abuse, Behavioral Disorder, and Mental Health Counselors",
+    "name": "Mental health counselor",
+    "cips": [
+      "42.0101"
+    ],
+    "education": "Master's degree",
+    "summary": "Counsel people with mental health and substance use concerns.",
+    "titles": [
+      "Counselor",
+      "Addiction counselor"
+    ]
+  },
+  {
+    "id": "survey-researcher",
+    "soc": "19-3022",
+    "title": "Survey Researchers",
+    "name": "Survey researcher",
+    "cips": [
+      "42.0101",
+      "45.1101",
+      "45.0201"
+    ],
+    "education": "Master's degree",
+    "summary": "Design surveys and analyze what people say, for research and products.",
+    "titles": [
+      "UX researcher",
+      "Research analyst"
+    ]
+  },
+  {
+    "id": "social-science-research-assistant",
+    "soc": "19-4061",
+    "title": "Social Science Research Assistants",
+    "name": "Social science research assistant",
+    "cips": [
+      "42.0101"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Help social scientists run studies and analyze data.",
+    "titles": [
+      "Research assistant"
+    ]
+  },
+  {
+    "id": "sociologist",
+    "soc": "19-3041",
+    "title": "Sociologists",
+    "name": "Sociologist",
+    "cips": [
+      "45.1101"
+    ],
+    "education": "Master's degree",
+    "summary": "Study how groups and societies work.",
+    "titles": [
+      "Social researcher"
+    ]
+  },
+  {
+    "id": "community-services-manager",
+    "soc": "11-9151",
+    "title": "Social and Community Service Managers",
+    "name": "Community services manager",
+    "cips": [
+      "45.1101"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Lead nonprofit and public programs that serve the community.",
+    "titles": [
+      "Community program manager",
+      "Program director"
+    ]
+  },
+  {
+    "id": "political-scientist",
+    "soc": "19-3094",
+    "title": "Political Scientists",
+    "name": "Political scientist",
+    "cips": [
+      "45.1001",
+      "38.0101"
+    ],
+    "education": "Master's degree",
+    "summary": "Study government and public policy and advise on how it works.",
+    "titles": [
+      "Policy analyst",
+      "Legislative aide"
+    ]
+  },
+  {
+    "id": "economist",
+    "soc": "19-3011",
+    "title": "Economists",
+    "name": "Economist",
+    "cips": [
+      "45.0601"
+    ],
+    "education": "Master's degree",
+    "summary": "Study how resources are used and forecast economic trends.",
+    "titles": [
+      "Policy researcher",
+      "Research economist"
+    ]
+  },
+  {
+    "id": "probation-officer",
+    "soc": "21-1092",
+    "title": "Probation Officers and Correctional Treatment Specialists",
+    "name": "Probation officer",
+    "cips": [
+      "43.0104"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Supervise and support people on probation or parole.",
+    "titles": [
+      "Correctional treatment specialist"
+    ]
+  },
+  {
+    "id": "police-officer",
+    "soc": "33-3051",
+    "title": "Police and Sheriff's Patrol Officers",
+    "name": "Police officer",
+    "cips": [
+      "43.0104"
+    ],
+    "education": "High school diploma",
+    "summary": "Protect communities, respond to calls, and enforce laws.",
+    "titles": [
+      "Patrol officer",
+      "Deputy"
+    ]
+  },
+  {
+    "id": "detective",
+    "soc": "33-3021",
+    "title": "Detectives and Criminal Investigators",
+    "name": "Detective",
+    "cips": [
+      "43.0104"
+    ],
+    "education": "High school diploma",
+    "summary": "Investigate crimes and gather evidence.",
+    "titles": [
+      "Criminal investigator",
+      "Victim advocate"
+    ]
+  },
+  {
+    "id": "anthropologist",
+    "soc": "19-3091",
+    "title": "Anthropologists and Archeologists",
+    "name": "Anthropologist",
+    "cips": [
+      "45.0201"
+    ],
+    "education": "Master's degree",
+    "summary": "Study human cultures, past and present.",
+    "titles": [
+      "Archaeologist",
+      "Cultural resource specialist"
+    ]
+  },
+  {
+    "id": "elementary-teacher",
+    "soc": "25-2021",
+    "title": "Elementary School Teachers, Except Special Education",
+    "name": "Elementary teacher",
+    "cips": [
+      "13.1202"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Teach children the foundations of reading, math, and more.",
+    "titles": [
+      "Classroom teacher"
+    ]
+  },
+  {
+    "id": "kindergarten-teacher",
+    "soc": "25-2012",
+    "title": "Kindergarten Teachers, Except Special Education",
+    "name": "Kindergarten teacher",
+    "cips": [
+      "13.1202"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Teach young children as they start school.",
+    "titles": [
+      "Early learning teacher"
+    ]
+  },
+  {
+    "id": "instructional-coordinator",
+    "soc": "25-9031",
+    "title": "Instructional Coordinators",
+    "name": "Instructional coordinator",
+    "cips": [
+      "13.1202",
+      "13.1001",
+      "13.0401"
+    ],
+    "education": "Master's degree",
+    "summary": "Develop curriculum and coach teachers to improve instruction.",
+    "titles": [
+      "Curriculum coordinator",
+      "Instructional coach",
+      "Reading specialist"
+    ]
+  },
+  {
+    "id": "special-education-teacher-elementary",
+    "soc": "25-2052",
+    "title": "Special Education Teachers, Kindergarten and Elementary School",
+    "name": "Special education teacher, elementary",
+    "cips": [
+      "13.1001"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Teach and support young students with disabilities.",
+    "titles": [
+      "Inclusion specialist"
+    ]
+  },
+  {
+    "id": "special-education-teacher-secondary",
+    "soc": "25-2058",
+    "title": "Special Education Teachers, Secondary School",
+    "name": "Special education teacher, secondary",
+    "cips": [
+      "13.1001"
+    ],
+    "education": "Bachelor's degree",
+    "summary": "Teach and support teenagers with disabilities.",
+    "titles": [
+      "Resource room teacher"
+    ]
+  },
+  {
+    "id": "school-principal",
+    "soc": "11-9032",
+    "title": "Education Administrators, Kindergarten through Secondary",
+    "name": "School principal",
+    "cips": [
+      "13.0401"
+    ],
+    "education": "Master's degree",
+    "summary": "Lead schools, staff, and programs for K–12 students.",
+    "titles": [
+      "Principal",
+      "District administrator"
+    ]
+  },
+  {
+    "id": "college-administrator",
+    "soc": "11-9033",
+    "title": "Education Administrators, Postsecondary",
+    "name": "College administrator",
+    "cips": [
+      "13.0401",
+      "13.0406"
+    ],
+    "education": "Master's degree",
+    "summary": "Lead admissions, student affairs, and academic offices at colleges.",
+    "titles": [
+      "Student affairs director",
+      "Dean of students"
+    ]
+  },
+  {
+    "id": "academic-advisor",
+    "soc": "21-1012",
+    "title": "Educational, Guidance, and Career Counselors and Advisors",
+    "name": "Academic advisor",
+    "cips": [
+      "13.0406"
+    ],
+    "education": "Master's degree",
+    "summary": "Help students plan their education and careers.",
+    "titles": [
+      "Admissions counselor",
+      "Career counselor"
+    ]
+  }
+]

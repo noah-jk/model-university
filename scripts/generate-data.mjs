@@ -3,7 +3,7 @@
 // Run with: npm run generate   (writes JSON arrays to content/generated/)
 // The schemas in src/lib/schemas.ts validate everything written here.
 
-import { writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -783,6 +783,116 @@ const departments = Object.entries(colleges).flatMap(([college, fields]) =>
   }))
 );
 
+// Careers: labor market numbers for the occupations in content/careers/occupations.json
+// (real SOC codes and titles, matched to fields by CIP code; the numbers are
+// made up). The fields follow what Lightcast returns, so a real feed can write
+// the same shape. Ranges are set by SOC code, most specific first, so a nurse
+// practitioner and a fitness trainer land in believable places.
+const careerRandom = makeRandom(SEED + 3);
+const occupations = JSON.parse(readFileSync(join(root, "content/careers/occupations.json"), "utf8"));
+const bySoc = (table, soc) => table.find(([prefix]) => soc.startsWith(prefix))[1];
+
+// Washington median annual wage, in thousands
+const WAGE_BANDS = [
+  ["11-1011", [200, 240]], ["11-9032", [125, 145]], ["11-9033", [110, 130]], ["11-9051", [62, 72]], ["11-9151", [80, 92]], ["11-", [125, 175]],
+  ["13-2082", [52, 62]], ["13-", [72, 105]],
+  ["15-1232", [60, 70]], ["15-1221", [150, 175]], ["15-1252", [145, 170]], ["15-", [100, 145]],
+  ["17-", [100, 135]],
+  ["19-4", [50, 64]], ["19-3022", [66, 78]], ["19-1", [78, 105]], ["19-2", [85, 115]], ["19-3", [80, 110]],
+  ["21-1094", [50, 58]], ["21-1093", [46, 54]], ["21-", [58, 75]],
+  ["23-1011", [145, 175]], ["23-", [62, 74]],
+  ["25-1", [78, 105]], ["25-2", [76, 92]], ["25-4", [56, 72]], ["25-9", [82, 98]],
+  ["27-2042", [40, 55]], ["27-1012", [38, 50]], ["27-1013", [50, 64]], ["27-", [58, 95]],
+  ["29-1171", [130, 150]], ["29-1141", [98, 112]], ["29-1128", [58, 70]], ["29-9091", [58, 70]], ["29-1031", [72, 84]], ["29-", [92, 112]],
+  ["33-", [82, 98]], ["39-", [44, 54]],
+];
+// Ten-year growth, in percent
+const GROWTH_BANDS = [
+  ["29-1171", [35, 45]], ["15-2051", [25, 36]], ["15-1212", [22, 33]], ["15-", [8, 26]], ["29-", [5, 20]], ["39-", [10, 16]],
+  ["27-3023", [-6, -2]], ["27-", [-3, 6]], ["25-", [-1, 6]], ["33-", [1, 4]], ["23-", [2, 8]], ["21-", [4, 12]],
+  ["11-", [3, 14]], ["13-", [3, 12]], ["17-", [2, 10]], ["19-", [2, 10]],
+];
+// Jobs in Washington
+const EMPLOYMENT_BANDS = [
+  ["15-1252", [70000, 80000]], ["29-1141", [60000, 68000]], ["11-1021", [60000, 70000]], ["13-2011", [30000, 35000]], ["25-2021", [25000, 30000]],
+  ["19-2011", [80, 160]], ["15-2021", [100, 200]], ["19-3041", [80, 160]], ["19-3093", [120, 240]],
+  ["19-", [400, 2500]], ["25-1", [400, 2500]], ["27-", [1000, 6000]], ["", [2000, 15000]],
+];
+
+const COMMON_SKILLS = ["Communication", "Teamwork", "Problem solving", "Leadership", "Detail oriented", "Writing", "Time management", "Customer service", "Critical thinking", "Research"];
+const GROUP_SKILLS = {
+  "15": { specialized: ["Software development", "Cloud computing", "Data analysis", "Machine learning", "Network security", "Agile methodology"], software: ["Python", "SQL", "Java", "Amazon Web Services", "Git", "Linux", "Microsoft Azure"] },
+  "29": { specialized: ["Patient care", "Electronic health records", "Care coordination", "Patient education", "Clinical assessment"], software: ["Epic (EHR)", "Microsoft Office"] },
+  "11": { specialized: ["Budgeting", "Project management", "Stakeholder management", "Process improvement", "Strategic planning"], software: ["Microsoft Excel", "Salesforce", "Tableau", "SAP"] },
+  "13": { specialized: ["Financial analysis", "Forecasting", "Project management", "Process improvement", "Data analysis"], software: ["Microsoft Excel", "Salesforce", "Tableau", "SAP"] },
+  "17": { specialized: ["Computer-aided design", "Prototyping", "Systems engineering", "Quality assurance", "Project management"], software: ["AutoCAD", "SolidWorks", "MATLAB"] },
+  "19": { specialized: ["Research design", "Data collection", "Laboratory techniques", "Statistical analysis", "Technical writing", "Fieldwork"], software: ["R", "Python", "ArcGIS", "Microsoft Excel"] },
+  "21": { specialized: ["Case management", "Crisis intervention", "Community outreach", "Counseling", "Documentation"], software: ["Microsoft Office", "Case management software"] },
+  "23": { specialized: ["Legal research", "Contract review", "Litigation support", "Compliance"], software: ["Westlaw", "Microsoft Word"] },
+  "25": { specialized: ["Lesson planning", "Curriculum development", "Classroom management", "Student assessment", "Differentiated instruction"], software: ["Google Workspace", "Canvas LMS"] },
+  "27": { specialized: ["Storytelling", "Visual design", "Content creation", "Editing", "Brand strategy"], software: ["Adobe Photoshop", "Adobe InDesign", "Figma", "Pro Tools"] },
+  "33": { specialized: ["Investigations", "Report writing", "De-escalation", "Public safety"], software: ["Records management systems"] },
+  "39": { specialized: ["Fitness instruction", "Program design", "Motivational coaching"], software: ["Microsoft Office"] },
+};
+// Fictional employers, by the college the occupation's first field belongs to
+const EMPLOYERS = {
+  "College of Engineering & Computing": ["Evergreen Software", "Salish Sea Analytics", "Northbend Cloud", "Rainier Engineering Group", "Cascadia Power & Light", "Skagit Aerospace", "Ridgeline Manufacturing", "Tidewater Technologies"],
+  "College of Health & Human Services": ["Cascade Regional Medical Center", "Puget Harbor Health", "Olympic Valley Clinics", "Rainshadow Children's Hospital", "Riverbend Community Health", "Cascadia County Human Services", "Summit Sports Medicine"],
+  "Carver College of Business": ["Pacific Crest Bank", "Driftwood Logistics", "Summit Ridge Partners", "Columbia Gorge Insurance", "Northwest Trail Outfitters", "Mossrock Financial"],
+  "College of Arts & Letters": ["Sound & Story Media", "Driftwood Press", "Northlight Studios", "Evergreen Arts Collective", "Tidewater Creative", "Port Alder Symphony"],
+  "College of Science": ["Coastal Watershed Institute", "Puget BioWorks", "Fernwood Environmental", "Northwest Marine Research Center", "Glacier Peak Labs", "Cascadia Geological Survey"],
+  "College of Social & Behavioral Sciences": ["Cascadia County Superior Court", "Harbor Lights Family Services", "Riverstone Housing Alliance", "Port Alder Police Department", "Cascadia Policy Institute", "Insight Northwest Research"],
+  "College of Education": ["Mossrock School District", "Fernhill Public Schools", "Tideline Community College", "Cedar Hollow Academy", "Cascadia State University"],
+};
+const collegeOfCip = Object.fromEntries(Object.entries(colleges).flatMap(([college, fields]) => fields.map(([, cip]) => [cip, college])));
+const keywordsOfCip = Object.fromEntries(Object.values(colleges).flat().map(([, cip, , keywords]) => [cip, keywords]));
+// Sentence case; short keywords like "rn" and "ai" are search terms, not skills
+const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
+const pickSome = (list, count) => {
+  const pool = [...list];
+  const chosen = [];
+  while (chosen.length < count && pool.length) chosen.push(...pool.splice(careerRandom.between(0, pool.length - 1), 1));
+  return chosen;
+};
+const toHundred = (n) => Math.round(n / 100) * 100;
+const wageSpread = (median) => ({
+  p10: toHundred(median * careerRandom.between(55, 65) / 100),
+  p25: toHundred(median * careerRandom.between(75, 82) / 100),
+  median: toHundred(median),
+  p75: toHundred(median * careerRandom.between(118, 128) / 100),
+  p90: toHundred(median * careerRandom.between(140, 160) / 100),
+});
+// The year of postings, ending with the data's month
+const POSTING_MONTHS = Array.from({ length: 12 }, (_, i) => `${i < 3 ? 2025 : 2026}-${String(((i + 9) % 12) + 1).padStart(2, "0")}`);
+
+const careers = occupations.map((o) => {
+  const [low, high] = bySoc(WAGE_BANDS, o.soc);
+  const median = careerRandom.between(low, high) * 1000;
+  const growth = careerRandom.between(...bySoc(GROWTH_BANDS, o.soc));
+  const employment = careerRandom.between(...bySoc(EMPLOYMENT_BANDS, o.soc));
+  const openings = Math.max(10, Math.round(employment * careerRandom.between(7, 12) / 100 + (employment * Math.max(growth, 0)) / 1000));
+  const monthly = (openings / 12) * careerRandom.between(110, 180) / 100;
+  const trend = careerRandom.between(-15, 20) / 100;
+  const group = GROUP_SKILLS[o.soc.slice(0, 2)] ?? GROUP_SKILLS[o.soc.startsWith("31") ? "29" : "13"];
+  const fieldKeywords = [...new Set(o.cips.flatMap((cip) => keywordsOfCip[cip]))].filter((k) => k.length > 3).map(capitalize);
+  return {
+    id: o.id,
+    region: "Washington",
+    vintage: "2026",
+    wages: { washington: wageSpread(median), national: wageSpread(median * careerRandom.between(86, 96) / 100) },
+    employment,
+    growth_percent: growth,
+    annual_openings: openings,
+    postings: POSTING_MONTHS.map((month, i) => ({ month, count: Math.max(1, Math.round(monthly * (1 + (trend * i) / 11) * careerRandom.between(85, 115) / 100)) })),
+    skills: [
+      ...pickSome([...fieldKeywords, ...group.specialized], 4).map((name) => ({ name, type: "specialized" })),
+      ...pickSome(COMMON_SKILLS, 3).map((name) => ({ name, type: "common" })),
+      ...pickSome(group.software, 2).map((name) => ({ name, type: "software" })),
+    ],
+    employers: pickSome(EMPLOYERS[collegeOfCip[o.cips[0]]], 4),
+  };
+});
+
 const outDir = join(root, "content/generated");
 mkdirSync(outDir, { recursive: true });
 const save = (name, rows) => writeFileSync(join(outDir, `${name}.json`), JSON.stringify(rows, null, 2) + "\n");
@@ -793,4 +903,5 @@ save("courses", courses);
 save("services", services);
 save("faculty", faculty);
 save("events", events);
-console.log(`Wrote ${collegeList.length} colleges, ${departments.length} departments, ${programs.length} programs, ${courses.length} courses, ${services.length} services, ${faculty.length} faculty, and ${events.length} events.`);
+save("careers", careers);
+console.log(`Wrote ${collegeList.length} colleges, ${departments.length} departments, ${programs.length} programs, ${courses.length} courses, ${services.length} services, ${faculty.length} faculty, ${events.length} events, and ${careers.length} careers.`);

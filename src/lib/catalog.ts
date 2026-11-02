@@ -11,11 +11,14 @@ import servicesData from "../../content/generated/services.json" with { type: "j
 import facultyData from "../../content/generated/faculty.json" with { type: "json" };
 import eventsData from "../../content/generated/events.json" with { type: "json" };
 import newsData from "../../content/generated/news.json" with { type: "json" };
+import careersData from "../../content/generated/careers.json" with { type: "json" };
+import occupationsData from "../../content/careers/occupations.json" with { type: "json" };
 import siteConfig from "../../site.config.ts";
-import type { College, Course, Department, Event, FacultyMember, NewsIndexEntry, Program, Related, Service } from "./schemas.ts";
+import type { CareerData, College, Course, Department, Event, FacultyMember, NewsIndexEntry, Occupation, Program, Related, Service } from "./schemas.ts";
 import { eventWhen } from "./dates.ts";
 import { campusTime, isOpen } from "./hours.ts";
 import { absoluteUrl, pagePath } from "./urls.ts";
+import { EDUCATION_LEVELS, PROGRAM_LEVELS } from "./vocab.ts";
 import { STOP_WORDS, stem, straightQuotes } from "./words.ts";
 
 export const colleges = collegesData as College[];
@@ -206,6 +209,76 @@ export function comparePrograms(ids: string[], base: Base) {
     const { name, level, credential, modality, campus, credits, duration, start_terms, estimated_total_tuition_usd, tuition_per_credit_usd, requirements, careers, url } = p;
     return { id: p.id, name, level, credential, modality, campus, credits, duration, start_terms, estimated_total_tuition_usd, tuition_per_credit_usd, requirements, careers, url };
   });
+}
+
+// Careers --------------------------------------------------------------------
+// An occupation (who does what, matched to fields by CIP code) with its labor
+// market numbers. Pages, search, and MCP all read careers through these.
+
+export type Career = Occupation & Omit<CareerData, "id">;
+const numbersById = byId(careersData as CareerData[]);
+export const careers: Career[] = (occupationsData as Occupation[]).map((o) => ({ ...o, ...numbersById.get(o.id)!, id: o.id }));
+
+export const findCareer = (key: string) => careers.find((c) => c.id === key || c.soc === key) ?? careers.find((c) => norm(c.name) === norm(key) || norm(c.title) === norm(key));
+
+// The education a program level prepares for: careers that ask for it come
+// first, then those that ask for less
+const EDUCATION_FOR_LEVEL: Record<Program["level"], (typeof EDUCATION_LEVELS)[number]> = {
+  "Bachelor's": "Bachelor's degree",
+  Minor: "Bachelor's degree",
+  "Master's": "Master's degree",
+  Certificate: "Master's degree",
+  Doctorate: "Doctoral or professional degree",
+};
+const educationRank = (level: string) => EDUCATION_LEVELS.indexOf(level as (typeof EDUCATION_LEVELS)[number]);
+
+// A program's careers, best fit first: its own field's occupations before
+// those it shares, and the education its level gives before the rest
+export function careersForProgram(program: Program) {
+  const cip = departmentOf(program).cip;
+  const target = educationRank(EDUCATION_FOR_LEVEL[program.level]);
+  const score = (c: Career) => (c.cips[0] === cip ? 2 : 0) + (educationRank(c.education) === target ? 2 : educationRank(c.education) < target ? 1 : 0);
+  return careers
+    .filter((c) => c.cips.includes(cip))
+    .map((c, i) => ({ c, i, s: score(c) }))
+    .sort((a, b) => b.s - a.s || a.i - b.i)
+    .map(({ c }) => c);
+}
+
+// Programs that lead to a career, by level then name
+export function programsForCareer(career: Career) {
+  const fields = new Set(departments.filter((d) => career.cips.includes(d.cip)).map((d) => d.id));
+  return programs
+    .filter((p) => fields.has(p.department))
+    .sort((a, b) => PROGRAM_LEVELS.indexOf(a.level) - PROGRAM_LEVELS.indexOf(b.level) || a.name.localeCompare(b.name));
+}
+
+// The departments a career's fields belong to, for the interest profile
+export const departmentsForCareer = (career: Career) => departments.filter((d) => career.cips.includes(d.cip));
+
+export type CareerQuery = {
+  query?: string;
+  // A department id or field name, e.g. "nursing" or "Nursing"
+  field?: string;
+  // The most education someone wants to need, e.g. "Bachelor's degree"
+  education?: string;
+  min_wage?: number; // Washington median, per year
+  min_growth?: number; // percent over ten years
+};
+
+// Careers matching a search: names, official titles, other titles, and skills
+export function searchCareers({ query, field, education, min_wage, min_growth }: CareerQuery) {
+  const department = field ? departments.find((d) => d.id === field || norm(d.field) === norm(field)) : undefined;
+  if (field && !department) return [];
+  const most = education ? educationRank(education) : EDUCATION_LEVELS.length;
+  const matching = careers
+    .filter((c) => !department || c.cips.includes(department.cip))
+    .filter((c) => educationRank(c.education) <= most)
+    .filter((c) => !min_wage || c.wages.washington.median >= min_wage)
+    .filter((c) => min_growth === undefined || c.growth_percent >= min_growth);
+  return ranked(matching, query, (c) => [[c.name, 5], [c.titles.join(" "), 4], [c.title, 3], [c.skills.map((k) => k.name).join(" "), 2], [departmentsForCareer(c).map((d) => d.field).join(" "), 2], [c.summary, 1]])
+    .sort((a, b) => b.s - a.s || a.item.name.localeCompare(b.item.name))
+    .map(({ item }) => item);
 }
 
 export function listColleges() {
