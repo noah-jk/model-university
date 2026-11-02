@@ -1,0 +1,102 @@
+---
+// The top of a program page: who it's for at a glance, the college's photo,
+// and the facts people compare first. The next deadline is worked out at
+// build time and again in the browser (src/scripts/next-deadline.ts), since
+// pages are built ahead of time.
+import { Picture } from "astro:assets";
+import SaveButton from "../workbench/SaveButton.astro";
+import ProgramPathHint from "../workbench/ProgramPathHint.astro";
+import JourneyActions from "../JourneyActions.astro";
+import { collegeOf } from "../../lib/catalog.ts";
+import { longDay } from "../../lib/dates.ts";
+import { usd } from "../../lib/format.ts";
+import { collegePhotos } from "../../lib/photos.ts";
+import { nextDeadline } from "../../lib/program-page.ts";
+import type { Program } from "../../lib/schemas.ts";
+import { upcomingTerms } from "../../lib/terms.ts";
+import { deadlineDate, termName } from "../../lib/workbench/derive.ts";
+
+interface Props {
+  program: Program;
+}
+const { program: p } = Astro.props;
+const college = collegeOf(p);
+const photo = collegePhotos[college.name];
+// The first sentence of the description, as the pitch
+const pitch = p.description.match(/^.*?[.?](\s|$)/)?.[0].trim() ?? p.description;
+const deadline = nextDeadline(p);
+const dayOf = (date: string) => longDay(date).replace(/^\w+, /, "");
+// Every deadline in the next two years, for the browser to pick from
+const deadlines = upcomingTerms(8).flatMap((term) => {
+  const d = p.application_deadlines.find((x) => x.term === termName(term));
+  const date = d && deadlineDate(d.deadline, term);
+  return date ? [{ term, date, text: `${dayOf(date)}, for ${term}` }] : [];
+});
+const facts: [string, string, Record<string, string>?][] = [
+  ["Credential", p.credential],
+  ["Format", p.modality === "In person" ? `In person, ${p.campus}` : p.modality],
+  ["Length", p.level === "Minor" ? `${p.credits} credits` : p.duration],
+  ["Estimated tuition", usd(p.estimated_total_tuition_usd)],
+  deadline ? ["Next deadline", `${dayOf(deadline.date)}, for ${deadline.term}`, { "data-next-deadline": JSON.stringify(deadlines) }] : ["Starts", p.start_terms.join(", ")],
+];
+---
+
+<header class="program-hero">
+  <div class="hero-text">
+    <p class="eyebrow">{college.name}</p>
+    <h1>{p.name}</h1>
+    <p class="pitch">{pitch}</p>
+    <div class="hero-save">
+      <SaveButton kind="program" id={p.id} />
+      <ProgramPathHint program={p} />
+    </div>
+    <JourneyActions formId="request-info" />
+  </div>
+  {
+    photo && (
+      <Picture class="hero-photo" src={photo.image} alt={photo.alt} widths={[480, 720, 960]} sizes="(min-width: 900px) 40vw, 100vw" formats={["avif", "webp"]} loading="eager" />
+    )
+  }
+</header>
+
+<dl class="facts" aria-label="Key facts">
+  {
+    facts.map(([label, value, attrs]) => (
+      <div>
+        <dt>{label}</dt>
+        <dd {...attrs}>{value}</dd>
+      </div>
+    ))
+  }
+</dl>
+
+{
+  deadline && (
+    <script>
+      import "../../scripts/next-deadline.ts";
+    </script>
+  )
+}
+
+<style>
+  .program-hero { display: grid; gap: 1.5rem; align-items: center; margin-block: 0.5rem 1.5rem; }
+  @media (min-width: 900px) { .program-hero { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 2.5rem; } }
+  .eyebrow { margin: 0 0 0.35rem; font: 600 var(--step--1) / 1.3 var(--sans); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  h1 { margin: 0 0 0.75rem; }
+  .pitch { margin: 0 0 1rem; font-size: var(--step-1); color: var(--muted); max-width: var(--measure); }
+  .hero-save { display: grid; gap: 0.5rem; justify-items: start; }
+  .program-hero :global(.hero-photo) { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-l); }
+  .program-hero :global(picture) { display: block; }
+
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 0; margin: 0 0 2.5rem; padding: 0; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-s); }
+  .facts > div { padding: 0.85rem 1.1rem; border-left: 1px solid var(--line); }
+  .facts > div:first-child { border-left: 0; }
+  @media (max-width: 40rem) {
+    .facts { grid-template-columns: 1fr 1fr; }
+    .facts > div { border-left: 0; border-top: 1px solid var(--line); }
+    .facts > div:nth-child(-n + 2) { border-top: 0; }
+    .facts > div:nth-child(even) { border-left: 1px solid var(--line); }
+  }
+  dt { font: 600 var(--step--1) / 1.3 var(--sans); color: var(--muted); }
+  dd { margin: 0.2rem 0 0; font-weight: 600; }
+</style>

@@ -49,6 +49,7 @@ scripts/
   test-your-path.ts         Your Path's profile, plan, and timeline
   test-enrollment.ts        The enrollment rules, their lookups, and targeted events
   test-careers.ts           Career data and its queries
+  test-programs.ts          Program pages: stories, curriculum, FAQs, deadlines, structured data
 ```
 
 ### Content model
@@ -64,6 +65,7 @@ scripts/
 | `events` | 76 events across the 2026–27 academic year, some for particular students (`levels`, `student_types`) | `related` programs, departments, services, faculty |
 | `news` | News stories (Markdown) | `related` programs, departments, services, faculty |
 | `pages` | About and admissions pages (Markdown) | |
+| `program-stories` | Each program page's three highlights, classroom photo, and fictional student story | `id` (a program) |
 | `careers` | 123 occupations: who does what (`content/careers/occupations.json`) and their labor market numbers (`content/generated/careers.json`) | fields of study, by CIP code |
 
 Courses also point to their `instructor` (a faculty id).
@@ -133,6 +135,16 @@ Career data is modeled on how universities use Lightcast: programs are matched t
 - Queries in `src/lib/catalog.ts`, shared by pages, search, and MCP: `careers`, `findCareer` (id, SOC code, or title), `careersForProgram` (its own field's occupations first, and those its level prepares for), `programsForCareer`, `searchCareers` (words in names, titles, and skills; field, education, minimum wage, minimum growth), and `departmentsForCareer`.
 - `npm run check:content` checks every occupation against its schema, that SOC codes and ids are unique, that every field of study has occupations, and that every occupation has its numbers.
 - **Using real Lightcast data:** a scheduled Netlify function would fetch occupations for each CIP code with the API keys in Netlify's environment variables (read only in `netlify/functions/`, per `CLAUDE.md`), cache the result in Netlify Blobs, and write the same shape as `careers.json`; pages wouldn't change. Real data needs Lightcast's attribution and a refresh schedule (its data is updated quarterly).
+
+### Program pages
+
+Each program page (`src/pages/academics/programs/[id]/index.astro`) is built from catalog data, the same way for every program:
+
+- `src/components/programs/ProgramHero.astro`: the college's photo, the description's first sentence, Save and journey buttons, and a facts strip (credential, format, length, estimated tuition, next deadline). The next deadline is worked out at build time and again in the browser (`src/scripts/next-deadline.ts`), since pages are built ahead of time.
+- Highlights, a classroom photo, and a student story from `content/generated/program-stories.json` (`storyOf()` in `catalog.ts`). Each portrait always has the same name.
+- `src/components/programs/ProgramCareers.astro`: the program's top career (median Washington salary with the national figure, ten-year growth, openings a year), its pay range, the careers it leads to, skills, employers, and one source line. Minors and certificates say "Careers this can support".
+- `src/lib/program-page.ts` (no DOM code): the curriculum map (lower then upper division, or 500- then 600-level), five FAQs answered from the program's data, the next deadline, and schema.org `EducationalOccupationalProgram` JSON-LD with the occupations' SOC codes (made-up salaries stay out of it).
+- `src/lib/photos.ts`: the photo library with alt text, shared with the home page.
 
 ### Enrollment rules
 

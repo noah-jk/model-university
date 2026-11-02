@@ -12,9 +12,10 @@ import facultyData from "../../content/generated/faculty.json" with { type: "jso
 import eventsData from "../../content/generated/events.json" with { type: "json" };
 import newsData from "../../content/generated/news.json" with { type: "json" };
 import careersData from "../../content/generated/careers.json" with { type: "json" };
+import storiesData from "../../content/generated/program-stories.json" with { type: "json" };
 import occupationsData from "../../content/careers/occupations.json" with { type: "json" };
 import siteConfig from "../../site.config.ts";
-import type { CareerData, College, Course, Department, Event, FacultyMember, NewsIndexEntry, Occupation, Program, Related, Service } from "./schemas.ts";
+import type { CareerData, College, ProgramStory, Course, Department, Event, FacultyMember, NewsIndexEntry, Occupation, Program, Related, Service } from "./schemas.ts";
 import { eventWhen } from "./dates.ts";
 import { campusTime, isOpen } from "./hours.ts";
 import { absoluteUrl, pagePath } from "./urls.ts";
@@ -210,6 +211,10 @@ export function comparePrograms(ids: string[], base: Base) {
     return { id: p.id, name, level, credential, modality, campus, credits, duration, start_terms, estimated_total_tuition_usd, tuition_per_credit_usd, requirements, careers, url };
   });
 }
+
+// A program page's highlights, photo, and student story
+const storyById = byId(storiesData as ProgramStory[]);
+export const storyOf = (program: Program) => storyById.get(program.id)!;
 
 // Careers --------------------------------------------------------------------
 // An occupation (who does what, matched to fields by CIP code) with its labor

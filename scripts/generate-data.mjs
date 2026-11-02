@@ -893,6 +893,59 @@ const careers = occupations.map((o) => {
   };
 });
 
+// Program pages: three highlights, a classroom photo, and a student story for
+// each program, on their own stream so nothing else changes. Photos are keys
+// into src/lib/photos.ts. Stories are fictional; each photo always has the
+// same name, so a face never gets two names.
+const storyRandom = makeRandom(SEED + 4);
+const fieldOf = Object.fromEntries(Object.values(colleges).flat().map(([field, , careers]) => [slug(field), { field, careers }]));
+const HIGHLIGHTS = [
+  { title: "Learn by doing", text: (f) => `Labs, studios, and fieldwork in ${f} start early, not just in your last year.` },
+  { title: "Small classes", text: (f) => `Most ${f} classes have fewer than 30 students, so faculty know your name and your goals.` },
+  { title: "Regional partners", text: (f) => `Projects and internships with Pacific Northwest employers put ${f} to work.` },
+  { title: "Faculty who practice", text: (f) => `Learn from faculty who still work, research, and publish in ${f}.` },
+  { title: "A capstone that counts", text: () => "Finish with a project you can show employers and graduate schools." },
+  { title: "Career support from day one", text: () => "Advisors and the Career Center help you plan internships and your first job." },
+];
+const FLEXIBLE = { title: "Flexible scheduling", text: () => "Evening, hybrid, and online options fit around work and family." };
+const SCENES = ["students-class-2", "students-class-3", "students-class-4", "students-campus-6"];
+const STORY_PEOPLE = {
+  undergraduate: [["profile-student-1", "Rohan S."], ["profile-student-2", "Maddie L."], ["profile-student-3", "Clara W."]],
+  graduate: [["profile-adult-1", "Daniel C."], ["profile-adult-2", "Marisol R."], ["profile-adult-3", "Tanya B."], ["profile-adult-4", "Greg H."]],
+};
+const QUOTES = [
+  (f, c) => `I came in curious about ${f} and left with a plan. Internships showed me what a ${c} really does day to day.`,
+  (_f, c) => `My professors knew my name from the first week. They connected me with the people who hired me as a ${c}.`,
+  () => `The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript.`,
+  (f) => `I was working while I studied, and the schedule made it possible. I never felt like I was doing ${f} alone.`,
+  (_f, c) => `The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for ${c} roles.`,
+];
+const programStories = programs.map((p) => {
+  const { field, careers: fieldCareers } = fieldOf[p.department];
+  // In a sentence: "computer science", but "English" keeps its capital
+  const subject = (field === "English" ? field : field.toLowerCase()).replace(" & ", " and ");
+  const pool = p.modality === "In person" ? HIGHLIGHTS : [FLEXIBLE, ...HIGHLIGHTS];
+  const chosen = [];
+  while (chosen.length < 3) {
+    const h = storyRandom.pick(pool);
+    if (!chosen.includes(h)) chosen.push(h);
+  }
+  const grad = ["Master's", "Doctorate", "Certificate"].includes(p.level);
+  const [photo, name] = storyRandom.pick(STORY_PEOPLE[grad ? "graduate" : "undergraduate"]);
+  const graduated = storyRandom.chance(0.6);
+  return {
+    id: p.id,
+    highlights: chosen.map((h) => ({ title: h.title, text: h.text(subject) })),
+    scene: storyRandom.pick(SCENES),
+    story: {
+      name,
+      photo,
+      role: graduated ? `${p.name}, class of ${storyRandom.between(2021, 2025)}` : `${p.name} student`,
+      quote: storyRandom.pick(QUOTES)(subject, storyRandom.pick(fieldCareers)),
+    },
+  };
+});
+
 const outDir = join(root, "content/generated");
 mkdirSync(outDir, { recursive: true });
 const save = (name, rows) => writeFileSync(join(outDir, `${name}.json`), JSON.stringify(rows, null, 2) + "\n");
@@ -904,4 +957,5 @@ save("services", services);
 save("faculty", faculty);
 save("events", events);
 save("careers", careers);
-console.log(`Wrote ${collegeList.length} colleges, ${departments.length} departments, ${programs.length} programs, ${courses.length} courses, ${services.length} services, ${faculty.length} faculty, ${events.length} events, and ${careers.length} careers.`);
+save("program-stories", programStories);
+console.log(`Wrote ${collegeList.length} colleges, ${departments.length} departments, ${programs.length} programs, ${courses.length} courses, ${services.length} services, ${faculty.length} faculty, ${events.length} events, ${careers.length} careers, and ${programStories.length} program stories.`);
