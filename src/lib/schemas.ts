@@ -2,7 +2,7 @@
 // scripts/check-content.ts uses them to validate data outside Astro.
 
 import { z } from "astro/zod";
-import { ALL_STUDENT_TYPES, AUDIENCES, CAMPUSES, COURSE_LEVELS, EVENT_CATEGORIES, FACULTY_TITLES, MODALITIES, PROGRAM_LEVELS, SERVICE_CATEGORIES, STEP_PHASES, STUDENT_LEVELS, TERMS } from "./vocab.ts";
+import { ALL_STUDENT_TYPES, AUDIENCES, CAMPUSES, COURSE_LEVELS, EVENT_CATEGORIES, FACULTY_TITLES, MODALITIES, PROGRAM_LEVELS, EDUCATION_LEVELS, SERVICE_CATEGORIES, SKILL_TYPES, STEP_PHASES, STUDENT_LEVELS, TERMS } from "./vocab.ts";
 
 const id = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Use lowercase letters and numbers joined by hyphens");
 const text = z.string().min(1);
@@ -217,6 +217,38 @@ export const officeSet = z.object({
 });
 
 // Every generated collection, keyed by its file name in content/generated/.
+// Careers. An occupation (content/careers/occupations.json, edited by hand)
+// is a real SOC code and title matched to fields of study by CIP code; its id
+// is the page address, so a new code never breaks a link. Its numbers
+// (content/generated/careers.json) are made up, in the shape Lightcast returns.
+export const occupation = z.object({
+  id,
+  soc: z.string().regex(/^\d{2}-\d{4}$/, 'Use a SOC code like "15-1252"'),
+  title: text, // the official SOC title
+  name: text, // what pages show, e.g. "Software developer"
+  cips: z.array(z.string().regex(/^\d{2}\.\d{4}$/)).min(1), // fields of study (departments' CIP codes)
+  education: z.enum(EDUCATION_LEVELS), // typical education to enter
+  summary: text,
+  titles: z.array(text), // other job titles
+});
+
+const wageSpread = z
+  .object({ p10: z.number().int().positive(), p25: z.number().int().positive(), median: z.number().int().positive(), p75: z.number().int().positive(), p90: z.number().int().positive() })
+  .refine((w) => w.p10 <= w.p25 && w.p25 <= w.median && w.median <= w.p75 && w.p75 <= w.p90, "Percentiles must be in order");
+
+export const careerData = z.object({
+  id, // → occupations
+  region: text,
+  vintage: text, // the data's year, for the source line
+  wages: z.object({ washington: wageSpread, national: wageSpread }),
+  employment: z.number().int().positive(),
+  growth_percent: z.number(), // ten-year projected change
+  annual_openings: z.number().int().positive(),
+  postings: z.array(z.object({ month: z.string().regex(/^\d{4}-\d{2}$/), count: z.number().int().nonnegative() })).length(12),
+  skills: z.array(z.object({ name: text, type: z.enum(SKILL_TYPES) })).min(3),
+  employers: z.array(text).min(1),
+});
+
 export const generatedSchemas = {
   colleges: college,
   departments: department,
@@ -226,6 +258,7 @@ export const generatedSchemas = {
   faculty: facultyMember,
   events: event,
   news: newsIndexEntry,
+  careers: careerData,
 };
 
 // Fields that hold the ids of entries in another collection.
@@ -240,6 +273,8 @@ export const references: Record<string, Record<string, keyof typeof generatedSch
 };
 
 export type College = z.infer<typeof college>;
+export type Occupation = z.infer<typeof occupation>;
+export type CareerData = z.infer<typeof careerData>;
 export type Department = z.infer<typeof department>;
 export type Program = z.infer<typeof program>;
 export type Course = z.infer<typeof course>;

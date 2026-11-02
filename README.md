@@ -19,6 +19,7 @@ One content layer feeds every page and every AI feature.
 site.config.ts              Site name, URL, timezone, indexing, and AI feature switches
 content/
   generated/                Catalog, faculty, and events as JSON, written by scripts/generate-data.mjs (don't edit by hand)
+  careers/                  Occupations (real SOC codes and titles) matched to fields of study by CIP code (edited by hand)
   enrollment/               Your Path's rules: academic calendar, enrollment steps, offices by student type (edited by hand)
   news/                     News stories, one Markdown file each
   pages/                    About and admissions pages in Markdown
@@ -47,6 +48,7 @@ scripts/
   test-workbench.ts         The workbench's store, views, and index
   test-your-path.ts         Your Path's profile, plan, and timeline
   test-enrollment.ts        The enrollment rules, their lookups, and targeted events
+  test-careers.ts           Career data and its queries
 ```
 
 ### Content model
@@ -62,6 +64,7 @@ scripts/
 | `events` | 76 events across the 2026–27 academic year, some for particular students (`levels`, `student_types`) | `related` programs, departments, services, faculty |
 | `news` | News stories (Markdown) | `related` programs, departments, services, faculty |
 | `pages` | About and admissions pages (Markdown) | |
+| `careers` | 123 occupations: who does what (`content/careers/occupations.json`) and their labor market numbers (`content/generated/careers.json`) | fields of study, by CIP code |
 
 Courses also point to their `instructor` (a faculty id).
 
@@ -120,6 +123,16 @@ To avoid layout shift, the program list is reordered by a small inline script be
 - Keyword search (`keywordPlan`) takes over when there's no key, the visitor is over 10 searches a minute, the model takes over 8 seconds or fails, plans nothing usable, or its plan finds nothing. The response then has `fallback: true`. If keyword search's program filters find nothing ("How do I apply as an undergrad?"), it tries the other words across everything.
 - The key is `GEMINI_API_KEY` in Netlify's environment variables, read only in `netlify/functions/search.mts`. See `CLAUDE.md`.
 - AI summary (`aiSummary`): `src/lib/search/summary-rule.ts` decides when (a question-like search, planned by the model, with at least two results and no direct answer); `summary.ts` builds numbered records from the results' ids, the prompt, and the checks (it must cite only those records, stay under 280 characters, and contain no links); `summary-handler.ts` and `netlify/functions/summary.mts` serve it, sharing search's rate limit (`netlify/lib/rate-limit.ts`). The page keeps the panel's space from the start, so results don't move.
+
+### Careers
+
+Career data is modeled on how universities use Lightcast: programs are matched to occupations by CIP code, and each occupation has wages, outlook, job postings, skills, and employers.
+
+- `content/careers/occupations.json`, edited by hand: about three to six occupations per field of study, matched from the federal CIP-to-SOC crosswalk and trimmed to sensible matches. Each has a real SOC code and official title, a display name (pages show "Registered nurse", not "Registered Nurses"), the fields it matches (`cips`), the typical education to enter it, a one-line summary, and other job titles. Its `id` is the page address, so a new SOC code never breaks a link.
+- `content/generated/careers.json`, from `scripts/generate-data.mjs` on its own random stream: Washington and national wages (10th, 25th, median, 75th, and 90th percentiles), employment, ten-year growth, openings per year, twelve months of job postings, skills by type, and employers (all fictional). The numbers are made up, within ranges set by SOC code. The shape follows what Lightcast returns.
+- Queries in `src/lib/catalog.ts`, shared by pages, search, and MCP: `careers`, `findCareer` (id, SOC code, or title), `careersForProgram` (its own field's occupations first, and those its level prepares for), `programsForCareer`, `searchCareers` (words in names, titles, and skills; field, education, minimum wage, minimum growth), and `departmentsForCareer`.
+- `npm run check:content` checks every occupation against its schema, that SOC codes and ids are unique, that every field of study has occupations, and that every occupation has its numbers.
+- **Using real Lightcast data:** a scheduled Netlify function would fetch occupations for each CIP code with the API keys in Netlify's environment variables (read only in `netlify/functions/`, per `CLAUDE.md`), cache the result in Netlify Blobs, and write the same shape as `careers.json`; pages wouldn't change. Real data needs Lightcast's attribution and a refresh schedule (its data is updated quarterly).
 
 ### Enrollment rules
 

@@ -16,6 +16,18 @@ export type Day = (typeof DAYS)[number];
 
 export const FACULTY_TITLES = ["Professor", "Associate Professor", "Assistant Professor", "Senior Lecturer"] as const;
 export const EVENT_CATEGORIES = ["Admissions", "Academics", "Arts", "Career", "Community", "Money", "Wellbeing"] as const;
+// Typical education to enter an occupation, in the federal (BLS) wording careers data uses
+export const EDUCATION_LEVELS = [
+  "No formal educational credential",
+  "High school diploma",
+  "Postsecondary certificate",
+  "Some college, no degree",
+  "Associate degree",
+  "Bachelor's degree",
+  "Master's degree",
+  "Doctoral or professional degree",
+] as const;
+export const SKILL_TYPES = ["specialized", "common", "software"] as const;
 export const AUDIENCES = ["Prospective students", "Current students", "Families", "Alumni", "Faculty and staff", "Public"] as const;
 
 // Your Path: who a student is. Level and type decide which enrollment steps,

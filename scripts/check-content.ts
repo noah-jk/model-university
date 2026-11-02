@@ -4,7 +4,7 @@
 
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { calendarEntry, calendarTerms, officesFor, stepsFor } from "../src/lib/enrollment.ts";
-import { calendarEntry as calendarEntrySchema, enrollmentStep, generatedSchemas, JOURNEY_STEPS, officeSet, references } from "../src/lib/schemas.ts";
+import { calendarEntry as calendarEntrySchema, enrollmentStep, generatedSchemas, JOURNEY_STEPS, occupation, officeSet, references } from "../src/lib/schemas.ts";
 import { STUDENT_TYPES } from "../src/lib/vocab.ts";
 import { buildNewsIndex, indexFile, serialize } from "./index-news.ts";
 
@@ -52,6 +52,25 @@ for (const [name, rows] of Object.entries(enrollment) as [keyof typeof schemas, 
   const ids = rows.map((r) => r.id).filter(Boolean);
   if (new Set(ids).size !== ids.length) errors.push(`enrollment/${name}: duplicate ids`);
 }
+
+// Careers (content/careers/occupations.json, edited by hand) --------------------------
+
+const occupations = JSON.parse(readFileSync(new URL("../content/careers/occupations.json", import.meta.url), "utf8")) as Record<string, unknown>[];
+occupations.forEach((row, i) => {
+  const result = occupation.safeParse(row);
+  if (!result.success) for (const issue of result.error.issues) errors.push(`careers/occupations[${row.id ?? i}]: ${issue.path.join(".")}: ${issue.message}`);
+});
+const occupationIds = new Set(occupations.map((o) => o.id));
+if (occupationIds.size !== occupations.length) errors.push("careers/occupations: duplicate ids");
+if (new Set(occupations.map((o) => o.soc)).size !== occupations.length) errors.push("careers/occupations: duplicate SOC codes");
+const fieldCips = new Set((data.departments as unknown as { cip: string }[]).map((d) => d.cip));
+for (const o of occupations) for (const cip of o.cips as string[]) if (!fieldCips.has(cip)) errors.push(`careers/occupations/${o.id}: CIP ${cip} isn't any department's`);
+for (const d of data.departments as unknown as { id: string; cip: string }[]) {
+  if (!occupations.some((o) => (o.cips as string[]).includes(d.cip))) errors.push(`careers: department ${d.id} (CIP ${d.cip}) has no occupations`);
+}
+// Every occupation has its numbers, and the numbers belong to one
+for (const o of occupations) if (!ids.careers.has(o.id as string)) errors.push(`careers/${o.id}: no numbers in content/generated/careers.json. Run npm run generate.`);
+for (const id of ids.careers) if (!occupationIds.has(id)) errors.push(`careers: numbers for "${id}", which isn't in content/careers/occupations.json`);
 
 // Site pages a link may point to: every static page under src/pages/
 function sitePaths(dir = new URL("../src/pages/", import.meta.url), path = "/"): string[] {
@@ -112,4 +131,5 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(`✓ content: ${names.map((n) => `${data[n].length} ${n}`).join(", ")}`);
+console.log(`✓ careers: ${occupations.length} occupations for ${fieldCips.size} fields`);
 console.log(`✓ enrollment: ${enrollment.calendar.length} calendar dates for ${calendarTerms.length} terms, ${enrollment.steps.length} steps, ${enrollment.offices.length} office sets`);
