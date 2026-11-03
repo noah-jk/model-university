@@ -19,6 +19,7 @@ One content layer feeds every page and every AI feature.
 site.config.ts              Site name, URL, timezone, indexing, and AI feature switches
 content/
   generated/                Catalog, faculty, and events as JSON, written by scripts/generate-data.mjs (don't edit by hand)
+  search/                   Prewritten AI summaries for the suggested searches (edited by hand)
   careers/                  Occupations (real SOC codes and titles) matched to fields of study by CIP code (edited by hand)
   enrollment/               Your Path's rules: academic calendar, enrollment steps, offices by student type (edited by hand)
   news/                     News stories, one Markdown file each
@@ -125,6 +126,7 @@ To avoid layout shift, the program list is reordered by a small inline script be
 - Keyword search (`keywordPlan`) takes over when there's no key, the visitor is over 10 searches a minute, the model takes over 8 seconds or fails, plans nothing usable, or its plan finds nothing. The response then has `fallback: true`. If keyword search's program filters find nothing ("How do I apply as an undergrad?"), it tries the other words across everything.
 - The key is `GEMINI_API_KEY` in Netlify's environment variables, read only in `netlify/functions/search.mts`. See `CLAUDE.md`.
 - AI summary (`aiSummary`): `src/lib/search/summary-rule.ts` decides when (a question-like search, planned by the model, with at least two results and no direct answer); `summary.ts` builds numbered records from the results' ids, the prompt, and the checks (it must cite only those records, stay under 280 characters, and contain no links); `summary-handler.ts` and `netlify/functions/summary.mts` serve it, sharing search's rate limit (`netlify/lib/rate-limit.ts`). The page keeps the panel's space from the start, so results don't move.
+- Suggested searches (the pills, `src/lib/search/suggestions.ts`) have prewritten summaries in `content/search/suggested-summaries.json`, rendered on the server with no model call (`src/lib/search/suggested.ts`). A summary's `{slots}` (the next campus tours, the FAFSA priority date) and event series sources are filled in from the catalog and calendar on each request. `check-content` checks every pill has one, sources exist, and slots are known.
 
 ### Careers
 

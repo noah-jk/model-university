@@ -6,6 +6,8 @@ import { search } from "../src/lib/search/search.ts";
 import type { Planner } from "../src/lib/llm/types.ts";
 import type { SearchResponse } from "../src/lib/search/types.ts";
 import { SEARCH_SUGGESTIONS } from "../src/lib/search/suggestions.ts";
+import { suggestedSummary } from "../src/lib/search/suggested.ts";
+import { SUMMARY_MAX } from "../src/lib/search/summary.ts";
 
 const fake = (plan: Planner["plan"]): Planner => ({ name: "fake", plan });
 const logs: Record<string, unknown>[] = [];
@@ -100,6 +102,26 @@ for (const suggestion of SEARCH_SUGGESTIONS) {
   const { response } = await search({ query: suggestion }, { base: "http://localhost:8888" });
   check(response.results.length > 0, `suggestion finds results with keyword search: "${suggestion}" (${response.results.length}: ${response.results.slice(0, 2).map((r) => r.title).join(", ")})`);
 }
+
+// Suggested searches have prewritten summaries (#65), whose dates come from data
+const base = "http://localhost:8888";
+const dates = { now: new Date("2026-11-02T12:00:00-08:00"), lateNovember: new Date("2026-11-25T12:00:00-08:00"), spring: new Date("2027-03-10T12:00:00-08:00"), later: new Date("2029-01-10T12:00:00-08:00") };
+for (const query of SEARCH_SUGGESTIONS) {
+  for (const [when, now] of Object.entries(dates)) {
+    const summary = suggestedSummary(query, base, now)!;
+    if (!summary || summary.text.length > SUMMARY_MAX || /\{|https?:|[*#]|!/.test(summary.text) || summary.sources.some((s) => !s.url.startsWith(base))) throw new Error(`suggested summary for "${query}" (${when}): ${JSON.stringify(summary)}`);
+  }
+}
+check(true, `every suggested search has a summary under ${SUMMARY_MAX} characters, with live links, now and later`);
+const tours = (now: Date) => suggestedSummary("When are campus tours this month?", base, now)!;
+check(/^This month's campus tours are on Friday, November 6 \(Tacoma Bay campus\) and Friday, November 20 \(Olympia campus\)\./.test(tours(dates.now).text) && tours(dates.now).sources.length === 2, "tours: this month's, from the events, with both as sources");
+check(/^The next campus tours are on Friday, December 4/.test(tours(dates.lateNovember).text), "tours: the next ones, once this month's have passed");
+const aid = (now: Date) => suggestedSummary("What are financial aid deadlines?", base, now)!.text;
+check(/by February 15, 2027/.test(aid(dates.now)) && /Completion Night on Thursday, January 21\./.test(aid(dates.now)), "aid: the next FAFSA priority date and completion night");
+check(/has passed, but file/.test(aid(dates.spring)) && /help you file\.$/.test(aid(dates.spring)), "aid: says so once the dates have passed");
+const scienceSummary = suggestedSummary("What science programs do you offer?", base, dates.now)!;
+check(scienceSummary.sources.map((s) => s.title).includes("Biology, BS") && scienceSummary.sources.every((s) => s.url.includes("/academics/programs/")), "science: cites the programs it names");
+check(suggestedSummary("what science programs do you offer ?", base) !== undefined && suggestedSummary("What science programs do you offer online?", base) === undefined, "only a suggested search, ignoring case and spacing, gets a prewritten summary");
 
 // Logs hold counts and timing only
 check(logs.length > 0 && logs.every((entry) => !JSON.stringify(entry).includes("nursing") && !("ip" in entry)), "logs never include the query or an IP");

@@ -1,0 +1,67 @@
+[
+  {
+    "query": "How do I apply as an undergrad?",
+    "text": "Apply online through Admissions: it's free for Washington residents and takes about 30 minutes. First-year applicants can ask questions at an online First-Year Admissions Q&A, and Admissions can answer the rest.",
+    "sources": [
+      {
+        "kind": "service",
+        "ref": "admissions"
+      },
+      {
+        "kind": "event",
+        "series": "first-year-admissions-qanda"
+      }
+    ]
+  },
+  {
+    "query": "What science programs do you offer?",
+    "text": "Cascadia State offers bachelor's, master's, and certificate programs across the sciences, from biology, chemistry, and environmental science to computer science and data science.",
+    "sources": [
+      {
+        "kind": "program",
+        "ref": "biology-bs"
+      },
+      {
+        "kind": "program",
+        "ref": "chemistry-bs"
+      },
+      {
+        "kind": "program",
+        "ref": "environmental-science-bs"
+      },
+      {
+        "kind": "program",
+        "ref": "computer-science-bs"
+      },
+      {
+        "kind": "program",
+        "ref": "data-science-bs"
+      }
+    ]
+  },
+  {
+    "query": "When are campus tours this month?",
+    "text": "{tours} Tours start at 10 a.m. If those days don't work, you can schedule a visit for another time.",
+    "sources": [
+      {
+        "kind": "event",
+        "series": "campus-tour",
+        "count": 2
+      }
+    ]
+  },
+  {
+    "query": "What are financial aid deadlines?",
+    "text": "{fafsa} {fafsa_help}",
+    "sources": [
+      {
+        "kind": "service",
+        "ref": "financial-aid-and-scholarships"
+      },
+      {
+        "kind": "event",
+        "series": "fafsa-and-wasfa-completion-night"
+      }
+    ]
+  }
+]

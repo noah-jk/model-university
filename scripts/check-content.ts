@@ -4,7 +4,9 @@
 
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { calendarEntry, calendarTerms, officesFor, stepsFor } from "../src/lib/enrollment.ts";
-import { calendarEntry as calendarEntrySchema, enrollmentStep, generatedSchemas, JOURNEY_STEPS, occupation, officeSet, references } from "../src/lib/schemas.ts";
+import { calendarEntry as calendarEntrySchema, enrollmentStep, generatedSchemas, JOURNEY_STEPS, occupation, officeSet, references, suggestedSummary } from "../src/lib/schemas.ts";
+import { SEARCH_SUGGESTIONS } from "../src/lib/search/suggestions.ts";
+import { SLOTS } from "../src/lib/search/suggested.ts";
 import { STUDENT_TYPES } from "../src/lib/vocab.ts";
 import { buildNewsIndex, indexFile, serialize } from "./index-news.ts";
 
@@ -75,6 +77,27 @@ for (const d of data.departments as unknown as { id: string; cip: string }[]) {
 for (const o of occupations) if (!ids.careers.has(o.id as string)) errors.push(`careers/${o.id}: no numbers in content/generated/careers.json. Run npm run generate.`);
 for (const id of ids.careers) if (!occupationIds.has(id)) errors.push(`careers: numbers for "${id}", which isn't in content/careers/occupations.json`);
 
+// Suggested searches' summaries (content/search/, edited by hand) -----------------
+
+const summaries = JSON.parse(readFileSync(new URL("../content/search/suggested-summaries.json", import.meta.url), "utf8")) as Record<string, unknown>[];
+const KIND_IDS: Record<string, Name> = { program: "programs", course: "courses", faculty: "faculty", event: "events", service: "services", news: "news" };
+for (const row of summaries) {
+  const where = `search/suggested-summaries[${row.query}]`;
+  const result = suggestedSummary.safeParse(row);
+  if (!result.success) {
+    for (const issue of result.error.issues) errors.push(`${where}: ${issue.path.join(".")}: ${issue.message}`);
+    continue;
+  }
+  const { text, sources } = result.data;
+  for (const [, slot] of text.matchAll(/\{(\w+)\}/g)) if (!(slot in SLOTS)) errors.push(`${where}: no slot named {${slot}} in src/lib/search/suggested.ts`);
+  if (/https?:|www\.|[*#]|!/.test(text.replace(/\{\w+\}/g, ""))) errors.push(`${where}: summaries have no links, markdown, or exclamation points`);
+  for (const source of sources) {
+    if ("ref" in source && !ids[KIND_IDS[source.kind]].has(source.ref)) errors.push(`${where}: ${source.kind} "${source.ref}" doesn't exist`);
+    if ("series" in source && ![...ids.events].some((id) => id.startsWith(`${source.series}-`))) errors.push(`${where}: no events in the series "${source.series}"`);
+  }
+}
+for (const query of SEARCH_SUGGESTIONS) if (!summaries.some((s) => s.query === query)) errors.push(`search/suggested-summaries: no summary for the suggested search "${query}"`);
+
 // Site pages a link may point to: every static page under src/pages/
 function sitePaths(dir = new URL("../src/pages/", import.meta.url), path = "/"): string[] {
   return readdirSync(dir).flatMap((name) => {
@@ -134,5 +157,6 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(`✓ content: ${names.map((n) => `${data[n].length} ${n}`).join(", ")}`);
+console.log(`✓ search: ${summaries.length} suggested-search summaries`);
 console.log(`✓ careers: ${occupations.length} occupations for ${fieldCips.size} fields`);
 console.log(`✓ enrollment: ${enrollment.calendar.length} calendar dates for ${calendarTerms.length} terms, ${enrollment.steps.length} steps, ${enrollment.offices.length} office sets`);
