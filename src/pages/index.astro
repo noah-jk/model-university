@@ -3,13 +3,6 @@ import { getCollection } from "astro:content";
 import { Picture, getImage } from "astro:assets";
 import campus from "../assets/images/campus.jpg";
 import students from "../assets/images/students-class-5.jpg";
-import art from "../assets/images/art-1.jpg";
-import business from "../assets/images/business-1.jpg";
-import health from "../assets/images/health-1.jpg";
-import helping from "../assets/images/helping-1.jpg";
-import science from "../assets/images/science-1.jpg";
-import teacher from "../assets/images/teacher-1.jpg";
-import technology from "../assets/images/technology-1.jpg";
 import siteConfig from "../../site.config.ts";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AskAiMenu from "../components/AskAiMenu.astro";
@@ -19,6 +12,7 @@ import NextStep from "../components/NextStep.astro";
 import PathHandoff from "../components/workbench/PathHandoff.astro";
 import NewsList from "../components/NewsList.astro";
 import { events, hasEnded } from "../lib/catalog.ts";
+import { collegePhotos } from "../lib/photos.ts";
 
 const [programs, courses, colleges] = await Promise.all([
   getCollection("programs"),
@@ -38,21 +32,12 @@ const stats: [string, string][] = [
 // each college is in src/lib/personalization-settings.ts). Only the default
 // photo is in the page. These are built here and listed as JSON, and
 // src/scripts/home-audience.ts fetches just the one that's needed.
-const collegeHeroes: Record<string, { image: ImageMetadata; alt: string }> = {
-  "College of Science": { image: science, alt: "Students gathered around lab equipment, watching an experiment" },
-  "Carver College of Business": { image: business, alt: "A professional in a light suit working on a laptop in a city plaza" },
-  "College of Social & Behavioral Sciences": { image: helping, alt: "A counselor talking with two clients in a small group session" },
-  "College of Engineering & Computing": { image: technology, alt: "A team at a table of laptops while a colleague sketches on a whiteboard" },
-  "College of Education": { image: teacher, alt: "A smiling teacher at a whiteboard speaking to students" },
-  "College of Arts & Letters": { image: art, alt: "A painter at an easel in a bright studio" },
-  "College of Health & Human Services": { image: health, alt: "A doctor in a white coat speaking with a patient in an exam room" },
-};
 const heroWidths = [640, 960, 1280, 1920];
 const srcset = async (image: ImageMetadata, format: "avif" | "webp" | "jpeg") =>
   (await Promise.all(heroWidths.map(async (width) => `${(await getImage({ src: image, width, format })).src} ${width}w`))).join(", ");
 const heroImages = Object.fromEntries(
   await Promise.all(
-    Object.entries(collegeHeroes).map(async ([college, { image, alt }]) => [
+    Object.entries(collegePhotos).map(async ([college, { image, alt }]) => [
       college,
       { alt, avif: await srcset(image, "avif"), webp: await srcset(image, "webp"), jpeg: await srcset(image, "jpeg") },
     ]),

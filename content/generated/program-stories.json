@@ -1,0 +1,3410 @@
+[
+  {
+    "id": "computer-science-bs",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put computer science to work."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in computer science start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Computer Science, BS, class of 2022",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for software engineer roles."
+    }
+  },
+  {
+    "id": "computer-science-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in computer science."
+      },
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in computer science start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Computer Science Graduate Certificate student",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "computer-science-ms",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most computer science classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put computer science to work."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Computer Science, MS, class of 2023",
+      "quote": "I came in curious about computer science and left with a plan. Internships showed me what a systems developer really does day to day."
+    }
+  },
+  {
+    "id": "data-science-bs",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put data science to work."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in data science start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Data Science, BS, class of 2024",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "data-science-minor",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in data science."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Data Science Minor, class of 2024",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing data science alone."
+    }
+  },
+  {
+    "id": "data-science-ms",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put data science to work."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most data science classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Marisol R.",
+      "photo": "profile-adult-2",
+      "role": "Data Science, MS, class of 2024",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for data scientist roles."
+    }
+  },
+  {
+    "id": "cybersecurity-bs",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most cybersecurity classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in cybersecurity."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put cybersecurity to work."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Cybersecurity, BS student",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "cybersecurity-minor",
+    "highlights": [
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in cybersecurity start early, not just in your last year."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in cybersecurity."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Cybersecurity Minor, class of 2022",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "cybersecurity-ms",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put cybersecurity to work."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in cybersecurity start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Greg H.",
+      "photo": "profile-adult-4",
+      "role": "Cybersecurity, MS, class of 2022",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a security architect."
+    }
+  },
+  {
+    "id": "mechanical-engineering-bs",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most mechanical engineering classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in mechanical engineering start early, not just in your last year."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Mechanical Engineering, BS, class of 2024",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing mechanical engineering alone."
+    }
+  },
+  {
+    "id": "mechanical-engineering-minor",
+    "highlights": [
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in mechanical engineering."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in mechanical engineering start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Mechanical Engineering Minor, class of 2022",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing mechanical engineering alone."
+    }
+  },
+  {
+    "id": "mechanical-engineering-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put mechanical engineering to work."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Mechanical Engineering Graduate Certificate, class of 2021",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing mechanical engineering alone."
+    }
+  },
+  {
+    "id": "mechanical-engineering-ms",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put mechanical engineering to work."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in mechanical engineering."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Marisol R.",
+      "photo": "profile-adult-2",
+      "role": "Mechanical Engineering, MS, class of 2021",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a design engineer."
+    }
+  },
+  {
+    "id": "civil-engineering-bs",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in civil engineering start early, not just in your last year."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put civil engineering to work."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Civil Engineering, BS, class of 2022",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "civil-engineering-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in civil engineering."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Civil Engineering Graduate Certificate, class of 2025",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "electrical-engineering-bs",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most electrical engineering classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in electrical engineering."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Electrical Engineering, BS student",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "electrical-engineering-minor",
+    "highlights": [
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Electrical Engineering Minor, class of 2023",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "electrical-engineering-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put electrical engineering to work."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in electrical engineering start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Marisol R.",
+      "photo": "profile-adult-2",
+      "role": "Electrical Engineering Graduate Certificate student",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a hardware engineer."
+    }
+  },
+  {
+    "id": "electrical-engineering-ms",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most electrical engineering classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in electrical engineering start early, not just in your last year."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Electrical Engineering, MS student",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a hardware engineer."
+    }
+  },
+  {
+    "id": "electrical-engineering-phd",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in electrical engineering."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Electrical Engineering, PhD student",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a power systems engineer."
+    }
+  },
+  {
+    "id": "information-technology-bs",
+    "highlights": [
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in information technology."
+      },
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Information Technology, BS, class of 2023",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for network administrator roles."
+    }
+  },
+  {
+    "id": "information-technology-minor",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in information technology start early, not just in your last year."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put information technology to work."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most information technology classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Information Technology Minor, class of 2022",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for network administrator roles."
+    }
+  },
+  {
+    "id": "nursing-bs",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in nursing start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Nursing, BS, class of 2022",
+      "quote": "I came in curious about nursing and left with a plan. Internships showed me what a clinical nurse leader really does day to day."
+    }
+  },
+  {
+    "id": "nursing-minor",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in nursing start early, not just in your last year."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in nursing."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Nursing Minor, class of 2025",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "nursing-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in nursing."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most nursing classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Marisol R.",
+      "photo": "profile-adult-2",
+      "role": "Nursing Graduate Certificate student",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a nurse educator."
+    }
+  },
+  {
+    "id": "nursing-msn",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put nursing to work."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in nursing."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Greg H.",
+      "photo": "profile-adult-4",
+      "role": "Nursing, MSN, class of 2021",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing nursing alone."
+    }
+  },
+  {
+    "id": "public-health-bs",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in public health."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put public health to work."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Public Health, BS student",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "public-health-minor",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most public health classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in public health start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Public Health Minor, class of 2023",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for epidemiologist roles."
+    }
+  },
+  {
+    "id": "public-health-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in public health."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most public health classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Greg H.",
+      "photo": "profile-adult-4",
+      "role": "Public Health Graduate Certificate student",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "public-health-mph",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put public health to work."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Public Health, MPH, class of 2023",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a policy analyst."
+    }
+  },
+  {
+    "id": "social-work-bs",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most social work classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in social work start early, not just in your last year."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Social Work, BS, class of 2024",
+      "quote": "I came in curious about social work and left with a plan. Internships showed me what a social worker really does day to day."
+    }
+  },
+  {
+    "id": "social-work-minor",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most social work classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in social work start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Social Work Minor, class of 2023",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "social-work-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in social work start early, not just in your last year."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put social work to work."
+      },
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Social Work Graduate Certificate, class of 2023",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing social work alone."
+    }
+  },
+  {
+    "id": "social-work-msw",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in social work."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most social work classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Social Work, MSW, class of 2024",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "social-work-phd",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put social work to work."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in social work."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Greg H.",
+      "photo": "profile-adult-4",
+      "role": "Social Work, PhD, class of 2023",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for case manager roles."
+    }
+  },
+  {
+    "id": "kinesiology-bs",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in kinesiology."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put kinesiology to work."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most kinesiology classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Kinesiology, BS student",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "kinesiology-minor",
+    "highlights": [
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most kinesiology classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Kinesiology Minor student",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a exercise physiologist."
+    }
+  },
+  {
+    "id": "kinesiology-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in kinesiology."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in kinesiology start early, not just in your last year."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Kinesiology Graduate Certificate, class of 2024",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a athletic trainer."
+    }
+  },
+  {
+    "id": "kinesiology-ms",
+    "highlights": [
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in kinesiology."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Marisol R.",
+      "photo": "profile-adult-2",
+      "role": "Kinesiology, MS student",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing kinesiology alone."
+    }
+  },
+  {
+    "id": "kinesiology-phd",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put kinesiology to work."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most kinesiology classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in kinesiology start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Kinesiology, PhD, class of 2023",
+      "quote": "I came in curious about kinesiology and left with a plan. Internships showed me what a athletic trainer really does day to day."
+    }
+  },
+  {
+    "id": "nutrition-and-dietetics-bs",
+    "highlights": [
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put nutrition and dietetics to work."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Nutrition & Dietetics, BS student",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing nutrition and dietetics alone."
+    }
+  },
+  {
+    "id": "nutrition-and-dietetics-minor",
+    "highlights": [
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in nutrition and dietetics."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in nutrition and dietetics start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Nutrition & Dietetics Minor student",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing nutrition and dietetics alone."
+    }
+  },
+  {
+    "id": "nutrition-and-dietetics-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in nutrition and dietetics."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Nutrition & Dietetics Graduate Certificate, class of 2021",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing nutrition and dietetics alone."
+    }
+  },
+  {
+    "id": "nutrition-and-dietetics-ms",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put nutrition and dietetics to work."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most nutrition and dietetics classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Nutrition & Dietetics, MS, class of 2022",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a nutrition educator."
+    }
+  },
+  {
+    "id": "health-administration-bs",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in health administration start early, not just in your last year."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most health administration classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Health Administration, BS student",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "health-administration-minor",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put health administration to work."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most health administration classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Health Administration Minor, class of 2024",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "health-administration-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in health administration."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in health administration start early, not just in your last year."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Marisol R.",
+      "photo": "profile-adult-2",
+      "role": "Health Administration Graduate Certificate, class of 2022",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for healthcare administrator roles."
+    }
+  },
+  {
+    "id": "health-administration-ms",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in health administration."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Marisol R.",
+      "photo": "profile-adult-2",
+      "role": "Health Administration, MS student",
+      "quote": "I came in curious about health administration and left with a plan. Internships showed me what a health services manager really does day to day."
+    }
+  },
+  {
+    "id": "speech-language-pathology-bs",
+    "highlights": [
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most speech-language pathology classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Speech-Language Pathology, BS student",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing speech-language pathology alone."
+    }
+  },
+  {
+    "id": "speech-language-pathology-ms",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put speech-language pathology to work."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in speech-language pathology start early, not just in your last year."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most speech-language pathology classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Marisol R.",
+      "photo": "profile-adult-2",
+      "role": "Speech-Language Pathology, MS student",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing speech-language pathology alone."
+    }
+  },
+  {
+    "id": "business-administration-bs",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most business administration classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in business administration start early, not just in your last year."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Business Administration, BS, class of 2025",
+      "quote": "I came in curious about business administration and left with a plan. Internships showed me what a management consultant really does day to day."
+    }
+  },
+  {
+    "id": "business-administration-minor",
+    "highlights": [
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most business administration classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in business administration."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Business Administration Minor, class of 2024",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "business-administration-mba",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most business administration classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in business administration."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Business Administration, MBA, class of 2022",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for management consultant roles."
+    }
+  },
+  {
+    "id": "business-administration-phd",
+    "highlights": [
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put business administration to work."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in business administration."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Greg H.",
+      "photo": "profile-adult-4",
+      "role": "Business Administration, PhD student",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "accounting-bs",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in accounting start early, not just in your last year."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put accounting to work."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Accounting, BS student",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing accounting alone."
+    }
+  },
+  {
+    "id": "accounting-minor",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in accounting start early, not just in your last year."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most accounting classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Accounting Minor, class of 2022",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for tax advisor roles."
+    }
+  },
+  {
+    "id": "accounting-ms",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put accounting to work."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most accounting classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Greg H.",
+      "photo": "profile-adult-4",
+      "role": "Accounting, MS student",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "finance-bs",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in finance start early, not just in your last year."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in finance."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Finance, BS, class of 2023",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "finance-minor",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put finance to work."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most finance classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in finance."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Finance Minor student",
+      "quote": "I came in curious about finance and left with a plan. Internships showed me what a investment associate really does day to day."
+    }
+  },
+  {
+    "id": "finance-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in finance."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in finance start early, not just in your last year."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Greg H.",
+      "photo": "profile-adult-4",
+      "role": "Finance Graduate Certificate, class of 2022",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing finance alone."
+    }
+  },
+  {
+    "id": "finance-phd",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in finance start early, not just in your last year."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in finance."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Marisol R.",
+      "photo": "profile-adult-2",
+      "role": "Finance, PhD, class of 2023",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a corporate treasurer."
+    }
+  },
+  {
+    "id": "marketing-bs",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put marketing to work."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most marketing classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Marketing, BS, class of 2022",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "marketing-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in marketing start early, not just in your last year."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most marketing classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Marketing Graduate Certificate student",
+      "quote": "I came in curious about marketing and left with a plan. Internships showed me what a marketing manager really does day to day."
+    }
+  },
+  {
+    "id": "supply-chain-management-bs",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put supply chain management to work."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most supply chain management classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Supply Chain Management, BS, class of 2024",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for operations planner roles."
+    }
+  },
+  {
+    "id": "supply-chain-management-minor",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in supply chain management start early, not just in your last year."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put supply chain management to work."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Supply Chain Management Minor, class of 2024",
+      "quote": "I came in curious about supply chain management and left with a plan. Internships showed me what a logistics analyst really does day to day."
+    }
+  },
+  {
+    "id": "supply-chain-management-ms",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put supply chain management to work."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in supply chain management start early, not just in your last year."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Supply Chain Management, MS, class of 2021",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for operations planner roles."
+    }
+  },
+  {
+    "id": "supply-chain-management-phd",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most supply chain management classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in supply chain management start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Supply Chain Management, PhD, class of 2023",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a procurement manager."
+    }
+  },
+  {
+    "id": "human-resource-management-bs",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most human resource management classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Human Resource Management, BS student",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing human resource management alone."
+    }
+  },
+  {
+    "id": "human-resource-management-ms",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in human resource management start early, not just in your last year."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most human resource management classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Marisol R.",
+      "photo": "profile-adult-2",
+      "role": "Human Resource Management, MS, class of 2021",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for HR generalist roles."
+    }
+  },
+  {
+    "id": "english-ba",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in English start early, not just in your last year."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in English."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "English, BA, class of 2023",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for editor roles."
+    }
+  },
+  {
+    "id": "english-minor",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in English."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put English to work."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "English Minor student",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a editor."
+    }
+  },
+  {
+    "id": "history-ba",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in history."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in history start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "History, BA student",
+      "quote": "I came in curious about history and left with a plan. Internships showed me what a policy researcher really does day to day."
+    }
+  },
+  {
+    "id": "history-minor",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in history start early, not just in your last year."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put history to work."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "History Minor, class of 2024",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing history alone."
+    }
+  },
+  {
+    "id": "history-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in history."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in history start early, not just in your last year."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most history classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Greg H.",
+      "photo": "profile-adult-4",
+      "role": "History Graduate Certificate student",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a museum curator."
+    }
+  },
+  {
+    "id": "communication-ba",
+    "highlights": [
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put communication to work."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Communication, BA student",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for communications specialist roles."
+    }
+  },
+  {
+    "id": "communication-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in communication start early, not just in your last year."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in communication."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Communication Graduate Certificate student",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a communications specialist."
+    }
+  },
+  {
+    "id": "studio-art-bfa",
+    "highlights": [
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most studio art classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in studio art start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Studio Art, BFA student",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for art director roles."
+    }
+  },
+  {
+    "id": "studio-art-minor",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in studio art start early, not just in your last year."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in studio art."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Studio Art Minor student",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "studio-art-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most studio art classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Greg H.",
+      "photo": "profile-adult-4",
+      "role": "Studio Art Graduate Certificate, class of 2023",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for art director roles."
+    }
+  },
+  {
+    "id": "studio-art-ma",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put studio art to work."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Studio Art, MA, class of 2024",
+      "quote": "I came in curious about studio art and left with a plan. Internships showed me what a gallery manager really does day to day."
+    }
+  },
+  {
+    "id": "graphic-design-bfa",
+    "highlights": [
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most graphic design classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put graphic design to work."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Graphic Design, BFA, class of 2024",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a UX designer."
+    }
+  },
+  {
+    "id": "graphic-design-minor",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put graphic design to work."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most graphic design classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Graphic Design Minor, class of 2025",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "graphic-design-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in graphic design."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most graphic design classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Graphic Design Graduate Certificate, class of 2023",
+      "quote": "I came in curious about graphic design and left with a plan. Internships showed me what a art director really does day to day."
+    }
+  },
+  {
+    "id": "graphic-design-ms",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most graphic design classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in graphic design."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Graphic Design, MS student",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a UX designer."
+    }
+  },
+  {
+    "id": "music-bfa",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most music classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in music."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Music, BFA, class of 2024",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing music alone."
+    }
+  },
+  {
+    "id": "music-minor",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put music to work."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in music."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Music Minor, class of 2023",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing music alone."
+    }
+  },
+  {
+    "id": "music-ma",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in music start early, not just in your last year."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most music classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Music, MA, class of 2024",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for audio producer roles."
+    }
+  },
+  {
+    "id": "philosophy-ba",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put philosophy to work."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most philosophy classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Philosophy, BA, class of 2024",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing philosophy alone."
+    }
+  },
+  {
+    "id": "philosophy-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in philosophy start early, not just in your last year."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Philosophy Graduate Certificate, class of 2021",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing philosophy alone."
+    }
+  },
+  {
+    "id": "philosophy-ms",
+    "highlights": [
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in philosophy start early, not just in your last year."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Greg H.",
+      "photo": "profile-adult-4",
+      "role": "Philosophy, MS, class of 2023",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing philosophy alone."
+    }
+  },
+  {
+    "id": "world-languages-ba",
+    "highlights": [
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "World Languages, BA student",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a international liaison."
+    }
+  },
+  {
+    "id": "world-languages-ms",
+    "highlights": [
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most world languages classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "World Languages, MS, class of 2024",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "biology-bs",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in biology."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Biology, BS, class of 2021",
+      "quote": "I came in curious about biology and left with a plan. Internships showed me what a pre-med student really does day to day."
+    }
+  },
+  {
+    "id": "biology-minor",
+    "highlights": [
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most biology classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put biology to work."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Biology Minor, class of 2025",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing biology alone."
+    }
+  },
+  {
+    "id": "biology-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put biology to work."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in biology."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Marisol R.",
+      "photo": "profile-adult-2",
+      "role": "Biology Graduate Certificate, class of 2025",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for biotech associate roles."
+    }
+  },
+  {
+    "id": "biology-ms",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in biology start early, not just in your last year."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put biology to work."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most biology classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Biology, MS, class of 2021",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a lab researcher."
+    }
+  },
+  {
+    "id": "biology-phd",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put biology to work."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Biology, PhD student",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a lab researcher."
+    }
+  },
+  {
+    "id": "chemistry-bs",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in chemistry."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in chemistry start early, not just in your last year."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put chemistry to work."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Chemistry, BS student",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "chemistry-ms",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put chemistry to work."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in chemistry start early, not just in your last year."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Marisol R.",
+      "photo": "profile-adult-2",
+      "role": "Chemistry, MS, class of 2022",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for quality control analyst roles."
+    }
+  },
+  {
+    "id": "physics-bs",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in physics start early, not just in your last year."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in physics."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Physics, BS, class of 2023",
+      "quote": "I came in curious about physics and left with a plan. Internships showed me what a physicist really does day to day."
+    }
+  },
+  {
+    "id": "physics-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put physics to work."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most physics classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Physics Graduate Certificate, class of 2025",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing physics alone."
+    }
+  },
+  {
+    "id": "physics-phd",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in physics."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put physics to work."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Physics, PhD, class of 2023",
+      "quote": "I came in curious about physics and left with a plan. Internships showed me what a data analyst really does day to day."
+    }
+  },
+  {
+    "id": "mathematics-bs",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in mathematics start early, not just in your last year."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most mathematics classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in mathematics."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Mathematics, BS, class of 2023",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "mathematics-minor",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most mathematics classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Mathematics Minor, class of 2025",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for actuary roles."
+    }
+  },
+  {
+    "id": "environmental-science-bs",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in environmental science."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in environmental science start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Environmental Science, BS, class of 2023",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a sustainability manager."
+    }
+  },
+  {
+    "id": "environmental-science-minor",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in environmental science start early, not just in your last year."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most environmental science classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put environmental science to work."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Environmental Science Minor, class of 2021",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "environmental-science-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most environmental science classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Environmental Science Graduate Certificate student",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a conservation scientist."
+    }
+  },
+  {
+    "id": "marine-biology-bs",
+    "highlights": [
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put marine biology to work."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most marine biology classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Marine Biology, BS, class of 2024",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing marine biology alone."
+    }
+  },
+  {
+    "id": "marine-biology-minor",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in marine biology start early, not just in your last year."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in marine biology."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Marine Biology Minor, class of 2022",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing marine biology alone."
+    }
+  },
+  {
+    "id": "marine-biology-ms",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in marine biology start early, not just in your last year."
+      },
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put marine biology to work."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Marine Biology, MS student",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a fisheries scientist."
+    }
+  },
+  {
+    "id": "marine-biology-phd",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most marine biology classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Marine Biology, PhD student",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing marine biology alone."
+    }
+  },
+  {
+    "id": "geology-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in geology."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most geology classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Marisol R.",
+      "photo": "profile-adult-2",
+      "role": "Geology Graduate Certificate student",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing geology alone."
+    }
+  },
+  {
+    "id": "geology-ms",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in geology start early, not just in your last year."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put geology to work."
+      },
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Greg H.",
+      "photo": "profile-adult-4",
+      "role": "Geology, MS, class of 2023",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing geology alone."
+    }
+  },
+  {
+    "id": "psychology-bs",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in psychology start early, not just in your last year."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put psychology to work."
+      },
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Psychology, BS, class of 2023",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for counselor roles."
+    }
+  },
+  {
+    "id": "psychology-minor",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put psychology to work."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in psychology start early, not just in your last year."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Psychology Minor, class of 2022",
+      "quote": "I came in curious about psychology and left with a plan. Internships showed me what a research assistant really does day to day."
+    }
+  },
+  {
+    "id": "psychology-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put psychology to work."
+      },
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in psychology start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Psychology Graduate Certificate, class of 2024",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for research assistant roles."
+    }
+  },
+  {
+    "id": "psychology-ms",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in psychology start early, not just in your last year."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most psychology classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Psychology, MS, class of 2024",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a research assistant."
+    }
+  },
+  {
+    "id": "sociology-ba",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in sociology start early, not just in your last year."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in sociology."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Sociology, BA student",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a policy analyst."
+    }
+  },
+  {
+    "id": "sociology-ms",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most sociology classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in sociology."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in sociology start early, not just in your last year."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Marisol R.",
+      "photo": "profile-adult-2",
+      "role": "Sociology, MS student",
+      "quote": "I came in curious about sociology and left with a plan. Internships showed me what a policy analyst really does day to day."
+    }
+  },
+  {
+    "id": "political-science-ba",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most political science classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Political Science, BA, class of 2025",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for policy analyst roles."
+    }
+  },
+  {
+    "id": "political-science-ms",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most political science classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Greg H.",
+      "photo": "profile-adult-4",
+      "role": "Political Science, MS, class of 2023",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for campaign manager roles."
+    }
+  },
+  {
+    "id": "economics-graduate-certificate",
+    "highlights": [
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put economics to work."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most economics classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Economics Graduate Certificate student",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for policy researcher roles."
+    }
+  },
+  {
+    "id": "economics-ms",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put economics to work."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in economics."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Marisol R.",
+      "photo": "profile-adult-2",
+      "role": "Economics, MS, class of 2022",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a economist."
+    }
+  },
+  {
+    "id": "criminal-justice-bs",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in criminal justice."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in criminal justice start early, not just in your last year."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put criminal justice to work."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Criminal Justice, BS student",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "criminal-justice-minor",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put criminal justice to work."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in criminal justice."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Criminal Justice Minor student",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for victim advocate roles."
+    }
+  },
+  {
+    "id": "criminal-justice-ms",
+    "highlights": [
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in criminal justice start early, not just in your last year."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most criminal justice classes have fewer than 30 students, so faculty know your name and your goals."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Greg H.",
+      "photo": "profile-adult-4",
+      "role": "Criminal Justice, MS student",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a probation officer."
+    }
+  },
+  {
+    "id": "anthropology-ba",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most anthropology classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in anthropology start early, not just in your last year."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Anthropology, BA, class of 2022",
+      "quote": "I came in curious about anthropology and left with a plan. Internships showed me what a UX researcher really does day to day."
+    }
+  },
+  {
+    "id": "anthropology-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most anthropology classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Marisol R.",
+      "photo": "profile-adult-2",
+      "role": "Anthropology Graduate Certificate, class of 2022",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "anthropology-ms",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most anthropology classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put anthropology to work."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Anthropology, MS student",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing anthropology alone."
+    }
+  },
+  {
+    "id": "elementary-education-bs",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most elementary education classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Elementary Education, BS, class of 2022",
+      "quote": "I came in curious about elementary education and left with a plan. Internships showed me what a reading specialist really does day to day."
+    }
+  },
+  {
+    "id": "elementary-education-minor",
+    "highlights": [
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in elementary education."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most elementary education classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put elementary education to work."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Elementary Education Minor student",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing elementary education alone."
+    }
+  },
+  {
+    "id": "elementary-education-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most elementary education classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Elementary Education Graduate Certificate student",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing elementary education alone."
+    }
+  },
+  {
+    "id": "elementary-education-med",
+    "highlights": [
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most elementary education classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put elementary education to work."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Greg H.",
+      "photo": "profile-adult-4",
+      "role": "Elementary Education, MEd, class of 2023",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing elementary education alone."
+    }
+  },
+  {
+    "id": "special-education-bs",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most special education classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in special education."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Clara W.",
+      "photo": "profile-student-3",
+      "role": "Special Education, BS student",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "special-education-minor",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put special education to work."
+      },
+      {
+        "title": "Flexible scheduling",
+        "text": "Evening, hybrid, and online options fit around work and family."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in special education start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-2",
+    "story": {
+      "name": "Maddie L.",
+      "photo": "profile-student-2",
+      "role": "Special Education Minor, class of 2023",
+      "quote": "I came in curious about special education and left with a plan. Internships showed me what a special education teacher really does day to day."
+    }
+  },
+  {
+    "id": "special-education-graduate-certificate",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most special education classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in special education start early, not just in your last year."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in special education."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Daniel C.",
+      "photo": "profile-adult-1",
+      "role": "Special Education Graduate Certificate, class of 2023",
+      "quote": "I was working while I studied, and the schedule made it possible. I never felt like I was doing special education alone."
+    }
+  },
+  {
+    "id": "educational-leadership-bs",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most educational leadership classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put educational leadership to work."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in educational leadership start early, not just in your last year."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Educational Leadership, BS, class of 2024",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for principal roles."
+    }
+  },
+  {
+    "id": "educational-leadership-minor",
+    "highlights": [
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in educational leadership start early, not just in your last year."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Educational Leadership Minor, class of 2024",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  },
+  {
+    "id": "educational-leadership-graduate-certificate",
+    "highlights": [
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put educational leadership to work."
+      }
+    ],
+    "scene": "students-class-3",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Educational Leadership Graduate Certificate, class of 2024",
+      "quote": "I came in curious about educational leadership and left with a plan. Internships showed me what a district administrator really does day to day."
+    }
+  },
+  {
+    "id": "educational-leadership-med",
+    "highlights": [
+      {
+        "title": "Regional partners",
+        "text": "Projects and internships with Pacific Northwest employers put educational leadership to work."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in educational leadership."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Tanya B.",
+      "photo": "profile-adult-3",
+      "role": "Educational Leadership, MEd, class of 2022",
+      "quote": "The capstone was the hardest thing I've done and the most useful. It's what I talked about in every interview for instructional coach roles."
+    }
+  },
+  {
+    "id": "higher-education-administration-bs",
+    "highlights": [
+      {
+        "title": "Small classes",
+        "text": "Most higher education administration classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Learn by doing",
+        "text": "Labs, studios, and fieldwork in higher education administration start early, not just in your last year."
+      },
+      {
+        "title": "A capstone that counts",
+        "text": "Finish with a project you can show employers and graduate schools."
+      }
+    ],
+    "scene": "students-class-4",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Higher Education Administration, BS student",
+      "quote": "My professors knew my name from the first week. They connected me with the people who hired me as a student affairs director."
+    }
+  },
+  {
+    "id": "higher-education-administration-minor",
+    "highlights": [
+      {
+        "title": "Career support from day one",
+        "text": "Advisors and the Career Center help you plan internships and your first job."
+      },
+      {
+        "title": "Small classes",
+        "text": "Most higher education administration classes have fewer than 30 students, so faculty know your name and your goals."
+      },
+      {
+        "title": "Faculty who practice",
+        "text": "Learn from faculty who still work, research, and publish in higher education administration."
+      }
+    ],
+    "scene": "students-campus-6",
+    "story": {
+      "name": "Rohan S.",
+      "photo": "profile-student-1",
+      "role": "Higher Education Administration Minor student",
+      "quote": "The projects felt like real work, because they were. I graduated with a portfolio, not just a transcript."
+    }
+  }
+]

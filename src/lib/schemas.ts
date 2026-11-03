@@ -249,6 +249,17 @@ export const careerData = z.object({
   employers: z.array(text).min(1),
 });
 
+// Program pages' marketing: three highlights, a classroom photo, and a
+// fictional student story. Photos are keys into src/lib/photos.ts.
+export const PROGRAM_SCENES = ["students-class-2", "students-class-3", "students-class-4", "students-campus-6"] as const;
+export const STORY_PHOTOS = ["profile-student-1", "profile-student-2", "profile-student-3", "profile-adult-1", "profile-adult-2", "profile-adult-3", "profile-adult-4"] as const;
+export const programStory = z.object({
+  id, // → programs
+  highlights: z.array(z.object({ title: text, text })).length(3),
+  scene: z.enum(PROGRAM_SCENES),
+  story: z.object({ name: text, photo: z.enum(STORY_PHOTOS), role: text, quote: text }),
+});
+
 export const generatedSchemas = {
   colleges: college,
   departments: department,
@@ -259,6 +270,7 @@ export const generatedSchemas = {
   events: event,
   news: newsIndexEntry,
   careers: careerData,
+  "program-stories": programStory,
 };
 
 // Fields that hold the ids of entries in another collection.
@@ -269,12 +281,14 @@ export const references: Record<string, Record<string, keyof typeof generatedSch
   courses: { department: "departments", prerequisites: "courses", instructor: "faculty" },
   faculty: { department: "departments" },
   events: { "related.programs": "programs", "related.departments": "departments", "related.services": "services", "related.faculty": "faculty" },
+  "program-stories": { id: "programs" },
   news: { "related.programs": "programs", "related.departments": "departments", "related.services": "services", "related.faculty": "faculty" },
 };
 
 export type College = z.infer<typeof college>;
 export type Occupation = z.infer<typeof occupation>;
 export type CareerData = z.infer<typeof careerData>;
+export type ProgramStory = z.infer<typeof programStory>;
 export type Department = z.infer<typeof department>;
 export type Program = z.infer<typeof program>;
 export type Course = z.infer<typeof course>;

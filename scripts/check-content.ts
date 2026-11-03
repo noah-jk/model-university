@@ -53,6 +53,9 @@ for (const [name, rows] of Object.entries(enrollment) as [keyof typeof schemas, 
   if (new Set(ids).size !== ids.length) errors.push(`enrollment/${name}: duplicate ids`);
 }
 
+// Every program has its page story
+for (const p of data.programs) if (!ids["program-stories"].has(p.id)) errors.push(`program-stories: none for ${p.id}. Run npm run generate.`);
+
 // Careers (content/careers/occupations.json, edited by hand) --------------------------
 
 const occupations = JSON.parse(readFileSync(new URL("../content/careers/occupations.json", import.meta.url), "utf8")) as Record<string, unknown>[];
