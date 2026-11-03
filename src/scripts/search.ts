@@ -47,7 +47,7 @@ function describeInterests() {
 // The AI summary (see src/lib/search/summary.ts). The page keeps its space
 // for a question-like search; after the results arrive, it either asks for a
 // summary of them or, if the rule says not to, removes the panel in the same
-// moment the results change.
+// moment the results change. A suggested search's summary is already there.
 const summaryPanel = document.querySelector<HTMLElement>("[data-ai-summary]");
 let summaryRequest: AbortController | undefined;
 
@@ -65,6 +65,9 @@ function setSummary(text: string, sources: { title: string; url: string }[] = []
 async function summarize(response: SearchResponse) {
   if (!summaryPanel) return;
   summaryRequest?.abort();
+  // A suggested search's summary came with the page (src/lib/search/suggested.ts); a new search replaces it
+  if (summaryPanel.dataset.suggestedFor === response.query) return;
+  delete summaryPanel.dataset.suggestedFor;
   if (!shouldSummarize(response.query, response)) {
     summaryPanel.hidden = true;
     return;

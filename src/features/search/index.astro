@@ -12,6 +12,7 @@ import { PROFILE_KEY } from "../../lib/personalization-settings.ts";
 import { EXAMPLES, renderResults, searchHref, statusText } from "../../lib/search/render.ts";
 import { MAX_QUERY, search } from "../../lib/search/search.ts";
 import { readsLikeQuestion } from "../../lib/search/summary-rule.ts";
+import { suggestedSummary } from "../../lib/search/suggested.ts";
 
 if (!siteConfig.indexing) Astro.response.headers.set("X-Robots-Tag", "noindex");
 
@@ -24,6 +25,8 @@ const personalization = siteConfig.features.personalization;
 // The AI summary's space is kept from the start for a question-like search,
 // so the summary doesn't push the results down when it arrives
 const askSummary = siteConfig.features.aiSummary && Boolean(query) && readsLikeQuestion(query);
+// A suggested search has its summary written already (#65): it's in the page, with no model call
+const suggested = siteConfig.features.aiSummary && query ? suggestedSummary(query, Astro.url.origin) : undefined;
 // Safe inside <script>: no "</script>" can end it early
 const data = JSON.stringify(result ?? null).replace(/</g, "\\u003c");
 ---
@@ -71,13 +74,31 @@ const data = JSON.stringify(result ?? null).replace(/</g, "\\u003c");
     }
 
     {
-      askSummary && (
-        <section class="ai-summary needs-js" aria-labelledby="ai-summary-title" aria-busy="true" data-ai-summary>
+      (askSummary || suggested) && (
+        <section
+          class:list={["ai-summary", { "needs-js": !suggested }]}
+          aria-labelledby="ai-summary-title"
+          aria-busy={suggested ? undefined : "true"}
+          data-ai-summary
+          data-suggested-for={suggested ? query : undefined}
+        >
           <h2 id="ai-summary-title">AI summary</h2>
           <p class="summary-text" data-summary-text>
-            Writing a summary…
+            {suggested ? suggested.text : "Writing a summary…"}
           </p>
-          <p class="summary-sources" data-summary-sources hidden />
+          {suggested?.sources.length ? (
+            <p class="summary-sources" data-summary-sources>
+              Sources:{" "}
+              {suggested.sources.map((source, i) => (
+                <>
+                  {i > 0 && <span aria-hidden="true"> · </span>}
+                  <a href={source.url}>{source.title}</a>
+                </>
+              ))}
+            </p>
+          ) : (
+            <p class="summary-sources" data-summary-sources hidden />
+          )}
           <p class="summary-note">
             Written by AI from the results below. Check the linked pages. <a class="note-link" href="/lab/search/#ai-summaries">How it works</a>
           </p>

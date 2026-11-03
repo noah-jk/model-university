@@ -30,6 +30,7 @@ For a search that reads like a question, such as "what science programs do you o
 - The model is given only your search and the catalog records behind the first eight results: each one's name, key facts, and description, numbered. It's told to say only what those records say, and to list the numbers it relied on.
 - Before it's shown, the site checks it: it has to cite at least one of those records and no others, stay under 280 characters, and contain no links. If it fails, or the model is slow or unavailable, the panel says there's no summary for this search.
 - It's marked "Written by AI from the results below", and its sources are linked, so you can check it. It can still be wrong about what the records mean.
+- The suggested searches in the search box have summaries written ahead of time, in `content/search/suggested-summaries.json`, so they show straight away and need no model. Their dates (the next campus tours, the FAFSA priority date) are filled in from the events and the academic calendar each time, so they don't go stale. Change a suggested search at all and the model writes the summary as usual.
 
 ## When the model isn't used
 

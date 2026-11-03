@@ -260,6 +260,22 @@ export const programStory = z.object({
   story: z.object({ name: text, photo: z.enum(STORY_PHOTOS), role: text, quote: text }),
 });
 
+// Prewritten AI summaries for the suggested searches (content/search/,
+// edited by hand). A source is a catalog entry, or the next events in a
+// series (the start of their ids). Text may hold {slots} for dates.
+export const suggestedSummary = z.object({
+  query: text,
+  text,
+  sources: z
+    .array(
+      z.union([
+        z.object({ kind: z.enum(["program", "course", "faculty", "event", "service", "news"]), ref: id }).strict(),
+        z.object({ kind: z.literal("event"), series: id, count: z.number().int().min(1).max(4).optional() }).strict(),
+      ])
+    )
+    .min(1),
+});
+
 export const generatedSchemas = {
   colleges: college,
   departments: department,
