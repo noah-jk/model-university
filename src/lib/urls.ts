@@ -1,11 +1,12 @@
 // The one place page URLs are built. Pages, feeds, and MCP results all use it.
 
-export type PageType = "programs" | "courses" | "services" | "faculty" | "events" | "news";
+export type PageType = "programs" | "courses" | "careers" | "services" | "faculty" | "events" | "news";
 
 // Where each page type lives in the site's navigation.
 export const SECTION_PATH: Record<PageType, string> = {
   programs: "/academics/programs",
   courses: "/academics/courses",
+  careers: "/academics/careers",
   services: "/services",
   faculty: "/about/faculty",
   events: "/about/events",

@@ -43,7 +43,7 @@ function loadIndex() {
 const saveButton = (view: Session["views"][number]) => {
   const { department, college, level, modality } = view;
   const interest = Object.fromEntries(Object.entries({ department, college, level, modality }).filter(([, v]) => v));
-  const kind = view.type as Exclude<typeof view.type, "page">;
+  const kind = view.type as Exclude<typeof view.type, "page" | "career">;
   const entry = index?.[kind]?.[view.id];
   return saveToggle({ kind, ref: view.id, name: view.name, interest, ...(entry && { watch: fingerprint(kind, entry) }) }, { compact: true });
 };
@@ -73,7 +73,8 @@ function renderRecent(session: Session) {
     span.textContent = sort === "most" ? `${TYPE_LABELS[view.type]} · ${views} ${views === 1 ? "view" : "views"}` : TYPE_LABELS[view.type];
     text.append(a, span);
     li.append(text);
-    if (siteConfig.features.workbench && view.type !== "page") li.insertAdjacentHTML("beforeend", saveButton(view));
+    // Careers can't be saved to Your Path yet
+    if (siteConfig.features.workbench && view.type !== "page" && view.type !== "career") li.insertAdjacentHTML("beforeend", saveButton(view));
     return li;
   });
   panel.querySelector(".recent-list")!.replaceChildren(...rows);

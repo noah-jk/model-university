@@ -16,7 +16,7 @@ export const RECENT_COUNT = 4;
 // "page" is an ordinary page that still says something about a visitor, like
 // /admissions/transfer/ (Your Path counts views of it as a signal)
 export type PageMeta = {
-  type: "program" | "course" | "service" | "faculty" | "event" | "news" | "page";
+  type: "program" | "course" | "career" | "service" | "faculty" | "event" | "news" | "page";
   id: string;
   name: string;
   department?: string;
@@ -28,6 +28,7 @@ export type PageMeta = {
 export const TYPE_LABELS: Record<PageMeta["type"], string> = {
   program: "Program",
   course: "Course",
+  career: "Career",
   service: "Student service",
   faculty: "Faculty",
   event: "Event",
