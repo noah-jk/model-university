@@ -10,6 +10,7 @@ import type { Kind, SearchResponse, SearchResult } from "./types.ts";
 export const GROUPS: { kind: Kind; title: string }[] = [
   { kind: "program", title: "Programs" },
   { kind: "course", title: "Courses" },
+  { kind: "career", title: "Careers" },
   { kind: "faculty", title: "Faculty" },
   { kind: "event", title: "Events" },
   { kind: "service", title: "Student services" },

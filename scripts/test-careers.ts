@@ -7,6 +7,8 @@ import { readFileSync } from "node:fs";
 import * as catalog from "../src/lib/catalog.ts";
 import { careerFilterData, growthText, lower, postingsTrend, relatedCareers } from "../src/lib/careers-page.ts";
 import { pageMeta } from "../src/lib/personalization.ts";
+import { careerMarkdown } from "../src/lib/markdown.ts";
+import { GET as feed } from "../src/features/json-feeds.ts";
 
 const check = (ok: unknown, message: string) => {
   if (!ok) throw new Error(message);
@@ -85,5 +87,13 @@ const relatedToNurse = relatedCareers(nurse);
 check(relatedToNurse.length > 0 && relatedToNurse.every((c) => c.id !== nurse.id && c.cips.some((cip) => nurse.cips.includes(cip))), "related careers share a field");
 const meta = pageMeta.career(nurse);
 check(meta.type === "career" && meta.department === "Nursing" && meta.college === "College of Health & Human Services", "a career page counts toward its field's department");
+
+// For AI tools (#62): the Markdown copy and the JSON feed
+const site = new URL("https://example.edu");
+const md = careerMarkdown(nurse, site);
+check(md.startsWith("# Registered nurse\n") && md.includes("SOC 29-1141") && md.includes("Median salary: $") && md.includes("](https://example.edu/academics/programs/nursing-bs/)"), "Markdown copy: SOC code, pay, and absolute program links");
+const res = await feed({ params: { feed: "careers" }, site } as never);
+const body = JSON.parse(await (res as Response).text());
+check(body.count === careers.length && body.careers[0].url.startsWith("https://example.edu/academics/careers/") && body.careers.every((c: { soc: string; programs: string[] }) => /^\d{2}-\d{4}$/.test(c.soc) && c.programs.length), "JSON feed: every career with its SOC code, url, and programs");
 
 console.log("\nCareer checks passed.");

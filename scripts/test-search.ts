@@ -7,7 +7,9 @@ import type { Planner } from "../src/lib/llm/types.ts";
 import type { SearchResponse } from "../src/lib/search/types.ts";
 import { SEARCH_SUGGESTIONS } from "../src/lib/search/suggestions.ts";
 import { suggestedSummary } from "../src/lib/search/suggested.ts";
-import { SUMMARY_MAX } from "../src/lib/search/summary.ts";
+import { SUMMARY_MAX, summaryRecords } from "../src/lib/search/summary.ts";
+import { keywordPlan } from "../src/lib/search/plan.ts";
+import { systemPrompt, toolSpecs } from "../src/lib/search/prompt.ts";
 
 const fake = (plan: Planner["plan"]): Planner => ({ name: "fake", plan });
 const logs: Record<string, unknown>[] = [];
@@ -102,6 +104,17 @@ for (const suggestion of SEARCH_SUGGESTIONS) {
   const { response } = await search({ query: suggestion }, { base: "http://localhost:8888" });
   check(response.results.length > 0, `suggestion finds results with keyword search: "${suggestion}" (${response.results.length}: ${response.results.slice(0, 2).map((r) => r.title).join(", ")})`);
 }
+
+// Careers are a kind of result (#62)
+const jobs = keywordPlan("jobs in healthcare that pay well");
+check(jobs.length === 1 && jobs[0].tool === "search_careers" && jobs[0].args.query === "healthcare", `keywords: “jobs in healthcare…” searches careers (${JSON.stringify(jobs)})`);
+const careerSearch = await post({ query: "healthcare jobs" }, fake(async () => [{ tool: "search_careers", args: { query: "healthcare", min_wage: 90000 } }]));
+check(careerSearch.body.results.length > 0 && careerSearch.body.results.every((r) => r.kind === "career" && r.url.includes("/academics/careers/") && !r.save && /median in Washington/.test(r.detail)), "model plan: career results, with pay in the detail and no Save button");
+check(careerSearch.body.interpreted.map((c) => c.label).join(", ") === "“healthcare”, Pays $90,000 or more", `chips for career filters (${careerSearch.body.interpreted.map((c) => c.label).join(", ")})`);
+const nursing = await post({ query: "nursing" });
+check(nursing.body.results.some((r) => r.kind === "career") && nursing.body.results.some((r) => r.kind === "program"), "keywords: a topic finds careers alongside programs");
+check(toolSpecs.some((t) => t.name === "search_careers") && toolSpecs.some((t) => t.name === "get_career") && /search_careers/.test(systemPrompt()), "the model is offered the career tools and told when to use them");
+check(summaryRecords([{ kind: "career", ref: "registered-nurse" }], "http://localhost:8888")[0].text.startsWith("career: Registered nurse."), "summaries can cite careers");
 
 // Suggested searches have prewritten summaries (#65), whose dates come from data
 const base = "http://localhost:8888";

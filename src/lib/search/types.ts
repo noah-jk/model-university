@@ -5,7 +5,7 @@ import type { SaveData } from "../workbench/toggle.ts";
 // What a result is. `kind` and `ref` (the catalog id) match the item model of
 // the planned Workbench, where people save results, so a result can be saved
 // as-is and rendered again later from those two fields.
-export const KINDS = ["program", "course", "faculty", "event", "service", "news"] as const;
+export const KINDS = ["program", "course", "career", "faculty", "event", "service", "news"] as const;
 export type Kind = (typeof KINDS)[number];
 
 export type SearchResult = {

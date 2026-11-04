@@ -212,6 +212,22 @@ const badLink = await toolError("get_your_path", { link: "https://example.edu/yo
 const pastTerm = await toolError("get_your_path", { link: encodePath({ ...pathWorkbench, profile: { ...pathWorkbench.profile, startTerm: "Fall 2020" } }) });
 console.log(`✓ get_your_path errors: ${JSON.stringify(badLink.slice(0, 50))} | ${JSON.stringify(pastTerm.slice(0, 50))}`);
 
+// Careers (#62) ------------------------------------------------------------------------
+const nurses = await tool("search_careers", { query: "nurse" });
+allAbsolute("search_careers", nurses);
+if (!nurses.results.some((c: { id: string; soc: string }) => c.id === "registered-nurse" && c.soc === "29-1141") || nurses.region !== "Washington") throw new Error("search_careers: finds registered nurse with its SOC code");
+const wellPaid = await tool("search_careers", { education: "Bachelor's degree", min_wage: 100000, min_growth: 10, limit: 50 });
+if (!wellPaid.results.length || wellPaid.results.some((c: { median_wage_washington: number; growth_percent: number; typical_education: string }) => c.median_wage_washington < 100000 || c.growth_percent < 10 || /Master|Doctoral/.test(c.typical_education))) throw new Error("search_careers: filters");
+const bySoc = await tool("get_career", { id: "29-1141" });
+const careerUrls = allAbsolute("get_career", bySoc);
+if (bySoc.id !== "registered-nurse" || bySoc.wages.washington.p25 >= bySoc.wages.washington.p75 || bySoc.job_postings_by_month.length !== 12 || !bySoc.programs.some((p: { id: string }) => p.id === "nursing-bs")) throw new Error("get_career: by SOC code, with wages, postings, and programs");
+const careerByName = (await tool("get_career", { id: "Registered nurse" })).id;
+const noCareer = await toolError("get_career", { id: "astronaut" });
+if (careerByName !== "registered-nurse" || !/search_careers/.test(noCareer)) throw new Error("get_career: by name, and a helpful not-found");
+const withCareers = await tool("get_program", { id: "nursing-bs" });
+if (withCareers.career_outcomes[0]?.id !== "registered-nurse" || !withCareers.career_outcomes.every((c: { url: string }) => /^https?:\/\/.+\/academics\/careers\//.test(c.url))) throw new Error("get_program: career outcomes, best fit first");
+console.log(`✓ search_careers / get_career: ${nurses.total_matches} for "nurse", ${wellPaid.total_matches} well-paid and growing with a bachelor's or less, ${careerUrls} urls for registered nurse; get_program lists careers`);
+
 if (!prompts.some((p: { name: string }) => p.name === "plan-my-path")) throw new Error("prompts/list: missing plan-my-path");
 const planPrompt = (await call("prompts/get", { name: "plan-my-path", arguments: { student_type: "Transfer", level: "Undergraduate", start_term: "Winter 2027", program: "Nursing, BS" } })).messages[0].content.text;
 const askPrompt = (await call("prompts/get", { name: "plan-my-path", arguments: {} })).messages[0].content.text;

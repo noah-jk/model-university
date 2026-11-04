@@ -18,6 +18,8 @@ export const SEARCH_TOOLS: Record<string, Kind> = {
   get_program: "program",
   search_courses: "course",
   get_course: "course",
+  search_careers: "career",
+  get_career: "career",
   find_services: "service",
   get_service: "service",
   services_open_now: "service",
@@ -28,9 +30,9 @@ export const SEARCH_TOOLS: Record<string, Kind> = {
 };
 
 // The model may plan up to 4 searches; a plan sent back to remove a chip may
-// also be a keyword plan, which searches all six kinds.
+// also be a keyword plan, which searches all seven kinds.
 export const MAX_CALLS = 4;
-export const MAX_RETURNED_CALLS = 6;
+export const MAX_RETURNED_CALLS = 7;
 // Results per search, and per group on the page
 const PER_CALL = 8;
 const PER_GROUP = 10;
@@ -68,6 +70,10 @@ function chipLabel(arg: string, value: unknown) {
     case "from": return `From ${shortDate(v)}`;
     case "to": return `Through ${shortDate(v)}`;
     case "tag": return `Tagged “${v}”`;
+    case "min_wage": return `Pays ${usd(Number(value))} or more`;
+    case "min_growth": return `Growth ${v}% or more`;
+    case "education": return `Education: up to ${v.charAt(0).toLowerCase()}${v.slice(1)}`;
+    case "field": return `Field: ${v}`;
     default: return v;
   }
 }
@@ -159,13 +165,15 @@ const BUDGET = /\b(?:under|below|less than|up to|max(?:imum)?|cheaper than)\s*\$
 const KIND_WORDS: [RegExp, string, "remove" | "keep"][] = [
   [/\b(who teaches|who studies|professors?|faculty|instructors?|experts?)\b/, "search_faculty", "remove"],
   [/\b(courses?|class(es)?)\b/, "search_courses", "remove"],
+  [/\b(careers?|jobs?|occupations?)\b/, "search_careers", "remove"],
+  [/\b(pays?|paying|salary|salaries)( well)?\b/, "search_careers", "remove"],
   [/\b(upcoming )?events?\b/, "search_events", "remove"],
   [/\b(tours?|open house|workshops?|lectures?|concerts?)\b/, "search_events", "keep"],
   [/\b(news|stories|story)\b/, "list_news", "remove"],
   [/\b(programs?|degrees?|majors?)\b/, "search_programs", "remove"],
   [/\b(services?|offices?|resources?|support for)\b/, "find_services", "remove"],
 ];
-const ALL_KINDS = ["search_programs", "search_courses", "search_faculty", "find_services", "search_events", "list_news"];
+const ALL_KINDS = ["search_programs", "search_courses", "search_careers", "search_faculty", "find_services", "search_events", "list_news"];
 // "is the writing center open?", "when does the library open"
 const OPEN_QUESTION = /\bopen\b/;
 // Filler beyond the catalog's stop words (src/lib/words.ts)

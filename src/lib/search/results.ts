@@ -6,6 +6,7 @@
 import siteConfig from "../../../site.config.ts";
 import * as catalog from "../catalog.ts";
 import { storyDate } from "../dates.ts";
+import { growthText } from "../careers-page.ts";
 import { usd } from "../format.ts";
 import { campusTime, formatTime, isOpen } from "../hours.ts";
 import { absoluteUrl, pagePath, type PageType } from "../urls.ts";
@@ -22,9 +23,10 @@ const records = {
   event: byId(catalog.events),
   service: byId(catalog.services),
   news: byId(catalog.news),
+  career: byId(catalog.careers),
 };
 
-const PAGE_TYPE: Record<Kind, PageType> = { program: "programs", course: "courses", faculty: "faculty", event: "events", service: "services", news: "news" };
+const PAGE_TYPE: Record<Kind, PageType> = { program: "programs", course: "courses", career: "careers", faculty: "faculty", event: "events", service: "services", news: "news" };
 
 const seasons = (terms: readonly string[]) => terms.map((t) => t.toLowerCase()).join(", ");
 const short = (text: string, max = 110) => (text.length > max ? `${text.slice(0, max).replace(/\s+\S*$/, "")}…` : text);
@@ -39,7 +41,8 @@ function openStatus(service: Service, now: Date) {
 
 export function resultFor(kind: Kind, ref: string, base: string, now = new Date()): SearchResult | undefined {
   const result = describe(kind, ref, base, now);
-  const save = result && siteConfig.features.workbench ? saveData(kind, ref) : undefined;
+  // Careers can't be saved to Your Path yet
+  const save = result && siteConfig.features.workbench && kind !== "career" ? saveData(kind, ref) : undefined;
   return result && (save ? { ...result, save } : result);
 }
 
@@ -69,6 +72,10 @@ function describe(kind: Kind, ref: string, base: string, now: Date): SearchResul
     case "news": {
       const n = records.news.get(ref);
       return n && { kind, ref, url, title: n.title, detail: `${storyDate(new Date(n.date))} · ${short(n.summary)}` };
+    }
+    case "career": {
+      const c = records.career.get(ref);
+      return c && { kind, ref, url, title: c.name, detail: `${usd(c.wages.washington.median)} median in ${c.region} · ${growthText(c.growth_percent)} growth · ${c.education}` };
     }
   }
 }

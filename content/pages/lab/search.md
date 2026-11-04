@@ -12,6 +12,8 @@ description: Search the catalog the way you'd ask a person. A language model rea
 4. The site checks those searches, runs them on the catalog, and builds every result from the catalog's own records. A program, person, or link the catalog doesn't have can't appear.
 5. The filters it used appear as chips. Removing one runs the same searches again without it, without asking the model.
 
+Results come in seven kinds: programs, courses, careers, faculty, events, student services, and news. A search about work, like "healthcare jobs that pay well," finds careers, with their Washington median pay.
+
 That takes one request to the model per search, plus one for an AI summary when a search gets one (below). For a question like "is the writing center open right now?", the quick answer is written from the service's opening hours, not by the model.
 
 ## What's sent to the model

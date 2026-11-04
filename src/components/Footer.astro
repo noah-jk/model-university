@@ -21,7 +21,7 @@ const sections = [
 ];
 const links = [
   ...(features.llmsTxt ? [{ href: "/llms.txt", label: "llms.txt" }] : []),
-  ...(features.jsonFeeds ? ["programs", "courses", "services"].map((f) => ({ href: `/data/${f}.json`, label: `${f}.json` })) : []),
+  ...(features.jsonFeeds ? ["programs", "courses", "services", "careers"].map((f) => ({ href: `/data/${f}.json`, label: `${f}.json` })) : []),
 ];
 ---
 
