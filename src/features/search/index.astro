@@ -31,11 +31,11 @@ const suggested = siteConfig.features.aiSummary && query ? suggestedSummary(quer
 const data = JSON.stringify(result ?? null).replace(/</g, "\\u003c");
 ---
 
-<BaseLayout title={query ? `Search: ${query}` : "Search"} description={`Search programs, courses, faculty, events, student services, and news at ${siteConfig.name}, in your own words.`}>
+<BaseLayout title={query ? `Search: ${query}` : "Search"} description={`Search programs, courses, careers, faculty, events, student services, and news at ${siteConfig.name}, in your own words.`}>
   <div class="search-page">
     <h1>Search</h1>
     <form class="search-form panel" method="get" action="/search/" role="search" data-search-form>
-      <label for="search-q">Search programs, courses, people, events, services, and news</label>
+      <label for="search-q">Search programs, courses, careers, people, events, services, and news</label>
       <div class="field-row">
         <input id="search-q" name="q" type="search" value={query} maxlength={MAX_QUERY} autocomplete="off" aria-describedby="search-hint" />
         <button class="button" type="submit">Search</button>

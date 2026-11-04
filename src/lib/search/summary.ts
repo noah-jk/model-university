@@ -42,6 +42,8 @@ const descriptionOf = (kind: Kind, ref: string): string | undefined => {
       return catalog.services.find((s) => s.id === ref)?.description;
     case "news":
       return catalog.news.find((n) => n.id === ref)?.summary;
+    case "career":
+      return catalog.findCareer(ref)?.summary;
   }
 };
 

@@ -9,7 +9,7 @@ import * as catalog from "./catalog.ts";
 import * as enrollment from "./enrollment.ts";
 import { listText } from "./format.ts";
 import { yourPath } from "./workbench/path-answer.ts";
-import { ALL_STUDENT_TYPES, AUDIENCES, CAMPUSES, COURSE_LEVELS, EVENT_CATEGORIES, LEVEL_OF_PROGRAM, MODALITIES, PROGRAM_LEVELS, SERVICE_CATEGORIES, STUDENT_LEVELS, STUDENT_TYPES, TERMS } from "./vocab.ts";
+import { ALL_STUDENT_TYPES, AUDIENCES, EDUCATION_LEVELS, CAMPUSES, COURSE_LEVELS, EVENT_CATEGORIES, LEVEL_OF_PROGRAM, MODALITIES, PROGRAM_LEVELS, SERVICE_CATEGORIES, STUDENT_LEVELS, STUDENT_TYPES, TERMS } from "./vocab.ts";
 
 type StudentLevel = (typeof STUDENT_LEVELS)[number];
 
@@ -74,7 +74,7 @@ export const tools: Tool[] = [
   tool({
     name: "get_program",
     title: "Get program details",
-    description: "Full details for one program: description, requirements, deadlines, tuition, outcomes, careers, sample courses, and related programs. Cite the url in your answer.",
+    description: "Full details for one program: description, requirements, deadlines, tuition, outcomes, sample courses, related programs, and career_outcomes (the careers it leads to, best fit first, with Washington median wage and growth; get_career has the rest). Cite the url in your answer.",
     input: { id: z.string().describe("Program id from search_programs, e.g. 'nursing-bs'") },
     run: ({ id }, base) => catalog.getProgram(id, base),
     notFound: "No program with that id found. Use search_programs to find valid ids.",
@@ -85,6 +85,30 @@ export const tools: Tool[] = [
     description: "Side-by-side comparison of 2–5 programs: cost, length, format, start terms, requirements, and careers.",
     input: { ids: z.array(z.string()).min(2).max(5) },
     run: ({ ids }, base) => catalog.comparePrograms(ids, base),
+  }),
+  tool({
+    name: "search_careers",
+    title: "Search careers",
+    description:
+      "Find careers that the university's programs lead to, by job, other job title, skill, or field, with filters for field of study, the most education the person wants to need, minimum Washington median wage, and minimum ten-year growth. Each result has its SOC code, Washington median wage, growth, typical education, and page url. Use get_career for pay ranges, outlook, skills, and the programs that lead there.",
+    input: {
+      query: z.string().optional().describe("Job, skill, or field, e.g. 'nurse', 'data', 'teaching'"),
+      field: z.string().optional().describe("Field of study (department) name or id, e.g. 'Nursing'"),
+      education: z.enum(EDUCATION_LEVELS).optional().describe("The most education the person wants to need; careers needing this or less"),
+      min_wage: z.number().int().positive().optional().describe("Minimum Washington median annual wage in dollars, e.g. 75000"),
+      min_growth: z.number().optional().describe("Minimum projected growth over ten years, in percent, e.g. 10"),
+      limit,
+    },
+    run: (args, base) => catalog.searchCareersResults(args, base),
+  }),
+  tool({
+    name: "get_career",
+    title: "Get career details",
+    description:
+      "One career in full: what the work is, other titles, typical education, Washington and national wages (10th, 25th, median, 75th, 90th percentiles), Washington employment, ten-year growth, openings a year, twelve months of job postings, skills by type, employers, and the university's programs that lead there, with urls. Labor market data is for Washington. Cite the url.",
+    input: { id: z.string().describe("Career id from search_careers, its SOC code (e.g. '29-1141'), or its name") },
+    run: ({ id }, base) => catalog.getCareer(id, base),
+    notFound: "No career with that id, SOC code, or name. Use search_careers to find valid ids.",
   }),
   tool({
     name: "list_colleges",

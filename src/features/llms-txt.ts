@@ -2,10 +2,11 @@
 
 import type { APIRoute } from "astro";
 import siteConfig from "../../site.config.ts";
-import { colleges, collegeOf, courses, departments, events, faculty, facultyInDepartment, hasEnded, news, programs, services } from "../lib/catalog.ts";
+import { careers, colleges, collegeOf, courses, departments, events, faculty, facultyInDepartment, hasEnded, news, programs, programsForCareer, services } from "../lib/catalog.ts";
+import { growthText } from "../lib/careers-page.ts";
 import { eventWhen } from "../lib/dates.ts";
 import { usd } from "../lib/format.ts";
-import { absoluteUrl, markdownPath, pagePath, subjectPath } from "../lib/urls.ts";
+import { absoluteUrl, markdownPath, pagePath, SECTION_PATH, subjectPath } from "../lib/urls.ts";
 import { calendarFor, upcomingCalendarTerms } from "../lib/enrollment.ts";
 import { tools } from "../lib/tools.ts";
 import { WORKBENCH_LABEL, WORKBENCH_PATH } from "../lib/workbench/types.ts";
@@ -14,7 +15,7 @@ export const GET: APIRoute = ({ site }) => {
   const url = (path: string) => absoluteUrl(path, site!);
   const { features } = siteConfig;
   // Link to the Markdown copy when it exists, otherwise the page itself.
-  const page = (type: "programs" | "services", id: string) => url(features.markdownPages ? markdownPath(type, id) : pagePath(type, id));
+  const page = (type: "programs" | "services" | "careers", id: string) => url(features.markdownPages ? markdownPath(type, id) : pagePath(type, id));
 
   const sections = [
     `# ${siteConfig.name}`,
@@ -30,7 +31,8 @@ export const GET: APIRoute = ({ site }) => {
 
 - [All programs (JSON)](${url("/data/programs.json")}): every program with tuition, deadlines, requirements, and careers
 - [All courses (JSON)](${url("/data/courses.json")}): the full course catalog
-- [All student services (JSON)](${url("/data/services.json")}): offices with hours, locations, and contacts`);
+- [All student services (JSON)](${url("/data/services.json")}): offices with hours, locations, and contacts
+- [All careers (JSON)](${url("/data/careers.json")}): careers the programs lead to, with SOC codes, Washington and national wages, outlook, skills, and program ids`);
   }
   sections.push(enrollmentSection(url));
   sections.push(`## Student services\n\n${services.map((s) => `- [${s.name}](${page("services", s.id)}): ${s.description}`).join("\n")}`);
@@ -42,6 +44,12 @@ export const GET: APIRoute = ({ site }) => {
     );
   }
 
+  sections.push(
+    `## Careers\n\nCareers the programs lead to, with ${careers[0].region} median wage and ten-year growth. Each page has pay ranges, job postings, skills, and the programs that lead there. [Explore by career](${url(`${SECTION_PATH.careers}/`)})\n\n${[...careers]
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((c) => `- [${c.name}](${page("careers", c.id)}) (SOC ${c.soc}): ${usd(c.wages.washington.median)} median, ${growthText(c.growth_percent)} growth, ${programsForCareer(c).length} programs`)
+      .join("\n")}`
+  );
   sections.push(
     `## Faculty\n\nBy department; each name links to a profile with research interests, courses, and contact details. [Faculty directory](${url("/about/faculty/")})\n\n${departments
       .map((d) => `- ${d.field}: ${facultyInDepartment(d.id).map((f) => `[${f.name}](${url(pagePath("faculty", f.id))})`).join(", ")}`)

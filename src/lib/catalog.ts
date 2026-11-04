@@ -200,6 +200,7 @@ export function getProgram(id: string, base: Base) {
       .slice(0, 8)
       .map((c) => ({ code: c.code, title: c.title, credits: c.credits, url: absoluteUrl(pagePath("courses", c.id), base) })),
     related_programs: relatedPrograms(p).map((x) => ({ id: x.id, name: x.name, url: absoluteUrl(pagePath("programs", x.id), base) })),
+    career_outcomes: careersForProgram(p).map((c) => careerSummary(c, base)),
   };
 }
 
@@ -284,6 +285,62 @@ export function searchCareers({ query, field, education, min_wage, min_growth }:
   return ranked(matching, query, (c) => [[c.name, 5], [c.titles.join(" "), 4], [c.title, 3], [c.skills.map((k) => k.name).join(" "), 2], [departmentsForCareer(c).map((d) => d.field).join(" "), 2], [c.summary, 1]])
     .sort((a, b) => b.s - a.s || a.item.name.localeCompare(b.item.name))
     .map(({ item }) => item);
+}
+
+// Careers for AI tools and feeds: absolute urls, the SOC code, and the
+// programs that lead there
+const careerUrl = (c: Career, base: Base) => absoluteUrl(pagePath("careers", c.id), base);
+export const careerSummary = (c: Career, base: Base) => ({
+  id: c.id,
+  name: c.name,
+  soc: c.soc,
+  median_wage_washington: c.wages.washington.median,
+  growth_percent: c.growth_percent,
+  typical_education: c.education,
+  url: careerUrl(c, base),
+});
+
+export function careerRecord(c: Career, base: Base) {
+  return {
+    id: c.id,
+    name: c.name,
+    soc_code: c.soc,
+    soc_title: c.title,
+    summary: c.summary,
+    other_titles: c.titles,
+    typical_education: c.education,
+    region: c.region,
+    data_year: c.vintage,
+    wages: { washington: c.wages.washington, national: c.wages.national },
+    employment_washington: c.employment,
+    growth_percent_10_years: c.growth_percent,
+    annual_openings_washington: c.annual_openings,
+    job_postings_by_month: c.postings,
+    skills: c.skills,
+    employers: c.employers,
+    fields: departmentsForCareer(c).map((d) => d.field),
+    url: careerUrl(c, base),
+  };
+}
+
+export function searchCareersResults({ limit = 10, ...query }: CareerQuery & { limit?: number }, base: Base) {
+  const results = searchCareers(query);
+  const shown = results.slice(0, limit);
+  return {
+    total_matches: results.length,
+    region: careers[0].region,
+    results: shown.map((c) => careerSummary(c, base)),
+    ...(results.length > shown.length && { note: `Showing the top ${shown.length} of ${results.length} matches. Refine filters to narrow.` }),
+  };
+}
+
+export function getCareer(key: string, base: Base) {
+  const c = findCareer(key);
+  if (!c) return null;
+  return {
+    ...careerRecord(c, base),
+    programs: programsForCareer(c).map((p) => ({ id: p.id, name: p.name, level: p.level, url: absoluteUrl(pagePath("programs", p.id), base) })),
+  };
 }
 
 export function listColleges() {

@@ -1,15 +1,16 @@
-// Feature: markdownPages. A Markdown copy of every program, course, and
-// service page at …/index.md, next to the HTML page.
+// Feature: markdownPages. A Markdown copy of every program, course, career,
+// and service page at …/index.md, next to the HTML page.
 
 import type { APIRoute, GetStaticPaths } from "astro";
-import { courses, programs, services } from "../lib/catalog.ts";
+import { careers, courses, findCareer, programs, services } from "../lib/catalog.ts";
 import { pagePath } from "../lib/urls.ts";
-import { courseMarkdown, programMarkdown, serviceMarkdown } from "../lib/markdown.ts";
+import { careerMarkdown, courseMarkdown, programMarkdown, serviceMarkdown } from "../lib/markdown.ts";
 
 const builders = {
   programs: (id: string, site: URL) => programMarkdown(programs.find((p) => p.id === id)!, site),
   courses: (id: string, site: URL) => courseMarkdown(courses.find((c) => c.id === id)!, site),
   services: (id: string, site: URL) => serviceMarkdown(services.find((s) => s.id === id)!, site),
+  careers: (id: string, site: URL) => careerMarkdown(findCareer(id)!, site),
 };
 
 // The route is /[...path]/index.md, where path is the page's own URL path
@@ -23,6 +24,7 @@ export const getStaticPaths = (() => [
   ...programs.map((p) => entry("programs", p.id)),
   ...courses.map((c) => entry("courses", c.id)),
   ...services.map((s) => entry("services", s.id)),
+  ...careers.map((c) => entry("careers", c.id)),
 ]) satisfies GetStaticPaths;
 
 export const GET: APIRoute = ({ props, site }) => {
