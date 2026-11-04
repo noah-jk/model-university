@@ -1,0 +1,57 @@
+---
+// A career's headline numbers and pay range, on program pages and career
+// pages: Washington median salary (with the national figure), ten-year growth,
+// openings a year, and a bar from the 10th to the 90th percentile with the
+// middle half shaded. The bar is a picture of the sentence under it.
+import { growthText, lower, payPosition } from "../../lib/careers-page.ts";
+import type { Career } from "../../lib/catalog.ts";
+import { usd } from "../../lib/format.ts";
+
+interface Props {
+  career: Career;
+  // Heading level for "Pay range", under the section's own heading
+  headingLevel?: 2 | 3;
+}
+const { career, headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as "h2" | "h3";
+const wa = career.wages.washington;
+---
+
+<dl class="stats" aria-label={`${career.name}: salary and outlook`}>
+  <div>
+    <dt>Median salary in Washington</dt>
+    <dd>{usd(wa.median)}</dd>
+    <dd class="compare">{usd(career.wages.national.median)} nationally</dd>
+  </div>
+  <div>
+    <dt>Projected job growth over 10 years</dt>
+    <dd>{growthText(career.growth_percent)}</dd>
+  </div>
+  <div>
+    <dt>Job openings a year in Washington</dt>
+    <dd>{career.annual_openings.toLocaleString("en-US")}</dd>
+  </div>
+</dl>
+
+<Heading class="pay-title">Pay range: {lower(career.name)}</Heading>
+<div class="range" aria-hidden="true">
+  <span class="middle" style={`left: ${payPosition(career, wa.p25)}; width: calc(${payPosition(career, wa.p75)} - ${payPosition(career, wa.p25)})`}></span>
+  <span class="median" style={`left: ${payPosition(career, wa.median)}`}></span>
+</div>
+<p class="range-labels" aria-hidden="true"><span>{usd(wa.p10)}</span><span>{usd(wa.p90)}</span></p>
+<p>
+  Most earn between {usd(wa.p25)} and {usd(wa.p75)} a year in Washington, and half earn more than {usd(wa.median)}. The lowest-paid tenth earn under {usd(wa.p10)}, and the
+  top tenth over {usd(wa.p90)}.
+</p>
+
+<style>
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 1rem; margin: 0.5rem 0 1.5rem; }
+  .stats > div { padding: 1rem 1.1rem; background: var(--paper); border: 1px solid var(--line); border-top: 4px solid var(--fir); border-radius: var(--radius-s); display: flex; flex-direction: column; }
+  .stats dt { order: 2; font-size: var(--step--1); color: var(--muted); }
+  .stats dd { order: 1; margin: 0 0 0.25rem; font: 700 var(--step-2) / 1.1 var(--serif); color: var(--basalt); }
+  .stats dd.compare { order: 3; margin: 0.35rem 0 0; font: 400 var(--step--1) / 1.3 var(--sans); color: var(--muted); }
+  .range { position: relative; height: 0.9rem; margin-top: 0.75rem; background: var(--line); border-radius: 999px; }
+  .range .middle { position: absolute; top: 0; bottom: 0; background: var(--fir); border-radius: 999px; }
+  .range .median { position: absolute; top: -0.3rem; bottom: -0.3rem; width: 4px; margin-left: -2px; background: var(--basalt); border-radius: 2px; }
+  .range-labels { display: flex; justify-content: space-between; max-width: none; margin: 0.3rem 0 0.5rem; font-size: var(--step--1); color: var(--muted); }
+</style>

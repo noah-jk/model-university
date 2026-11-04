@@ -1,0 +1,159 @@
+---
+// One career (#61): what the work is, pay and outlook in Washington with the
+// national figure, a year of job postings, skills, employers, the programs
+// that lead there, and related careers. Viewing it counts toward the
+// interest profile through its field (pageMeta.career).
+import type { GetStaticPaths } from "astro";
+import siteConfig from "../../../../../site.config.ts";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../../../components/Breadcrumb.astro";
+import CareerNumbers from "../../../../components/careers/CareerNumbers.astro";
+import SaveButton from "../../../../components/workbench/SaveButton.astro";
+import { careers, departmentsForCareer, programsForCareer, type Career } from "../../../../lib/catalog.ts";
+import { growthText, lower, monthName, postingsTrend, relatedCareers } from "../../../../lib/careers-page.ts";
+import { listText, usd } from "../../../../lib/format.ts";
+import { pageMeta } from "../../../../lib/personalization.ts";
+import { pagePath, SECTION_PATH } from "../../../../lib/urls.ts";
+import { PROGRAM_LEVELS } from "../../../../lib/vocab.ts";
+
+export const getStaticPaths = (() => careers.map((career) => ({ params: { id: career.id }, props: { career } }))) satisfies GetStaticPaths;
+
+const { career: c } = Astro.props as { career: Career };
+const path = pagePath("careers", c.id);
+const fields = departmentsForCareer(c).map((d) => d.field);
+const programs = programsForCareer(c);
+const byLevel = PROGRAM_LEVELS.map((level) => ({ level, programs: programs.filter((p) => p.level === level) })).filter((g) => g.programs.length);
+const related = relatedCareers(c);
+const most = Math.max(...c.postings.map((p) => p.count));
+const skillGroups = [
+  { type: "specialized", title: "Specialized skills" },
+  { type: "software", title: "Software and tools" },
+  { type: "common", title: "Everyday skills" },
+].map((g) => ({ ...g, skills: c.skills.filter((s) => s.type === g.type) })).filter((g) => g.skills.length);
+const LEVEL_HEADINGS: Record<string, string> = { "Bachelor's": "Bachelor's degrees", "Master's": "Master's degrees", Doctorate: "Doctorates", Certificate: "Graduate certificates", Minor: "Minors" };
+---
+
+<BaseLayout title={c.name} description={`${c.summary} Pay, outlook, and the ${siteConfig.shortName} programs that lead there.`} page={pageMeta.career(c)}>
+  <Breadcrumb items={[{ label: "Careers", href: `${SECTION_PATH.careers}/` }, { label: c.name, href: path }]} />
+  <div class="career-page">
+    <h1>{c.name}</h1>
+    <p class="lede">{c.summary}</p>
+    {c.titles.length > 0 && <p class="also">Also called {listText(c.titles.map(lower), "or")}. Typical education: {c.education.toLowerCase()}.</p>}
+
+    <section aria-labelledby="outlook-title">
+      <h2 id="outlook-title">Pay and outlook in {c.region}</h2>
+      <CareerNumbers career={c} />
+
+      <h3>Job postings over the last year</h3>
+      <p>{postingsTrend(c)} About {c.employment.toLocaleString("en-US")} people work in this role in {c.region}.</p>
+      <div class="postings" aria-hidden="true">
+        {
+          c.postings.map((p) => (
+            <div class="bar" style={`height: ${((p.count / most) * 100).toFixed(1)}%`} title={`${monthName(p.month)}: ${p.count}`}>
+              <span>{monthName(p.month).split(" ")[0]}</span>
+            </div>
+          ))
+        }
+      </div>
+      <details class="postings-table">
+        <summary>Job postings by month, as a table</summary>
+        <table>
+          <caption class="visually-hidden">Job postings for {c.name.toLowerCase()} in {c.region}, by month</caption>
+          <thead>
+            <tr><th scope="col">Month</th><th scope="col">Postings</th></tr>
+          </thead>
+          <tbody>
+            {c.postings.map((p) => (
+              <tr><th scope="row">{monthName(p.month)}</th><td>{p.count.toLocaleString("en-US")}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </details>
+    </section>
+
+    <section aria-labelledby="skills-title">
+      <h2 id="skills-title">Skills employers look for</h2>
+      <div class="skill-groups">
+        {
+          skillGroups.map((g) => (
+            <div>
+              <h3>{g.title}</h3>
+              <ul class="skills">{g.skills.map((s) => <li>{s.name}</li>)}</ul>
+            </div>
+          ))
+        }
+      </div>
+      <h3>Where people in this role work</h3>
+      <ul class="employers">{c.employers.map((e) => <li>{e}</li>)}</ul>
+    </section>
+
+    <section aria-labelledby="programs-title">
+      <h2 id="programs-title">Programs that lead here</h2>
+      <p>{siteConfig.shortName} programs in {listText(fields)} prepare you for this work.</p>
+      {
+        byLevel.map((g) => (
+          <>
+            <h3>{LEVEL_HEADINGS[g.level]}</h3>
+            <ul class="program-list">
+              {g.programs.map((p) => (
+                <li>
+                  <a href={pagePath("programs", p.id)}>{p.name}</a>
+                  <span class="program-facts">{p.modality}, about {usd(p.estimated_total_tuition_usd)}</span>
+                  <SaveButton kind="program" id={p.id} compact />
+                </li>
+              ))}
+            </ul>
+          </>
+        ))
+      }
+    </section>
+
+    {
+      related.length > 0 && (
+        <section aria-labelledby="related-title">
+          <h2 id="related-title">Related careers</h2>
+          <ul class="related">
+            {related.map((r) => (
+              <li>
+                <a href={pagePath("careers", r.id)}>{r.name}</a>
+                <span>
+                  {usd(r.wages.washington.median)} median, {growthText(r.growth_percent)} growth
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <p class="source">Labor market data, {c.region}, {c.vintage}.</p>
+    <p><a href={`${SECTION_PATH.careers}/`}>Explore all careers</a></p>
+  </div>
+</BaseLayout>
+
+<style>
+  .career-page { max-width: 52rem; }
+  .career-page h2 { font-size: var(--step-2); margin-top: 2.5rem; }
+  .also { color: var(--muted); }
+
+  .postings { display: grid; grid-template-columns: repeat(12, 1fr); align-items: end; gap: 0.35rem; height: 9rem; margin: 1rem 0 1.75rem; padding-bottom: 1.4rem; border-bottom: 1px solid var(--line); }
+  .postings .bar { position: relative; min-height: 2px; background: var(--fir); border-radius: 3px 3px 0 0; }
+  .postings .bar span { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 0.25rem; font-size: 0.7rem; color: var(--muted); }
+  .postings-table summary { font-weight: 600; cursor: pointer; min-height: 24px; }
+  .postings-table table { margin-top: 0.5rem; border-collapse: collapse; }
+  .postings-table th, .postings-table td { padding: 0.3rem 1rem 0.3rem 0; text-align: left; border-bottom: 1px solid var(--line); }
+  .postings-table td, .postings-table thead th + th { text-align: right; }
+
+  .skill-groups { display: grid; gap: 0 2rem; }
+  @media (min-width: 40rem) { .skill-groups { grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); } }
+  .skills, .employers { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skills li { padding: 0.25rem 0.75rem; border-radius: 999px; background: var(--lichen); color: var(--basalt); font-size: var(--step--1); }
+  .employers li { padding: 0.25rem 0.75rem; border: 1px solid var(--line); border-radius: var(--radius-s); font-size: var(--step--1); }
+
+  .program-list, .related { list-style: none; padding: 0; }
+  .program-list li, .related li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 1rem; padding-block: 0.6rem; border-bottom: 1px solid var(--line); }
+  .program-list a, .related a { font-weight: 600; }
+  .program-facts, .related span { font-size: var(--step--1); color: var(--muted); }
+  .program-list :global(.save-toggle) { margin-left: auto; }
+  .source { margin-top: 2rem; font-size: var(--step--1); color: var(--muted); }
+</style>

@@ -8,7 +8,7 @@ import SaveButton from "../../../components/workbench/SaveButton.astro";
 import AskAiMenu from "../../../components/AskAiMenu.astro";
 import { colleges, collegeOf, departmentOf } from "../../../lib/catalog.ts";
 import { usd } from "../../../lib/format.ts";
-import { pagePath } from "../../../lib/urls.ts";
+import { pagePath, SECTION_PATH } from "../../../lib/urls.ts";
 import { MODALITIES, PROGRAM_LEVELS, TERMS } from "../../../lib/vocab.ts";
 import { PROFILE_KEY } from "../../../lib/personalization-settings.ts";
 
@@ -28,6 +28,7 @@ const prompt = `Help me find a program at ${siteConfig.name} using {origin}/llms
   <div class="page-intro">
     <h1>Academic programs</h1>
     <p>Find a degree, minor, or certificate, or ask your AI assistant to help you choose.</p>
+    <p><a href={`${SECTION_PATH.careers}/`}>Explore by career instead</a></p>
     <AskAiMenu prompt={prompt} label="Explore programs with AI" />
   </div>
 

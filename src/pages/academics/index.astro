@@ -6,7 +6,7 @@ import AskAiMenu from "../../components/AskAiMenu.astro";
 import PageIntro from "../../components/PageIntro.astro";
 import introImage from "../../assets/images/students-class-1.jpg";
 import AtAGlance from "../../components/AtAGlance.astro";
-import { colleges, courses, departments, programs } from "../../lib/catalog.ts";
+import { careers, colleges, courses, departments, programs } from "../../lib/catalog.ts";
 import { PROGRAM_LEVELS } from "../../lib/vocab.ts";
 
 const page = await getPage("academics");
@@ -24,6 +24,12 @@ const paths = [
     title: "Courses",
     text: `${courses.length.toLocaleString("en-US")} courses in ${departments.length} subjects, with terms, formats, and prerequisites.`,
     cta: "Browse courses",
+  },
+  {
+    href: "/academics/careers/",
+    title: "Careers",
+    text: `${careers.length} careers our programs lead to, with pay and outlook in ${careers[0].region}.`,
+    cta: "Explore by career",
   },
 ];
 const levels = PROGRAM_LEVELS.map((level) => [level, String(programs.filter((p) => p.level === level).length)] as [string, string]);

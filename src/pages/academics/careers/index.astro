@@ -1,0 +1,86 @@
+---
+// Explore by career (#61): every career, filtered in place as people type or
+// pick options (src/scripts/filter-list.ts), each linking to its page and to
+// the programs that lead there. The filter data is in src/lib/careers-page.ts.
+import siteConfig from "../../../../site.config.ts";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { careers, departments, programsForCareer } from "../../../lib/catalog.ts";
+import { careerFilterData, growthText, GROWTH_OPTIONS, WAGE_OPTIONS } from "../../../lib/careers-page.ts";
+import { usd } from "../../../lib/format.ts";
+import { pagePath, SECTION_PATH } from "../../../lib/urls.ts";
+import { EDUCATION_LEVELS } from "../../../lib/vocab.ts";
+
+const list = [...careers].sort((a, b) => a.name.localeCompare(b.name));
+const fields = [...departments].sort((a, b) => a.field.localeCompare(b.field));
+const filters = [
+  { name: "field", label: "Field of study", any: "Any field", options: fields.map((d) => [d.id, d.field]) },
+  { name: "education", label: "Education needed, up to", any: "Any", options: EDUCATION_LEVELS.slice(1).map((e) => [e, e]) },
+  { name: "wage", label: "Median salary", any: "Any salary", options: WAGE_OPTIONS.map((w) => [String(w), `${usd(w)} or more`]) },
+  { name: "growth", label: "Job growth over 10 years", any: "Any outlook", options: GROWTH_OPTIONS.map((g) => [g.value, g.label]) },
+];
+const region = careers[0].region;
+---
+
+<BaseLayout title="Explore by career" description={`Careers that ${siteConfig.name} programs lead to, with pay, outlook, and skills in ${region}.`}>
+  <div class="page-intro">
+    <h1>Explore by career</h1>
+    <p>Start with the work you want to do. Each career shows pay and outlook in {region} and the programs that lead there.</p>
+    <p><a href={`${SECTION_PATH.programs}/`}>Browse by program instead</a></p>
+  </div>
+
+  <form class="finder" data-filter-form="career-list" data-noun="career" role="search" aria-label="Filter careers">
+    <div class="field search">
+      <label for="q">Search by job, skill, or field</label>
+      <input id="q" name="q" type="search" placeholder="For example, nurse, data, or teaching" />
+    </div>
+    {
+      filters.map((f) => (
+        <div class="field">
+          <label for={f.name}>{f.label}</label>
+          <select id={f.name} name={f.name}>
+            <option value="">{f.any}</option>
+            {f.options.map(([value, label]) => (
+              <option value={value}>{label}</option>
+            ))}
+          </select>
+        </div>
+      ))
+    }
+  </form>
+
+  <p id="career-list-count" class="results-count" aria-live="polite">{list.length} careers</p>
+  <ul id="career-list" class="entry-list">
+    {
+      list.map((c) => {
+        const data = careerFilterData(c);
+        const programs = programsForCareer(c).length;
+        return (
+          <li data-search={data.search} data-field={data.field} data-education={data.education} data-wage={data.wage} data-growth={data.growth}>
+            <div>
+              <h2>
+                <a href={pagePath("careers", c.id)}>{c.name}</a>
+              </h2>
+              <p>{c.summary}</p>
+            </div>
+            <p class="facts">
+              <span>{usd(c.wages.washington.median)} median</span>
+              <span>{growthText(c.growth_percent)} growth</span>
+              <span>{c.education}</span>
+              <span>
+                {programs} {programs === 1 ? "program" : "programs"}
+              </span>
+            </p>
+          </li>
+        );
+      })
+    }
+  </ul>
+</BaseLayout>
+
+<script>
+  import "../../../scripts/filter-list.ts";
+</script>
+
+<style>
+  @media (min-width: 720px) { .entry-list > li { grid-template-columns: 1fr 15rem; } }
+</style>
