@@ -29,7 +29,7 @@ There's no tracking of searches, scrolling, or anything else.
 
 ## Where it's stored
 
-Only in your browser's **sessionStorage**, which belongs to this one tab. The page log keeps the last 50 views. Nothing is sent to Cascadia State or anyone else, the forms aren't connected to any system, no cookies are set, and there are no third-party scripts. Closing the tab erases everything, and **Reset session** in the Under the hood panel erases it immediately.
+Only in your browser's **sessionStorage**, which belongs to this one tab. The page log keeps the last 50 views. Nothing is sent to Cascadia State or anyone else, the forms aren't connected to any system, no cookies are set, and there are no third-party scripts. Closing the tab erases everything, and **Reset session** in the Under the hood panel erases it immediately. For a clean slate, such as before a demo, **Start over completely** also clears everything saved on Your Path, then reloads the page so nothing on it is personalized.
 
 ## Why this is privacy-friendly
 

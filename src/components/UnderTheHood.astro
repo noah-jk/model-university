@@ -22,6 +22,7 @@ import { WORKBENCH_LABEL } from "../lib/workbench/types.ts";
   </p>
   <p class="uth-stat"></p>
   <p class="visually-hidden uth-live" aria-live="polite"></p>
+  <p class="uth-started-over" hidden>Started over. This site has no record of this browser now, so every page shows its default.</p>
 
   <section aria-labelledby="uth-changed">
     <h3 id="uth-changed">What changed on this page</h3>
@@ -60,6 +61,22 @@ import { WORKBENCH_LABEL } from "../lib/workbench/types.ts";
 
   <button type="button" class="button uth-reset">{siteConfig.features.workbench ? "Reset session and plan" : "Reset session"}</button>
   {siteConfig.features.workbench && <p class="uth-reset-note">Also starts {WORKBENCH_LABEL}'s plan over: your answers, checked steps, dismissed items, and hidden tips. Saved items stay.</p>}
+
+  <!-- A clean slate for demos: everything, saved items included, then a reload -->
+  <div class="uth-start-over">
+    <button type="button" class="button secondary uth-start-over-open" aria-expanded="false" aria-controls="uth-confirm">Start over completely</button>
+    <div class="uth-confirm" id="uth-confirm" role="group" aria-labelledby="uth-confirm-text" hidden>
+      <p id="uth-confirm-text">
+        {siteConfig.features.workbench
+          ? `This clears everything: this tab's session, your plan, and everything saved on ${WORKBENCH_LABEL}. Then the page reloads with nothing personalized. It can't be undone.`
+          : "This clears this tab's session, then the page reloads with nothing personalized. It can't be undone."}
+      </p>
+      <p class="uth-confirm-actions">
+        <button type="button" class="button uth-start-over-yes">Start over</button>
+        <button type="button" class="button secondary uth-start-over-no">Cancel</button>
+      </p>
+    </div>
+  </div>
 </section>
 
 <script>
@@ -117,6 +134,11 @@ import { WORKBENCH_LABEL } from "../lib/workbench/types.ts";
   .uth-visits :global(.type) { display: block; }
   .uth-reset { margin-top: 1.25rem; }
   .uth-reset-note { color: var(--muted); }
+  .uth-start-over { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+  .uth-confirm { margin-top: 0.75rem; padding: 0.75rem 1rem; border: 2px solid var(--salmonberry); border-radius: var(--radius-s); }
+  .uth-confirm p { margin: 0; }
+  .uth-confirm-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem !important; }
+  .uth-started-over { font-weight: 600; }
   .uth-steps { padding-left: 1.25rem; }
   .uth-steps :global(.state) { color: var(--muted); }
   .uth-answers :global(dl), .uth-plan :global(dl) { display: grid; grid-template-columns: auto 1fr; gap: 0.25rem 0.75rem; margin: 0.5rem 0 0; }

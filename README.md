@@ -104,7 +104,7 @@ Detail pages describe themselves with `data-page-*` attributes on `<main>` (buil
 - `src/components/JourneyActions.astro`: Request information, Schedule a visit, and Apply buttons (on program pages and the admissions overview). With `formId`, Request information jumps to the form on the page, on narrow screens only.
 - `src/components/Recents.astro`: the Recents panel, opened from the header's utility row (or the Menu on small screens), with "Recently viewed" and "Your next step"
 - `src/pages/academics/programs/index.astro`: lists the most-viewed department's programs first
-- `src/components/UnderTheHood.astro`: the panel, opened from the footer or with `?demo` in the address
+- `src/components/UnderTheHood.astro`: the panel, opened from the footer or with `?demo` in the address. **Reset session and plan** keeps saved items; **Start over completely** (after a confirm step in the panel) clears the session and all of Your Path, saved items included, and reloads the page: a clean slate for demos.
 
 Picks based on interest use `preferred()` in `personalize.ts`: a form answer wins, otherwise the most-viewed department or college. That covers the home page hero, the events and news shown on the home page, the program the next step points to, and the program list's order.
 
