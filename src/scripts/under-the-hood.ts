@@ -56,6 +56,48 @@ panel.querySelector(".uth-reset")!.addEventListener("click", () => {
   resetSession();
 });
 
+// Start over completely: a clean slate for demos. Clears this tab's session
+// and everything on Your Path, saved items included, then reloads so the page
+// shows its defaults. A flag (this module's own key) says so after the reload.
+const STARTED_OVER_KEY = `${PANEL_KEY}:started-over`;
+const startOver = panel.querySelector<HTMLButtonElement>(".uth-start-over-open")!;
+const confirmBox = panel.querySelector<HTMLElement>(".uth-confirm")!;
+const showConfirm = (show: boolean) => {
+  confirmBox.hidden = !show;
+  startOver.setAttribute("aria-expanded", String(show));
+};
+startOver.addEventListener("click", () => {
+  const opening = startOver.getAttribute("aria-expanded") !== "true";
+  showConfirm(opening);
+  // Cancel is the safe place to land
+  if (opening) panel.querySelector<HTMLButtonElement>(".uth-start-over-no")!.focus();
+});
+panel.querySelector(".uth-start-over-no")!.addEventListener("click", () => {
+  showConfirm(false);
+  startOver.focus();
+});
+panel.querySelector(".uth-start-over-yes")!.addEventListener("click", () => {
+  if (siteConfig.features.workbench) workbench.clear();
+  resetSession();
+  try {
+    sessionStorage.setItem(STARTED_OVER_KEY, "1");
+  } catch {
+    // The page still reloads clean; it just won't say so
+  }
+  location.reload();
+});
+try {
+  if (sessionStorage.getItem(STARTED_OVER_KEY)) {
+    sessionStorage.removeItem(STARTED_OVER_KEY);
+    const note = panel.querySelector<HTMLElement>(".uth-started-over")!;
+    note.hidden = false;
+    // Said once, after the panel has opened again
+    setTimeout(() => (live.textContent = note.textContent), 300);
+  }
+} catch {
+  // Nothing to say
+}
+
 // Rendering -------------------------------------------------------------------
 
 const el = <K extends keyof HTMLElementTagNameMap>(tag: K, text?: string, className?: string) => {
