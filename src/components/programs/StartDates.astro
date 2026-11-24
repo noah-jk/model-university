@@ -1,0 +1,63 @@
+---
+// The start-dates strip on a program page (#75): the next terms you can
+// start, each with its application deadline. Built ahead of time, so every
+// term for the next three years is in the page and the inline script below
+// hides those that have started or closed before the page is drawn, keeping
+// the first few (the same rule as openStartDates in program-page.ts).
+import siteConfig from "../../../site.config.ts";
+import { openStartDates, startDates, STRIP_TERMS } from "../../lib/program-page.ts";
+import type { Program } from "../../lib/schemas.ts";
+
+interface Props {
+  program: Program;
+}
+const { program: p } = Astro.props;
+const dates = startDates(p);
+const today = new Date().toLocaleDateString("en-CA", { timeZone: siteConfig.timezone });
+const shown = new Set(openStartDates(dates, today).map((d) => d.term));
+const id = `start-dates-${p.id}`;
+---
+
+<section class="start-dates" aria-labelledby={`${id}-title`}>
+  <h2 id={`${id}-title`}>Start dates</h2>
+  <ol id={id} class="strip" tabindex="0" aria-labelledby={`${id}-title`}>
+    {
+      dates.map((d) => (
+        <li data-starts={d.starts} data-deadline={d.deadline} hidden={!shown.has(d.term) || undefined}>
+          <span class:list={["next", { later: [...shown][0] !== d.term }]}>Next</span>
+          <span class="term">{d.term}</span>
+          <span class="apply">{d.applyBy}</span>
+        </li>
+      ))
+    }
+  </ol>
+  <script is:inline define:vars={{ id, keep: STRIP_TERMS, timeZone: siteConfig.timezone }}>
+    // Today's terms, not the build day's: hide started or closed terms and
+    // mark the soonest open one, before the page is drawn
+    const today = new Date().toLocaleDateString("en-CA", { timeZone });
+    const horizon = `${Number(today.slice(0, 4)) + 2}${today.slice(4)}`;
+    let open = 0;
+    for (const li of document.getElementById(id).children) {
+      const { starts, deadline } = li.dataset;
+      const isOpen = starts > today && starts <= horizon && (!deadline || deadline >= today) && open < keep;
+      li.hidden = !isOpen;
+      li.querySelector(".next").classList.toggle("later", !(isOpen && open === 0));
+      if (isOpen) open++;
+    }
+  </script>
+</section>
+
+<style>
+  .start-dates { margin: 0 0 2.5rem; }
+  .start-dates h2 { font-size: var(--step-2); margin: 0 0 0.75rem; }
+  /* Four cells in a row; at phone width the row scrolls sideways and the cells keep their size */
+  .strip { list-style: none; margin: 0; padding: 0 0 0.25rem; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(10.5rem, 1fr); gap: 0.75rem; overflow-x: auto; }
+  .strip li { display: grid; align-content: start; gap: 0.2rem; padding: 0.9rem 1rem 1rem; background: var(--paper); border: 1px solid var(--line); border-top: 3px solid var(--line); border-radius: var(--radius-s); }
+  .strip li:has(.next:not(.later)) { border-top-color: var(--fir); }
+  .strip:focus-visible { outline-offset: 2px; }
+  /* Every cell keeps the label's line, so the terms line up; only the soonest shows it */
+  .next.later { visibility: hidden; }
+  .next { font: 700 0.75rem / 1.2 var(--condensed); letter-spacing: 0.06em; text-transform: uppercase; color: var(--fir); }
+  .term { font: 400 var(--step-1) / 1.2 var(--serif); color: var(--heading); }
+  .apply { font-size: var(--step--1); color: var(--muted); }
+</style>

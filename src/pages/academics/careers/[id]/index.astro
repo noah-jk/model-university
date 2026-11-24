@@ -7,6 +7,7 @@ import type { GetStaticPaths } from "astro";
 import siteConfig from "../../../../../site.config.ts";
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
 import Breadcrumb from "../../../../components/Breadcrumb.astro";
+import BoxedTitle from "../../../../components/BoxedTitle.astro";
 import CareerNumbers from "../../../../components/careers/CareerNumbers.astro";
 import SaveButton from "../../../../components/workbench/SaveButton.astro";
 import { careers, departmentsForCareer, programsForCareer, type Career } from "../../../../lib/catalog.ts";
@@ -36,7 +37,9 @@ const LEVEL_HEADINGS: Record<string, string> = { "Bachelor's": "Bachelor's degre
 <BaseLayout title={c.name} description={`${c.summary} Pay, outlook, and the ${siteConfig.shortName} programs that lead there.`} page={pageMeta.career(c)}>
   <Breadcrumb items={[{ label: "Careers", href: `${SECTION_PATH.careers}/` }, { label: c.name, href: path }]} />
   <div class="career-page">
-    <h1>{c.name}</h1>
+    <div class="career-hero texture-topo">
+      <BoxedTitle text={c.name} />
+    </div>
     <p class="lede">{c.summary}</p>
     {c.titles.length > 0 && <p class="also">Also called {listText(c.titles.map(lower), "or")}. Typical education: {c.education.toLowerCase()}.</p>}
 
@@ -94,9 +97,10 @@ const LEVEL_HEADINGS: Record<string, string> = { "Bachelor's": "Bachelor's degre
         byLevel.map((g) => (
           <>
             <h3>{LEVEL_HEADINGS[g.level]}</h3>
-            <ul class="program-list">
+            <ul class="program-cards">
               {g.programs.map((p) => (
                 <li>
+                  <div class="texture-strip" aria-hidden="true" />
                   <a href={pagePath("programs", p.id)}>{p.name}</a>
                   <span class="program-facts">{p.modality}, about {usd(p.estimated_total_tuition_usd)}</span>
                   <SaveButton kind="program" id={p.id} compact />
@@ -150,10 +154,19 @@ const LEVEL_HEADINGS: Record<string, string> = { "Bachelor's": "Bachelor's degre
   .skills li { padding: 0.25rem 0.75rem; border-radius: var(--radius-s); background: var(--lichen); color: var(--basalt); font-size: var(--step--1); }
   .employers li { padding: 0.25rem 0.75rem; border: 1px solid var(--line); border-radius: var(--radius-s); font-size: var(--step--1); }
 
-  .program-list, .related { list-style: none; padding: 0; }
-  .program-list li, .related li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 1rem; padding-block: 0.6rem; border-bottom: 1px solid var(--line); }
-  .program-list a, .related a { font-weight: 600; }
+  /* The name in green boxes on contours, the career's stand-in for a photo */
+  .career-hero { display: flex; align-items: flex-end; min-height: clamp(9rem, 22vw, 13rem); padding: clamp(1.25rem, 4vw, 2.25rem); margin: 0.5rem 0 1.5rem; border-radius: var(--radius-s); }
+
+  /* Programs that lead here: cards with the foliage strip on top */
+  .program-cards { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 1rem; }
+  .program-cards li { display: grid; align-content: start; justify-items: start; gap: 0.35rem; padding: 0 1.1rem 1rem; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-s); overflow: hidden; }
+  .program-cards .texture-strip { justify-self: stretch; margin: 0 -1.1rem 0.6rem; }
+  .program-cards a { font: 400 var(--step-1) / 1.25 var(--serif); }
+  .program-cards :global(.save-toggle) { margin-top: 0.4rem; }
+
+  .related { list-style: none; padding: 0; }
+  .related li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 1rem; padding-block: 0.6rem; border-bottom: 1px solid var(--line); }
+  .related a { font-weight: 600; }
   .program-facts, .related span { font-size: var(--step--1); color: var(--muted); }
-  .program-list :global(.save-toggle) { margin-left: auto; }
   .source { margin-top: 2rem; font-size: var(--step--1); color: var(--muted); }
 </style>

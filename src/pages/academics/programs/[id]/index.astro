@@ -10,6 +10,7 @@ import Breadcrumb from "../../../../components/Breadcrumb.astro";
 import RequestInfoForm from "../../../../components/forms/RequestInfoForm.astro";
 import EventList from "../../../../components/EventList.astro";
 import ProgramHero from "../../../../components/programs/ProgramHero.astro";
+import StartDates from "../../../../components/programs/StartDates.astro";
 import ProgramCareers from "../../../../components/programs/ProgramCareers.astro";
 import { collegeOf, departmentOf, eventsForProgram, facultyInDepartment, hasEnded, relatedPrograms, storyOf } from "../../../../lib/catalog.ts";
 import { listText, usd } from "../../../../lib/format.ts";
@@ -44,6 +45,7 @@ const jsonLd = JSON.stringify(programJsonLd(p, Astro.site!)).replace(/</g, "\\u0
   <script type="application/ld+json" set:html={jsonLd} />
   <Breadcrumb items={[{ label: "Programs", href: "/academics/programs/" }, { label: p.name, href: path }]} />
   <ProgramHero program={p} />
+  <StartDates program={p} />
   <div class="detail">
     <article>
       <section class="why" aria-labelledby="why-title">
@@ -129,21 +131,6 @@ const jsonLd = JSON.stringify(programJsonLd(p, Astro.site!)).replace(/</g, "\\u0
       <h2>Admission requirements</h2>
       <ul>{p.requirements.map((r) => <li>{r}</li>)}</ul>
 
-      {
-        p.application_deadlines.length > 0 && (
-          <>
-            <h2>Application deadlines</h2>
-            <ul>
-              {p.application_deadlines.map((d) => (
-                <li>
-                  {d.term} start: {d.deadline}
-                </li>
-              ))}
-            </ul>
-          </>
-        )
-      }
-
       <section aria-labelledby="cost-title">
         <h2 id="cost-title">Cost and aid</h2>
         <p>
@@ -183,10 +170,14 @@ const jsonLd = JSON.stringify(programJsonLd(p, Astro.site!)).replace(/</g, "\\u0
         related.length > 0 && (
           <>
             <h2>Related programs</h2>
-            <ul>
+            <ul class="related-cards">
               {related.map((r) => (
                 <li>
+                  <div class="texture-strip" aria-hidden="true" />
                   <a href={pagePath("programs", r.id)}>{r.name}</a>
+                  <span>
+                    {r.level} · {collegeOf(r).name}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -253,4 +244,10 @@ const jsonLd = JSON.stringify(programJsonLd(p, Astro.site!)).replace(/</g, "\\u0
   .faqs details { border-bottom: 1px solid var(--line); }
   .faqs summary { padding: 0.85rem 0; font-weight: 600; cursor: pointer; min-height: 24px; }
   .faqs details p { margin: 0 0 1rem; max-width: var(--measure); }
+  /* Related programs: cards with the foliage strip on top */
+  .related-cards { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: 1rem; }
+  .related-cards li { display: grid; align-content: start; gap: 0.3rem; padding: 0 1.1rem 1rem; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-s); overflow: hidden; }
+  .related-cards .texture-strip { margin: 0 -1.1rem 0.6rem; }
+  .related-cards a { font: 400 var(--step-1) / 1.25 var(--serif); }
+  .related-cards span { font-size: var(--step--1); color: var(--muted); }
 </style>

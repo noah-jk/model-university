@@ -45,12 +45,13 @@ const wa = career.wages.washington;
 </p>
 
 <style>
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 1rem; margin: 0.5rem 0 1.5rem; }
-  .stats > div { padding: 1rem 1.1rem; background: var(--paper); border: 1px solid var(--line); border-top: 4px solid var(--fir); border-radius: var(--radius-s); display: flex; flex-direction: column; }
+  /* Big serif numbers under a green rule, like the home page's stats */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 1.5rem 2rem; margin: 0.75rem 0 1.75rem; }
+  .stats > div { padding-top: 0.6rem; border-top: 3px solid var(--fir); display: flex; flex-direction: column; }
   .stats dt { order: 2; font-size: var(--step--1); color: var(--muted); }
-  .stats dd { order: 1; margin: 0 0 0.25rem; font: 700 var(--step-2) / 1.1 var(--serif); color: var(--basalt); }
+  .stats dd { order: 1; margin: 0 0 0.25rem; font: 400 var(--step-3) / 1.05 var(--serif); color: var(--heading); }
   .stats dd.compare { order: 3; margin: 0.35rem 0 0; font: 400 var(--step--1) / 1.3 var(--sans); color: var(--muted); }
-  .range { position: relative; height: 0.9rem; margin-top: 0.75rem; background: var(--line); border-radius: var(--radius-s); }
+  .range { position: relative; height: 0.9rem; margin-top: 0.75rem; background: var(--lichen); border-radius: var(--radius-s); }
   .range .middle { position: absolute; top: 0; bottom: 0; background: var(--fir); border-radius: var(--radius-s); }
   .range .median { position: absolute; top: -0.3rem; bottom: -0.3rem; width: 4px; margin-left: -2px; background: var(--basalt); border-radius: 2px; }
   .range-labels { display: flex; justify-content: space-between; max-width: none; margin: 0.3rem 0 0.5rem; font-size: var(--step--1); color: var(--muted); }
