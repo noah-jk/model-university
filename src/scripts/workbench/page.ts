@@ -8,6 +8,7 @@
 
 import siteConfig from "../../../site.config.ts";
 import { announce } from "../enhance.ts";
+import { combobox } from "../combobox.ts";
 import { listText } from "../../lib/format.ts";
 import { longDay } from "../../lib/dates.ts";
 import { rulesFrom, type Rules, type RulesLookup } from "../../lib/enrollment-rules.ts";
@@ -483,7 +484,7 @@ function addToCompare(id: string) {
   return `Saved ${program.name} to ${WORKBENCH_LABEL} and added it to the comparison.`;
 }
 
-// The search: a combobox (ARIA 1.2) with a list of matching programs. It's
+// The search: a combobox (combobox.ts) with a list of matching programs. It's
 // built once, outside what re-renders, so typing isn't interrupted.
 function setUpCompareSearch() {
   panels.compare.innerHTML = `<div class="compare-add">
@@ -497,78 +498,20 @@ function setUpCompareSearch() {
     <div data-compare-body></div>`;
   const input = panels.compare.querySelector<HTMLInputElement>("#compare-search")!;
   const list = panels.compare.querySelector<HTMLUListElement>("#compare-options")!;
-  let matches: SavedProgram[] = [];
-  let active = -1;
-  let countTimer: ReturnType<typeof setTimeout> | undefined;
-
-  const close = () => {
-    list.hidden = true;
-    input.setAttribute("aria-expanded", "false");
-    input.removeAttribute("aria-activedescendant");
-    active = -1;
-  };
-  const show = () => {
-    const ids = comparedIds(savedPrograms(workbench.get()));
-    matches = matchPrograms(index!.program, input.value);
-    active = -1;
-    input.removeAttribute("aria-activedescendant");
-    list.innerHTML = matches
-      .map(({ id, program }, i) => {
+  combobox(input, list, {
+    suggest: (query) => {
+      const ids = comparedIds(savedPrograms(workbench.get()));
+      return matchPrograms(index!.program, query).map(({ id, program }) => {
         const state = ids.includes(id) ? "comparing" : workbench.has("program", id) ? "saved" : "";
-        return `<li role="option" id="compare-option-${i}" data-option="${esc(id)}" aria-selected="false">${esc(program.name)}<span class="option-meta">${esc(program.level)}${state ? ` · ${state}` : ""}</span></li>`;
-      })
-      .join("");
-    const open = matches.length > 0;
-    list.hidden = !open;
-    input.setAttribute("aria-expanded", String(open));
-    // Say how many match, once typing pauses
-    clearTimeout(countTimer);
-    if (input.value.trim()) countTimer = setTimeout(() => announce(matches.length ? `${matches.length} ${matches.length === 1 ? "program matches" : "programs match"}. Use the arrow keys to choose.` : "No programs match."), 600);
-  };
-  const highlight = (i: number) => {
-    active = i;
-    list.querySelectorAll<HTMLElement>("[role=option]").forEach((o, j) => o.setAttribute("aria-selected", String(j === i)));
-    const option = list.querySelector<HTMLElement>(`#compare-option-${i}`);
-    if (option) {
-      input.setAttribute("aria-activedescendant", option.id);
-      option.scrollIntoView({ block: "nearest" });
-    }
-  };
-  const pick = (id: string) => {
-    clearTimeout(countTimer);
-    input.value = "";
-    close();
-    announce(addToCompare(id));
-    input.focus();
-  };
-
-  input.addEventListener("input", show);
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      if (list.hidden) show();
-      if (matches.length) highlight((active + 1) % matches.length);
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      if (matches.length) highlight(active <= 0 ? matches.length - 1 : active - 1);
-    } else if (e.key === "Enter") {
-      if (active >= 0 && !list.hidden) {
-        e.preventDefault();
-        pick(matches[active].id);
-      }
-    } else if (e.key === "Escape") {
-      if (!list.hidden) close();
-      else input.value = "";
-    }
+        return { id, label: program.name, meta: `${program.level}${state ? ` · ${state}` : ""}` };
+      });
+    },
+    pick: (id) => {
+      input.value = "";
+      announce(addToCompare(id));
+    },
+    counts: ["program matches", "programs match"],
   });
-  // mousedown, so the click lands before the input loses focus
-  list.addEventListener("mousedown", (e) => {
-    const option = (e.target as Element).closest<HTMLElement>("[data-option]");
-    if (!option) return;
-    e.preventDefault();
-    pick(option.dataset.option!);
-  });
-  input.addEventListener("blur", () => setTimeout(close, 100));
 }
 
 // Calendar files ----------------------------------------------------------------

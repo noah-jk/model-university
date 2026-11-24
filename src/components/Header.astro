@@ -47,6 +47,8 @@ const searchIcon = "M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM15.2 15.2 20 
 // The header button starts at the first step (or just "Apply" without personalization); header-cta.ts keeps it on the visitor's next step.
 const cta = recents ? { href: JOURNEY[0].href, label: JOURNEY[0].label } : { href: "/admissions/apply/", label: "Apply" };
 const current = Astro.url.pathname;
+// The home page's hero has its own yellow primary action, and there's only one per view (#74)
+const showCta = current !== "/";
 const ariaCurrent = (href: string) => (current.startsWith(href) ? "page" : undefined);
 // A parent is "current" only on its own page; its children are marked on theirs.
 const parentCurrent = (item: NavItem) => (current === item.href ? "page" : undefined);
@@ -114,7 +116,7 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
             ),
           )
         }
-        <li class="cta-item"><a class="cta button primary" href={cta.href} data-header-cta data-journey-apply={!recents || undefined}>{cta.label}</a></li>
+        {showCta && <li class="cta-item"><a class="cta button primary" href={cta.href} data-header-cta data-journey-apply={!recents || undefined}>{cta.label}</a></li>}
         {recents && (
           <li class="small-screens">
             <button type="button" class="recents-toggle needs-js" data-recents-toggle aria-expanded="false">{RECENTS_LABEL}</button>
