@@ -37,6 +37,11 @@ document.querySelectorAll<HTMLFormElement>("[data-filter-form]").forEach((form) 
     e.preventDefault();
     apply();
   });
+  // A search passed in the address (?q=nurse, as the home page's Discover band
+  // sends without JavaScript) fills the search box
+  const q = new URLSearchParams(location.search).get("q");
+  const search = form.elements.namedItem("q");
+  if (q && search instanceof HTMLInputElement) search.value = q;
   // Apply right away too, so default selections (like "Upcoming") take effect
   apply();
 });

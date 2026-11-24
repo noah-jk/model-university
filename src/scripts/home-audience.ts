@@ -25,12 +25,15 @@ const standard = document.getElementById("home-news-events");
 const admissions = document.getElementById("home-admissions-events");
 
 const headline = document.getElementById("hero-title");
-const defaultHeadline = headline?.textContent ?? "";
+// The headline as written (an inline script may already have personalized it)
+const defaultHeadline = headline?.dataset.default ?? headline?.textContent ?? "";
 
 type HeroImage = { alt: string; avif: string; webp: string; jpeg: string };
 const heroImages: Record<string, HeroImage> = JSON.parse(document.getElementById("hero-images")?.textContent ?? "{}");
 const heroPicture = document.getElementById("hero-picture");
 const defaultPicture = heroPicture?.cloneNode(true) as HTMLElement | undefined;
+// Photos load at the size the page gives the default one
+const heroSizes = heroPicture?.querySelector("img")?.sizes || "100vw";
 let shown: HTMLElement | null = heroPicture; // what's on screen now
 let pending: HTMLElement | null = null; // loading, not yet visible
 let shownCollege: string | undefined;
@@ -47,12 +50,12 @@ function incomingPicture(photo?: HeroImage) {
     const source = document.createElement("source");
     source.type = type;
     source.srcset = srcset;
-    source.sizes = "100vw";
+    source.sizes = heroSizes;
     picture.append(source);
   }
   const img = document.createElement("img");
   img.srcset = photo.jpeg;
-  img.sizes = "100vw";
+  img.sizes = heroSizes;
   img.src = photo.jpeg.split(" ")[0];
   img.alt = photo.alt;
   img.loading = "eager";
