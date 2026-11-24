@@ -1,0 +1,246 @@
+---
+// The brand page (#72): the palette with its dark-mode values and the
+// contrast of every pairing the site uses (both read from global.css), type,
+// buttons, links and notes, form fields, cards, and textures, all rendered with
+// the site's real styles, so it shows this browser's light or dark mode.
+import { Picture } from "astro:assets";
+import css from "../../../styles/global.css?raw";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import { getPage } from "../../../lib/pages.ts";
+import { contrast, PAIRS, readTokens } from "../../../lib/brand.ts";
+import { collegePhotos } from "../../../lib/photos.ts";
+
+const page = await getPage("lab/brand");
+const { Content } = page;
+const path = "/lab/brand/";
+const { light, dark } = readTokens(css);
+
+const SWATCHES = [
+  { token: "fir", name: "Green", role: "Brand color: headlines, links, buttons" },
+  { token: "fir-deep", name: "Deep green", role: "The header, hover" },
+  { token: "forest", name: "Forest", role: "Green surfaces: callouts, boxed headlines" },
+  { token: "sun", name: "Yellow", role: "The primary action, as a fill" },
+  { token: "lichen", name: "Sage", role: "Quiet surfaces, the topographic hero" },
+  { token: "mist", name: "Mist", role: "Subtle fills" },
+  { token: "fog", name: "Off-white", role: "The page" },
+  { token: "paper", name: "Paper", role: "Cards and fields" },
+  { token: "basalt", name: "Basalt", role: "Text" },
+  { token: "muted", name: "Muted", role: "Secondary text" },
+  { token: "line", name: "Line", role: "Borders and rules" },
+  { token: "salmonberry", name: "Red", role: "Errors and overdue dates only" },
+];
+const ratio = (theme: Record<string, string>, fg: string, bg: string) => contrast(theme[fg], theme[bg]).toFixed(1);
+const photo = collegePhotos["College of Science"];
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <Breadcrumb items={[{ label: "Lab", href: "/lab/" }, { label: page.title, href: path }]} />
+  <article class="brand">
+    <div class="prose">
+      <h1>{page.title}</h1>
+      <p class="lede">{page.description}</p>
+      <Content />
+    </div>
+
+    <section aria-labelledby="palette-title">
+      <h2 id="palette-title">Palette</h2>
+      <ul class="swatches">
+        {
+          SWATCHES.map((s) => (
+            <li>
+              <span class="chip" style={`background: var(--${s.token})`} aria-hidden="true" />
+              <span class="swatch-name">{s.name}</span>
+              <span class="swatch-role">{s.role}</span>
+              <code>--{s.token}</code>
+              <span class="swatch-hex">
+                Light {light[s.token]} · Dark {dark[s.token]}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <h3>Contrast</h3>
+      <p>Every pairing the site uses, in both themes. Text needs 4.5:1, focus rings 3:1. These are checked in <code>scripts/test-brand.ts</code>.</p>
+      <div class="table-scroll">
+        <table>
+          <caption class="visually-hidden">Contrast of each text and surface pair, in light and dark mode</caption>
+          <thead>
+            <tr>
+              <th scope="col">Used for</th>
+              <th scope="col">Pair</th>
+              <th scope="col">Light</th>
+              <th scope="col">Dark</th>
+              <th scope="col">Needs</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              PAIRS.map((p) => (
+                <tr>
+                  <th scope="row">{p.use}</th>
+                  <td>
+                    <code>{p.fg}</code> on <code>{p.bg}</code>
+                  </td>
+                  <td class="num">{ratio(light, p.fg, p.bg)}:1</td>
+                  <td class="num">{ratio(dark, p.fg, p.bg)}:1</td>
+                  <td class="num">{p.min}:1</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="type-title">
+      <h2 id="type-title">Type</h2>
+      <div class="type-samples">
+        <p class="eyebrow">Eyebrow · Roboto Condensed, bold, capitals</p>
+        <p class="sample-h1">Reimagine possible</p>
+        <p class="sample-h2">Headline two, Young Serif</p>
+        <p class="sample-h3">Headline three, Young Serif</p>
+        <p class="sample-shout">Still not sure?</p>
+        <p class="sample-body">Body text is Roboto. Most Nursing classes have fewer than 30 students, so faculty know your name and your goals. Lines stay near 68 characters wide.</p>
+        <p class="sample-small">Small text, for facts and captions: Fall start, applications due March 1.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="buttons-title">
+      <h2 id="buttons-title">Buttons and links</h2>
+      <div class="row">
+        <a class="button primary" href="#buttons-title">Start here</a>
+        <button type="button" class="button">Save to Your Path</button>
+        <button type="button" class="button arrow">Go</button>
+        <button type="button" class="button secondary">Schedule a visit</button>
+      </div>
+      <p>
+        A <a href="#buttons-title">text link</a> is green and underlined. Quiet notes explain a feature:{" "}
+        <button type="button" class="note-link">Why am I seeing this?</button>
+      </p>
+      <details class="note">
+        <summary>How it works</summary>
+        <p>A disclosure in the quiet style, for explanations next to what they explain.</p>
+      </details>
+    </section>
+
+    <section aria-labelledby="forms-title">
+      <h2 id="forms-title">Form fields</h2>
+      <div class="panel form-sample">
+        <div class="field">
+          <label for="brand-career">Career</label>
+          <input id="brand-career" type="text" placeholder="Start typing" />
+        </div>
+        <div class="field">
+          <label for="brand-help">I need help with</label>
+          <select id="brand-help">
+            <option>Select</option>
+            <option>Paying for college</option>
+            <option>Choosing a program</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="brand-email">Email</label>
+          <p class="error" id="brand-email-error">Enter an email address like name@example.com</p>
+          <input id="brand-email" type="email" value="ada@" aria-invalid="true" aria-describedby="brand-email-error" />
+        </div>
+        <button type="button" class="button arrow">Go</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="textures-title">
+      <h2 id="textures-title">Textures</h2>
+      <ul class="textures">
+        <li>
+          <div class="texture-sample texture-topo" />
+          <p><strong>Topographic</strong> <code>.texture-topo</code>: generated contours, solid and dotted, on sage. For heroes and section openers.</p>
+        </li>
+        <li>
+          <div class="texture-sample texture-foliage" />
+          <p><strong>Foliage</strong> <code>.texture-foliage</code>: halftone leaves on green. Too uneven for text on its own, so words go in a solid box or a card on top.</p>
+        </li>
+        <li>
+          <div class="texture-sample texture-topo-forest" />
+          <p><strong>Topographic on green</strong> <code>.texture-topo-forest</code>: faint contours on solid green, for callouts with light text.</p>
+        </li>
+        <li>
+          <div class="texture-sample texture-dots" />
+          <p><strong>Dots</strong> <code>.texture-dots</code>: an uneven dot field for quiet off-white areas.</p>
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="patterns-title">
+      <h2 id="patterns-title">Patterns</h2>
+      <div class="patterns">
+        <div class="card">
+          <div class="texture-strip" aria-hidden="true" />
+          <div class="card-body">
+            <p class="eyebrow">Card</p>
+            <p class="card-title">A card with a foliage strip</p>
+            <p>Used sparingly, on featured cards.</p>
+          </div>
+        </div>
+        <div class="callout texture-topo-forest">
+          <p class="sample-shout on-dark">Still not sure?</p>
+          <a class="button primary" href="#patterns-title">Contact us</a>
+        </div>
+        <figure class="overlap">
+          <Picture src={photo.image} alt={photo.alt} loading="eager" widths={[480, 720]} sizes="(min-width: 900px) 24rem, 100vw" formats={["avif", "webp"]} />
+          <figcaption class="boxed" aria-hidden="true"><span>Reimagine</span> <span>possible</span></figcaption>
+        </figure>
+      </div>
+      <p class="hint">The boxed headline rises over the photo's edge: a small overlap that covers nothing important.</p>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .brand { display: grid; gap: 1rem; }
+  .brand section { margin-top: 2rem; }
+  .brand h2 { font-size: var(--step-3); }
+
+  .swatches { list-style: none; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); }
+  .swatches li { display: grid; gap: 0.2rem; font-size: var(--step--1); }
+  .swatches .chip { display: block; height: 4.5rem; border-radius: var(--radius-s); border: 1px solid var(--line); margin-bottom: 0.35rem; }
+  .swatch-name { font-weight: 700; font-size: var(--step-0); }
+  .swatch-role, .swatch-hex { color: var(--muted); }
+  .swatch-hex { font-variant-numeric: tabular-nums; }
+  .num { font-variant-numeric: tabular-nums; text-align: right; }
+
+  .type-samples { display: grid; gap: 0.75rem; }
+  .type-samples p { margin: 0; }
+  .sample-h1, .sample-h2, .sample-h3, .sample-shout { font-family: var(--serif); color: var(--fir); line-height: 1.1; }
+  .sample-h1 { font-size: var(--step-4); }
+  .sample-h2 { font-size: var(--step-3); }
+  .sample-h3 { font-size: var(--step-1); }
+  .sample-shout { font-size: var(--step-3); text-transform: uppercase; letter-spacing: 0.01em; }
+  .sample-small { font-size: var(--step--1); color: var(--muted); }
+
+  .row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; }
+
+  .form-sample { display: grid; gap: 1rem; max-width: 26rem; }
+  .form-sample .error { margin: 0 0 0.35rem; font-weight: 600; color: var(--salmonberry); }
+  .form-sample [aria-invalid="true"] { border-color: var(--salmonberry); border-width: 2px; }
+  .form-sample .button { justify-self: start; }
+
+  .textures { list-style: none; padding: 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+  .textures p { font-size: var(--step--1); margin-top: 0.5rem; }
+  .texture-sample { height: 12rem; border-radius: var(--radius-s); border: 1px solid var(--line); }
+  .texture-dots.texture-sample { background: var(--fog); }
+
+  .patterns { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); align-items: start; }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-s); overflow: hidden; }
+  .card-body { padding: 1rem 1.1rem; }
+  .card-body p { margin: 0 0 0.35rem; }
+  .card-title { font: 400 var(--step-1) / 1.2 var(--serif); color: var(--fir); }
+  .callout { padding: 2rem 1.5rem; border-radius: var(--radius-s); display: grid; gap: 1rem; justify-items: start; }
+  .callout .on-dark { color: var(--on-dark); margin: 0; }
+  .overlap { margin: 0 0 2.5rem; position: relative; }
+  .overlap :global(img) { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-s); }
+  /* The headline overlaps the photo's bottom edge */
+  .boxed { position: absolute; left: 0.75rem; bottom: -1.75rem; display: grid; justify-items: start; gap: 0.2rem; font: 400 var(--step-3) / 1.05 var(--serif); }
+  .boxed span { background: var(--forest); color: var(--on-dark); padding: 0.1rem 0.45rem 0.2rem; border-radius: var(--radius-s); }
+  .hint { font-size: var(--step--1); color: var(--muted); }
+</style>

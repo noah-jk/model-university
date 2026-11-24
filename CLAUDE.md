@@ -24,6 +24,7 @@ API keys live only in Netlify environment variables. Never write a key into any 
 - Announce results of actions through the one polite live region (`announce()` in `src/scripts/enhance.ts`), not separate regions.
 - Toggle buttons use `aria-pressed`; menus and tabs follow the ARIA patterns and are keyboard-complete; unavailable actions use `aria-disabled` so focus isn't lost.
 - Never convey state by color alone. Respect `prefers-reduced-motion`. Use the color tokens in `global.css` so dark mode works.
+- Follow the brand page (`/lab/brand/`): one yellow `.button.primary` per view, yellow only as a fill behind dark text, 3px corners, and text on textures only where it stays readable (on foliage, only inside a solid box or card). A new color pairing goes in `PAIRS` in `src/lib/brand.ts`, which tests its contrast in both themes. axe can't see text over images or textures, so check those by eye in both themes.
 - No layout shift: controls that need JavaScript use `.needs-js` (hidden before first paint without JS); anything that depends on stored state is set by a small inline script before paint, or reserves its space.
 - Run axe (WCAG 2.0–2.2 A/AA) in light and dark mode on every page a change touches, plus a phone-width check.
 
