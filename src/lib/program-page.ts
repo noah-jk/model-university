@@ -9,7 +9,7 @@ import { usd, listText } from "./format.ts";
 import type { Course, Program } from "./schemas.ts";
 import { upcomingTerms } from "./terms.ts";
 import { absoluteUrl, pagePath } from "./urls.ts";
-import { deadlineDate, termName } from "./workbench/derive.ts";
+import { deadlineDate, termName, termStart } from "./workbench/derive.ts";
 
 const GRADUATE_LEVELS = ["Master's", "Doctorate", "Certificate"];
 export const isGraduate = (p: Program) => GRADUATE_LEVELS.includes(p.level);
@@ -23,6 +23,30 @@ export function nextDeadline(program: Program, now = new Date()) {
     if (date && date >= today) return { term, date };
   }
   return undefined;
+}
+
+// The start-dates strip (#75): the terms this program starts in over the next
+// three years, each with its application deadline if it has one. Pages are built
+// ahead of time, so the page lists them all and an inline script hides the
+// ones that have started or whose deadline has passed (`starts` and
+// `deadline` are ISO dates for that), keeping the first few (openStartDates).
+export const STRIP_TERMS = 4;
+export function startDates(program: Program, now = new Date()) {
+  return upcomingTerms(12, now)
+    .filter((term) => program.start_terms.includes(termName(term) as Program["start_terms"][number]))
+    .map((term) => {
+      const listed = program.application_deadlines.find((d) => d.term === termName(term));
+      const deadline = listed && deadlineDate(listed.deadline, term);
+      return { term, starts: termStart(term)!, deadline, applyBy: deadline ? `Apply by ${listed!.deadline.trim()}` : "No set deadline" };
+    });
+}
+
+// The first STRIP_TERMS still open on `today` (an ISO date) that start within
+// two years, so a Fall-only program shows two Falls, not four years of them.
+// The page's inline script follows the same rule.
+export function openStartDates(dates: ReturnType<typeof startDates>, today: string) {
+  const horizon = `${Number(today.slice(0, 4)) + 2}${today.slice(4)}`;
+  return dates.filter((d) => d.starts > today && d.starts <= horizon && (!d.deadline || d.deadline >= today)).slice(0, STRIP_TERMS);
 }
 
 // Courses in the order students meet them: lower then upper division for

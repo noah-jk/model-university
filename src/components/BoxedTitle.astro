@@ -1,0 +1,22 @@
+---
+// A page's <h1> in solid green boxes, one per line as it wraps (#75): the
+// program and career heroes. It's the real heading, so it's real text. Long
+// names step down a size, decided here from the length, so the size never
+// changes after the page is drawn.
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+const size = text.length > 44 ? "long" : text.length > 26 ? "medium" : "short";
+---
+
+<h1 class:list={["boxed-title", size]}><span>{text}</span></h1>
+
+<style>
+  .boxed-title { margin: 0; max-width: 22ch; font-weight: 400; line-height: 1.32; }
+  .short { font-size: clamp(2.1rem, 5.5vw, 3.6rem); }
+  .medium { font-size: clamp(1.8rem, 4.5vw, 3rem); }
+  .long { font-size: clamp(1.55rem, 3.6vw, 2.4rem); max-width: 28ch; }
+  /* Each wrapped line gets its own box */
+  span { background: var(--forest); color: var(--on-dark); padding: 0.06em 0.38em 0.12em; border-radius: var(--radius-s); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+</style>
