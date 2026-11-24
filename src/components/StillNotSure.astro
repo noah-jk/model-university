@@ -1,0 +1,44 @@
+---
+// "Still not sure?" (#73): a green callout above the footer on every page,
+// with the next ways to reach the university. Hidden on the pages its actions
+// lead to. The paths come from JOURNEY; the words are placeholder.
+import siteConfig from "../../site.config.ts";
+import { JOURNEY } from "../lib/personalization-settings.ts";
+
+const step = (name: string) => JOURNEY.find((j) => j.step === name)!;
+const requestInfo = step("requestInfo");
+const visit = step("visit");
+const here = Astro.url.pathname;
+const show = here !== requestInfo.href && here !== visit.href;
+---
+
+{
+  show && (
+    <section class="still-not-sure texture-topo-forest" aria-labelledby="still-not-sure-title">
+      <div class="wrap">
+        <h2 id="still-not-sure-title">Still not sure?</h2>
+        <p>Talk with an admissions counselor, see campus for yourself, or ask your own AI about {siteConfig.shortName}.</p>
+        <p class="actions">
+          <a class="button primary" href={requestInfo.href}>{requestInfo.label}</a>
+          <a class="button secondary" href={visit.href}>{visit.label}</a>
+          {siteConfig.features.mcp && (
+            <a class="button secondary" href="/connect/">
+              Ask your AI
+            </a>
+          )}
+        </p>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .still-not-sure { padding-block: clamp(2.5rem, 6vw, 4rem); }
+  .still-not-sure h2 { margin: 0 0 0.5rem; font-size: clamp(2.2rem, 5vw, 3.4rem); text-transform: uppercase; letter-spacing: 0.01em; }
+  .still-not-sure p { margin: 0; max-width: 46ch; font-size: var(--step-1); }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem !important; }
+  /* Outline buttons in light text on the green */
+  .button.secondary { color: var(--on-dark); border-color: var(--on-dark); }
+  .button.secondary:hover { background: rgb(0 0 0 / 0.2); color: var(--on-dark); border-color: var(--on-dark); }
+  a:focus-visible { outline-color: var(--sun); }
+</style>

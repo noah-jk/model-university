@@ -25,7 +25,7 @@ const links = [
 ];
 ---
 
-<footer class="site-footer">
+<footer class="site-footer texture-topo-forest">
   <div class="wrap">
     <nav aria-label="Site">
       <ul>
@@ -65,7 +65,14 @@ const links = [
 </footer>
 
 <style>
-  .site-footer { border-top: 1px solid var(--line); padding-block: 2rem; font-size: var(--step--1); color: var(--muted); }
+  /* Deep green with light text: everything here takes its colors from the footer */
+  .site-footer { padding-block: 2.5rem 3rem; font-size: var(--step--1); background-color: var(--fir-deep); color: var(--on-forest-muted); }
+  .site-footer::before { opacity: 0.1; }
   p { max-width: none; }
-  nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; padding: 0; margin: 0 0 1.5rem; }
+  nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; padding: 0; margin: 0 0 1.75rem; }
+  nav a { color: var(--on-dark); font: 700 0.95rem / 1.2 var(--condensed); letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none; }
+  nav a:hover { text-decoration: underline; text-decoration-color: var(--sun); text-decoration-thickness: 2px; }
+  a, .link-button { color: var(--on-dark); }
+  a:focus-visible, .link-button:focus-visible { outline-color: var(--sun); }
+  .site-footer :global(code) { background: rgb(0 0 0 / 0.25); color: var(--on-dark); }
 </style>

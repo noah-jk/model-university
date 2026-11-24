@@ -48,22 +48,22 @@ const searchIcon = "M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM15.2 15.2 20 
   }
   @keyframes search-in { from { opacity: 0; } }
   .inner { display: grid; gap: 1rem; padding: clamp(1.25rem, 4vw, 2.25rem); }
-  .close { justify-self: end; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 40px; padding: 0.3rem 0.85rem; font: 600 var(--step--1) / 1 var(--sans); color: var(--fir); background: transparent; border: 1.5px solid var(--line); border-radius: 999px; cursor: pointer; }
+  .close { justify-self: end; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 40px; padding: 0.3rem 0.85rem; font: 600 var(--step--1) / 1 var(--sans); color: var(--fir); background: transparent; border: 1.5px solid var(--line); border-radius: var(--radius-s); cursor: pointer; }
   .close:hover { border-color: var(--fir); }
   .close svg, .go svg { width: 1.1rem; height: 1.1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
   .search-form { display: grid; gap: 0.5rem; }
   .search-form label { font-family: var(--serif); font-size: var(--step-2); }
-  .field { display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.35rem 0.3rem 1.1rem; background: var(--fog); border: 2px solid var(--fir); border-radius: 999px; }
+  .field { display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.35rem 0.3rem 1.1rem; background: var(--fog); border: 2px solid var(--fir); border-radius: var(--radius-s); }
   .field:focus-within { outline: 3px solid var(--focus); outline-offset: 2px; }
   .field input { flex: 1; min-width: 0; min-height: 48px; border: 0; background: transparent; color: var(--basalt); font: var(--step-1) var(--sans); }
   .field input::placeholder { color: var(--muted); opacity: 1; }
   .field input:focus { outline: none; }
-  .go { display: inline-flex; align-items: center; justify-content: center; width: 3rem; height: 3rem; flex: none; border: 0; border-radius: 999px; background: var(--fir); color: var(--fog); cursor: pointer; }
+  .go { display: inline-flex; align-items: center; justify-content: center; width: 3rem; height: 3rem; flex: none; border: 0; border-radius: var(--radius-s); background: var(--fir); color: var(--fog); cursor: pointer; }
   .go:hover { background: var(--fir-deep); }
   .suggestions-title { margin: 0.5rem 0 0; font: 600 var(--step--1) / 1.2 var(--sans); color: var(--muted); }
   .suggestions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
   .suggestions li { margin: 0; }
-  .suggestions a { display: inline-flex; align-items: center; min-height: 40px; padding: 0.35rem 0.95rem; border: 1.5px solid var(--line); border-radius: 999px; color: var(--basalt); text-decoration: none; font-size: var(--step--1); }
+  .suggestions a { display: inline-flex; align-items: center; min-height: 40px; padding: 0.35rem 0.95rem; border: 1.5px solid var(--line); border-radius: var(--radius-s); color: var(--basalt); text-decoration: none; font-size: var(--step--1); }
   .suggestions a:hover { border-color: var(--fir); background: var(--fog); }
   /* Phones: the whole screen, with the field at the top so the keyboard doesn't cover it */
   @media (max-width: 40rem) {

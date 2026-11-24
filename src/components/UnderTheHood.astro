@@ -151,6 +151,6 @@ import { WORKBENCH_LABEL } from "../lib/workbench/types.ts";
   .uth-bars :global(li) { display: grid; grid-template-columns: minmax(0, 1fr) 2rem; grid-template-areas: "label count" "bar bar"; gap: 0.15rem 0.5rem; margin-bottom: 0.45rem; }
   .uth-bars :global(.label) { grid-area: label; overflow-wrap: anywhere; }
   .uth-bars :global(.count) { grid-area: count; text-align: right; font-weight: 600; }
-  .uth-bars :global(.bar) { grid-area: bar; height: 0.5rem; border-radius: 999px; background: var(--lichen); overflow: hidden; }
+  .uth-bars :global(.bar) { grid-area: bar; height: 0.5rem; border-radius: var(--radius-s); background: var(--lichen); overflow: hidden; }
   .uth-bars :global(.bar span) { display: block; height: 100%; width: var(--share); background: var(--fir); border-radius: inherit; }
 </style>

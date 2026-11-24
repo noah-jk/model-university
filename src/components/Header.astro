@@ -114,7 +114,7 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
             ),
           )
         }
-        <li class="cta-item"><a class="cta" href={cta.href} data-header-cta data-journey-apply={!recents || undefined}>{cta.label}</a></li>
+        <li class="cta-item"><a class="cta button primary" href={cta.href} data-header-cta data-journey-apply={!recents || undefined}>{cta.label}</a></li>
         {recents && (
           <li class="small-screens">
             <button type="button" class="recents-toggle needs-js" data-recents-toggle aria-expanded="false">{RECENTS_LABEL}</button>
@@ -195,37 +195,37 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
 </script>
 
 <style>
-  .site-header { background: var(--fir-deep); color: var(--on-dark); }
+  .site-header { background: var(--forest); color: var(--on-dark); }
   .top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 2rem; padding-top: 1rem; }
   .brand { color: inherit; text-decoration: none; font-family: var(--serif); font-size: var(--step-1); display: flex; align-items: center; gap: 0.6rem; }
-  .brand svg { width: 30px; height: 30px; flex: none; fill: #dce5c3; }
+  .brand svg { width: 30px; height: 30px; flex: none; fill: var(--sun); }
   ul { list-style: none; display: flex; flex-wrap: wrap; margin: 0; padding: 0; }
   .utility ul { gap: 0.25rem 1.25rem; font-size: var(--step--1); }
   .main ul { gap: 0.25rem 1.75rem; padding-block: 0.75rem 0.9rem; }
   nav a { color: var(--on-dark); text-decoration: none; display: inline-block; padding-block: 0.4rem; border-bottom: 2px solid transparent; }
   .main a { font-weight: 600; }
-  nav a:hover, nav a[aria-current="page"] { border-bottom-color: #dce5c3; }
-  a:focus-visible { outline-color: #dce5c3; }
+  nav a:hover, nav a[aria-current="page"] { border-bottom-color: var(--sun); }
+  a:focus-visible { outline-color: var(--sun); }
   .has-menu { position: relative; display: flex; align-items: center; flex-wrap: wrap; }
   .toggle { background: none; border: 0; color: inherit; cursor: pointer; padding: 0.4rem 0.35rem; display: inline-flex; }
   .toggle svg { width: 0.8rem; height: 0.8rem; fill: none; stroke: currentColor; stroke-width: 1.6; transition: transform 0.15s; }
   .toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
-  .toggle:focus-visible { outline: 2px solid #dce5c3; outline-offset: 2px; }
+  .toggle:focus-visible { outline: 2px solid var(--sun); outline-offset: 2px; }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-  .has-menu[data-current-child] > a { border-bottom-color: #dce5c3; }
+  .has-menu[data-current-child] > a { border-bottom-color: var(--sun); }
   .submenu { flex-basis: 100%; flex-direction: column; padding: 0 0 0 1rem; gap: 0; }
   .submenu a { font-weight: 400; }
   /* Wide screens: submenu drops down; opens on hover, focus, or the toggle. */
   @media (min-width: 48rem) {
-    .main .submenu { display: none; position: absolute; top: 100%; left: 0; z-index: 10; min-width: 12rem; padding: 0.4rem 0.9rem; background: var(--fir-deep); border: 1px solid #dce5c344; border-radius: 4px; }
+    .main .submenu { display: none; position: absolute; top: 100%; left: 0; z-index: 10; min-width: 12rem; padding: 0.4rem 0.9rem; background: var(--forest); border: 1px solid rgb(242 243 237 / 0.25); border-radius: var(--radius-s); box-shadow: 0 8px 24px rgb(0 0 0 / 0.25); }
     .has-menu:hover > .submenu, :global(html:not(.js)) .has-menu:focus-within > .submenu, .has-menu.open > .submenu { display: flex; }
   }
-  .menu-button { display: none; align-items: center; gap: 0.5rem; background: none; border: 1.5px solid #dce5c366; border-radius: 999px; color: inherit; font: 600 var(--step--1) / 1 var(--sans); padding: 0 1rem; min-height: 44px; cursor: pointer; }
+  .menu-button { display: none; align-items: center; gap: 0.5rem; background: none; border: 1.5px solid rgb(242 243 237 / 0.45); border-radius: var(--radius-s); color: inherit; font: 600 var(--step--1) / 1 var(--sans); padding: 0 1rem; min-height: 44px; cursor: pointer; }
   .menu-button { flex: none; }
   .menu-button svg { flex: none; width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
   .menu-button .x, .menu-open .menu-button .bars { display: none; }
   .menu-open .menu-button .x { display: inline; }
-  .menu-button:focus-visible { outline: 2px solid #dce5c3; outline-offset: 2px; }
+  .menu-button:focus-visible { outline: 2px solid var(--sun); outline-offset: 2px; }
   /* Small screens: logo + Menu button; the main nav is a push menu that opens
      in the page flow, with sub sections as an accordion. Utility links repeat
      the menu, so they are hidden. Without JavaScript the full nav just shows. */
@@ -236,9 +236,9 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
     :global(.js) .main { display: none; }
     :global(.js) .menu-open .main { display: block; }
     .main ul { flex-direction: column; gap: 0; padding-block: 0 0.5rem; }
-    .main > ul > li { border-top: 1px solid #dce5c322; }
+    .main > ul > li { border-top: 1px solid rgb(242 243 237 / 0.15); }
     .main > ul > li > a { flex: 1; display: flex; align-items: center; min-height: 48px; padding-block: 0; border-bottom: 0; font-size: var(--step-0); }
-    .main > ul > li > a[aria-current="page"], .has-menu[data-current-child] > a { text-decoration: underline; text-underline-offset: 0.35em; text-decoration-color: #dce5c3; }
+    .main > ul > li > a[aria-current="page"], .has-menu[data-current-child] > a { text-decoration: underline; text-underline-offset: 0.35em; text-decoration-color: var(--sun); }
     .toggle { min-width: 48px; min-height: 48px; justify-content: center; align-items: center; }
     .toggle svg { width: 1rem; height: 1rem; }
     .submenu a { display: flex; align-items: center; min-height: 44px; padding-block: 0; border-bottom: 0; }
@@ -247,42 +247,41 @@ const hasCurrentChild = (item: NavItem) => item.children?.some((c) => current.st
   }
   /* Recents buttons look like the nav links around them */
   .recents-toggle { background: none; border: 0; padding: 0.4rem 0; border-bottom: 2px solid transparent; color: var(--on-dark); font: inherit; cursor: pointer; }
-  .recents-toggle:hover, .recents-toggle[aria-expanded="true"] { border-bottom-color: #dce5c3; }
-  .recents-toggle:focus-visible { outline: 2px solid #dce5c3; outline-offset: 2px; }
+  .recents-toggle:hover, .recents-toggle[aria-expanded="true"] { border-bottom-color: var(--sun); }
+  .recents-toggle:focus-visible { outline: 2px solid var(--sun); outline-offset: 2px; }
   .main .recents-toggle { font-weight: 600; }
   /* In the utility row it's a pill just a shade lighter than the header */
-  .utility .recents-toggle { background: color-mix(in srgb, var(--fir-deep), white 12%); color: var(--on-dark); padding: 0.3rem 0.85rem; border: 0; border-radius: 999px; transition: background 0.15s; }
-  .utility .recents-toggle:hover, .utility .recents-toggle[aria-expanded="true"] { background: color-mix(in srgb, var(--fir-deep), white 22%); }
+  .utility .recents-toggle { background: rgb(0 0 0 / 0.18); color: var(--on-dark); padding: 0.3rem 0.85rem; border: 0; border-radius: var(--radius-s); transition: background 0.15s; }
+  .utility .recents-toggle:hover, .utility .recents-toggle[aria-expanded="true"] { background: rgb(0 0 0 / 0.3); }
   @media (min-width: 48rem) { .small-screens { display: none; } }
   /* The next-step button: high contrast, at the right end of the main nav row */
   .main > ul { width: 100%; }
-  .main a.cta { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.25rem; border: 0; border-radius: 999px; background: #f08ea0; color: #142b26; font-weight: 700; text-decoration: none; white-space: nowrap; transition: background 0.15s, transform 0.15s; }
-  .main a.cta:hover { background: #f7b0bd; transform: translateY(-1px); }
-  .main a.cta:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+  /* The yellow primary button from global.css; it keeps its own colors here */
+  .main a.cta { display: inline-flex; color: var(--on-sun); white-space: nowrap; border-bottom-width: 2px; padding-block: 0.5rem; min-height: 40px; }
+  .main a.cta:hover { border-bottom-color: var(--sun-deep); color: var(--on-sun); }
   .cta-item { margin-left: auto; align-self: center; }
-  @media (prefers-reduced-motion: reduce) { .main a.cta { transition: none; } .main a.cta:hover { transform: none; } }
   @media (max-width: 47.99rem) {
     .main > ul > li.cta-item { margin: 0.75rem 0 0.5rem; padding-top: 0.75rem; }
     .main > ul > li > a.cta { flex: 1; justify-content: center; min-height: 52px; font-size: var(--step-0); }
   }
   @media (max-width: 47.99rem) {
     .main .recents-toggle { width: 100%; text-align: left; min-height: 48px; border-bottom: 0; font-size: var(--step-0); }
-    .main .recents-toggle[aria-expanded="true"] { text-decoration: underline; text-underline-offset: 0.35em; text-decoration-color: #dce5c3; }
+    .main .recents-toggle[aria-expanded="true"] { text-decoration: underline; text-underline-offset: 0.35em; text-decoration-color: var(--sun); }
   }
   /* Workbench link: like the other utility links, with a count badge */
   nav :global(.workbench-link) { display: inline-flex; align-items: center; gap: 0.35rem; color: var(--on-dark); text-decoration: none; padding-block: 0.4rem; border-bottom: 2px solid transparent; }
-  nav :global(.workbench-link:hover), nav :global(.workbench-link[aria-current="page"]) { border-bottom-color: #dce5c3; }
-  nav :global(.workbench-link:focus-visible) { outline: 2px solid #dce5c3; outline-offset: 2px; }
+  nav :global(.workbench-link:hover), nav :global(.workbench-link[aria-current="page"]) { border-bottom-color: var(--sun); }
+  nav :global(.workbench-link:focus-visible) { outline: 2px solid var(--sun); outline-offset: 2px; }
   nav :global(.workbench-link svg) { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
-  nav :global(.workbench-count) { min-width: 1.35rem; padding: 0.1rem 0.4rem; border-radius: 999px; background: #dce5c3; color: #142b26; font: 700 0.75rem / 1.2 var(--sans); text-align: center; }
+  nav :global(.workbench-count) { min-width: 1.35rem; padding: 0.1rem 0.4rem; border-radius: var(--radius-s); background: var(--sun); color: var(--on-sun); font: 700 0.75rem / 1.2 var(--sans); text-align: center; }
   @media (max-width: 47.99rem) {
     .main :global(.workbench-link) { width: 100%; min-height: 48px; border-bottom: 0; font-weight: 600; font-size: var(--step-0); }
   }
   /* Search: a pill like Recents, which opens into a field in the same spot */
   .header-search { display: flex; align-items: center; }
-  .search-toggle { display: inline-flex; align-items: center; gap: 0.4rem; background: color-mix(in srgb, var(--fir-deep), white 12%); color: var(--on-dark); font: inherit; padding: 0.3rem 0.85rem; border: 0; border-radius: 999px; cursor: pointer; text-decoration: none; transition: background 0.15s; }
-  .search-toggle:hover { background: color-mix(in srgb, var(--fir-deep), white 22%); }
-  .search-toggle:focus-visible { outline: 2px solid #dce5c3; outline-offset: 2px; }
+  .search-toggle { display: inline-flex; align-items: center; gap: 0.4rem; background: rgb(0 0 0 / 0.18); color: var(--on-dark); font: inherit; padding: 0.3rem 0.85rem; border: 0; border-radius: var(--radius-s); cursor: pointer; text-decoration: none; transition: background 0.15s; }
+  .search-toggle:hover { background: rgb(0 0 0 / 0.3); }
+  .search-toggle:focus-visible { outline: 2px solid var(--sun); outline-offset: 2px; }
   .search-toggle svg { width: 1rem; height: 1rem; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
   @media (prefers-reduced-motion: reduce) { .search-toggle { transition: none; } }
   @media (max-width: 47.99rem) {
