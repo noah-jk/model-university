@@ -4,6 +4,7 @@ import "../styles/global.css";
 import siteConfig from "../../site.config.ts";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import StillNotSure from "../components/StillNotSure.astro";
 import TabBar from "../components/TabBar.astro";
 import UnderTheHood from "../components/UnderTheHood.astro";
 import { PANEL_KEY, type PageMeta } from "../lib/personalization-settings.ts";
@@ -65,6 +66,7 @@ const pageTitle = isHome ? siteConfig.name : `${title} | ${siteConfig.name}`;
     <main id="main" class="wrap" tabindex="-1" {...(personalization ? pageDataAttributes(page) : {})}>
       <slot />
     </main>
+    <StillNotSure />
     <Footer />
     <TabBar />
     {personalization && <UnderTheHood />}

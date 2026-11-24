@@ -22,6 +22,8 @@
   --fir-deep: #1b463e;
   /* The brand green as a surface, in both themes: callouts, boxed headlines */
   --forest: #296258;
+  /* On green surfaces (header, footer, callouts): text, quieter text, accents */
+  --on-forest-muted: #c9d5cc;
   --sun: #fdc300;
   --sun-deep: #e8b300;
   --on-sun: #17231f;
@@ -68,7 +70,7 @@
 }
 
 /* Dark mode: a deep green ground, lighter tints of the brand green for text
-   and fills, and the same yellow, which reads well on dark */
+   and fills, and the same yellow for the primary button */
 @media (prefers-color-scheme: dark) {
   :root {
     --fir: #8ccab6;
@@ -83,7 +85,7 @@
     --muted: #a6b8b0;
     --on-dark: #eef1ea;
     --salmonberry: #f4a0ad;
-    --focus: #fdc300;
+    --focus: #8ccab6;
     --texture-topo: #8ccab6;
     --texture-dots: #7d988f;
     --texture-foliage: #091613;
@@ -223,7 +225,7 @@ html.js .no-js-only { display: none !important; }
 html.search-open { overflow: hidden; }
 
 /* Save to Workbench toggles (src/lib/workbench/toggle.ts) */
-.save-toggle { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 40px; padding: 0.4rem 0.95rem 0.4rem 0.8rem; font: 600 var(--step--1) / 1 var(--sans); color: var(--fir); background: transparent; border: 1.5px solid var(--fir); border-radius: 999px; cursor: pointer; }
+.save-toggle { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 40px; padding: 0.4rem 0.95rem 0.4rem 0.8rem; font: 600 var(--step--1) / 1 var(--sans); color: var(--fir); background: transparent; border: 1.5px solid var(--fir); border-radius: var(--radius-s); cursor: pointer; }
 .save-toggle svg { width: 1.05rem; height: 1.05rem; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
 .save-toggle:hover { background: var(--lichen); color: var(--basalt); }
 .save-toggle[aria-pressed="true"] { background: var(--fir); color: var(--fog); }

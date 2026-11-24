@@ -136,7 +136,7 @@ const tabs = [
   .pick select:focus { outline: none; }
   /* The select's arrow, drawn so it matches the theme */
   .pick::after { content: ""; position: absolute; right: 1.1rem; bottom: 1.05rem; width: 0.5rem; height: 0.5rem; border: solid var(--fir); border-width: 0 2px 2px 0; transform: rotate(45deg); pointer-events: none; }
-  .tag { padding: 0.05rem 0.45rem; border-radius: 999px; background: var(--lichen); color: var(--basalt); font: 700 0.75rem / 1.4 var(--sans); }
+  .tag { padding: 0.05rem 0.45rem; border-radius: var(--radius-s); background: var(--lichen); color: var(--basalt); font: 700 0.75rem / 1.4 var(--sans); }
   @media (max-width: 40rem) {
     .bar { grid-template-columns: 1fr; }
     .pick + .pick { border-left: 0; border-top: 1px solid var(--line); }
@@ -166,7 +166,7 @@ const tabs = [
   .workbench :global(.path-list p) { margin: 0; }
   .workbench :global(.path-list .status) { font-size: var(--step--1); font-weight: 600; }
   .workbench :global(.path-list .status .overdue) { color: var(--salmonberry); }
-  .workbench :global(.path-list .status .next) { display: inline-block; padding: 0 0.45rem; margin-right: 0.35rem; border-radius: 999px; background: var(--fir); color: var(--fog); }
+  .workbench :global(.path-list .status .next) { display: inline-block; padding: 0 0.45rem; margin-right: 0.35rem; border-radius: var(--radius-s); background: var(--fir); color: var(--fog); }
   .workbench :global(.path-list .links) { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; font-size: var(--step--1); }
   .workbench :global(.path-list .step-note) { font-size: var(--step--1); color: var(--muted); }
   .workbench :global(.offices) { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
@@ -187,7 +187,7 @@ const tabs = [
   [role="tab"]:hover { color: var(--basalt); }
   [role="tab"][aria-selected="true"] { color: var(--basalt); border-bottom-color: var(--fir); }
   [role="tab"]:focus-visible { outline-offset: -3px; }
-  .tab-count:not(:empty) { min-width: 1.4rem; padding: 0.05rem 0.4rem; border-radius: 999px; background: var(--lichen); color: var(--basalt); font-size: var(--step--1); text-align: center; }
+  .tab-count:not(:empty) { min-width: 1.4rem; padding: 0.05rem 0.4rem; border-radius: var(--radius-s); background: var(--lichen); color: var(--basalt); font-size: var(--step--1); text-align: center; }
   [role="tabpanel"]:focus-visible { outline-offset: 6px; }
   .loading { color: var(--muted); }
 
@@ -208,7 +208,7 @@ const tabs = [
   .workbench :global(textarea) { width: 100%; min-height: 4.5rem; padding: 0.5rem 0.65rem; font: inherit; color: var(--basalt); background: var(--paper); border: 1.5px solid var(--muted); border-radius: var(--radius-s); resize: vertical; }
   .workbench :global(.wb-actions) { display: flex; flex-wrap: wrap; gap: 0.4rem; }
   .workbench :global(.wb-actions button), .workbench :global(.wb-flag button), .workbench :global(.small-button), .workbench :global(.offices button), .dismissed :global(button) {
-    min-height: 36px; padding: 0.3rem 0.8rem; font: 600 var(--step--1) / 1 var(--sans); color: var(--fir); background: transparent; border: 1.5px solid var(--line); border-radius: 999px; cursor: pointer;
+    min-height: 36px; padding: 0.3rem 0.8rem; font: 600 var(--step--1) / 1 var(--sans); color: var(--fir); background: transparent; border: 1.5px solid var(--line); border-radius: var(--radius-s); cursor: pointer;
   }
   .workbench :global(.wb-actions button:hover), .workbench :global(.small-button:hover), .workbench :global(.offices button:hover), .dismissed :global(button:hover) { border-color: var(--fir); }
   /* More actions: the list opens beside its button and wraps on small screens */
@@ -243,8 +243,8 @@ const tabs = [
   .workbench :global(.chip-groups) { display: grid; gap: 0.75rem; margin-bottom: 1.25rem; }
   .workbench :global(.chip-group h3) { margin: 0 0 0.35rem; font: 600 var(--step--1) / 1.2 var(--sans); color: var(--muted); }
   .workbench :global(.chips) { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
-  .workbench :global(.chips li) { display: inline-flex; align-items: center; gap: 0.5rem; max-width: none; margin: 0; padding: 0.2rem 0.25rem 0.2rem 0.75rem; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; font-size: var(--step--1); }
-  .workbench :global(.chips button) { min-height: 32px; padding: 0.2rem 0.7rem; font: 600 var(--step--1) / 1 var(--sans); color: var(--fir); background: transparent; border: 1.5px solid var(--line); border-radius: 999px; cursor: pointer; }
+  .workbench :global(.chips li) { display: inline-flex; align-items: center; gap: 0.5rem; max-width: none; margin: 0; padding: 0.2rem 0.25rem 0.2rem 0.75rem; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-s); font-size: var(--step--1); }
+  .workbench :global(.chips button) { min-height: 32px; padding: 0.2rem 0.7rem; font: 600 var(--step--1) / 1 var(--sans); color: var(--fir); background: transparent; border: 1.5px solid var(--line); border-radius: var(--radius-s); cursor: pointer; }
   .workbench :global(.chips button:hover) { border-color: var(--fir); }
   .workbench :global(.compare-full) { font-size: var(--step--1); color: var(--muted); }
   .workbench :global(.pickup-section) { margin-top: 1.5rem; }
@@ -288,11 +288,11 @@ const tabs = [
   .workbench :global(.path-list .kind) { font-size: var(--step--1); color: var(--muted); }
   .workbench :global(.path-list .row-actions) { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.2rem; }
   .workbench :global(.path-list .past), .workbench :global(.path-list .past a) { color: var(--muted); }
-  .workbench :global(.badge) { display: inline-block; margin-left: 0.5rem; padding: 0.05rem 0.5rem; border-radius: 999px; font: 700 0.75rem / 1.4 var(--sans); vertical-align: 0.1em; }
+  .workbench :global(.badge) { display: inline-block; margin-left: 0.5rem; padding: 0.05rem 0.5rem; border-radius: var(--radius-s); font: 700 0.75rem / 1.4 var(--sans); vertical-align: 0.1em; }
   .workbench :global(.badge.passed), .workbench :global(.badge.done) { background: var(--lichen); color: var(--basalt); }
 
   /* Undo, after removing an item */
-  .undo-bar { position: fixed; z-index: 40; left: 50%; bottom: 1.25rem; transform: translateX(-50%); display: flex; align-items: center; gap: 1rem; max-width: calc(100% - 2rem); padding: 0.6rem 0.75rem 0.6rem 1.1rem; background: var(--fir-deep); color: var(--on-dark); border-radius: 999px; box-shadow: 0 6px 24px rgb(0 0 0 / 0.25); }
+  .undo-bar { position: fixed; z-index: 40; left: 50%; bottom: 1.25rem; transform: translateX(-50%); display: flex; align-items: center; gap: 1rem; max-width: calc(100% - 2rem); padding: 0.6rem 0.75rem 0.6rem 1.1rem; background: var(--fir-deep); color: var(--on-dark); border-radius: var(--radius-s); box-shadow: 0 6px 24px rgb(0 0 0 / 0.25); }
   .undo-bar p { margin: 0; }
   .undo-bar .button { background: #dce5c3; border-color: #dce5c3; color: #142b26; }
   .undo-bar .button:focus-visible { outline-color: #fff; }

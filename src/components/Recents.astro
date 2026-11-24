@@ -55,8 +55,8 @@ import { RECENTS_LABEL } from "../lib/personalization-settings.ts";
   .modules { display: grid; gap: 1.5rem 2.5rem; }
   @media (min-width: 48rem) { .modules { grid-template-columns: 1fr 1fr; } }
   h3 { font-family: var(--sans); font-weight: 600; font-size: var(--step-0); margin: 0 0 0.25rem; }
-  .sort { display: inline-flex; margin: 0.25rem 0 0.5rem; border: 1px solid var(--line); border-radius: 999px; padding: 2px; }
-  .sort button { font: inherit; font-size: var(--step--1); color: var(--basalt); background: none; border: 0; border-radius: 999px; padding: 0.35rem 0.8rem; min-height: 32px; cursor: pointer; }
+  .sort { display: inline-flex; margin: 0.25rem 0 0.5rem; border: 1px solid var(--line); border-radius: var(--radius-s); padding: 2px; }
+  .sort button { font: inherit; font-size: var(--step--1); color: var(--basalt); background: none; border: 0; border-radius: var(--radius-s); padding: 0.35rem 0.8rem; min-height: 32px; cursor: pointer; }
   .sort button:hover { background: var(--lichen); }
   .sort button[aria-pressed="true"] { background: var(--fir); color: var(--fog); }
   .sort button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }

@@ -191,7 +191,7 @@ const data = JSON.stringify(result ?? null).replace(/</g, "\\u003c");
   .search-output :global(.chip) {
     display: inline-flex; align-items: center; gap: 0.35rem; min-height: 36px; padding: 0.25rem 0.6rem 0.25rem 0.85rem;
     font: 600 var(--step--1) / 1.2 var(--sans); color: var(--basalt); background: var(--lichen);
-    border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); border-radius: var(--radius-s); cursor: pointer;
   }
   .search-output :global(.chip svg) { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
   .search-output :global(.chip:hover) { border-color: var(--fir); }

@@ -66,7 +66,7 @@ const employers = [...new Set(careers.flatMap((c) => c.employers))].slice(0, 6);
   .career-numbers { font-size: var(--step--1); color: var(--muted); }
 
   .skills, .employers { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .skills li { padding: 0.25rem 0.75rem; border-radius: 999px; background: var(--lichen); color: var(--basalt); font-size: var(--step--1); }
+  .skills li { padding: 0.25rem 0.75rem; border-radius: var(--radius-s); background: var(--lichen); color: var(--basalt); font-size: var(--step--1); }
   .employers li { padding: 0.25rem 0.75rem; border: 1px solid var(--line); border-radius: var(--radius-s); font-size: var(--step--1); }
   .source { margin-top: 1.25rem; font-size: var(--step--1); color: var(--muted); }
 </style>

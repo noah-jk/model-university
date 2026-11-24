@@ -2,7 +2,7 @@
 // uses has enough contrast in both themes, and the fonts and textures the
 // browser downloads stay within budget. Run with: npm test
 
-import { readFileSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { contrast, PAIRS, readTokens } from "../src/lib/brand.ts";
 
 const check = (ok: unknown, message: string) => {
@@ -20,6 +20,17 @@ for (const [theme, tokens] of [["light", light], ["dark", dark]] as const) {
   check(!failing.length, `contrast, ${theme}: all ${PAIRS.length} pairs pass${failing.length ? `; failing: ${failing.map((p) => `${p.fg} on ${p.bg} (${contrast(tokens[p.fg], tokens[p.bg]).toFixed(2)})`).join(", ")}` : ""}`);
 }
 check(contrast(light.sun, light.fog) < 3, "yellow is a fill only: it's too light for text or lines on the page, so nothing uses it that way");
+
+// Yellow belongs to the primary button and nothing else: every style rule that
+// uses it is a .button.primary rule (or the header's CTA, which is one)
+const styled = readdirSync(new URL("../src", import.meta.url), { recursive: true, encoding: "utf8" }).filter((f) => /\.(astro|css)$/.test(f));
+const strays = styled.flatMap((f) =>
+  readFileSync(new URL(`../src/${f}`, import.meta.url), "utf8")
+    .split("\n")
+    .filter((line) => /var\(--sun(-deep)?\)/.test(line) && !/\.primary|a\.cta/.test(line))
+    .map(() => f),
+);
+check(!strays.length, `yellow is only used by the primary button${strays.length ? `; also in ${[...new Set(strays)].join(", ")}` : ""}`);
 
 // Files the browser downloads, with their budgets in KB
 const BUDGETS: [string, number][] = [

@@ -31,13 +31,13 @@ const current = Astro.url.pathname;
       display: block; position: fixed; z-index: 20;
       left: max(0.75rem, env(safe-area-inset-left)); right: max(0.75rem, env(safe-area-inset-right));
       bottom: max(0.75rem, env(safe-area-inset-bottom));
-      background: var(--fir-deep); color: var(--on-dark); border-radius: 999px;
-      box-shadow: 0 6px 24px #0000004d, 0 0 0 1px #dce5c322;
+      background: var(--forest); color: var(--on-dark); border-radius: var(--radius-s);
+      box-shadow: 0 6px 24px rgb(0 0 0 / 0.3), 0 0 0 1px rgb(242 243 237 / 0.15);
     }
     ul { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); margin: 0; padding: 0.3rem; gap: 0.2rem; }
-    a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.15rem; min-height: 52px; padding: 0.35rem 0.25rem; border-radius: 999px; color: inherit; text-decoration: none; font: 600 0.6875rem / 1.1 var(--sans); }
-    a[aria-current="page"] { background: #dce5c32e; color: #fff; }
-    a:focus-visible { outline: 2px solid #dce5c3; outline-offset: -2px; }
+    a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.15rem; min-height: 52px; padding: 0.35rem 0.25rem; border-radius: var(--radius-s); color: inherit; text-decoration: none; font: 600 0.6875rem / 1.1 var(--sans); }
+    a[aria-current="page"] { background: rgb(0 0 0 / 0.22); color: var(--on-dark); box-shadow: inset 0 -3px 0 var(--on-dark); }
+    a:focus-visible { outline: 2px solid var(--on-dark); outline-offset: -2px; }
     svg { width: 1.35rem; height: 1.35rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
   }
 </style>
