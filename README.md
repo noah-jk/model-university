@@ -37,11 +37,17 @@ src/
     llm/                    The model behind search, behind a small interface
     workbench/              Your Path: data model, store, profile, plan, views (compare, timeline), and its catalog index
   features/                 Features with their own routes (llms.txt, JSON feeds, Markdown pages, /search/, /your-path/)
-  layouts/, components/, pages/, scripts/, styles/
+  layouts/, components/, pages/, scripts/
+  styles/global.css         Brand tokens (light and dark), fonts, buttons, links, forms, and texture classes; shown at /lab/brand/
+  assets/textures/          Source images for the halftone textures
+public/
+  fonts/                    Young Serif, Roboto, and Roboto Condensed (Latin, self-hosted, with their OFL licenses)
+  textures/                 Texture masks written by scripts/generate-textures.mjs
 netlify/functions/mcp.mts   The MCP endpoint
 netlify/functions/search.mts  The search endpoint, /api/search (the only code that reads the Gemini key)
 scripts/
   generate-data.mjs         Deterministic synthetic data (same seed, same data)
+  generate-textures.mjs     The texture masks: generated topographic contours, and masks from the halftone images
   generate-enrollment.mjs   The first version of content/enrollment/ (run once; the files are edited by hand after that)
   check-content.ts          Validates content against the schemas and checks cross-references
   test-mcp.ts               Calls every MCP tool and prompt without Netlify
@@ -51,6 +57,7 @@ scripts/
   test-enrollment.ts        The enrollment rules, their lookups, and targeted events
   test-careers.ts           Career data and its queries
   test-programs.ts          Program pages: stories, curriculum, FAQs, deadlines, structured data
+  test-brand.ts             Contrast of every color pair the site uses, in both themes, and font and texture budgets
 ```
 
 ### Content model
@@ -206,6 +213,7 @@ npm run check          # type check
 npm run build          # news index, content check, then build into dist/
 npm run index:news     # rebuild content/generated/news.json from content/news/
 npm run generate       # regenerate content/generated/ from the seed
+npm run textures       # regenerate public/textures/ (topographic contours and halftone masks)
 ```
 
 To run the site and the functions (MCP and search) together locally, use the Netlify CLI: `netlify dev`. Search needs `GEMINI_API_KEY` set in Netlify (`netlify env:set` or the dashboard), never in a file; without it, search uses keywords.

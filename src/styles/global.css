@@ -1,22 +1,53 @@
 /* Cascadia State: global styles
-   Palette: Fir, Fog, Basalt, Lichen, Salmonberry. Type: Young Serif + Public Sans.
-   Component styles live in each component's <style> block. */
+   Brand (#71): deep green, sage, off-white, and yellow for the main action.
+   Type: Young Serif for headlines, Roboto for text, Roboto Condensed for
+   buttons and labels. Textures: topographic contours, halftone foliage, and
+   uneven halftone dots (.texture-*). The brand page, /lab/brand/, shows them
+   all. Component styles live in each component's <style> block.
+
+   Token names predate the brand and are kept so components follow along:
+   --fir is the brand green, --lichen is sage, --fog is the page ground. */
+
+@font-face { font-family: "Young Serif"; src: url("/fonts/young-serif-latin.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212; }
+@font-face { font-family: "Roboto"; src: url("/fonts/roboto-latin-wght.woff2") format("woff2-variations"); font-weight: 100 900; font-style: normal; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212; }
+@font-face { font-family: "Roboto Condensed"; src: url("/fonts/roboto-condensed-latin-wght.woff2") format("woff2-variations"); font-weight: 100 900; font-style: normal; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212; }
+/* Local fonts sized to match, so text doesn't jump when the web fonts arrive */
+@font-face { font-family: "Roboto fallback"; src: local("Arial"), local("Helvetica"); ascent-override: 92.7%; descent-override: 24.4%; line-gap-override: 0%; size-adjust: 100.3%; }
+@font-face { font-family: "Roboto Condensed fallback"; src: local("Arial Narrow"), local("Arial"); size-adjust: 88%; ascent-override: 105%; descent-override: 27%; line-gap-override: 0%; }
+@font-face { font-family: "Young Serif fallback"; src: local("Georgia"); size-adjust: 104%; ascent-override: 88%; descent-override: 24%; line-gap-override: 0%; }
 
 :root {
-  --fir: #1d3b34;
-  --fir-deep: #142b26;
-  --fog: #f2f4f1;
+  /* Brand */
+  --fir: #296258;
+  --fir-deep: #1b463e;
+  /* The brand green as a surface, in both themes: callouts, boxed headlines */
+  --forest: #296258;
+  --sun: #fdc300;
+  --sun-deep: #e8b300;
+  --on-sun: #17231f;
+  /* Surfaces and text */
+  --fog: #f2f3ed;
   --paper: #ffffff;
-  --basalt: #24292b;
-  --muted: #55605c;
-  --lichen: #dce5c3;
-  --line: #c9d1cb;
+  --mist: #e3eae4;
+  --lichen: #c9d5cc;
+  --line: #c4d0c7;
+  --basalt: #17231f;
+  --muted: #4c5b55;
+  --on-dark: #f2f3ed;
+  /* Errors and overdue dates only; links and accents are green */
   --salmonberry: #a8324a;
-  --focus: #a8324a;
-  --on-dark: #f2f4f1;
+  --focus: #0f2420;
+  /* Texture inks (see .texture-*) */
+  --texture-topo: #296258;
+  --texture-dots: #8a978f;
+  --texture-foliage: #1b463e;
+  --texture-foliage-ground: #7fa79c;
+  --texture-topo-forest: #c9d5cc;
+  --heading: var(--fir);
 
-  --serif: "Young Serif", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
-  --sans: "Public Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --serif: "Young Serif", "Young Serif fallback", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --sans: "Roboto", "Roboto fallback", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --condensed: "Roboto Condensed", "Roboto Condensed fallback", "Arial Narrow", system-ui, sans-serif;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   --step--1: 0.875rem;
@@ -31,22 +62,32 @@
      Under the hood panel narrows it while it's docked open. */
   --page-width: 100vw;
   --wrap: 72rem;
-  --radius-s: 4px;
-  --radius-l: 14px;
+  /* Barely rounded, everywhere */
+  --radius-s: 3px;
+  --radius-l: 3px;
 }
 
+/* Dark mode: a deep green ground, lighter tints of the brand green for text
+   and fills, and the same yellow, which reads well on dark */
 @media (prefers-color-scheme: dark) {
   :root {
-    --fog: #121816;
-    --paper: #1a2220;
-    --basalt: #e7ebe8;
-    --muted: #a7b2ad;
-    --lichen: #2c3a2a;
-    --line: #34413c;
-    --fir: #9cc4b4;
-    --fir-deep: #0d1412;
-    --salmonberry: #f08ea0;
-    --focus: #f08ea0;
+    --fir: #8ccab6;
+    --fir-deep: #091613;
+    --sun-deep: #ffd23f;
+    --fog: #0e1f1b;
+    --paper: #142b26;
+    --mist: #17322c;
+    --lichen: #1f3c35;
+    --line: #2d4c44;
+    --basalt: #eef1ea;
+    --muted: #a6b8b0;
+    --on-dark: #eef1ea;
+    --salmonberry: #f4a0ad;
+    --focus: #fdc300;
+    --texture-topo: #8ccab6;
+    --texture-dots: #7d988f;
+    --texture-foliage: #091613;
+    --texture-foliage-ground: #24574d;
   }
 }
 
@@ -60,18 +101,20 @@ body {
 }
 img, svg { max-width: 100%; height: auto; }
 
-h1, h2, h3 { font-family: var(--serif); font-weight: 400; line-height: 1.15; margin: 0 0 0.5em; text-wrap: balance; }
+/* Headings are green on the page. A dark surface sets --heading: currentColor
+   so its headings take its own light text color instead. */
+h1, h2, h3 { font-family: var(--serif); font-weight: 400; line-height: 1.12; margin: 0 0 0.5em; text-wrap: balance; color: var(--heading); }
 h1 { font-size: var(--step-4); letter-spacing: -0.01em; }
 h2 { font-size: var(--step-3); }
 h3 { font-size: var(--step-1); }
 p, ul, ol, dl { margin: 0 0 1em; }
 p, li { max-width: var(--measure); }
 
-a { color: var(--salmonberry); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a { color: var(--fir); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
 a:hover { text-decoration-thickness: 2px; }
-:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: var(--radius-s); }
 
-code { font-family: var(--mono); font-size: 0.92em; background: var(--lichen); padding: 0.1em 0.35em; border-radius: var(--radius-s); overflow-wrap: anywhere; }
+code { font-family: var(--mono); font-size: 0.92em; background: var(--mist); padding: 0.1em 0.35em; border-radius: var(--radius-s); overflow-wrap: anywhere; }
 
 .visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 .wrap { max-width: var(--wrap); margin-inline: auto; padding-inline: clamp(1rem, 4vw, 2.5rem); }
@@ -83,19 +126,28 @@ main { padding-block: clamp(2rem, 6vw, 4rem); }
 .page-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-top: 1.25rem; }
 
 /* Buttons */
-.button { display: inline-flex; align-items: center; gap: 0.45rem; font: 600 var(--step--1) / 1 var(--sans); padding: 0.7rem 1rem; border-radius: 999px; border: 1.5px solid var(--fir); background: var(--fir); color: var(--fog); cursor: pointer; text-decoration: none; min-height: 44px; }
+/* Buttons: uppercase condensed type. .button is green; .button.primary is the
+   one yellow main action in a view, with an arrow; .button.secondary is an
+   outline; .arrow adds the arrow to any button. */
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; font: 700 0.95rem / 1 var(--condensed); letter-spacing: 0.04em; text-transform: uppercase; padding: 0.7rem 1.1rem; border-radius: var(--radius-s); border: 2px solid var(--fir); background: var(--fir); color: var(--fog); cursor: pointer; text-decoration: none; min-height: 44px; }
 .button:hover { background: var(--fir-deep); border-color: var(--fir-deep); color: var(--on-dark); }
+.button.primary { background: var(--sun); border-color: var(--sun); color: var(--on-sun); }
+.button.primary:hover { background: var(--sun-deep); border-color: var(--sun-deep); color: var(--on-sun); }
+.button.primary::after, .button.arrow::after { content: "→" / ""; font-family: var(--sans); font-weight: 400; transition: transform 0.15s; }
+.button.primary:hover::after, .button.arrow:hover::after { transform: translateX(3px); }
 .button.secondary { background: transparent; color: var(--fir); }
+/* Small labels above headings: "College of Health & Human Services" */
+.eyebrow { margin: 0 0 0.4rem; font: 700 var(--step--1) / 1.2 var(--condensed); letter-spacing: 0.08em; text-transform: uppercase; color: var(--fir); }
 /* Shown once, under the button, after the first save to Your Path (src/scripts/workbench/handoffs.ts) */
 .first-save { flex-basis: 100%; margin: 0.4rem 0 0; font-size: var(--step--1); color: var(--muted); }
 .first-save a { font-weight: 600; }
 /* Quiet notes that explain personalization ("Why am I seeing this?", "How it
-   works", "Hide this tip"): small and grey, red on hover and focus, so they
+   works", "Hide this tip"): small and grey, green on hover and focus, so they
    don't compete with the content they explain. Use .note-link on a link or
    button, and .note on a <details> whose <summary> is the link. */
 .note-link, details.note > summary { font-size: var(--step--1); font-weight: 400; color: var(--muted); text-decoration: underline; text-underline-offset: 0.18em; text-decoration-thickness: 1px; cursor: pointer; }
 button.note-link { background: none; border: 0; padding: 0; font-family: inherit; }
-.note-link:hover, .note-link:focus-visible, details.note > summary:hover, details.note > summary:focus-visible { color: var(--salmonberry); text-decoration-thickness: 2px; }
+.note-link:hover, .note-link:focus-visible, details.note > summary:hover, details.note > summary:focus-visible { color: var(--fir); text-decoration-thickness: 2px; }
 details.note > summary { display: inline-block; min-height: 24px; list-style: none; }
 details.note > summary::-webkit-details-marker { display: none; }
 details.note > summary::after { content: " +" / ""; }
@@ -103,15 +155,15 @@ details.note[open] > summary::after { content: " −" / ""; }
 details.note > p, details.note > div { margin: 0.35rem 0 0; font-size: var(--step--1); color: var(--muted); }
 
 /* A button that looks like a link, for small actions like "Hide this tip" */
-.link-button { background: none; border: 0; padding: 0; font: inherit; color: var(--salmonberry); text-decoration: underline; text-underline-offset: 0.18em; cursor: pointer; }
-.button.secondary:hover { background: var(--lichen); color: var(--basalt); border-color: var(--fir); }
+.link-button { background: none; border: 0; padding: 0; font: inherit; color: var(--fir); text-decoration: underline; text-underline-offset: 0.18em; cursor: pointer; }
+.button.secondary:hover { background: var(--mist); color: var(--fir); border-color: var(--fir); }
 .button svg { width: 1em; height: 1em; }
 
 /* Forms */
 .finder { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-s); padding: 1.25rem; margin-bottom: 1rem; }
 .finder .search { grid-column: 1 / -1; }
 .field label { display: block; font-weight: 600; font-size: var(--step--1); margin-bottom: 0.3rem; }
-.field input, .field select { width: 100%; font: inherit; padding: 0.6rem 0.7rem; border: 1.5px solid var(--muted); border-radius: var(--radius-s); background: var(--fog); color: var(--basalt); min-height: 44px; }
+.field input, .field select { width: 100%; font: inherit; padding: 0.6rem 0.7rem; border: 1.5px solid var(--muted); border-radius: var(--radius-s); background: var(--paper); color: var(--basalt); min-height: 44px; }
 .results-count { font-weight: 600; margin: 1.5rem 0 0.5rem; }
 
 /* Lists of things: programs, services, subjects */
@@ -135,6 +187,27 @@ th { font-weight: 600; }
 
 .panel { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-s); padding: clamp(1.25rem, 3vw, 2rem); }
 .panel h2 { font-size: var(--step-2); }
+
+/* Textures (#72). Each paints a mask from public/textures/ in a theme color,
+   behind the element's content: add the class to any block. Generated by
+   scripts/generate-textures.mjs.
+   .texture-topo: topographic contours on sage
+   .texture-foliage: halftone foliage on green. Its light and dark patches are
+     too uneven for text, so put words in a solid box or a card on top of it
+   .texture-topo-forest: faint contours on solid green, for callouts with text
+   .texture-dots: an uneven dot field, for quiet off-white areas */
+.texture-topo, .texture-topo-forest, .texture-foliage, .texture-dots { position: relative; isolation: isolate; }
+.texture-topo::before, .texture-topo-forest::before, .texture-foliage::before, .texture-dots::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; mask-repeat: repeat; }
+.texture-topo { background-color: var(--lichen); }
+.texture-topo::before { background: var(--texture-topo); opacity: 0.55; mask-image: url("/textures/topo.svg"); mask-size: 640px; }
+.texture-topo-forest { background-color: var(--forest); color: var(--on-dark); --heading: currentColor; }
+.texture-topo-forest::before { background: var(--texture-topo-forest); opacity: 0.22; mask-image: url("/textures/topo.svg"); mask-size: 640px; }
+.texture-foliage { background-color: var(--texture-foliage-ground); }
+.texture-foliage::before { background: var(--texture-foliage); mask-image: url("/textures/foliage.png"); mask-size: cover; mask-position: center; mask-repeat: no-repeat; }
+.texture-dots::before { background: var(--texture-dots); opacity: 0.5; mask-image: url("/textures/dots.webp"); mask-size: 633px; mask-position: 37% 0; }
+/* A thin strip of foliage, like the top of a card */
+.texture-strip { height: 14px; background: var(--texture-foliage-ground); position: relative; overflow: hidden; }
+.texture-strip::before { content: ""; position: absolute; inset: 0; background: var(--texture-foliage); mask: url("/textures/foliage.png") center / 600px auto; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
