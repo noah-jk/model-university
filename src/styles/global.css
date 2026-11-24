@@ -70,7 +70,7 @@
 }
 
 /* Dark mode: a deep green ground, lighter tints of the brand green for text
-   and fills, and the same yellow, which reads well on dark */
+   and fills, and the same yellow for the primary button */
 @media (prefers-color-scheme: dark) {
   :root {
     --fir: #8ccab6;
@@ -85,7 +85,7 @@
     --muted: #a6b8b0;
     --on-dark: #eef1ea;
     --salmonberry: #f4a0ad;
-    --focus: #fdc300;
+    --focus: #8ccab6;
     --texture-topo: #8ccab6;
     --texture-dots: #7d988f;
     --texture-foliage: #091613;

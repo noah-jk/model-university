@@ -9,7 +9,7 @@ The look borrows from outdoor gear more than from campus brochures: a deep green
 ## How to use it
 
 - **One yellow action per view.** It's the primary button: "Request information", "Start here". Everything else is green or an outline.
-- **Yellow is a fill, never text.** It's too light to read on the page, so it only ever sits behind dark text.
+- **Yellow is for the primary button only.** It isn't an accent: current-page marks, focus rings, icons, and badges use the greens and off-white. It's also too light to read on the page, so it only ever sits behind dark text.
 - **Corners are barely rounded,** 3px everywhere.
 - **Textures sit behind content, not inside it.** Use them on bands, heroes, and the tops of cards, never behind body text you have to read closely. Foliage is too uneven for text, so words on it go in a solid box or a card. For a green callout with words, use the faint contours on solid green.
 - **Small overlaps are welcome,** like a headline rising over the edge of a photo, as long as nothing important is covered.
